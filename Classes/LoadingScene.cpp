@@ -1,13 +1,13 @@
-#include "HelloWorldScene.h"
+#include "LoadingScene.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* LoadingScene::createScene()
 {
-	return HelloWorld::create();
+	return LoadingScene::create();
 }
 
-bool HelloWorld::init()
+bool LoadingScene::init()
 {
 	if (!Scene::init())
 	{

@@ -10,16 +10,40 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{4b9ca024-3567-4993-ae5c-0943ce546add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\app">
+      <UniqueIdentifier>{cc206a39-32af-4b36-aca9-b0c77f4b1593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\loadingScene">
+      <UniqueIdentifier>{232e4a08-7809-4d3d-86fa-11c5066c233d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{471b8f82-78bd-4eab-86a3-d174d5d9ce30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\common\util">
+      <UniqueIdentifier>{1e884eb9-1cb0-4198-9519-0f199dde1b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\common\support">
+      <UniqueIdentifier>{02a398e0-ed26-47f0-9f1b-b08c0b1b9b08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+      <Filter>src\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoadingScene.cpp">
+      <Filter>src\scene\loadingScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\common\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\util.cpp">
+      <Filter>src\common\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,10 +51,16 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+      <Filter>src\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoadingScene.h">
+      <Filter>src\scene\loadingScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
+      <Filter>src\common\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\util.h">
+      <Filter>src\common\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

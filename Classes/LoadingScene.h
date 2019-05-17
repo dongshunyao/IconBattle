@@ -1,9 +1,9 @@
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
+#ifndef __LOADING_SCENE_H__
+#define __LOADING_SCENE_H__
 
 #include "cocos2d.h"
 
-class HelloWorld final :
+class LoadingScene final :
 	public cocos2d::Scene
 {
 public:
@@ -11,7 +11,7 @@ public:
 
 	bool init() override;
 
-	CREATE_FUNC(HelloWorld);
+	CREATE_FUNC(LoadingScene);
 };
 
 #endif
