@@ -8,10 +8,13 @@ class LoadingScene final :
 {
 public:
 	static cocos2d::Scene* createScene();
-
-	bool init() override;
-
+	virtual bool init();
+	void readyToStart();
+	void startGame(cocos2d::Event* ev);
 	CREATE_FUNC(LoadingScene);
+
+private:
+	cocos2d::Sprite *label;
 };
 
 #endif
