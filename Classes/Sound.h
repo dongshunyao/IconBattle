@@ -1,23 +1,28 @@
 #ifndef __SOUND_H__
 #define __SOUND_H__
 
-#include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include <string>
+#include <vector>
+
 using namespace CocosDenshion;
+using std::string;
+using std::vector;
 
 class Sound
 {
-private:
-	
-	SimpleAudioEngine* clickSound = nullptr;
-	//static  Sound* instance;
-
 public:
-	bool init();
-	//static Sound* getInstance();
-	void generateClickSound() const;
+	// TODO 文件格式请用WAV
+	const static string SOUND1;
 
+	static Sound* getInstance();
+	void stop() const;
+	void play(const string& path) const;
+
+private:
+	static Sound* instance;
+	SimpleAudioEngine* audio = SimpleAudioEngine::getInstance();
+	Sound();
 };
 
 #endif
-

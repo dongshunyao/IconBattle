@@ -1,6 +1,4 @@
 #include "LoadingScene.h"
-#include "Music.h"
-#include "Sound.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -38,14 +36,6 @@ bool LoadingScene::init()
 	// 定时器，每2.5秒检测是否可以开始游戏
 	schedule(schedule_selector(LoadingScene::startGame), 2.5);
 
-	//开始播放背景音乐
-	const auto startMusic = new Music;
-	startMusic->loading();	
-
-	//初始化按键音
-	auto initSound = new Sound;
-	initSound->init();
-
 	return true;
 }
 
@@ -54,6 +44,16 @@ void LoadingScene::loading()
 {
 	// TODO 加载一切
 
+	// 初始化背景音乐
+	vector<string> musicPath;
+	// TODO 设置默认音乐文件位置
+	musicPath.emplace_back("/musics/tryBackgroundMusic.mp3");
+	musicPath.emplace_back("/musics/tryBackgroundMusic.mp3");
+	Music::getInstance()->loading(musicPath);
+
+	// 初始化音效
+	Sound::getInstance();
+
 	loadingFlag = true;
 }
 
@@ -61,6 +61,9 @@ void LoadingScene::startGame(float)
 {
 	if (!loadingFlag) return;
 	else unschedule(schedule_selector(LoadingScene::startGame));
+
+	// TODO 设置默认音乐文件位置
+	Music::getInstance()->play("/musics/tryBackgroundMusic.mp3");
 
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));

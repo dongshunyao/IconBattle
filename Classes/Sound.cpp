@@ -1,15 +1,28 @@
 #include "Sound.h"
 
-bool Sound::init()
-{
-	clickSound = SimpleAudioEngine::getInstance();
+// TODO 音效路径常量+预加载
+const string Sound::SOUND1 = "/musics/clickSound.mp3";
 
-	return true;
+Sound* Sound::instance = nullptr;
+
+Sound* Sound::getInstance()
+{
+	if (instance == nullptr) instance = new Sound();
+	return instance;
 }
 
-void Sound::generateClickSound() const
+void Sound::stop() const
 {
-	//播放一次按键音
-	clickSound->playEffect("/musics/clickSound.mp3");
+	audio->stopAllEffects();
 }
 
+void Sound::play(const string& path) const
+{
+	audio->playEffect(path.data());
+}
+
+Sound::Sound()
+{
+	audio->preloadEffect(SOUND1.data());
+	audio->setEffectsVolume(0.5f);
+}

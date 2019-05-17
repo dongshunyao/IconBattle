@@ -2,12 +2,18 @@
 #define __LOADING_SCENE_H__
 
 #include "cocos2d.h"
+#include "Music.h"
+#include "Sound.h"
 #include "MenuScene.h"
+#include <vector>
+#include <string>
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
 USING_NS_CC;
+using std::vector;
+using std::string;
 
 class LoadingScene final :
 	public cocos2d::Scene

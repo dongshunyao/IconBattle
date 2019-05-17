@@ -1,27 +1,31 @@
 #ifndef __MUSIC_H__
 #define __MUSIC_H__
 
-#include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include <string>
+#include <vector>
 
-//USING_NS_CC;
 using namespace CocosDenshion;
+using std::string;
+using std::vector;
 
 class Music
 {
 public:
-	bool loading();
-	void setVolume(float volume) const;
-	void changeMusic(const char* newMusicName) const;
-	void stopMusic() const;
-	
+	static Music* getInstance();
+
+	void loading(const vector<string>& path) const; // TODO 文件格式请用WAV
+	void stop() const;
+	void play(const string& path) const;
+	void change(const string& path) const;
+	void setVolume(const int volume) const; // 范围0到100
+	int getVolume() const;
 
 private:
-	
-	void startMusic(const char* musicFileName) const;
-	SimpleAudioEngine* backMusic = nullptr;
+	static Music* instance;
+	SimpleAudioEngine* audio = SimpleAudioEngine::getInstance();
 
+	Music() = default;
 };
 
 #endif
-

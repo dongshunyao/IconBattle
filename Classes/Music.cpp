@@ -1,35 +1,42 @@
 #include "Music.h"
 
-bool Music::loading()
-{   
-	backMusic = SimpleAudioEngine::getInstance();
+Music* Music::instance = nullptr;
 
-	// TODO: 加载上次运行结束音量、音乐
-
-	//本应该传入上次运行的音乐名
-	startMusic("/musics/tryBackgroundMusic.mp3");
-
-	return true;
+Music* Music::getInstance()
+{
+	if (instance == nullptr) instance = new Music;
+	return instance;
 }
 
-void Music::startMusic(const char* musicFileName) const
+void Music::loading(const vector<string>& path) const
 {
-	//循环播放
-	backMusic->playBackgroundMusic(musicFileName, true);
+	for (const auto& it : path) audio->preloadBackgroundMusic(it.data());
 }
 
-void Music::setVolume(const float volume) const
+void Music::stop() const
 {
-	backMusic->setBackgroundMusicVolume(volume);
+	audio->stopBackgroundMusic();
 }
 
-void Music::changeMusic(const char*  newMusicName) const
+void Music::play(const string& path) const
 {
-	backMusic->stopBackgroundMusic();
-	backMusic->playBackgroundMusic(newMusicName);
+	// 循环播放
+	audio->playBackgroundMusic(path.data(), true);
 }
 
-void Music::stopMusic() const
+void Music::setVolume(const int volume) const
 {
-	backMusic->stopBackgroundMusic();
+	if (volume <= 100 && volume >= 0) audio->setBackgroundMusicVolume(static_cast<float>(volume) / 100);
+	else audio->setBackgroundMusicVolume(0.5f);
+}
+
+int Music::getVolume() const
+{
+	return static_cast<int>(100 * audio->getBackgroundMusicVolume());
+}
+
+void Music::change(const string& path) const
+{
+	audio->stopBackgroundMusic();
+	audio->playBackgroundMusic(path.data(), true);
 }
