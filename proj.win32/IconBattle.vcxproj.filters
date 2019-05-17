@@ -28,6 +28,18 @@
     <Filter Include="src\common\support">
       <UniqueIdentifier>{02a398e0-ed26-47f0-9f1b-b08c0b1b9b08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene\menuScene">
+      <UniqueIdentifier>{14c08abd-a932-4cea-91d9-f9c38c62e3f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\levelScene">
+      <UniqueIdentifier>{d54273eb-111b-4ab0-a3e7-c87878c7e50a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\gameScene">
+      <UniqueIdentifier>{5542d8db-2e09-4a8a-9052-78c894359fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\storeScene">
+      <UniqueIdentifier>{f386bce9-51ec-4d8c-98cc-52e2144ae392}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +57,18 @@
     <ClCompile Include="..\Classes\util.cpp">
       <Filter>src\common\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MenuScene.cpp">
+      <Filter>src\scene\menuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LevelScene.cpp">
+      <Filter>src\scene\levelScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src\scene\gameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StoreScene.cpp">
+      <Filter>src\scene\storeScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -61,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\util.h">
       <Filter>src\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MenuScene.h">
+      <Filter>src\scene\menuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LevelScene.h">
+      <Filter>src\scene\levelScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src\scene\gameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StoreScene.h">
+      <Filter>src\scene\storeScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
