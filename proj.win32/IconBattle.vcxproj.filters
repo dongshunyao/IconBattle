@@ -75,6 +75,9 @@
     <ClCompile Include="..\Classes\Music.cpp">
       <Filter>src\music</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Sound.cpp">
+      <Filter>src\music</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -105,6 +108,9 @@
       <Filter>src\scene\storeScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Music.h">
+      <Filter>src\music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sound.h">
       <Filter>src\music</Filter>
     </ClInclude>
   </ItemGroup>

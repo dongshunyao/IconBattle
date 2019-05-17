@@ -9,10 +9,12 @@ using namespace CocosDenshion;
 
 class Music
 {
-public:	
+public:
+	bool loading();
 	void setVolume(float volume) const;
 	void changeMusic(const char* newMusicName) const;
-	bool loading();
+	void stopMusic() const;
+	
 
 private:
 	

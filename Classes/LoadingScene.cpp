@@ -1,5 +1,6 @@
 #include "LoadingScene.h"
 #include "Music.h"
+#include "Sound.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -38,8 +39,12 @@ bool LoadingScene::init()
 	schedule(schedule_selector(LoadingScene::startGame), 2.5);
 
 	//¿ªÊ¼²¥·Å±³¾°ÒôÀÖ
-	auto startMusic = new Music;
-	startMusic->loading();
+	const auto startMusic = new Music;
+	startMusic->loading();	
+
+	//³õÊ¼»¯°´¼üÒô
+	auto initSound = new Sound;
+	initSound->init();
 
 	return true;
 }

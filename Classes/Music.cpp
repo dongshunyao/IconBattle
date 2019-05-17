@@ -1,7 +1,7 @@
 #include "Music.h"
 
 bool Music::loading()
-{
+{   
 	backMusic = SimpleAudioEngine::getInstance();
 
 	// TODO: 加载上次运行结束音量、音乐
@@ -27,4 +27,9 @@ void Music::changeMusic(const char*  newMusicName) const
 {
 	backMusic->stopBackgroundMusic();
 	backMusic->playBackgroundMusic(newMusicName);
+}
+
+void Music::stopMusic() const
+{
+	backMusic->stopBackgroundMusic();
 }
