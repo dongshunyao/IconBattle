@@ -40,6 +40,9 @@
     <Filter Include="src\scene\storeScene">
       <UniqueIdentifier>{f386bce9-51ec-4d8c-98cc-52e2144ae392}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\music">
+      <UniqueIdentifier>{e0264607-4138-4fea-a797-407610bb3353}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +72,9 @@
     <ClCompile Include="..\Classes\StoreScene.cpp">
       <Filter>src\scene\storeScene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Music.cpp">
+      <Filter>src\music</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -97,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\StoreScene.h">
       <Filter>src\scene\storeScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Music.h">
+      <Filter>src\music</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

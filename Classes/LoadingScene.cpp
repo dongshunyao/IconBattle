@@ -1,4 +1,5 @@
 #include "LoadingScene.h"
+#include "Music.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -35,6 +36,10 @@ bool LoadingScene::init()
 
 	// 定时器，每2.5秒检测是否可以开始游戏
 	schedule(schedule_selector(LoadingScene::startGame), 2.5);
+
+	//开始播放背景音乐
+	auto startMusic = new Music;
+	startMusic->loading();
 
 	return true;
 }
