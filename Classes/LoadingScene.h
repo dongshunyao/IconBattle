@@ -2,7 +2,7 @@
 #define __LOADING_SCENE_H__
 
 #include "cocos2d.h"
-#include "GameScene.h"
+#include "MenuScene.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -19,8 +19,10 @@ public:
 
 private:
 	Sprite* label = nullptr;
+	bool loadingFlag = false;
 
-	void readyToStart();
+	void loading();
+	void startGame(float);
 };
 
 #endif

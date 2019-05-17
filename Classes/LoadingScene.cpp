@@ -16,10 +16,8 @@ Scene* LoadingScene::createScene()
 
 bool LoadingScene::init()
 {
-	if (!Scene::init())
-	{
-		return false;
-	}
+	if (!Scene::init()) return false;
+
 
 	// 添加背景图片
 	auto sprite = Sprite::create("/images/loadingScene/jetBrainTheme/scene_sta.png");
@@ -31,17 +29,29 @@ bool LoadingScene::init()
 	label->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(label, 0);
 
-	// TODO 加载
+	// 用于加载的子线程
+	std::thread loadingThread(&LoadingScene::loading, this);
+	loadingThread.detach();
 
-	// 加载完成，准备开始游戏
-	readyToStart();
+	// 定时器，每2.5秒检测是否可以开始游戏
+	schedule(schedule_selector(LoadingScene::startGame), 2.5);
 
 	return true;
 }
 
 
-void LoadingScene::readyToStart()
+void LoadingScene::loading()
 {
+	// TODO 加载一切
+
+	loadingFlag = true;
+}
+
+void LoadingScene::startGame(float)
+{
+	if (!loadingFlag) return;
+	else unschedule(schedule_selector(LoadingScene::startGame));
+
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
 	label->runAction(moveTo);
@@ -59,7 +69,7 @@ void LoadingScene::readyToStart()
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
-		Director::getInstance()->replaceScene(GameScene::createScene());
+		Director::getInstance()->replaceScene(MenuScene::createScene());
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }
