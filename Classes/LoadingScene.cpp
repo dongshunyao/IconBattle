@@ -88,45 +88,34 @@ void LoadingScene::startGame(float)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }
 
-//喷射图标动画实现
+// 喷射图标动画实现
 void LoadingScene::jetIcon()
 {
-	const auto dirs = Director::getInstance();
-
-	//图表和Spawn动作数组声明
-	Sprite *iconSet[10];
-	Spawn *spawnSet[10];
-
 	//循环初始化Icon精灵和动作
 	for (auto i = 0; i < 10; i++)
 	{
-		iconSet[i] = Sprite::create("/images/loadingScene/jetBrainTheme/iconSet/medium/" + std::to_string(i) + ".png");
-		iconSet[i]->setPosition(dirs->getVisibleSize().width / 2, 0);
-		iconSet[i]->setScale(1);
-		this->addChild(iconSet[i]);
+		const auto icon = Sprite::create(
+			"/images/loadingScene/jetBrainTheme/iconSet/medium/" + std::to_string(i) + ".png");
+		icon->setPosition(SCREEN_WIDTH / 2, 0);
+		icon->setScale(1);
+		this->addChild(icon);
 
 		//创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型（简陋）
-		const auto jumpRight = JumpBy::create(3, Point(dirs->getVisibleSize().width/4+30*i, 0-iconSet[i]->getContentSize().height),30 * i+100, 1);
-		const auto jumpLeft = JumpBy::create(3, Point(-dirs->getVisibleSize().width/4-30*i, 0-iconSet[i]->getContentSize().height),30 * i+70, 1);
+		const auto jumpRight = JumpBy::create(3, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
+		                                      30 * i + 100, 1);
+		const auto jumpLeft = JumpBy::create(3, Point(-(SCREEN_WIDTH / 4 + 30 * i), 0 - icon->getContentSize().height),
+		                                     30 * i + 70, 1);
 
-		const auto move = MoveTo::create(1.5,Vec2(dirs->getVisibleSize().width / 2, 0 - iconSet[i]->getContentSize().height));
+		const auto move = MoveTo::create(1.5, Vec2(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height));
 		//实现精灵的移动过程中Icon放大
 		const auto scale = ScaleTo::create(3, 2);
 
 		const auto delay = DelayTime::create(0.25f);
 
 		//根据计数器判断精灵抛出的方向
-		if (i % 2 == 0)
-		{
-			spawnSet[i] = Spawn::create(jumpRight, delay, scale, delay->clone(), nullptr);//同时运行多个动作
-			auto sequence = Sequence::create(spawnSet[i], delay, move, delay, nullptr);//动作序列
-			iconSet[i]->runAction(RepeatForever::create(sequence));//实现重复跳跃
-		}
-		else
-		{
-			spawnSet[i] = Spawn::create(jumpLeft, delay, scale, delay->clone(), nullptr);
-			auto sequence = Sequence::create(spawnSet[i], delay, move, delay, nullptr);
-			iconSet[i]->runAction(RepeatForever::create(sequence));
-		}
+		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
+		//同时运行多个动作
+		const auto sequence = Sequence::create(spawn, delay, move, delay, nullptr); //动作序列
+		icon->runAction(RepeatForever::create(sequence)); //实现重复跳跃
 	}
 }
