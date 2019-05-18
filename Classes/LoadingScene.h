@@ -28,6 +28,7 @@ private:
 	bool loadingFlag = false;
 
 	void loading();
+	void jetIcon();
 	void startGame(float);
 };
 
