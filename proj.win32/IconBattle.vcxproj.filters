@@ -16,9 +16,6 @@
     <Filter Include="src\app">
       <UniqueIdentifier>{cc206a39-32af-4b36-aca9-b0c77f4b1593}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\scene\loadingScene">
-      <UniqueIdentifier>{232e4a08-7809-4d3d-86fa-11c5066c233d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\common">
       <UniqueIdentifier>{471b8f82-78bd-4eab-86a3-d174d5d9ce30}</UniqueIdentifier>
     </Filter>
@@ -31,17 +28,20 @@
     <Filter Include="src\scene\menuScene">
       <UniqueIdentifier>{14c08abd-a932-4cea-91d9-f9c38c62e3f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\scene\levelScene">
-      <UniqueIdentifier>{d54273eb-111b-4ab0-a3e7-c87878c7e50a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\scene\gameScene">
-      <UniqueIdentifier>{5542d8db-2e09-4a8a-9052-78c894359fc0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\scene\storeScene">
       <UniqueIdentifier>{f386bce9-51ec-4d8c-98cc-52e2144ae392}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\music">
       <UniqueIdentifier>{e0264607-4138-4fea-a797-407610bb3353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\gamescene">
+      <UniqueIdentifier>{5542d8db-2e09-4a8a-9052-78c894359fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\levelscene">
+      <UniqueIdentifier>{d54273eb-111b-4ab0-a3e7-c87878c7e50a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\loadingscene">
+      <UniqueIdentifier>{232e4a08-7809-4d3d-86fa-11c5066c233d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +52,7 @@
       <Filter>src\app</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\LoadingScene.cpp">
-      <Filter>src\scene\loadingScene</Filter>
+      <Filter>src\scene\loadingscene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src\common\support</Filter>
@@ -64,10 +64,10 @@
       <Filter>src\scene\menuScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\LevelScene.cpp">
-      <Filter>src\scene\levelScene</Filter>
+      <Filter>src\scene\levelscene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src\scene\gameScene</Filter>
+      <Filter>src\scene\gamescene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\StoreScene.cpp">
       <Filter>src\scene\storeScene</Filter>
@@ -78,7 +78,7 @@
     <ClCompile Include="..\Classes\Sound.cpp">
       <Filter>src\music</Filter>
     </ClCompile>
-    <ClCompile Include="PannelNews.cpp">
+    <ClCompile Include="..\Classes\NewsBoard.cpp">
       <Filter>src\scene\menuScene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,7 +90,7 @@
       <Filter>src\app</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LoadingScene.h">
-      <Filter>src\scene\loadingScene</Filter>
+      <Filter>src\scene\loadingscene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src\common\support</Filter>
@@ -102,10 +102,10 @@
       <Filter>src\scene\menuScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LevelScene.h">
-      <Filter>src\scene\levelScene</Filter>
+      <Filter>src\scene\levelscene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>src\scene\gameScene</Filter>
+      <Filter>src\scene\gamescene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\StoreScene.h">
       <Filter>src\scene\storeScene</Filter>
@@ -116,7 +116,7 @@
     <ClInclude Include="..\Classes\Sound.h">
       <Filter>src\music</Filter>
     </ClInclude>
-    <ClInclude Include="PannelNews.h">
+    <ClInclude Include="..\Classes\NewsBoard.h">
       <Filter>src\scene\menuScene</Filter>
     </ClInclude>
   </ItemGroup>

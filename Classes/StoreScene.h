@@ -8,6 +8,8 @@
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
+USING_NS_CC;
+
 class StoreScene final :
 	public cocos2d::Scene
 {

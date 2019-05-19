@@ -1,7 +1,7 @@
 #include "Sound.h"
 
 // TODO 音效路径常量+预加载
-const string Sound::SOUND1 = "/musics/clickSound.mp3";
+const string Sound::CLICKED = "/sound/clicked.mp3";
 
 Sound* Sound::instance = nullptr;
 
@@ -23,6 +23,6 @@ void Sound::play(const string& path) const
 
 Sound::Sound()
 {
-	audio->preloadEffect(SOUND1.data());
+	audio->preloadEffect(CLICKED.data());
 	audio->setEffectsVolume(0.5f);
 }

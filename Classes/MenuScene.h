@@ -4,11 +4,12 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "StoreScene.h"
-#include "PannelNews.h"
-
+#include "NewsBoard.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
+
+USING_NS_CC;
 
 class MenuScene final :
 	public cocos2d::Scene
@@ -18,6 +19,12 @@ public:
 
 	bool init() override;
 	CREATE_FUNC(MenuScene)
+
+private:
+	void initUsername();
+	void initStoreButton();
+	void initRankButton();
+	void initGameButton();
 };
 
 #endif

@@ -1,7 +1,5 @@
 #include "LevelScene.h"
 
-USING_NS_CC;
-
 Scene* LevelScene::createScene()
 {
 	return LevelScene::create();

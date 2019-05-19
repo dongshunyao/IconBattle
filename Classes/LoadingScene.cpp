@@ -19,12 +19,12 @@ bool LoadingScene::init()
 	if (!Scene::init()) return false;
 
 	// 添加背景图片
-	auto sprite = Sprite::create("/images/loadingScene/jetBrainTheme/scene_sta.png");
+	auto sprite = Sprite::create("/image/loadingscene/jetbraintheme/scene.png");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
 
 	// 添加游戏名称
-	label = Sprite::create("/images/loadingScene/jetBrainTheme/label1.png");
+	label = Sprite::create("/image/loadingscene/jetbraintheme/label_title.png");
 	label->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(label, 0);
 
@@ -40,7 +40,6 @@ bool LoadingScene::init()
 	return true;
 }
 
-
 void LoadingScene::loading()
 {
 	// TODO 加载一切
@@ -48,8 +47,8 @@ void LoadingScene::loading()
 	// 初始化背景音乐
 	vector<string> musicPath;
 	// TODO 设置默认音乐文件位置
-	musicPath.emplace_back("/musics/tryBackgroundMusic.mp3");
-	musicPath.emplace_back("/musics/tryBackgroundMusic.mp3");
+	musicPath.emplace_back("/music/background.mp3");
+	musicPath.emplace_back("/music/background.mp3");
 	Music::getInstance()->loading(musicPath);
 
 	// 初始化音效
@@ -64,14 +63,14 @@ void LoadingScene::startGame(float)
 	else unschedule(schedule_selector(LoadingScene::startGame));
 
 	// TODO 设置默认音乐文件位置
-	Music::getInstance()->play("/musics/tryBackgroundMusic.mp3");
+	Music::getInstance()->play("/music/tryBackgroundMusic.mp3");
 
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
 	label->runAction(moveTo);
 
 	// 按任意键开始游戏
-	auto ready = Sprite::create("/images/loadingScene/jetBrainTheme/label2.png");
+	auto ready = Sprite::create("/image/loadingscene/jetbraintheme/label_press.png");
 	ready->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50));
 	ready->setOpacity(0); //设置透明度为0
 	this->addChild(ready);
@@ -95,7 +94,7 @@ void LoadingScene::jetIcon()
 	for (auto i = 0; i < 10; i++)
 	{
 		const auto icon = Sprite::create(
-			"/images/loadingScene/jetBrainTheme/iconSet/medium/" + std::to_string(i) + ".png");
+			"/image/loadingscene/jetbraintheme/iconset/medium/" + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0);
 		icon->setScale(1);
 		this->addChild(icon);

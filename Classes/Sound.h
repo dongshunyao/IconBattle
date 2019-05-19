@@ -13,7 +13,7 @@ class Sound
 {
 public:
 	// TODO 文件格式请用WAV
-	const static string SOUND1;
+	const static string CLICKED;
 
 	static Sound* getInstance();
 	void stop() const;
