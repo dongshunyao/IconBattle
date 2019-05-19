@@ -164,6 +164,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\StoreScene.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PannelNews.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -177,6 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\StoreScene.h" />
     <ClInclude Include="..\Classes\util.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="PannelNews.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">

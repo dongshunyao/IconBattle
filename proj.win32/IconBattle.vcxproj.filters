@@ -78,6 +78,9 @@
     <ClCompile Include="..\Classes\Sound.cpp">
       <Filter>src\music</Filter>
     </ClCompile>
+    <ClCompile Include="PannelNews.cpp">
+      <Filter>src\scene\menuScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Sound.h">
       <Filter>src\music</Filter>
+    </ClInclude>
+    <ClInclude Include="PannelNews.h">
+      <Filter>src\scene\menuScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
