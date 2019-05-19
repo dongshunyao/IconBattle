@@ -12,16 +12,20 @@ using std::vector;
 class Sound
 {
 public:
-	// TODO 文件格式请用WAV
+	// TODO 鏂囦欢鏍煎紡璇风敤WAV
 	const static string CLICKED;
 
 	static Sound* getInstance();
 	void stop() const;
 	void play(const string& path) const;
+	bool getStatus() const { return on; };
+	void turnOn() { on = true; };
+	void turnOff() { on = false; };
 
 private:
 	static Sound* instance;
 	SimpleAudioEngine* audio = SimpleAudioEngine::getInstance();
+	bool on = true;
 	Sound();
 };
 

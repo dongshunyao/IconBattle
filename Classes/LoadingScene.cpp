@@ -4,7 +4,7 @@ Scene* LoadingScene::createScene()
 {
 	auto scene = LoadingScene::create();
 
-	// ´´½¨Ò»¸ö´øÓĞ±³¾°ÑÕÉ«µÄlayer
+	// åˆ›å»ºä¸€ä¸ªå¸¦æœ‰èƒŒæ™¯é¢œè‰²çš„layer
 	Layer* layerCLayer = LayerColor::create(Color4B(0, 0, 0, 0), SCREEN_WIDTH, SCREEN_HEIGHT);
 	layerCLayer->setIgnoreAnchorPointForPosition(false);
 	layerCLayer->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -18,23 +18,23 @@ bool LoadingScene::init()
 {
 	if (!Scene::init()) return false;
 
-	// Ìí¼Ó±³¾°Í¼Æ¬
+	// æ·»åŠ èƒŒæ™¯å›¾ç‰‡
 	auto sprite = Sprite::create("/image/loadingscene/jetbraintheme/scene.png");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
 
-	// Ìí¼ÓÓÎÏ·Ãû³Æ
+	// æ·»åŠ æ¸¸æˆåç§°
 	label = Sprite::create("/image/loadingscene/jetbraintheme/label_title.png");
 	label->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(label, 0);
 
 	jetIcon();
 
-	// ÓÃÓÚ¼ÓÔØµÄ×ÓÏß³Ì
+	// ç”¨äºåŠ è½½çš„å­çº¿ç¨‹
 	std::thread loadingThread(&LoadingScene::loading, this);
 	loadingThread.detach();
 
-	// ¶¨Ê±Æ÷£¬Ã¿2.5Ãë¼ì²âÊÇ·ñ¿ÉÒÔ¿ªÊ¼ÓÎÏ·
+	// å®šæ—¶å™¨ï¼Œæ¯2.5ç§’æ£€æµ‹æ˜¯å¦å¯ä»¥å¼€å§‹æ¸¸æˆ
 	schedule(schedule_selector(LoadingScene::startGame), 2.5);
 
 	return true;
@@ -42,16 +42,16 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// TODO ¼ÓÔØÒ»ÇĞ
+	// TODO åŠ è½½ä¸€åˆ‡
 
-	// ³õÊ¼»¯±³¾°ÒôÀÖ
+	// åˆå§‹åŒ–èƒŒæ™¯éŸ³ä¹
 	vector<string> musicPath;
-	// TODO ÉèÖÃÄ¬ÈÏÒôÀÖÎÄ¼şÎ»ÖÃ
-	musicPath.emplace_back("/music/background.mp3");
-	musicPath.emplace_back("/music/background.mp3");
+	// TODO è®¾ç½®é»˜è®¤éŸ³ä¹æ–‡ä»¶ä½ç½®
+	musicPath.emplace_back("/music/background.wav");
+	musicPath.emplace_back("/music/background.wav");
 	Music::getInstance()->loading(musicPath);
 
-	// ³õÊ¼»¯ÒôĞ§
+	// åˆå§‹åŒ–éŸ³æ•ˆ
 	Sound::getInstance();
 
 	loadingFlag = true;
@@ -62,23 +62,23 @@ void LoadingScene::startGame(float)
 	if (!loadingFlag) return;
 	else unschedule(schedule_selector(LoadingScene::startGame));
 
-	// TODO ÉèÖÃÄ¬ÈÏÒôÀÖÎÄ¼şÎ»ÖÃ
-	Music::getInstance()->play("/music/tryBackgroundMusic.mp3");
-
-	// ½«ÓÎÏ·Ãû³ÆÏòÉÏÒÆ¶¯
+	// TODO è®¾ç½®é»˜è®¤éŸ³ä¹æ–‡ä»¶ä½ç½®
+	Music::getInstance()->play("/music/background.wav");
+	
+	// å°†æ¸¸æˆåç§°å‘ä¸Šç§»åŠ¨
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
 	label->runAction(moveTo);
 
-	// °´ÈÎÒâ¼ü¿ªÊ¼ÓÎÏ·
+	// æŒ‰ä»»æ„é”®å¼€å§‹æ¸¸æˆ
 	auto ready = Sprite::create("/image/loadingscene/jetbraintheme/label_press.png");
 	ready->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50));
-	ready->setOpacity(0); //ÉèÖÃÍ¸Ã÷¶ÈÎª0
+	ready->setOpacity(0); //è®¾ç½®é€æ˜åº¦ä¸º0
 	this->addChild(ready);
-	// µ­ÈëµÄĞ§¹û
+	// æ·¡å…¥çš„æ•ˆæœ
 	const auto fadeIn = FadeIn::create(3.0f);
 	ready->runAction(fadeIn);
 
-	// Êó±ê¼àÌıÆ÷
+	// é¼ æ ‡ç›‘å¬å™¨
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
@@ -87,10 +87,10 @@ void LoadingScene::startGame(float)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }
 
-// ÅçÉäÍ¼±ê¶¯»­ÊµÏÖ
+// å–·å°„å›¾æ ‡åŠ¨ç”»å®ç°
 void LoadingScene::jetIcon()
 {
-	//Ñ­»·³õÊ¼»¯Icon¾«ÁéºÍ¶¯×÷
+	//å¾ªç¯åˆå§‹åŒ–Iconç²¾çµå’ŒåŠ¨ä½œ
 	for (auto i = 0; i < 10; i++)
 	{
 		const auto icon = Sprite::create(
@@ -99,22 +99,22 @@ void LoadingScene::jetIcon()
 		icon->setScale(1);
 		this->addChild(icon);
 
-		//´´½¨Ò»¸öActionÀ´Ê¹µÃ¾«Áé´ÓÄ³Ò»Î»ÖÃÅç³ö£¬²¢Í¨¹ıÊıÑ§±í´ïÊ½ÊµÏÖÅçÈªÔìĞÍ£¨¼òÂª£©
+		//åˆ›å»ºä¸€ä¸ªActionæ¥ä½¿å¾—ç²¾çµä»æŸä¸€ä½ç½®å–·å‡ºï¼Œå¹¶é€šè¿‡æ•°å­¦è¡¨è¾¾å¼å®ç°å–·æ³‰é€ å‹ï¼ˆç®€é™‹ï¼‰
 		const auto jumpRight = JumpBy::create(3, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
 		                                      30 * i + 100, 1);
 		const auto jumpLeft = JumpBy::create(3, Point(-(SCREEN_WIDTH / 4 + 30 * i), 0 - icon->getContentSize().height),
 		                                     30 * i + 70, 1);
 
 		const auto move = MoveTo::create(1.5, Vec2(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height));
-		//ÊµÏÖ¾«ÁéµÄÒÆ¶¯¹ı³ÌÖĞIcon·Å´ó
+		//å®ç°ç²¾çµçš„ç§»åŠ¨è¿‡ç¨‹ä¸­Iconæ”¾å¤§
 		const auto scale = ScaleTo::create(3, 2);
 
 		const auto delay = DelayTime::create(0.25f);
 
-		//¸ù¾İ¼ÆÊıÆ÷ÅĞ¶Ï¾«ÁéÅ×³öµÄ·½Ïò
+		//æ ¹æ®è®¡æ•°å™¨åˆ¤æ–­ç²¾çµæŠ›å‡ºçš„æ–¹å‘
 		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
-		//Í¬Ê±ÔËĞĞ¶à¸ö¶¯×÷
-		const auto sequence = Sequence::create(spawn, delay, move, delay, nullptr); //¶¯×÷ĞòÁĞ
-		icon->runAction(RepeatForever::create(sequence)); //ÊµÏÖÖØ¸´ÌøÔ¾
+		//åŒæ—¶è¿è¡Œå¤šä¸ªåŠ¨ä½œ
+		const auto sequence = Sequence::create(spawn, delay, move, delay, nullptr); //åŠ¨ä½œåºåˆ—
+		icon->runAction(RepeatForever::create(sequence)); //å®ç°é‡å¤è·³è·ƒ
 	}
 }

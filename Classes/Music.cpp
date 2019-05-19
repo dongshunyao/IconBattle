@@ -20,7 +20,7 @@ void Music::stop() const
 
 void Music::play(const string& path) const
 {
-	// Ñ­»·²¥·Å
+	// å¾ªçŽ¯æ’­æ”¾
 	audio->playBackgroundMusic(path.data(), true);
 }
 

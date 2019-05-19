@@ -1,6 +1,6 @@
 #include "Sound.h"
 
-// TODO ÒôÐ§Â·¾¶³£Á¿+Ô¤¼ÓÔØ
+// TODO éŸ³æ•ˆè·¯å¾„å¸¸é‡+é¢„åŠ è½½
 const string Sound::CLICKED = "/sound/clicked.mp3";
 
 Sound* Sound::instance = nullptr;
@@ -18,7 +18,7 @@ void Sound::stop() const
 
 void Sound::play(const string& path) const
 {
-	audio->playEffect(path.data());
+	if (on) audio->playEffect(path.data());
 }
 
 Sound::Sound()

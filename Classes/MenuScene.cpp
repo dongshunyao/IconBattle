@@ -9,7 +9,7 @@ bool MenuScene::init()
 {
 	if (!Scene::init()) return false;
 
-	// Ìí¼Ó±³¾°Í¼Æ¬
+	// æ·»åŠ èƒŒæ™¯å›¾ç‰‡
 	auto sprite = Sprite::create("/image/menuscene/jetbraintheme/background.jpg");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
@@ -19,37 +19,37 @@ bool MenuScene::init()
 	initRankButton();
 	initGameButton();
 
-	// TODO ÉèÖÃÓë·µ»Øµ¥¶À³éÏóÎªÀà
-	// ÉèÖÃ°´Å¥
+	// TODO è®¾ç½®ä¸Žè¿”å›žå•ç‹¬æŠ½è±¡ä¸ºç±»
+	// è®¾ç½®æŒ‰é’®
 	auto settingButton = ui::Button::create("/image/menuscene/jetbraintheme/setting_normal.png",
 	                                        "/image/menuscene/jetbraintheme/setting_selected.png",
 	                                        "/image/menuscene/jetbraintheme/setting_disabled.png");
 	settingButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO ÉèÖÃÏà¹Ø
+		// TODO è®¾ç½®ç›¸å…³
 	});
 	settingButton->setPosition(Point(1050, 850));
 	this->addChild(settingButton);
 
-	// ·µ»Ø°´Å¥
+	// è¿”å›žæŒ‰é’®
 	auto backButton = ui::Button::create("/image/menuscene/jetbraintheme/back_normal.png",
 	                                     "/image/menuscene/jetbraintheme/back_selected.png",
 	                                     "/image/menuscene/jetbraintheme/back_disabled.png");
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO ·µ»ØÏà¹Ø
+		// TODO è¿”å›žç›¸å…³
 	});
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton);
 
 
-	// ¹«¸æÀ¸
+	// å…¬å‘Šæ 
 	auto board = Label::createWithTTF("NOTICE", "/font/marker_felt.ttf", 24);
 	board->setColor(Color3B(255, 255, 255));
 	board->setPosition(Point(80, 55));
 	this->addChild(board);
 
-	// ¹ö¶¯¹«¸æ
+	// æ»šåŠ¨å…¬å‘Š
 	const auto news = NewsBoard::create();
 	this->addChild(news);
 
@@ -63,7 +63,7 @@ void MenuScene::initUsername()
 	usernameLabel->setPosition(Point(100, 850));
 	this->addChild(usernameLabel);
 
-	// TODO »ñÈ¡ ÉèÖÃÓÃ»§Ãû
+	// TODO èŽ·å– è®¾ç½®ç”¨æˆ·å
 	auto usernameText = ui::TextField::create("TQTQL", "/font/marker_felt.ttf", 30);
 	usernameText->setPasswordEnabled(true);
 	usernameText->setColor(Color3B(255, 255, 255));
@@ -71,7 +71,7 @@ void MenuScene::initUsername()
 
 	usernameText->addClickEventListener([&](Ref* sender)
 	{
-		// TODO ÐÞ¸ÄÓÃ»§Ãû
+		// TODO ä¿®æ”¹ç”¨æˆ·å
 	});
 	usernameText->setPosition(Point(250, 850));
 	this->addChild(usernameText);
@@ -87,7 +87,7 @@ void MenuScene::initStoreButton()
 	storeButton->setTitleFontSize(25);
 	storeButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// ½øÈëÉÌµê½çÃæ
+		// è¿›å…¥å•†åº—ç•Œé¢
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(StoreScene::createScene());
 	});
 	storeButton->setPosition(Point(650, 850));
@@ -104,7 +104,7 @@ void MenuScene::initRankButton()
 	rankButton->setTitleFontSize(25);
 	rankButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO ÅÅÃûÏà¹Ø
+		// TODO æŽ’åç›¸å…³
 	});
 	rankButton->setPosition(Point(850, 850));
 	this->addChild(rankButton);
@@ -112,22 +112,22 @@ void MenuScene::initRankButton()
 
 void MenuScene::initGameButton()
 {
-	// Ñ¡¹Ø°´Å¥1
+	// é€‰å…³æŒ‰é’®1
 	auto gameButton1 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
 	gameButton1->setTitleText("Practice-1");
-	gameButton1->setTitleFontName("/fonts/Marker Felt.ttf");
+	gameButton1->setTitleFontName("/font/marker_felt.ttf");
 	gameButton1->setTitleFontSize(35);
 	gameButton1->setTitleColor(Color3B(0, 0, 0));
 	gameButton1->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥1
+		// TODO é€‰å…³æŒ‰é’®1
 	});
 	gameButton1->setPosition(Point(650, 600));
 	this->addChild(gameButton1);
 
-	// Ñ¡¹Ø°´Å¥2
+	// é€‰å…³æŒ‰é’®2
 	auto gameButton2 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
@@ -137,12 +137,12 @@ void MenuScene::initGameButton()
 	gameButton2->setTitleColor(Color3B(0, 0, 0));
 	gameButton2->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥2
+		// TODO é€‰å…³æŒ‰é’®2
 	});
 	gameButton2->setPosition(Point(850, 600));
 	this->addChild(gameButton2);
 
-	// Ñ¡¹Ø°´Å¥3
+	// é€‰å…³æŒ‰é’®3
 	auto gameButton3 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
@@ -152,12 +152,12 @@ void MenuScene::initGameButton()
 	gameButton3->setTitleColor(Color3B(0, 0, 0));
 	gameButton3->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥3
+		// TODO é€‰å…³æŒ‰é’®3
 	});
 	gameButton3->setPosition(Point(1050, 600));
 	this->addChild(gameButton3);
 
-	// Ñ¡¹Ø°´Å¥4
+	// é€‰å…³æŒ‰é’®4
 	auto gameButton4 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
@@ -167,12 +167,12 @@ void MenuScene::initGameButton()
 	gameButton4->setTitleColor(Color3B(0, 0, 0));
 	gameButton4->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥4
+		// TODO é€‰å…³æŒ‰é’®4
 	});
 	gameButton4->setPosition(Point(650, 350));
 	this->addChild(gameButton4);
 
-	// Ñ¡¹Ø°´Å¥5
+	// é€‰å…³æŒ‰é’®5
 	auto gameButton5 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
@@ -182,12 +182,12 @@ void MenuScene::initGameButton()
 	gameButton5->setTitleColor(Color3B(0, 0, 0));
 	gameButton5->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥5
+		// TODO é€‰å…³æŒ‰é’®5
 	});
 	gameButton5->setPosition(Point(850, 350));
 	this->addChild(gameButton5);
 
-	// Ñ¡¹Ø°´Å¥6
+	// é€‰å…³æŒ‰é’®6
 	auto gameButton6 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
 	                                      "/image/menuscene/jetbraintheme/game_selected.png",
 	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
@@ -197,7 +197,7 @@ void MenuScene::initGameButton()
 	gameButton6->setTitleColor(Color3B(0, 0, 0));
 	gameButton6->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO Ñ¡¹Ø°´Å¥6
+		// TODO é€‰å…³æŒ‰é’®6
 	});
 	gameButton6->setPosition(Point(1050, 350));
 	this->addChild(gameButton6);
