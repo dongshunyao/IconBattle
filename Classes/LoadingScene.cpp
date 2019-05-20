@@ -21,7 +21,7 @@ bool LoadingScene::init()
 	// 添加背景图片
 	auto sprite = Sprite::create("/image/loadingscene/jetbraintheme/scene.png");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-	this->addChild(sprite);
+	this->addChild(sprite,-1);
 
 	// 添加游戏名称
 	label = Sprite::create("/image/loadingscene/jetbraintheme/label_title.png");
@@ -64,7 +64,7 @@ void LoadingScene::startGame(float)
 
 	// TODO 设置默认音乐文件位置
 	Music::getInstance()->play("/music/background.wav");
-	
+
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
 	label->runAction(moveTo);
@@ -90,31 +90,30 @@ void LoadingScene::startGame(float)
 // 喷射图标动画实现
 void LoadingScene::jetIcon()
 {
-	//循环初始化Icon精灵和动作
+	// 循环初始化Icon精灵和动作
 	for (auto i = 0; i < 10; i++)
 	{
 		const auto icon = Sprite::create(
-			"/image/loadingscene/jetbraintheme/iconset/medium/" + std::to_string(i) + ".png");
+			"/image/loadingscene/jetbraintheme/iconset/large/" + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0);
 		icon->setScale(1);
-		this->addChild(icon);
-
-		//创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型（简陋）
-		const auto jumpRight = JumpBy::create(3, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
-		                                      30 * i + 100, 1);
-		const auto jumpLeft = JumpBy::create(3, Point(-(SCREEN_WIDTH / 4 + 30 * i), 0 - icon->getContentSize().height),
-		                                     30 * i + 70, 1);
+		this->addChild(icon,-1);// 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
+		// 创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型
+		const auto jumpRight = JumpBy::create(i, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
+		                                      60 * i + 100, 1);
+		const auto jumpLeft = JumpBy::create(i, Point(-(SCREEN_WIDTH / 4 + 30 * i), 0 - icon->getContentSize().height),
+		                                     60 * i + 70, 1);
 
 		const auto move = MoveTo::create(1.5, Vec2(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height));
-		//实现精灵的移动过程中Icon放大
-		const auto scale = ScaleTo::create(3, 2);
-
+		// 实现精灵的移动过程中Icon放大
+		const auto scale = ScaleTo::create(i, 2);
+		const auto scaleReverse = ScaleTo::create(i, 1);
 		const auto delay = DelayTime::create(0.25f);
 
-		//根据计数器判断精灵抛出的方向
+		// 根据计数器判断精灵抛出的方向
 		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
-		//同时运行多个动作
-		const auto sequence = Sequence::create(spawn, delay, move, delay, nullptr); //动作序列
-		icon->runAction(RepeatForever::create(sequence)); //实现重复跳跃
+		// 同时运行多个动作
+		const auto sequence = Sequence::create(spawn, delay, move, delay, scaleReverse, delay, nullptr); // 动作序列
+		icon->runAction(RepeatForever::create(sequence)); // 实现重复跳跃
 	}
 }
