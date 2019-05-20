@@ -75,11 +75,11 @@
     <ClCompile Include="..\Classes\Music.cpp">
       <Filter>src\music</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Sound.cpp">
-      <Filter>src\music</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\NewsBoard.cpp">
       <Filter>src\scene\menuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sound.cpp">
+      <Filter>src\music</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,11 +113,11 @@
     <ClInclude Include="..\Classes\Music.h">
       <Filter>src\music</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Sound.h">
-      <Filter>src\music</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\NewsBoard.h">
       <Filter>src\scene\menuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sound.h">
+      <Filter>src\music</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

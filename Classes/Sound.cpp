@@ -13,16 +13,15 @@ Sound* Sound::getInstance()
 
 void Sound::stop() const
 {
-	audio->stopAllEffects();
+	AudioEngine::stop(audioId);
 }
 
-void Sound::play(const string& path) const
+void Sound::play(const string& path)
 {
-	if (on) audio->playEffect(path.data());
+	if (on) audioId = AudioEngine::play2d(path, false, 1.0f);
 }
 
 Sound::Sound()
 {
-	audio->preloadEffect(CLICKED.data());
-	audio->setEffectsVolume(0.5f);
+	AudioEngine::preload(CLICKED);
 }

@@ -10,33 +10,36 @@ Music* Music::getInstance()
 
 void Music::loading(const vector<string>& path) const
 {
-	for (const auto& it : path) audio->preloadBackgroundMusic(it.data());
+	for (const auto& it : path) AudioEngine::preload(it);
 }
 
 void Music::stop() const
 {
-	audio->stopBackgroundMusic();
+	if (audioId != AudioEngine::INVALID_AUDIO_ID)
+		AudioEngine::stop(audioId);
+		//AudioEngine::end();
+	
 }
 
-void Music::play(const string& path) const
+void Music::play(const string& path)
 {
-	// 循环播放
-	audio->playBackgroundMusic(path.data(), true);
+	if (audioId == AudioEngine::INVALID_AUDIO_ID)
+		audioId = AudioEngine::play2d(path, true, 0.5f);
 }
 
 void Music::setVolume(const int volume) const
 {
-	if (volume <= 100 && volume >= 0) audio->setBackgroundMusicVolume(static_cast<float>(volume) / 100);
-	else audio->setBackgroundMusicVolume(0.5f);
+	if (volume <= 100 && volume >= 0) AudioEngine::setVolume(audioId, static_cast<float>(volume) / 100);
+	else AudioEngine::setVolume(audioId, 0.5f);
 }
 
 int Music::getVolume() const
 {
-	return static_cast<int>(100 * audio->getBackgroundMusicVolume());
+	return static_cast<int>(100 * AudioEngine::getVolume(audioId));
 }
 
-void Music::change(const string& path) const
+void Music::change(const string& path)
 {
-	audio->stopBackgroundMusic();
-	audio->playBackgroundMusic(path.data(), true);
+	AudioEngine::stop(audioId);
+	audioId = AudioEngine::play2d(path, true);
 }
