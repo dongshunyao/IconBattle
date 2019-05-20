@@ -1,7 +1,6 @@
 #include "Sound.h"
 
 // TODO 音效路径常量+预加载
-const string Sound::CLICKED = "/sound/clicked.mp3";
 
 Sound* Sound::instance = nullptr;
 
@@ -23,5 +22,5 @@ void Sound::play(const string& path)
 
 Sound::Sound()
 {
-	AudioEngine::preload(CLICKED);
+	AudioEngine::preload(clicked);
 }

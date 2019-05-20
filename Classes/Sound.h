@@ -12,8 +12,8 @@ using std::vector;
 class Sound
 {
 public:
-	// TODO 文件格式请用WAV
-	const static string CLICKED;
+	// TODO 文件格式请用MP3
+	const string clicked = "/sound/clicked.mp3";
 
 	static Sound* getInstance();
 	void stop() const;
