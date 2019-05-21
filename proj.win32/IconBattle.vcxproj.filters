@@ -43,6 +43,9 @@
     <Filter Include="src\scene\loadingscene">
       <UniqueIdentifier>{232e4a08-7809-4d3d-86fa-11c5066c233d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene\common">
+      <UniqueIdentifier>{91aa41b3-4c39-4b1b-be2f-ce475a31f517}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,12 @@
     <ClCompile Include="..\Classes\Sound.cpp">
       <Filter>src\music</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\BackButton.cpp">
+      <Filter>src\scene\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SettingButton.cpp">
+      <Filter>src\scene\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -118,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Sound.h">
       <Filter>src\music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackButton.h">
+      <Filter>src\scene\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingButton.h">
+      <Filter>src\scene\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

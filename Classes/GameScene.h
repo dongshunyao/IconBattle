@@ -2,6 +2,8 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
+#include  "BackButton.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
