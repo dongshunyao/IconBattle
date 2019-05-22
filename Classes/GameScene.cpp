@@ -1,5 +1,6 @@
 #include "GameScene.h"
-#include "BackButton.h"
+#include "SettingButton.h"
+
 
 Scene* GameScene::createScene()
 {
@@ -22,21 +23,10 @@ bool GameScene::init()
 	this->addChild(sprite);
 
 	// 设置按钮
-	auto settingButton = ui::Button::create("/image/gamescene/jetbraintheme/setting_normal.png",
-		"/image/gamescene/jetbraintheme/setting_selected.png",
-		"/image/gamescene/jetbraintheme/setting_disabled.png");
-	settingButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
-		// TODO 设置相关
-	});
-	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton);
+	this->addChild(SettingButton::create());
 
 	// 返回按钮
-	/*auto backButton = BackButton::getInstance();
-	backButton->backLastScene();
-	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton);*/
+	this->addChild(BackButton::create());
 
 	auto remainStep = Label::createWithTTF("20", "/font/marker_felt.ttf", 48);
 

@@ -5,26 +5,19 @@
 #include "cocos2d.h"
 #include "ui/UIButton.h"
 
-#pragma region 
-const std::string BACK_BUTTON_NORMAL_IMAGE = "/image/gamescene/jetbraintheme/back_normal.png";
-const std::string BACK_BUTTON_SELECTED_IMAGE = "/image/gamescene/jetbraintheme/back_selected.png";
-const std::string BACK_BUTTON_DISABLED_IMAGE = "/image/gamescene/jetbraintheme/back_disabled.png";
-#pragma endregion 
-
+using std::string;
 USING_NS_CC;
 
 // 返回按钮继承Button
-class BackButton final
-	:public ui::Button
+namespace BackButton
 {
-public:
-	static BackButton* getInstance();// 单例
-	void backLastScene();//弹出将要返回的界面
+#pragma region
+	const string BACK_BUTTON_NORMAL_IMAGE = "/image/gamescene/jetbraintheme/back_normal.png";
+	const string BACK_BUTTON_SELECTED_IMAGE = "/image/gamescene/jetbraintheme/back_selected.png";
+	const string BACK_BUTTON_DISABLED_IMAGE = "/image/gamescene/jetbraintheme/back_disabled.png";
+#pragma endregion
 
-private:
-	static BackButton *instance;
-	static BackButton* create();
-
+	ui::Button* create();
 };
 
-#endif 
+#endif

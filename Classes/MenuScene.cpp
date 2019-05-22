@@ -20,17 +20,11 @@ bool MenuScene::init()
 	initRankButton();
 	initGameButton();
 
-	// TODO 设置与返回单独抽象为类
 	// 设置按钮
-	auto settingButton = SettingButton::getInstance();
-	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton);
+	this->addChild(SettingButton::create());
 
 	// 返回按钮
-	auto backButton = BackButton::getInstance();
-	backButton->backLastScene();
-	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton);
+	this->addChild(BackButton::create());
 
 
 	// 公告栏

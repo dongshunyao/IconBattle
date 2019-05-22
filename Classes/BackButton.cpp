@@ -1,29 +1,17 @@
 #include "BackButton.h"
 
-BackButton* BackButton::instance = nullptr;
 
-BackButton* BackButton::getInstance()
+ui::Button* ::BackButton::create()
 {
-	if(instance==nullptr) instance=create();
-	return instance;
-}
+	auto* backButton = ui::Button::create(BACK_BUTTON_NORMAL_IMAGE, BACK_BUTTON_SELECTED_IMAGE,
+	                                      BACK_BUTTON_DISABLED_IMAGE);
 
-BackButton* BackButton::create()
-{
-	auto backButton = new (std::nothrow) BackButton;
-	if (backButton  && backButton->init(BACK_BUTTON_NORMAL_IMAGE, BACK_BUTTON_SELECTED_IMAGE, BACK_BUTTON_DISABLED_IMAGE))
+	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		backButton->autorelease();
-		return backButton;
-	}
-	CC_SAFE_DELETE(backButton);
-	return nullptr;
-}
-
-void BackButton::backLastScene()
-{
-	this->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
+		//返回到菜单界面
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->popScene();
 	});
+	backButton->setPosition(Point(1150, 850));
+
+	return backButton;
 }
