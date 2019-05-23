@@ -90,6 +90,9 @@
     <ClCompile Include="..\Classes\SettingButton.cpp">
       <Filter>src\scene\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\UserInfo.cpp">
+      <Filter>src\common\support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SettingButton.h">
       <Filter>src\scene\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UserInfo.h">
+      <Filter>src\common\support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
