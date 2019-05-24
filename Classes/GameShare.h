@@ -1,5 +1,5 @@
-#ifndef __SHARE_H__
-#define __SHARE_H__
+#ifndef __GAME_SHARE_H__
+#define __GAME_SHARE_H__
 
 #include "cocos2d.h"
 #include <vector>
@@ -8,7 +8,7 @@ USING_NS_CC;
 using std::string;
 using std::vector;
 
-namespace Share
+namespace GameShare
 {
 #pragma region Target Index
 	const int QQ = 1;

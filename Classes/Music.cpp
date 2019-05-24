@@ -15,16 +15,12 @@ void Music::loading(const vector<string>& path) const
 
 void Music::stop() const
 {
-	if (audioId != AudioEngine::INVALID_AUDIO_ID)
-		AudioEngine::stop(audioId);
-		//AudioEngine::end();
-	
+	if (audioId != AudioEngine::INVALID_AUDIO_ID) AudioEngine::stop(audioId);
 }
 
 void Music::play(const string& path)
 {
-	if (audioId == AudioEngine::INVALID_AUDIO_ID)
-		audioId = AudioEngine::play2d(path, true, 0.5f);
+	if (audioId == AudioEngine::INVALID_AUDIO_ID) audioId = AudioEngine::play2d(path, true, 0.5f);
 }
 
 void Music::setVolume(const int volume) const

@@ -1,7 +1,5 @@
 #include "Sound.h"
 
-// TODO 音效路径常量+预加载
-
 Sound* Sound::instance = nullptr;
 
 Sound* Sound::getInstance()

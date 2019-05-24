@@ -1,6 +1,6 @@
-#include "Share.h"
+#include "WebShare.h"
 
-bool Share::share(vector<string>& info, const int target)
+bool WebShare::share(vector<string>& info, const int target)
 {
 	// TODO 处理信息并生成相应字符串
 	switch (target)

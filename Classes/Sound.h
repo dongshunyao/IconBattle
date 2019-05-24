@@ -12,8 +12,9 @@ using std::vector;
 class Sound
 {
 public:
-	// TODO 文件格式请用MP3
+#pragma region Sound URL
 	const string clicked = "/sound/clicked.mp3";
+#pragma endregion
 
 	static Sound* getInstance();
 	void stop() const;

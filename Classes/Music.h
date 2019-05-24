@@ -1,7 +1,6 @@
 #ifndef __MUSIC_H__
 #define __MUSIC_H__
 
-//#include "SimpleAudioEngine.h"
 #include "AudioEngine.h"
 #include <string>
 #include <vector>
@@ -15,7 +14,7 @@ class Music
 public:
 	static Music* getInstance();
 
-	void loading(const vector<string>& path) const; 
+	void loading(const vector<string>& path) const;
 	void stop() const;
 	void play(const string& path);
 	void change(const string& path);
@@ -25,7 +24,6 @@ public:
 private:
 	static Music* instance;
 	int audioId = AudioEngine::INVALID_AUDIO_ID;
-	//SimpleAudioEngine* audio = SimpleAudioEngine::getInstance();
 
 	Music() = default;
 };

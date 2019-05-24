@@ -7,6 +7,7 @@ using std::string;
 namespace Util
 {
 	long long getStringHash(const string& str);
+
 };
 
 #endif

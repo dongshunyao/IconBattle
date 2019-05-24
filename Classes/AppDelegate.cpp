@@ -30,8 +30,8 @@ AppDelegate::AppDelegate()
 AppDelegate::~AppDelegate()
 {
 #if USE_AUDIO_ENGINE
-	//end会出现异常
-    //AudioEngine::end();
+	// end会出现异常
+	// AudioEngine::end();
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::end();
 #endif
@@ -117,7 +117,7 @@ void AppDelegate::applicationDidEnterBackground()
 	Director::getInstance()->stopAnimation();
 
 #if USE_AUDIO_ENGINE
-    AudioEngine::pauseAll();
+	AudioEngine::pauseAll();
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     SimpleAudioEngine::getInstance()->pauseAllEffects();
@@ -130,7 +130,7 @@ void AppDelegate::applicationWillEnterForeground()
 	Director::getInstance()->startAnimation();
 
 #if USE_AUDIO_ENGINE
-    AudioEngine::resumeAll();
+	AudioEngine::resumeAll();
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
     SimpleAudioEngine::getInstance()->resumeAllEffects();
