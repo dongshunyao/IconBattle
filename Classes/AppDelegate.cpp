@@ -30,6 +30,7 @@ AppDelegate::AppDelegate()
 AppDelegate::~AppDelegate()
 {
 #if USE_AUDIO_ENGINE
+	//end会出现异常
     //AudioEngine::end();
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::end();

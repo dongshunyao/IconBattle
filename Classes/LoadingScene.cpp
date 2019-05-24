@@ -1,5 +1,4 @@
 #include "LoadingScene.h"
-#include "GameShare.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -22,7 +21,7 @@ bool LoadingScene::init()
 	// 添加背景图片
 	auto sprite = Sprite::create("/image/loadingscene/jetbraintheme/scene.png");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-	this->addChild(sprite,-1);
+	this->addChild(sprite, -1);
 
 	// 添加游戏名称
 	label = Sprite::create("/image/loadingscene/jetbraintheme/label_title.png");
@@ -83,7 +82,6 @@ void LoadingScene::startGame(float)
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
-		GameShare::getInstance()->sharePicToTencent();
 		Director::getInstance()->replaceScene(MenuScene::createScene());
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
@@ -99,7 +97,7 @@ void LoadingScene::jetIcon()
 			"/image/loadingscene/jetbraintheme/iconset/large/" + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0);
 		icon->setScale(1);
-		this->addChild(icon,-1);// 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
+		this->addChild(icon, -1); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
 		// 创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型
 		const auto jumpRight = JumpBy::create(i, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
 		                                      60 * i + 100, 1);

@@ -15,11 +15,11 @@ class Music
 public:
 	static Music* getInstance();
 
-	void loading(const vector<string>& path) const; // TODO ÎÄ¼þ¸ñÊ½ÇëÓÃWAV
+	void loading(const vector<string>& path) const; 
 	void stop() const;
 	void play(const string& path);
 	void change(const string& path);
-	void setVolume(const int volume) const; // ·¶Î§0µ½100
+	void setVolume(const int volume) const; // èŒƒå›´0åˆ°100
 	int getVolume() const;
 
 private:

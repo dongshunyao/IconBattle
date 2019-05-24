@@ -14,18 +14,18 @@ bool GameScene::init()
 		return false;
 	}
 
-	// 在这里进行初始化，有需要可新加函数，如：initComponents()
+	// 鍦ㄨ繖閲岃繘琛屽垵濮嬪寲锛屾湁闇�瑕佸彲鏂板姞鍑芥暟锛屽锛歩nitComponents()
 
 
-	// 添加背景图片
+	// 娣诲姞鑳屾櫙鍥剧墖
 	auto sprite = Sprite::create("/image/gamescene/jetbraintheme/background.png");
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
 
-	// 设置按钮
+	// 璁剧疆鎸夐挳
 	this->addChild(SettingButton::create());
 
-	// 返回按钮
+	// 杩斿洖鎸夐挳
 	this->addChild(BackButton::create());
 
 	auto remainStep = Label::createWithTTF("20", "/font/marker_felt.ttf", 48);
@@ -42,7 +42,7 @@ bool GameScene::init()
 
 	auto level = Label::createWithTTF("4", "/font/marker_felt.ttf", 24);
 	level->setPosition(225, 600);
-	this->addChild(level,1);
+	this->addChild(level, 1);
 
 	return true;
 }

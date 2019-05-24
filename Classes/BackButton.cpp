@@ -8,7 +8,7 @@ ui::Button* ::BackButton::create()
 
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		//·µ»Øµ½²Ëµ¥½çÃæ
+		//è¿”å›žåˆ°ä¸Šä¸€ä¸ªåœºæ™¯
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->popScene();
 	});
 	backButton->setPosition(Point(1150, 850));

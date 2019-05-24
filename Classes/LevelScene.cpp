@@ -1,4 +1,4 @@
-﻿#include "LevelScene.h"
+#include "LevelScene.h"
 
 Scene* LevelScene::createScene()
 {
@@ -16,8 +16,8 @@ bool LevelScene::init()
 	initUsername();
 
 	// 设置选关按钮的位置
-	int xPos[6],y[6];
-	for(int i=0;i<6;i++)
+	int xPos[6], y[6];
+	for (int i = 0; i < 6; i++)
 	{
 		xPos[i] = i * 150 + 200;
 		if (i % 2 == 0)
@@ -29,13 +29,13 @@ bool LevelScene::init()
 	// 初始化选关按钮
 	for (int i = 0; i < 6; i++)
 		initButtons(xPos[i], y[i], i, i - 0.4);
-	
+
 	// 画连接按钮的线
 	DrawNode* drawNode = DrawNode::create();
-	addChild(drawNode,3);
+	addChild(drawNode, 3);
 	for (int i = 0; i < 5; i++)
-		drawNode->drawSegment(Point(xPos[i],y[i]), Point(xPos[i+1], y[i+1]),5, Color4F(1,1,1,0.3));
-	
+		drawNode->drawSegment(Point(xPos[i], y[i]), Point(xPos[i + 1], y[i + 1]), 5, Color4F(1, 1, 1, 0.3));
+
 	// 设置按钮
 	this->addChild(SettingButton::create());
 
@@ -88,7 +88,6 @@ void LevelScene::initBackground()
 	// Action* seq = Sequence::create(go, goBack, NULL);
 	//
 	// //parallaxNode->runAction((RepeatForever::create(dynamic_cast<ActionInterval*>(seq))));
-
 }
 
 void LevelScene::initUsername()
@@ -114,20 +113,25 @@ void LevelScene::initUsername()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-
 	auto levelbutton = ui::Button::create("/images/levelScene/jetbraintheme/game_normal.png",
-		"/images/levelScene/jetbraintheme/game_selected.png",
-		"/images/levelScene/jetbraintheme/game_disabled.png");
+	                                      "/images/levelScene/jetbraintheme/game_selected.png",
+	                                      "/images/levelScene/jetbraintheme/game_disabled.png");
 
 	switch (level)
 	{
-	case 0:	levelbutton->setTitleText("Level 1"); break;
-	case 1:	levelbutton->setTitleText("Level 2"); break;
-	case 2:	levelbutton->setTitleText("Level 3"); break;
-	case 3:	levelbutton->setTitleText("Level 4"); break;
-	case 4:	levelbutton->setTitleText("Level 5"); break;
-	case 5:	levelbutton->setTitleText("Level 6"); break;
-	default:break;
+	case 0: levelbutton->setTitleText("Level 1");
+		break;
+	case 1: levelbutton->setTitleText("Level 2");
+		break;
+	case 2: levelbutton->setTitleText("Level 3");
+		break;
+	case 3: levelbutton->setTitleText("Level 4");
+		break;
+	case 4: levelbutton->setTitleText("Level 5");
+		break;
+	case 5: levelbutton->setTitleText("Level 6");
+		break;
+	default: break;
 	}
 
 	levelbutton->setTitleFontName("/font/marker_felt.ttf");
@@ -137,7 +141,7 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			switch(level)
+			switch (level)
 			{
 				// TODO 选关
 			case 0:
@@ -146,16 +150,16 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 			case 3:
 			case 4:
 			case 5:
-			default:break;
-			}			
+			default: break;
+			}
 		}
 	});
 	addChild(levelbutton, 4);
 	levelbutton->setPosition(Point(x, y));
 	levelbutton->setOpacity(0); //设置透明度为0
-	const auto fadeIn = FadeIn::create(1.3f);	// 淡入的效果
+	const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
 	const auto delay = DelayTime::create(delayTime);
-	const auto sequence = Sequence::create(delay,fadeIn,nullptr); // 动作序列
+	const auto sequence = Sequence::create(delay, fadeIn, nullptr); // 动作序列
 	levelbutton->runAction(sequence);
 }
 
@@ -179,4 +183,3 @@ void LevelScene::update(float dt)
 		background2_2->setPositionX(0);
 	}
 }
-
