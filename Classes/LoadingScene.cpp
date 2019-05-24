@@ -1,4 +1,5 @@
 #include "LoadingScene.h"
+#include "GameShare.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -82,6 +83,7 @@ void LoadingScene::startGame(float)
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
+		GameShare::getInstance()->sharePicToTencent();
 		Director::getInstance()->replaceScene(MenuScene::createScene());
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
