@@ -24,7 +24,7 @@ public:
 	bool applicationDidFinishLaunching() override;
 
 	/**
-	@brief  Called when the application moves to the background
+	@brief  Called when the application moves to the background1_1
 	@param  the pointer of the application
 	*/
 	void applicationDidEnterBackground() override;

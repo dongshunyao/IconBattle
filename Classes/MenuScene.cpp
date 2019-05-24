@@ -1,5 +1,4 @@
 #include "MenuScene.h"
-#include "GameScene.h"
 
 Scene* MenuScene::createScene()
 {
@@ -124,6 +123,7 @@ void MenuScene::initGameButton()
 	gameButton2->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 选关按钮2
+		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(LevelScene::createScene());
 	});
 	gameButton2->setPosition(Point(850, 600));
 	this->addChild(gameButton2);
