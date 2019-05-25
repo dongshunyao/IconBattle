@@ -52,6 +52,9 @@
     <Filter Include="src\common\user">
       <UniqueIdentifier>{02a398e0-ed26-47f0-9f1b-b08c0b1b9b08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\common\theme">
+      <UniqueIdentifier>{a2f9f3aa-0e5e-4de7-b16a-cc6cbadedcc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +105,9 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src\temp</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Theme.cpp">
+      <Filter>src\common\theme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -151,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src\temp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Theme.h">
+      <Filter>src\common\theme</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
