@@ -42,7 +42,7 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// TODO 加载一切
+	// TODO 加载网络
 
 	// 初始化背景音乐
 	vector<string> musicPath;
@@ -53,6 +53,9 @@ void LoadingScene::loading()
 
 	// 初始化音效
 	Sound::getInstance();
+
+	// 初始化用户信息
+	User::getInstance();
 
 	loadingFlag = true;
 }

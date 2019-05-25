@@ -54,7 +54,7 @@ bool GameScene::init()
 	processBar->setScale(0.5);
 	auto processTimer = ProgressTimer::create(processBarScore);
 	processTimer->setPosition(Point(225, 390));
-	processTimer->setType(kCCProgressTimerTypeBar);
+	processTimer->setType(ProgressTimer::Type::BAR);
 	// 设置竖向变化
 	processTimer->setBarChangeRate(Point(0, 1));
 	processTimer->setMidpoint(Point(0, 0));

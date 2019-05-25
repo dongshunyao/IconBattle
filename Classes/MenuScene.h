@@ -9,6 +9,7 @@
 #include "NewsBoard.h"
 #include "BackButton.h"
 #include "SettingButton.h"
+#include "User.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900

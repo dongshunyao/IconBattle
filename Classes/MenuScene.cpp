@@ -46,15 +46,14 @@ void MenuScene::initUsername()
 	usernameLabel->setPosition(Point(100, 850));
 	this->addChild(usernameLabel);
 
-	// TODO 获取 设置用户名
-	auto usernameText = ui::TextField::create("TQTQL", "/font/marker_felt.ttf", 30);
+	auto usernameText = ui::TextField::create(User::getInstance()->getUserName(), "/font/marker_felt.ttf", 30);
 	usernameText->setPasswordEnabled(true);
 	usernameText->setColor(Color3B(255, 255, 255));
 	usernameText->setMaxLength(10);
 
 	usernameText->addClickEventListener([&](Ref* sender)
 	{
-		// TODO 修改用户名
+		// TODO 修改用户名+加个图标
 	});
 	usernameText->setPosition(Point(250, 850));
 	this->addChild(usernameText);
