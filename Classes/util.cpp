@@ -5,8 +5,8 @@ long long Util::getStringHash(const string& str)
 	const int length = str.length();
 	vector<int> hash(length + 10);
 
-	hash[0] = static_cast<long long>(str[0]) % MOD;
-	for (auto i = 1; i < str.length(); i++) hash[i] = (hash[i - 1] * BASE + static_cast<long long>(str[i])) % MOD;
+	hash[0] = length ? static_cast<long long>(str[0]) % MOD : 0;
+	for (auto i = 1; i < length; i++) hash[i] = (hash[i - 1] * BASE + static_cast<long long>(str[i])) % MOD;
 
 	return (hash[length - 1] - length * BASE + MOD) % MOD;
 }
