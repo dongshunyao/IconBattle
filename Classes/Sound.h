@@ -19,9 +19,10 @@ public:
 	static Sound* getInstance();
 	void stop() const;
 	void play(const string& path);
-	bool getStatus() const { return on; };
-	void turnOn() { on = true; };
-	void turnOff() { on = false; };
+	bool getStatus() const { return on; }
+	void setStatus(const bool status) { on = status; }
+	void turnOn() { on = true; }
+	void turnOff() { on = false; }
 
 private:
 	static Sound* instance;

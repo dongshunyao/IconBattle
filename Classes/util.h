@@ -15,8 +15,8 @@ namespace Util
 	const long long BASE = 233;
 	const long long MOD = 1000000000 + 9;
 
-	long long getStringHash(const string& str);
-	long long getStringHash(vector<string> str);
+	int getStringHash(const string& str);
+	int getStringHash(vector<string> str);
 #pragma endregion
 };
 

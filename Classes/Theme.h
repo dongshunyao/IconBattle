@@ -1,5 +1,6 @@
 #ifndef __THEME_H__
 #define __THEME_H__
+
 #include <string>
 
 using std::string;
@@ -8,6 +9,8 @@ class Theme
 {
 public:
 #pragma region Theme Const String
+	const string themeName = "Theme";
+
 	const string iconSetZero;
 	const string iconSetOne;
 	const string iconSetTwo;
@@ -47,7 +50,6 @@ public:
 
 private:
 	static Theme* instance;
-
 };
 
 #endif

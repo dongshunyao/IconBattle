@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "LoadingScene.h"
 
 #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -35,6 +34,8 @@ AppDelegate::~AppDelegate()
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::end();
 #endif
+
+	User::getInstance()->update();
 }
 
 // if you want a different context, modify the value of glContextAttrs
