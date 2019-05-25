@@ -95,25 +95,24 @@ void LoadingScene::jetIcon()
 	{
 		const auto icon = Sprite::create(
 			"/image/loadingscene/jetbraintheme/iconset/large/" + std::to_string(i) + ".png");
-		icon->setPosition(SCREEN_WIDTH / 2, 0);
+		icon->setPosition(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height);
 		icon->setScale(1);
-		this->addChild(icon, -1); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
+		this->addChild(icon, -1, i); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
 		// 创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型
 		const auto jumpRight = JumpBy::create(i, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
-		                                      60 * i + 100, 1);
+		                                      60 * i + 300, 1);
 		const auto jumpLeft = JumpBy::create(i, Point(-(SCREEN_WIDTH / 4 + 30 * i), 0 - icon->getContentSize().height),
-		                                     60 * i + 70, 1);
+		                                     60 * i + 270, 1);
 
 		const auto move = MoveTo::create(1.5, Vec2(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height));
 		// 实现精灵的移动过程中Icon放大
 		const auto scale = ScaleTo::create(i, 2);
 		const auto scaleReverse = ScaleTo::create(i, 1);
-		const auto delay = DelayTime::create(0.25f);
-
+		const auto delay = DelayTime::create(0.25 * i * i);
 		// 根据计数器判断精灵抛出的方向
 		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
 		// 同时运行多个动作
-		const auto sequence = Sequence::create(spawn, delay, move, delay, scaleReverse, delay, nullptr); // 动作序列
+		const auto sequence = Sequence::create(delay, spawn, delay, move, delay, scaleReverse, delay, nullptr); // 动作序列
 		icon->runAction(RepeatForever::create(sequence)); // 实现重复跳跃
 	}
 }
