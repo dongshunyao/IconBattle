@@ -55,6 +55,9 @@
     <Filter Include="src\common\theme">
       <UniqueIdentifier>{a2f9f3aa-0e5e-4de7-b16a-cc6cbadedcc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\common\network">
+      <UniqueIdentifier>{2093bffc-0b0c-41b9-88b4-e43a3ef53892}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,12 +111,6 @@
     <ClCompile Include="..\Classes\Theme.cpp">
       <Filter>src\common\theme</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\JetBrainTheme.cpp">
-      <Filter>src\common\theme</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AdobeTheme.cpp">
-      <Filter>src\common\theme</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -165,12 +162,6 @@
       <Filter>src\temp</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Theme.h">
-      <Filter>src\common\theme</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\JetBrainTheme.h">
-      <Filter>src\common\theme</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AdobeTheme.h">
       <Filter>src\common\theme</Filter>
     </ClInclude>
   </ItemGroup>
