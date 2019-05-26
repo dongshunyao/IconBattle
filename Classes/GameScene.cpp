@@ -31,7 +31,7 @@ bool GameScene::init()
 	auto remainStep = Label::createWithTTF("20", "/font/marker_felt.ttf", 48);
 	// glow effect is TTF only, specify the glow color desired.
 	remainStep->enableGlow(Color4B::YELLOW);
-	remainStep->setPosition(225, 670);
+	remainStep->setPosition(225, 660);
 	this->addChild(remainStep);
 
 	// 当前关卡数背景图片
@@ -65,10 +65,38 @@ bool GameScene::init()
 	const auto processAction = ProgressFromTo::create(5, 0, 100);
 	const auto repeatAction = RepeatForever::create(processAction);
 	processTimer->runAction(repeatAction);
+	// 分数板
+	auto scoreLabel = Label::createWithTTF("25", "/font/marker_felt.ttf", 32);
+	scoreLabel->setPosition(225, 240);
+	this->addChild(scoreLabel);
 
-	auto score = Label::createWithTTF("25", "/font/marker_felt.ttf", 32);
-	score->setPosition(225, 240);
-	this->addChild(score);
+	// 默认初始提示剩余次数为3
+	auto hint = 3;
+	auto hintNumber = Sprite::createWithTexture(
+		Director::getInstance()->getTextureCache()->addImage(
+			"/image/gamescene/jetbraintheme/hint" + std::to_string(hint) + ".png"));
+	hintNumber->setPosition(340, 520);
+	this->addChild(hintNumber, 2);
+
+	// 提示按钮
+	auto hintButton = ui::Button::create("/image/gamescene/jetbraintheme/hint_button_normal.png",
+	                                     "/image/gamescene/jetbraintheme/hint_button_selected.png",
+	                                     "/image/gamescene/jetbraintheme/hint_button.png_disabled");
+	hintButton->setPosition(Point(375, 540));
+	hintButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			if (hint > 0)
+			{
+				hint--;
+				// TODO:动态更新hintNumber图片
+			}
+		}
+	});
+	this->addChild(hintButton, 1);
+
+
 #pragma endregion
 
 	return true;
