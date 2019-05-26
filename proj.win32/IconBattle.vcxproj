@@ -153,8 +153,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Classes\AdobeTheme.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackButton.cpp" />
+    <ClCompile Include="..\Classes\JetBrainTheme.cpp" />
     <ClCompile Include="..\Classes\Theme.cpp" />
     <ClCompile Include="..\Classes\WebShare.cpp" />
     <ClCompile Include="..\Classes\NewsBoard.cpp" />
@@ -172,8 +174,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\AdobeTheme.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackButton.h" />
+    <ClInclude Include="..\Classes\JetBrainTheme.h" />
     <ClInclude Include="..\Classes\Theme.h" />
     <ClInclude Include="..\Classes\WebShare.h" />
     <ClInclude Include="..\Classes\NewsBoard.h" />

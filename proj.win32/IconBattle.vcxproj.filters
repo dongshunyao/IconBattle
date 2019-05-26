@@ -108,6 +108,12 @@
     <ClCompile Include="..\Classes\Theme.cpp">
       <Filter>src\common\theme</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\JetBrainTheme.cpp">
+      <Filter>src\common\theme</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AdobeTheme.cpp">
+      <Filter>src\common\theme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -159,6 +165,12 @@
       <Filter>src\temp</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Theme.h">
+      <Filter>src\common\theme</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JetBrainTheme.h">
+      <Filter>src\common\theme</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AdobeTheme.h">
       <Filter>src\common\theme</Filter>
     </ClInclude>
   </ItemGroup>

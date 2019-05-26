@@ -5,6 +5,7 @@
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "MenuScene.h"
+#include "JetBrainTheme.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -20,6 +21,7 @@ public:
 	CREATE_FUNC(LevelScene)
 
 private:
+	Theme* theme=User::getInstance()->getCurrentTheme()->getInstance();
 	void initBackground();
 	void initUsername();
 	void initButtons(int x, int y, int type, float delayTime);

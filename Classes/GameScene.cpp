@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "SettingButton.h"
+#include "User.h"
 
 
 Scene* GameScene::createScene()
@@ -17,7 +17,7 @@ bool GameScene::init()
 #pragma  region Init GameScene
 
 	// 添加背景图片
-	auto sprite = Sprite::create("/image/gamescene/jetbraintheme/background.png");
+	auto sprite = Sprite::create(theme->gameSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
 
@@ -35,7 +35,7 @@ bool GameScene::init()
 	this->addChild(remainStep);
 
 	// 当前关卡数背景图片
-	auto levelSprite = Sprite::create("/image/gamescene/jetbraintheme/level_sprite.png");
+	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);
 	levelSprite->setScale(1);
 	levelSprite->setPosition(225, 580);
 	this->addChild(levelSprite, 0);
@@ -45,12 +45,12 @@ bool GameScene::init()
 	this->addChild(level, 1);
 
 	// 添加积分条灰色背景
-	auto processBar = Sprite::create("/image/gamescene/jetbraintheme/process_bar.png");
+	auto processBar = Sprite::create(theme->gameSceneGreyProcessBar);
 	processBar->setScale(1.5);
 	processBar->setPosition(Point(225, 390));
 	this->addChild(processBar, 1);
 
-	const auto processBarScore = Sprite::create("/image/gamescene/jetbraintheme/process_bar_score.png");
+	processBarScore = Sprite::create(theme->gameSceneProcessBar);
 	processBar->setScale(0.5);
 	auto processTimer = ProgressTimer::create(processBarScore);
 	processTimer->setPosition(Point(225, 390));
@@ -71,17 +71,17 @@ bool GameScene::init()
 	this->addChild(scoreLabel);
 
 	// 默认初始提示剩余次数为3
-	auto hint = 3;
-	auto hintNumber = Sprite::createWithTexture(
+	hintNumber = Sprite::createWithTexture(
 		Director::getInstance()->getTextureCache()->addImage(
-			"/image/gamescene/jetbraintheme/hint" + std::to_string(hint) + ".png"));
+			theme->gameSceneHintNumber + std::to_string(hint)
+			+ ".png"));
 	hintNumber->setPosition(340, 520);
 	this->addChild(hintNumber, 2);
 
 	// 提示按钮
-	auto hintButton = ui::Button::create("/image/gamescene/jetbraintheme/hint_button_normal.png",
-	                                     "/image/gamescene/jetbraintheme/hint_button_selected.png",
-	                                     "/image/gamescene/jetbraintheme/hint_button.png_disabled");
+	auto hintButton = ui::Button::create(JetBrainTheme::getInstance()->gameSceneHintButtonNormal,
+	                                     JetBrainTheme::getInstance()->gameSceneHintButtonSelected,
+	                                     JetBrainTheme::getInstance()->gameSceneHintButtonDisabled);
 	hintButton->setPosition(Point(375, 540));
 	hintButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -91,6 +91,8 @@ bool GameScene::init()
 			{
 				hint--;
 				// TODO:动态更新hintNumber图片
+				hintNumber->setTexture(
+					JetBrainTheme::getInstance()->gameSceneHintNumber + std::to_string(hint) + ".png");
 			}
 		}
 	});

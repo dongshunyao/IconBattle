@@ -5,6 +5,8 @@
 #include "ui/CocosGUI.h"
 #include "BackButton.h"
 #include "SettingButton.h"
+#include "JetBrainTheme.h"
+#include "User.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -15,6 +17,10 @@ class GameScene final :
 	public cocos2d::Scene
 {
 public:
+	int hint = 3;
+	Sprite* hintNumber;
+	Sprite* processBarScore;
+	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
 	static cocos2d::Scene* createScene();
 	bool init() override;
 	CREATE_FUNC(GameScene)

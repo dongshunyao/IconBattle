@@ -1,17 +1,16 @@
-#ifndef __THEME_H__
-#define __THEME_H__
+#ifndef __ADOBE_THEME_H__
+#define __ADOBE_THEME_H__
+#include "Theme.h"
 
-#include <string>
-
-using std::string;
-
-class Theme
+class AdobeTheme
+	: public Theme
 {
 public:
-#pragma region Theme Const String
-	const string themeName = "Theme";
+#pragma region AdobeTheme
 
-	const string iconSet;
+	const string themeName = "Adobe";
+
+	const string iconSetZero;
 	const string loadingSceneLabelPress;
 	const string loadingSceneLabelTitle;
 	const string loadingSceneBackground;
@@ -25,25 +24,24 @@ public:
 	const string menuSceneStoreButtonNormal;
 	const string menuSceneStoreButtonSelected;
 	const string menuSceneStoreButtonDisabled;
-	const string levelSceneDistantView;
-	const string levelSceneForeground;
+	const string levelSceneVision;
+	const string levelSceneProspect;
 	const string levelSceneGameButtonNormal;
 	const string levelSceneGameButtonSelected;
 	const string levelSceneGameButtonDisabled;
 	const string gameSceneBackground;
 	const string gameSceneLevelSpriteBackground;
-	const string gameSceneHintButtonNormal;
-	const string gameSceneHintButtonSelected;
-	const string gameSceneHintButtonDisabled;
-	const string gameSceneGreyProcessBar;
-	const string gameSceneProcessBar;
-	const string gameSceneHintNumber;
+	const string gameScenePromptButtonNormal;
+	const string gameScenePromptButtonSelected;
+	const string gameScenePromptButtonDisabled;
+
 #pragma endregion
 
-	static Theme* getInstance();
+	static AdobeTheme* getInstance();
 
 private:
-	static Theme* instance;
+	static AdobeTheme* instance;
 };
+
 
 #endif
