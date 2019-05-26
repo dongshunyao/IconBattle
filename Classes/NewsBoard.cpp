@@ -5,7 +5,7 @@ bool NewsBoard::init()
 	if (!Node::init()) return false;
 	setPosition(Point(100.f, 40.f));
 
-	auto newsIcon = Sprite::create("/image/menuscene/jetbraintheme/timg.png");
+	auto newsIcon = Sprite::create(theme->menuSceneNewsBoardIcon);
 	newsIcon->setPosition(80, 40);
 	this->addChild(newsIcon);
 

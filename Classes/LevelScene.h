@@ -21,7 +21,7 @@ public:
 	CREATE_FUNC(LevelScene)
 
 private:
-	Theme* theme=User::getInstance()->getCurrentTheme()->getInstance();
+	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
 	void initBackground();
 	void initUsername();
 	void initButtons(int x, int y, int type, float delayTime);

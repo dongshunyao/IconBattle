@@ -79,9 +79,8 @@ bool GameScene::init()
 	this->addChild(hintNumber, 2);
 
 	// 提示按钮
-	auto hintButton = ui::Button::create(JetBrainTheme::getInstance()->gameSceneHintButtonNormal,
-	                                     JetBrainTheme::getInstance()->gameSceneHintButtonSelected,
-	                                     JetBrainTheme::getInstance()->gameSceneHintButtonDisabled);
+	auto hintButton = ui::Button::create(theme->gameSceneHintButtonNormal, theme->gameSceneHintButtonSelected,
+	                                     theme->gameSceneHintButtonDisabled);
 	hintButton->setPosition(Point(375, 540));
 	hintButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -91,8 +90,7 @@ bool GameScene::init()
 			{
 				hint--;
 				// TODO:动态更新hintNumber图片
-				hintNumber->setTexture(
-					JetBrainTheme::getInstance()->gameSceneHintNumber + std::to_string(hint) + ".png");
+				hintNumber->setTexture(theme->gameSceneHintNumber + std::to_string(hint) + ".png");
 			}
 		}
 	});

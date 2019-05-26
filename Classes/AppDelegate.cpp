@@ -24,6 +24,7 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(1200, 900);
 
 AppDelegate::AppDelegate()
 {
+	User::getInstance();
 }
 
 AppDelegate::~AppDelegate()
@@ -35,6 +36,7 @@ AppDelegate::~AppDelegate()
     SimpleAudioEngine::end();
 #endif
 
+	// ReSharper disable once CppExpressionWithoutSideEffects
 	User::getInstance()->update();
 }
 

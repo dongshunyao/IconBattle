@@ -17,13 +17,16 @@ class GameScene final :
 	public cocos2d::Scene
 {
 public:
-	int hint = 3;
-	Sprite* hintNumber;
-	Sprite* processBarScore;
-	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
+
 	static cocos2d::Scene* createScene();
 	bool init() override;
 	CREATE_FUNC(GameScene)
+
+private:
+	int hint = 3;
+	Sprite* hintNumber = nullptr;
+	Sprite* processBarScore = nullptr;
+	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
 };
 
 #endif

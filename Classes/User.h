@@ -6,6 +6,8 @@
 #include "Music.h"
 #include "Sound.h"
 #include "Util.h"
+#include "JetBrainTheme.h"
+#include "AdobeTheme.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <windows.h>
@@ -41,7 +43,7 @@ public:
 private:
 
 	string userName = "Player3854";
-	Theme* currentTheme = Theme::getInstance(); // TODO 默认主题
+	Theme* currentTheme = JetBrainTheme::getInstance();
 	string hardwareId = getHardwareId();
 	int coin = 0;
 	ValueVector unlockedThemes;

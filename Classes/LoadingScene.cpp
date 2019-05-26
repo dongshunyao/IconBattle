@@ -19,12 +19,12 @@ bool LoadingScene::init()
 	if (!Scene::init()) return false;
 
 	// 添加背景图片
-	auto sprite = Sprite::create(JetBrainTheme::getInstance()->loadingSceneBackground);
+	auto sprite = Sprite::create(theme->loadingSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite, -1);
 
 	// 添加游戏名称
-	label = Sprite::create(JetBrainTheme::getInstance()->loadingSceneLabelTitle);
+	label = Sprite::create(theme->loadingSceneLabelTitle);
 	label->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(label, 0);
 
@@ -73,7 +73,7 @@ void LoadingScene::startGame(float)
 	label->runAction(moveTo);
 
 	// 按任意键开始游戏
-	auto ready = Sprite::create(JetBrainTheme::getInstance()->loadingSceneLabelPress);
+	auto ready = Sprite::create(theme->loadingSceneLabelPress);
 	ready->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50));
 	ready->setOpacity(0); //设置透明度为0
 	this->addChild(ready);
@@ -96,8 +96,7 @@ void LoadingScene::jetIcon()
 	// 循环初始化Icon精灵和动作
 	for (auto i = 0; i < 10; i++)
 	{
-		const auto icon = Sprite::create(
-			JetBrainTheme::getInstance()->iconSet + std::to_string(i) + ".png");
+		const auto icon = Sprite::create(theme->iconSet + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height);
 		icon->setScale(1);
 		this->addChild(icon, -1, i); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。

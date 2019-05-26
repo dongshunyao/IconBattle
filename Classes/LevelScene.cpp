@@ -48,23 +48,23 @@ bool LevelScene::init()
 void LevelScene::initBackground()
 {
 	// 第一张背景图 —— 星空
-	background1_1 = Sprite::create(JetBrainTheme::getInstance()->levelSceneDistantView);
+	background1_1 = Sprite::create(theme->levelSceneDistantView);
 	background1_1->setPosition(Vec2::ZERO);
 	background1_1->setAnchorPoint(Vec2::ZERO);
 	this->addChild(background1_1);
 
-	background1_2 = Sprite::create(JetBrainTheme::getInstance()->levelSceneDistantView);
+	background1_2 = Sprite::create(theme->levelSceneDistantView);
 	background1_2->setPosition(Vec2::ZERO);
 	background1_2->setAnchorPoint(Vec2(1, 0));
 	this->addChild(background1_2);
 
 	// 第二张背景图 —— 前景的星星
-	background2_1 = Sprite::create(JetBrainTheme::getInstance()->levelSceneForeground);
+	background2_1 = Sprite::create(theme->levelSceneForeground);
 	background2_1->setPosition(Vec2::ZERO);
 	background2_1->setAnchorPoint(Vec2::ZERO);
 	this->addChild(background2_1);
 
-	background2_2 = Sprite::create(JetBrainTheme::getInstance()->levelSceneForeground);
+	background2_2 = Sprite::create(theme->levelSceneForeground);
 	background2_2->setPosition(Vec2::ZERO);
 	background2_2->setAnchorPoint(Vec2(1, 0));
 	this->addChild(background2_2);
@@ -113,9 +113,8 @@ void LevelScene::initUsername()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	auto levelbutton = ui::Button::create(JetBrainTheme::getInstance()->levelSceneGameButtonNormal,
-	                                      JetBrainTheme::getInstance()->levelSceneGameButtonSelected,
-	                                      JetBrainTheme::getInstance()->levelSceneGameButtonDisabled);
+	auto levelbutton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
+	                                      theme->levelSceneGameButtonDisabled);
 
 	switch (level)
 	{

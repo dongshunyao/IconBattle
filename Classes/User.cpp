@@ -16,7 +16,11 @@ bool User::setUserName(const string& name)
 
 bool User::setCurrentTheme(const string& themeName)
 {
-	// TODO 设置主题
+	// TODO 添加主题
+	if (themeName == JetBrainTheme::getInstance()->themeName) currentTheme = JetBrainTheme::getInstance();
+	else if (themeName == AdobeTheme::getInstance()->themeName) currentTheme = AdobeTheme::getInstance();
+	else return false;
+
 	return update();
 }
 
@@ -88,7 +92,7 @@ User::User()
 			for (const auto& it : map["UnlockedThemes"].asValueVector()) unlockedThemes.emplace_back(it.asString());
 		if (map.count("UnlockedLevel")) unlockedLevel = map["UnlockedLevel"].asInt();
 	}
-	else unlockedThemes.emplace_back("1aaaa11jet23333333333"); //TODO name
+	else unlockedThemes.emplace_back(JetBrainTheme::getInstance()->themeName);
 }
 
 string User::getHardwareId()
