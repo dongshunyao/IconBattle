@@ -113,30 +113,30 @@ void LevelScene::initUsername()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	auto levelbutton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
+	auto levelButton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
 	                                      theme->levelSceneGameButtonDisabled);
 
 	switch (level)
 	{
-	case 0: levelbutton->setTitleText("Level 1");
+	case 0: levelButton->setTitleText("Level 1");
 		break;
-	case 1: levelbutton->setTitleText("Level 2");
+	case 1: levelButton->setTitleText("Level 2");
 		break;
-	case 2: levelbutton->setTitleText("Level 3");
+	case 2: levelButton->setTitleText("Level 3");
 		break;
-	case 3: levelbutton->setTitleText("Level 4");
+	case 3: levelButton->setTitleText("Level 4");
 		break;
-	case 4: levelbutton->setTitleText("Level 5");
+	case 4: levelButton->setTitleText("Level 5");
 		break;
-	case 5: levelbutton->setTitleText("Level 6");
+	case 5: levelButton->setTitleText("Level 6");
 		break;
 	default: break;
 	}
 
-	levelbutton->setTitleFontName("/font/marker_felt.ttf");
-	levelbutton->setTitleFontSize(30);
-	levelbutton->setTitleColor(Color3B(0, 0, 0));
-	levelbutton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	levelButton->setTitleFontName("/font/marker_felt.ttf");
+	levelButton->setTitleFontSize(30);
+	levelButton->setTitleColor(Color3B(0, 0, 0));
+	levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
@@ -153,13 +153,13 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 			}
 		}
 	});
-	addChild(levelbutton, 4);
-	levelbutton->setPosition(Point(x, y));
-	levelbutton->setOpacity(0); //设置透明度为0
+	addChild(levelButton, 4);
+	levelButton->setPosition(Point(x, y));
+	levelButton->setOpacity(0); //设置透明度为0
 	const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
 	const auto delay = DelayTime::create(delayTime);
 	const auto sequence = Sequence::create(delay, fadeIn, nullptr); // 动作序列
-	levelbutton->runAction(sequence);
+	levelButton->runAction(sequence);
 }
 
 void LevelScene::update(float dt)

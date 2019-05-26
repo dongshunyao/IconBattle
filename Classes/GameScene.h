@@ -5,8 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "BackButton.h"
 #include "SettingButton.h"
-#include "JetBrainTheme.h"
-#include "User.h"
+#include "Theme.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -24,9 +23,9 @@ public:
 
 private:
 	int hint = 3;
+	Theme* theme = Theme::getInstance("JetBrain");
 	Sprite* hintNumber = nullptr;
 	Sprite* processBarScore = nullptr;
-	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
 };
 
 #endif

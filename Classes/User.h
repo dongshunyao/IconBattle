@@ -6,8 +6,6 @@
 #include "Music.h"
 #include "Sound.h"
 #include "Util.h"
-#include "JetBrainTheme.h"
-#include "AdobeTheme.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <windows.h>

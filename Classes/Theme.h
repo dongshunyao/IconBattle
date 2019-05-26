@@ -8,11 +8,9 @@ using std::string;
 class Theme
 {
 public:
-	const string themeName = "Theme";
-
 #pragma region Loading Sence
-	const string iconSet;
-	const string loadingSceneBackground;
+	string iconSet;
+	string loadingSceneBackground;
 
 	const string loadingSceneLabelPress = "/image/loadingscene/common/label_press.png";
 	const string loadingSceneLabelTitle = "/image/loadingscene/common/label_title.png";
@@ -20,7 +18,7 @@ public:
 #pragma endregion
 
 #pragma region Menu Sence
-	const string menuSceneBackground;
+	string menuSceneBackground;
 
 	const string menuSceneGameButtonNormal = "/image/menuscene/common/game_normal.png";
 	const string menuSceneGameButtonSelected = "/image/menuscene/common/game_selected.png";
@@ -36,32 +34,39 @@ public:
 
 	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
 
-#pragma endregion
+#pragma endregion 
 
-	//TODO 规范化
-	const string levelSceneDistantView;
-	const string levelSceneForeground;
-	const string levelSceneGameButtonNormal;
-	const string levelSceneGameButtonSelected;
-	const string levelSceneGameButtonDisabled;
+#pragma endregion Level Scene
+	// TODO 暂时不更换
+	const string levelSceneDistantView="/image/levelscene/jetbraintheme/far.png";
+	const string levelSceneForeground="/image/levelscene/jetbraintheme/front.png";
+	const string levelSceneGameButtonNormal="/image/levelscene/jetbraintheme/game_normal.png";
+	const string levelSceneGameButtonSelected="/image/levelscene/jetbraintheme/game_selected.png";
+	const string levelSceneGameButtonDisabled="/image/levelscene/jetbraintheme/game_disabled.png";
 
-	const string gameSceneBackground;
-	const string gameSceneLevelSpriteBackground;
-	const string gameSceneHintButtonNormal;
-	const string gameSceneHintButtonSelected;
-	const string gameSceneHintButtonDisabled;
-	const string gameSceneGreyProcessBar;
-	const string gameSceneProcessBar;
-	const string gameSceneHintNumber;
+#pragma endregion 
 
+#pragma region Game Scene
+	string gameSceneBackground;
+	string gameSceneLevelSpriteBackground;
+	string gameSceneHintButtonNormal;
+	string gameSceneHintButtonSelected;
+	string gameSceneHintButtonDisabled;
 
-	static Theme* getInstance();
+	const string gameSceneGreyProcessBar="/image/gamescene/common/process_bar";
+	const string gameSceneProcessBar="/image/gamescene/common/process_bar_score";
+	const string gameSceneHintNumber="/image/gamescene/common/hint";
+
+#pragma endregion 
+
+	static Theme* getInstance(const string& theme);
 
 protected:
-	Theme() = default;
+	Theme(const string& theme);
 
 private:
 	static Theme* instance;
+	void setTheme(const string& theme);
 };
 
 #endif

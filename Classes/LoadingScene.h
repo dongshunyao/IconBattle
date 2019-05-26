@@ -6,7 +6,7 @@
 #include "Music.h"
 #include "Sound.h"
 #include "MenuScene.h"
-#include "JetBrainTheme.h"
+#include "Theme.h"
 #include <vector>
 #include <string>
 
@@ -27,7 +27,7 @@ public:
 
 private:
 	Sprite* label = nullptr;
-	Theme* theme = User::getInstance()->getCurrentTheme()->getInstance();
+	Theme* theme = Theme::getInstance("JetBrain");
 	bool loadingFlag = false;
 
 	void loading();
