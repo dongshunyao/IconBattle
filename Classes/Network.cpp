@@ -11,7 +11,8 @@ Network* Network::getInstance()
 string Network::getNews()
 {
 	gotData.clear();
-	
+
+	return "";
 }
 
 void Network::createRequest(const string data)
