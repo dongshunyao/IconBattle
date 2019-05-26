@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "2d/CCClippingNode.h"
-#include "User.h"
+#include "Theme.h"
 
 USING_NS_CC;
 
@@ -19,7 +19,7 @@ private:
 	void scrollText(float);
 
 	Label* news = nullptr;
-	Theme* theme = User::getInstance()->getCurrentTheme();
+	Theme* theme = Theme::getInstance();
 };
 
 #endif

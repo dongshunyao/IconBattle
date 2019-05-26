@@ -33,7 +33,8 @@ private:
 	// 第二张背景图 
 	Sprite* background2_1 = nullptr;
 	Sprite* background2_2 = nullptr;
-	Theme* theme = Theme::getInstance("JetBrain");//User::getInstance()->getCurrentTheme());
+
+	Theme* theme = Theme::getInstance();
 };
 
 #endif

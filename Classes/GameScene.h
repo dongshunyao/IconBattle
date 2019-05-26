@@ -23,7 +23,7 @@ public:
 
 private:
 	int hint = 3;
-	Theme* theme = Theme::getInstance("JetBrain");
+	Theme* theme = Theme::getInstance();
 	Sprite* hintNumber = nullptr;
 	Sprite* processBarScore = nullptr;
 };

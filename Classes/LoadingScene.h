@@ -27,7 +27,7 @@ public:
 
 private:
 	Sprite* label = nullptr;
-	Theme* theme = Theme::getInstance("JetBrain");
+	Theme* theme = Theme::getInstance();
 	bool loadingFlag = false;
 
 	void loading();

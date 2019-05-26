@@ -8,6 +8,9 @@ using std::string;
 class Theme
 {
 public:
+	const string jetBrainThemeName = "JetBrainTheme";
+	const string adobeThemeName = "AdobeTheme";
+
 #pragma region Loading Sence
 	string iconSet;
 	string loadingSceneBackground;
@@ -34,17 +37,17 @@ public:
 
 	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
 
-#pragma endregion 
+#pragma endregion
 
-#pragma endregion Level Scene
+#pragma region Level Scene
 	// TODO 暂时不更换
-	const string levelSceneDistantView="/image/levelscene/jetbraintheme/far.png";
-	const string levelSceneForeground="/image/levelscene/jetbraintheme/front.png";
-	const string levelSceneGameButtonNormal="/image/levelscene/jetbraintheme/game_normal.png";
-	const string levelSceneGameButtonSelected="/image/levelscene/jetbraintheme/game_selected.png";
-	const string levelSceneGameButtonDisabled="/image/levelscene/jetbraintheme/game_disabled.png";
+	const string levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
+	const string levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";
+	const string levelSceneGameButtonNormal = "/image/levelscene/jetbraintheme/game_normal.png";
+	const string levelSceneGameButtonSelected = "/image/levelscene/jetbraintheme/game_selected.png";
+	const string levelSceneGameButtonDisabled = "/image/levelscene/jetbraintheme/game_disabled.png";
 
-#pragma endregion 
+#pragma endregion
 
 #pragma region Game Scene
 	string gameSceneBackground;
@@ -53,20 +56,22 @@ public:
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
 
-	const string gameSceneGreyProcessBar="/image/gamescene/common/process_bar";
-	const string gameSceneProcessBar="/image/gamescene/common/process_bar_score";
-	const string gameSceneHintNumber="/image/gamescene/common/hint";
+	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
+	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
+	const string gameSceneHintNumber = "/image/gamescene/common/hint";
 
-#pragma endregion 
+#pragma endregion
 
-	static Theme* getInstance(const string& theme);
-
-protected:
-	Theme(const string& theme);
+	static Theme* getInstance();
+	void setCurrentTheme(const string& theme);
+	string getCurrentThemeName() const { return currentTheme; }
 
 private:
 	static Theme* instance;
-	void setTheme(const string& theme);
+	Theme();
+
+	string currentTheme;
+	void setJetBrainTheme();
 };
 
 #endif

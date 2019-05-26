@@ -24,9 +24,6 @@ public:
 	string getUserName() const { return userName; }
 	bool setUserName(const string& name);
 
-	Theme* getCurrentTheme() const { return currentTheme; }
-	bool setCurrentTheme(const string& themeName);
-
 	int getCoin() const { return coin; }
 	bool setCoin(const int coin);
 
@@ -41,7 +38,6 @@ public:
 private:
 
 	string userName = "Player3854";
-	Theme* currentTheme = JetBrainTheme::getInstance();
 	string hardwareId = getHardwareId();
 	int coin = 0;
 	ValueVector unlockedThemes;

@@ -18,6 +18,9 @@ bool LoadingScene::init()
 {
 	if (!Scene::init()) return false;
 
+	// 初始化用户信息
+	User::getInstance();
+
 	// 添加背景图片
 	auto sprite = Sprite::create(theme->loadingSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
@@ -53,9 +56,6 @@ void LoadingScene::loading()
 
 	// 初始化音效
 	Sound::getInstance();
-
-	// 初始化用户信息
-	User::getInstance();
 
 	loadingFlag = true;
 }

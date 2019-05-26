@@ -27,7 +27,7 @@ public:
 	CREATE_FUNC(MenuScene)
 
 private:
-	Theme* theme = Theme::getInstance("JetBrain");
+	Theme* theme = Theme::getInstance();
 	void initUsername();
 	void initStoreButton();
 	void initRankButton();

@@ -24,7 +24,6 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(1200, 900);
 
 AppDelegate::AppDelegate()
 {
-	User::getInstance();
 }
 
 AppDelegate::~AppDelegate()
