@@ -28,8 +28,7 @@ bool NewsBoard::init()
 
 void NewsBoard::initNews()
 {
-	// TODO 获取公告
-	news = Label::createWithSystemFont("中文测试testing notce borad ~~~~~~~~~~~~", "/font/marker_felt.ttf", 24);
+	news = Label::createWithSystemFont(Network::getInstance()->getNews(), "/font/marker_felt.ttf", 24);
 	news->setColor(Color3B(255, 255, 255));
 	news->setAnchorPoint(Point::ZERO);
 	news->setPosition(Point(720, 10)); //设置公告文字内容的初始位置

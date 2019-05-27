@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "2d/CCClippingNode.h"
 #include "Theme.h"
+#include "Network.h"
 
 USING_NS_CC;
 

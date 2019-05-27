@@ -7,6 +7,7 @@
 #include "Sound.h"
 #include "MenuScene.h"
 #include "Theme.h"
+#include "Network.h"
 #include <vector>
 #include <string>
 

@@ -24,6 +24,8 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(1200, 900);
 
 AppDelegate::AppDelegate()
 {
+	// 初始化用户信息
+	User::getInstance();
 }
 
 AppDelegate::~AppDelegate()
