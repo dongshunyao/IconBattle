@@ -72,8 +72,9 @@ bool User::update() const
 User::User()
 {
 	auto map = FileUtils::getInstance()->getValueMapFromFile(filename);
-	if (map.size() == 0)
+	if (map.empty())
 	{
+		unlockedThemes.emplace_back(Theme::getInstance()->jetBrainThemeName);
 		update();
 		return;
 	}

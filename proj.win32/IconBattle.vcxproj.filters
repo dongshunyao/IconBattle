@@ -99,9 +99,6 @@
     <ClCompile Include="..\Classes\User.cpp">
       <Filter>src\common\user</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Util.cpp">
-      <Filter>src\common\util</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\WebShare.cpp">
       <Filter>src\common\webshare</Filter>
     </ClCompile>
@@ -113,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Network.cpp">
       <Filter>src\common\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Util.cpp">
+      <Filter>src\common\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +155,6 @@
     <ClInclude Include="..\Classes\User.h">
       <Filter>src\common\user</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Util.h">
-      <Filter>src\common\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\WebShare.h">
       <Filter>src\common\webshare</Filter>
     </ClInclude>
@@ -169,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Network.h">
       <Filter>src\common\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Util.h">
+      <Filter>src\common\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
