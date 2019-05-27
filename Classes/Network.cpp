@@ -29,19 +29,18 @@ string Network::getNews()
 	}
 	string data = recvBuf;
 	closeConnect();
-
-	log(data.c_str());
-
 	return data;
 }
 
-string Network::getScore(const bool mode)
+string Network::getScore(const string user, const bool mode)
 {
 	if (mode)
 	{
 		auto temp = GET_SCORE;
 		temp += "\t";
 		temp += MODE1;
+		temp += "\t";
+		temp += user;
 		strcpy(sendBuf, temp.data());
 	}
 
@@ -50,6 +49,8 @@ string Network::getScore(const bool mode)
 		auto temp = GET_SCORE;
 		temp += "\t";
 		temp += MODE2;
+		temp += "\t";
+		temp += user;
 		strcpy(sendBuf, temp.data());
 	}
 
@@ -69,6 +70,8 @@ string Network::getScore(const bool mode)
 
 	string data = recvBuf;
 	closeConnect();
+
+	log(data.c_str());
 
 	return data;
 }

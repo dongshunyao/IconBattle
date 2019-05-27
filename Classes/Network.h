@@ -18,7 +18,7 @@ public:
 	void init();
 	void closeConnect() const;
 	string getNews();
-	string getScore(bool mode);
+	string getScore(const string user, bool mode);
 	void postScore(const string name, const string score, bool mode);
 
 private:
