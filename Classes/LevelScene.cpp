@@ -16,25 +16,25 @@ bool LevelScene::init()
 	initUsername();
 
 	// 设置选关按钮的位置
-	int xPos[6], y[6];
+	int xPos[6], yPos[6];
 	for (int i = 0; i < 6; i++)
 	{
 		xPos[i] = i * 150 + 200;
 		if (i % 2 == 0)
-			y[i] = 300;
+			yPos[i] = 300;
 		else
-			y[i] = 600;
+			yPos[i] = 600;
 	}
 
 	// 初始化选关按钮
 	for (int i = 0; i < 6; i++)
-		initButtons(xPos[i], y[i], i, i - 0.4);
+		initButtons(xPos[i], yPos[i], i, i - 0.4);
 
 	// 画连接按钮的线
 	DrawNode* drawNode = DrawNode::create();
 	addChild(drawNode, 3);
 	for (int i = 0; i < 5; i++)
-		drawNode->drawSegment(Point(xPos[i], y[i]), Point(xPos[i + 1], y[i + 1]), 5, Color4F(1, 1, 1, 0.3));
+		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
 	this->addChild(SettingButton::create());
@@ -48,26 +48,26 @@ bool LevelScene::init()
 void LevelScene::initBackground()
 {
 	// 第一张背景图 —— 星空
-	background1_1 = Sprite::create("/image/levelscene/jetbraintheme/far.png");
-	background1_1->setPosition(Vec2::ZERO);
-	background1_1->setAnchorPoint(Vec2::ZERO);
-	this->addChild(background1_1);
+	backgroundFirst = Sprite::create("/image/levelscene/jetbraintheme/far.png");
+	backgroundFirst->setPosition(Vec2::ZERO);
+	backgroundFirst->setAnchorPoint(Vec2::ZERO);
+	this->addChild(backgroundFirst);
 
-	background1_2 = Sprite::create("/image/levelscene/jetbraintheme/far.png");
-	background1_2->setPosition(Vec2::ZERO);
-	background1_2->setAnchorPoint(Vec2(1, 0));
-	this->addChild(background1_2);
+	backgroundSecond = Sprite::create("/image/levelscene/jetbraintheme/far.png");
+	backgroundSecond->setPosition(Vec2::ZERO);
+	backgroundSecond->setAnchorPoint(Vec2(1, 0));
+	this->addChild(backgroundSecond);
 
 	// 第二张背景图 —— 前景的星星
-	background2_1 = Sprite::create("/image/levelscene/jetbraintheme/front.png");
-	background2_1->setPosition(Vec2::ZERO);
-	background2_1->setAnchorPoint(Vec2::ZERO);
-	this->addChild(background2_1);
+	foregroundFirst = Sprite::create("/image/levelscene/jetbraintheme/front.png");
+	foregroundFirst->setPosition(Vec2::ZERO);
+	foregroundFirst->setAnchorPoint(Vec2::ZERO);
+	this->addChild(foregroundFirst);
 
-	background2_2 = Sprite::create("/image/levelscene/jetbraintheme/front.png");
-	background2_2->setPosition(Vec2::ZERO);
-	background2_2->setAnchorPoint(Vec2(1, 0));
-	this->addChild(background2_2);
+	foregroundSecond = Sprite::create("/image/levelscene/jetbraintheme/front.png");
+	foregroundSecond->setPosition(Vec2::ZERO);
+	foregroundSecond->setAnchorPoint(Vec2(1, 0));
+	this->addChild(foregroundSecond);
 
 	scheduleUpdate();
 
@@ -113,31 +113,31 @@ void LevelScene::initUsername()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	auto levelbutton = ui::Button::create("/image/levelscene/jetbraintheme/game_normal.png",
+	auto levelButton = ui::Button::create("/image/levelscene/jetbraintheme/game_normal.png",
 	                                      "/image/levelscene/jetbraintheme/game_selected.png",
 	                                      "/image/levelscene/jetbraintheme/game_disabled.png");
 
 	switch (level)
 	{
-	case 0: levelbutton->setTitleText("Level 1");
+	case 0: levelButton->setTitleText("Level 1");
 		break;
-	case 1: levelbutton->setTitleText("Level 2");
+	case 1: levelButton->setTitleText("Level 2");
 		break;
-	case 2: levelbutton->setTitleText("Level 3");
+	case 2: levelButton->setTitleText("Level 3");
 		break;
-	case 3: levelbutton->setTitleText("Level 4");
+	case 3: levelButton->setTitleText("Level 4");
 		break;
-	case 4: levelbutton->setTitleText("Level 5");
+	case 4: levelButton->setTitleText("Level 5");
 		break;
-	case 5: levelbutton->setTitleText("Level 6");
+	case 5: levelButton->setTitleText("Level 6");
 		break;
 	default: break;
 	}
 
-	levelbutton->setTitleFontName("/font/marker_felt.ttf");
-	levelbutton->setTitleFontSize(30);
-	levelbutton->setTitleColor(Color3B(0, 0, 0));
-	levelbutton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	levelButton->setTitleFontName("/font/marker_felt.ttf");
+	levelButton->setTitleFontSize(30);
+	levelButton->setTitleColor(Color3B(0, 0, 0));
+	levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
@@ -154,32 +154,32 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 			}
 		}
 	});
-	addChild(levelbutton, 4);
-	levelbutton->setPosition(Point(x, y));
-	levelbutton->setOpacity(0); //设置透明度为0
+	addChild(levelButton, 4);
+	levelButton->setPosition(Point(x, y));
+	levelButton->setOpacity(0); //设置透明度为0
 	const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
 	const auto delay = DelayTime::create(delayTime);
 	const auto sequence = Sequence::create(delay, fadeIn, nullptr); // 动作序列
-	levelbutton->runAction(sequence);
+	levelButton->runAction(sequence);
 }
 
-void LevelScene::update(float dt)
+void LevelScene::update(float delta)
 {
-	background1_1->setPositionX(background1_1->getPositionX() + 1);
-	background1_2->setPositionX(background1_2->getPositionX() + 1);
+	backgroundFirst->setPositionX(backgroundFirst->getPositionX() + 1);
+	backgroundSecond->setPositionX(backgroundSecond->getPositionX() + 1);
 
-	background2_1->setPositionX(background1_1->getPositionX() + 1);
-	background2_2->setPositionX(background1_2->getPositionX() + 1);
+	foregroundFirst->setPositionX(backgroundFirst->getPositionX() + 1);
+	foregroundSecond->setPositionX(backgroundSecond->getPositionX() + 1);
 
-	if (background1_1->getPositionX() >= SCREEN_WIDTH)
+	if (backgroundFirst->getPositionX() >= SCREEN_WIDTH)
 	{
-		background1_1->setPositionX(0);
-		background1_2->setPositionX(0);
+		backgroundFirst->setPositionX(0);
+		backgroundSecond->setPositionX(0);
 	}
 
-	if (background2_1->getPositionX() >= SCREEN_WIDTH)
+	if (foregroundFirst->getPositionX() >= SCREEN_WIDTH)
 	{
-		background2_1->setPositionX(0);
-		background2_2->setPositionX(0);
+		foregroundFirst->setPositionX(0);
+		foregroundSecond->setPositionX(0);
 	}
 }
