@@ -11,6 +11,8 @@ public:
 	const string jetBrainThemeName = "JetBrainTheme";
 	const string adobeThemeName = "AdobeTheme";
 
+	string backgroundMusic;
+
 #pragma region Loading Sence
 	string iconSet;
 	string loadingSceneBackground;
