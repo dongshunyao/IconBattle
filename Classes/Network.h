@@ -2,35 +2,42 @@
 #define __NETWORK_H__
 
 #include "cocos2d.h"
-#include <vector>
-#include "network/HttpRequest.h"
-#include "network/HttpClient.h"
-#include "network/HttpResponse.h"
+#include <cstdio>
+#include <winsock2.h>
+#pragma comment(lib,"WS2_32.lib")
 
 USING_NS_CC;
 using std::vector;
 using std::string;
-using network::HttpRequest;
-using network::HttpClient;
-using network::HttpResponse;
-using std::stringstream;
 
 class Network
 {
 public:
 	static Network* getInstance();
 
+	void init();
+	void closeConnect() const;
 	string getNews();
+	string getScore(bool mode);
+	void postScore(const string name, const string score, bool mode);
 
 private:
-	vector<string> header;
-	vector<string> gotData;
+	WSADATA wsd;
+	SOCKET sockClient;
+	SOCKADDR_IN addrSrv;
 
-	void createRequest(const string data);
-	void receive(HttpClient* sender, HttpResponse* response);
+	char recvBuf[300];
+	char sendBuf[300];
+
+	const string GET_NEWS = "GET_NEWS";
+	const string GET_SCORE = "GET_SCORE";
+	const string MODE1 = "MODE1";
+	const string MODE2 = "MODE2";
+	const string POST = "POST";
 
 	static Network* instance;
-	Network();
+
+	Network() = default;
 };
 
 
