@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include <cstdio>
 #include <winsock2.h>
+#include "util.h"
 #pragma comment(lib,"WS2_32.lib")
 
 USING_NS_CC;

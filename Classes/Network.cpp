@@ -71,22 +71,24 @@ string Network::getScore(const string user, const bool mode)
 	string data = recvBuf;
 	closeConnect();
 
-	log(data.c_str());
-
 	return data;
 }
 
 void Network::postScore(const string name, const string score, const bool mode)
 {
-	// TODO: 跑哈希
+	auto hash = Util::getStringHash(name);
+	auto hashStr = std::to_string(hash);
 	if (mode)
 	{
 		auto temp = POST;
 		temp += "\t";
 		temp += MODE1;
+		temp += "\t";
 		temp += name;
 		temp += "\t";
 		temp += score;
+		temp += "\t";
+		temp += hashStr;
 		strcpy(sendBuf, temp.data());
 	}
 	else
@@ -94,9 +96,12 @@ void Network::postScore(const string name, const string score, const bool mode)
 		auto temp = POST;
 		temp += "\t";
 		temp += MODE2;
+		temp += "\t";
 		temp += name;
 		temp += "\t";
 		temp += score;
+		temp += "\t";
+		temp += hashStr;
 		strcpy(sendBuf, temp.data());
 	}
 
