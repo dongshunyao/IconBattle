@@ -22,38 +22,30 @@ bool GameScene::init()
 	this->addChild(sprite);
 
 	// 设置按钮
-	this->addChild(SettingButton::create());
+	new SettingButton(this);
 
 	// 返回按钮
 	this->addChild(BackButton::create());
 
 	// 剩余步数Label
+	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);
+	levelSprite->setScale(1.5);
+	levelSprite->setPosition(225, 630);
+	this->addChild(levelSprite, 0);
 	auto remainStep = Label::createWithTTF("20", "/font/marker_felt.ttf", 48);
 	// glow effect is TTF only, specify the glow color desired.
 	remainStep->enableGlow(Color4B::YELLOW);
-	remainStep->setPosition(225, 660);
+	remainStep->setPosition(225, 625);
 	this->addChild(remainStep);
-
-	// 当前关卡数背景图片
-	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);
-	levelSprite->setScale(1);
-	levelSprite->setPosition(225, 580);
-	this->addChild(levelSprite, 0);
-
-	auto level = Label::createWithTTF("4", "/font/marker_felt.ttf", 24);
-	level->setPosition(225, 580);
-	this->addChild(level, 1);
 
 	// 添加积分条灰色背景
 	auto processBar = Sprite::create(theme->gameSceneGreyProcessBar);
-	processBar->setScale(1.5);
-	processBar->setPosition(Point(225, 390));
+	processBar->setPosition(Point(225, 410));
 	this->addChild(processBar, 1);
 
 	processBarScore = Sprite::create(theme->gameSceneProcessBar);
-	processBar->setScale(0.5);
 	auto processTimer = ProgressTimer::create(processBarScore);
-	processTimer->setPosition(Point(225, 390));
+	processTimer->setPosition(Point(225, 410));
 	processTimer->setType(ProgressTimer::Type::BAR);
 	// 设置竖向变化
 	processTimer->setBarChangeRate(Point(0, 1));

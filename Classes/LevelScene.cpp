@@ -37,7 +37,7 @@ bool LevelScene::init()
 		drawNode->drawSegment(Point(xPos[i], y[i]), Point(xPos[i + 1], y[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
-	this->addChild(SettingButton::create());
+	SettingButton(this);
 
 	// 返回按钮
 	this->addChild(BackButton::create());
