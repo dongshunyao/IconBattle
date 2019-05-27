@@ -20,11 +20,7 @@ bool MenuScene::init()
 	initGameButton();
 
 	// 设置按钮
-	this->addChild(SettingButton::create());
-
-	// 返回按钮
-	this->addChild(BackButton::create());
-
+	new SettingButton(this);
 
 	// 公告栏
 	auto board = Label::createWithTTF("NOTICE", "/font/marker_felt.ttf", 24);
@@ -72,7 +68,7 @@ void MenuScene::initStoreButton()
 		// 进入商店界面
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(StoreScene::createScene());
 	});
-	storeButton->setPosition(Point(650, 850));
+	storeButton->setPosition(Point(550, 850));
 	this->addChild(storeButton);
 }
 
@@ -88,7 +84,7 @@ void MenuScene::initRankButton()
 	{
 		// TODO 排名相关
 	});
-	rankButton->setPosition(Point(850, 850));
+	rankButton->setPosition(Point(750, 850));
 	this->addChild(rankButton);
 }
 
