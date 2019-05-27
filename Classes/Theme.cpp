@@ -24,6 +24,10 @@ Theme::Theme()
 
 void Theme::setJetBrainTheme()
 {
+#pragma region BGM
+	backgroundMusic = "/music/jetbraintheme/background.mp3";
+#pragma endregion
+
 #pragma region Loading Scene
 	iconSet = "/image/loadingscene/jetbraintheme/iconset/large/";
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";

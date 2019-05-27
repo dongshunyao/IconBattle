@@ -49,9 +49,7 @@ void LoadingScene::loading()
 
 	// 初始化背景音乐
 	vector<string> musicPath;
-	// TODO 设置默认音乐文件位置
-	musicPath.emplace_back("/music/background.mp3");
-	musicPath.emplace_back("/music/background.mp3");
+	musicPath.emplace_back(theme->backgroundMusic);
 	Music::getInstance()->loading(musicPath);
 
 	// 初始化音效
@@ -65,8 +63,7 @@ void LoadingScene::startGame(float)
 	if (!loadingFlag) return;
 	else unschedule(schedule_selector(LoadingScene::startGame));
 
-	// TODO 设置默认音乐文件位置
-	Music::getInstance()->play("/music/background.mp3");
+	Music::getInstance()->play(theme->backgroundMusic);
 
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
