@@ -16,25 +16,25 @@ bool LevelScene::init()
 	initUsername();
 
 	// 设置选关按钮的位置
-	int xPos[6], yPos[6];
+	int xPos[6], y[6];
 	for (int i = 0; i < 6; i++)
 	{
 		xPos[i] = i * 150 + 200;
 		if (i % 2 == 0)
-			yPos[i] = 300;
+			y[i] = 300;
 		else
-			yPos[i] = 600;
+			y[i] = 600;
 	}
 
 	// 初始化选关按钮
 	for (int i = 0; i < 6; i++)
-		initButtons(xPos[i], yPos[i], i, i - 0.4);
+		initButtons(xPos[i], y[i], i, i - 0.4);
 
 	// 画连接按钮的线
 	DrawNode* drawNode = DrawNode::create();
 	addChild(drawNode, 3);
 	for (int i = 0; i < 5; i++)
-		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
+		drawNode->drawSegment(Point(xPos[i], y[i]), Point(xPos[i + 1], y[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
 	this->addChild(SettingButton::create());
@@ -48,26 +48,26 @@ bool LevelScene::init()
 void LevelScene::initBackground()
 {
 	// 第一张背景图 —— 星空
-	backgroundFirst = Sprite::create("/image/levelscene/jetbraintheme/far.png");
-	backgroundFirst->setPosition(Vec2::ZERO);
-	backgroundFirst->setAnchorPoint(Vec2::ZERO);
-	this->addChild(backgroundFirst);
+	background1_1 = Sprite::create(theme->levelSceneDistantView);
+	background1_1->setPosition(Vec2::ZERO);
+	background1_1->setAnchorPoint(Vec2::ZERO);
+	this->addChild(background1_1);
 
-	backgroundSecond = Sprite::create("/image/levelscene/jetbraintheme/far.png");
-	backgroundSecond->setPosition(Vec2::ZERO);
-	backgroundSecond->setAnchorPoint(Vec2(1, 0));
-	this->addChild(backgroundSecond);
+	background1_2 = Sprite::create(theme->levelSceneDistantView);
+	background1_2->setPosition(Vec2::ZERO);
+	background1_2->setAnchorPoint(Vec2(1, 0));
+	this->addChild(background1_2);
 
 	// 第二张背景图 —— 前景的星星
-	foregroundFirst = Sprite::create("/image/levelscene/jetbraintheme/front.png");
-	foregroundFirst->setPosition(Vec2::ZERO);
-	foregroundFirst->setAnchorPoint(Vec2::ZERO);
-	this->addChild(foregroundFirst);
+	background2_1 = Sprite::create(theme->levelSceneForeground);
+	background2_1->setPosition(Vec2::ZERO);
+	background2_1->setAnchorPoint(Vec2::ZERO);
+	this->addChild(background2_1);
 
-	foregroundSecond = Sprite::create("/image/levelscene/jetbraintheme/front.png");
-	foregroundSecond->setPosition(Vec2::ZERO);
-	foregroundSecond->setAnchorPoint(Vec2(1, 0));
-	this->addChild(foregroundSecond);
+	background2_2 = Sprite::create(theme->levelSceneForeground);
+	background2_2->setPosition(Vec2::ZERO);
+	background2_2->setAnchorPoint(Vec2(1, 0));
+	this->addChild(background2_2);
 
 	scheduleUpdate();
 
@@ -113,9 +113,8 @@ void LevelScene::initUsername()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	auto levelButton = ui::Button::create("/image/levelscene/jetbraintheme/game_normal.png",
-	                                      "/image/levelscene/jetbraintheme/game_selected.png",
-	                                      "/image/levelscene/jetbraintheme/game_disabled.png");
+	auto levelButton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
+	                                      theme->levelSceneGameButtonDisabled);
 
 	switch (level)
 	{
@@ -163,23 +162,23 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 	levelButton->runAction(sequence);
 }
 
-void LevelScene::update(float delta)
+void LevelScene::update(float dt)
 {
-	backgroundFirst->setPositionX(backgroundFirst->getPositionX() + 1);
-	backgroundSecond->setPositionX(backgroundSecond->getPositionX() + 1);
+	background1_1->setPositionX(background1_1->getPositionX() + 1);
+	background1_2->setPositionX(background1_2->getPositionX() + 1);
 
-	foregroundFirst->setPositionX(backgroundFirst->getPositionX() + 1);
-	foregroundSecond->setPositionX(backgroundSecond->getPositionX() + 1);
+	background2_1->setPositionX(background1_1->getPositionX() + 1);
+	background2_2->setPositionX(background1_2->getPositionX() + 1);
 
-	if (backgroundFirst->getPositionX() >= SCREEN_WIDTH)
+	if (background1_1->getPositionX() >= SCREEN_WIDTH)
 	{
-		backgroundFirst->setPositionX(0);
-		backgroundSecond->setPositionX(0);
+		background1_1->setPositionX(0);
+		background1_2->setPositionX(0);
 	}
 
-	if (foregroundFirst->getPositionX() >= SCREEN_WIDTH)
+	if (background2_1->getPositionX() >= SCREEN_WIDTH)
 	{
-		foregroundFirst->setPositionX(0);
-		foregroundSecond->setPositionX(0);
+		background2_1->setPositionX(0);
+		background2_2->setPositionX(0);
 	}
 }

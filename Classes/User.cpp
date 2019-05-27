@@ -14,12 +14,6 @@ bool User::setUserName(const string& name)
 	return update();
 }
 
-bool User::setCurrentTheme(const string& themeName)
-{
-	// TODO 设置主题
-	return update();
-}
-
 bool User::setCoin(const int coin)
 {
 	if (coin >= 0)
@@ -55,11 +49,12 @@ bool User::setUnlockedLevel(const int level)
 	return false;
 }
 
+// TODO 修改时调用
 bool User::update() const
 {
 	ValueMap map;
 	map["UserName"] = userName;
-	map["CurrentTheme"] = currentTheme->themeName;
+	map["CurrentTheme"] = Theme::getInstance()->getCurrentThemeName();
 	map["CurrentVolume"] = Music::getInstance()->getVolume();
 	map["CurrentSoundStatus"] = Sound::getInstance()->getStatus();
 
@@ -77,8 +72,15 @@ bool User::update() const
 User::User()
 {
 	auto map = FileUtils::getInstance()->getValueMapFromFile(filename);
+	if (map.empty())
+	{
+		unlockedThemes.emplace_back(Theme::getInstance()->jetBrainThemeName);
+		update();
+		return;
+	}
+
 	if (map.count("UserName")) setUserName(map["UserName"].asString());
-	if (map.count("CurrentTheme")) setCurrentTheme(map["CurrentTheme"].asString());
+	if (map.count("CurrentTheme")) Theme::getInstance()->setCurrentTheme(map["CurrentTheme"].asString());
 	if (map.count("CurrentVolume")) Music::getInstance()->setVolume(map["CurrentVolume"].asInt());
 	if (map.count("CurrentSoundStatus")) Sound::getInstance()->setStatus(map["CurrentSoundStatus"].asBool());
 	if (map.count("Key") && getKey(map) == map["Key"].asInt())
@@ -88,7 +90,7 @@ User::User()
 			for (const auto& it : map["UnlockedThemes"].asValueVector()) unlockedThemes.emplace_back(it.asString());
 		if (map.count("UnlockedLevel")) unlockedLevel = map["UnlockedLevel"].asInt();
 	}
-	else unlockedThemes.emplace_back("1aaaa11jet23333333333"); //TODO name
+	else unlockedThemes.emplace_back(Theme::getInstance()->jetBrainThemeName);
 }
 
 string User::getHardwareId()

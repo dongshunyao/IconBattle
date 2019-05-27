@@ -9,6 +9,7 @@
 #include "NewsBoard.h"
 #include "BackButton.h"
 #include "SettingButton.h"
+#include "Theme.h"
 #include "User.h"
 
 #define SCREEN_WIDTH 1200
@@ -26,11 +27,11 @@ public:
 	CREATE_FUNC(MenuScene)
 
 private:
+	Theme* theme = Theme::getInstance();
 	void initUsername();
 	void initStoreButton();
 	void initRankButton();
 	void initGameButton();
-
 };
 
 #endif

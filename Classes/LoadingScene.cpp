@@ -18,13 +18,16 @@ bool LoadingScene::init()
 {
 	if (!Scene::init()) return false;
 
+	// 初始化用户信息
+	User::getInstance();
+
 	// 添加背景图片
-	auto sprite = Sprite::create("/image/loadingscene/jetbraintheme/scene.png");
+	auto sprite = Sprite::create(theme->loadingSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite, -1);
 
 	// 添加游戏名称
-	label = Sprite::create("/image/loadingscene/jetbraintheme/label_title.png");
+	label = Sprite::create(theme->loadingSceneLabelTitle);
 	label->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(label, 0);
 
@@ -46,16 +49,11 @@ void LoadingScene::loading()
 
 	// 初始化背景音乐
 	vector<string> musicPath;
-	// TODO 设置默认音乐文件位置
-	musicPath.emplace_back("/music/background.mp3");
-	musicPath.emplace_back("/music/background.mp3");
+	musicPath.emplace_back(theme->backgroundMusic);
 	Music::getInstance()->loading(musicPath);
 
 	// 初始化音效
 	Sound::getInstance();
-
-	// 初始化用户信息
-	User::getInstance();
 
 	loadingFlag = true;
 }
@@ -65,15 +63,14 @@ void LoadingScene::startGame(float)
 	if (!loadingFlag) return;
 	else unschedule(schedule_selector(LoadingScene::startGame));
 
-	// TODO 设置默认音乐文件位置
-	Music::getInstance()->play("/music/background.mp3");
+	Music::getInstance()->play(theme->backgroundMusic);
 
 	// 将游戏名称向上移动
 	const auto moveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50));
 	label->runAction(moveTo);
 
 	// 按任意键开始游戏
-	auto ready = Sprite::create("/image/loadingscene/jetbraintheme/label_press.png");
+	auto ready = Sprite::create(theme->loadingSceneLabelPress);
 	ready->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50));
 	ready->setOpacity(0); //设置透明度为0
 	this->addChild(ready);
@@ -96,8 +93,7 @@ void LoadingScene::jetIcon()
 	// 循环初始化Icon精灵和动作
 	for (auto i = 0; i < 10; i++)
 	{
-		const auto icon = Sprite::create(
-			"/image/loadingscene/jetbraintheme/iconset/large/" + std::to_string(i) + ".png");
+		const auto icon = Sprite::create(theme->iconSet + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height);
 		icon->setScale(1);
 		this->addChild(icon, -1, i); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。

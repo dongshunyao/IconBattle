@@ -10,7 +10,7 @@ bool MenuScene::init()
 	if (!Scene::init()) return false;
 
 	// 添加背景图片
-	auto sprite = Sprite::create("/image/menuscene/jetbraintheme/background.jpg");
+	auto sprite = Sprite::create(theme->menuSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(sprite);
 
@@ -61,9 +61,9 @@ void MenuScene::initUsername()
 
 void MenuScene::initStoreButton()
 {
-	auto storeButton = ui::Button::create("/image/menuscene/jetbraintheme/store_normal.png",
-	                                      "/image/menuscene/jetbraintheme/store_selected.png",
-	                                      "/image/menuscene/jetbraintheme/store_disabled.png");
+	auto storeButton = ui::Button::create(theme->menuSceneStoreButtonNormal,
+	                                      theme->menuSceneStoreButtonSelected,
+	                                      theme->menuSceneStoreButtonDisabled);
 	storeButton->setTitleText("STORE");
 	storeButton->setTitleFontName("/font/marker_felt.ttf");
 	storeButton->setTitleFontSize(25);
@@ -78,9 +78,9 @@ void MenuScene::initStoreButton()
 
 void MenuScene::initRankButton()
 {
-	auto rankButton = ui::Button::create("/image/menuscene/jetbraintheme/rank_normal.png",
-	                                     "/image/menuscene/jetbraintheme/rank_selected.png",
-	                                     "/image/menuscene/jetbraintheme/rank_disabled.png");
+	auto rankButton = ui::Button::create(theme->menuSceneRankButtonNormal,
+	                                     theme->menuSceneRankButtonSelected,
+	                                     theme->menuSceneRankButtonDisabled);
 	rankButton->setTitleText("RANK");
 	rankButton->setTitleFontName("/font/marker_felt.ttf");
 	rankButton->setTitleFontSize(25);
@@ -95,9 +95,9 @@ void MenuScene::initRankButton()
 void MenuScene::initGameButton()
 {
 	// 选关按钮1
-	auto gameButton1 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton1 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton1->setTitleText("Practice-1");
 	gameButton1->setTitleFontName("/font/marker_felt.ttf");
 	gameButton1->setTitleFontSize(35);
@@ -112,9 +112,9 @@ void MenuScene::initGameButton()
 	this->addChild(gameButton1);
 
 	// 选关按钮2
-	auto gameButton2 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton2 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton2->setTitleText("Level-1");
 	gameButton2->setTitleFontName("/font/marker_felt.ttf");
 	gameButton2->setTitleFontSize(35);
@@ -128,9 +128,9 @@ void MenuScene::initGameButton()
 	this->addChild(gameButton2);
 
 	// 选关按钮3
-	auto gameButton3 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton3 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton3->setTitleText("Infinity-1");
 	gameButton3->setTitleFontName("/font/marker_felt.ttf");
 	gameButton3->setTitleFontSize(35);
@@ -143,9 +143,9 @@ void MenuScene::initGameButton()
 	this->addChild(gameButton3);
 
 	// 选关按钮4
-	auto gameButton4 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton4 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton4->setTitleText("Practice-2");
 	gameButton4->setTitleFontName("/font/marker_felt.ttf");
 	gameButton4->setTitleFontSize(35);
@@ -158,9 +158,9 @@ void MenuScene::initGameButton()
 	this->addChild(gameButton4);
 
 	// 选关按钮5
-	auto gameButton5 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton5 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton5->setTitleText("Level-2");
 	gameButton5->setTitleFontName("/font/marker_felt.ttf");
 	gameButton5->setTitleFontSize(35);
@@ -173,9 +173,9 @@ void MenuScene::initGameButton()
 	this->addChild(gameButton5);
 
 	// 选关按钮6
-	auto gameButton6 = ui::Button::create("/image/menuscene/jetbraintheme/game_normal.png",
-	                                      "/image/menuscene/jetbraintheme/game_selected.png",
-	                                      "/image/menuscene/jetbraintheme/game_disabled.png");
+	auto gameButton6 = ui::Button::create(theme->menuSceneGameButtonNormal,
+	                                      theme->menuSceneGameButtonSelected,
+	                                      theme->menuSceneGameButtonDisabled);
 	gameButton6->setTitleText("Infinity-1");
 	gameButton6->setTitleFontName("/font/marker_felt.ttf");
 	gameButton6->setTitleFontSize(35);

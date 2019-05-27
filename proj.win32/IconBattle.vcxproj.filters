@@ -55,6 +55,9 @@
     <Filter Include="src\common\theme">
       <UniqueIdentifier>{a2f9f3aa-0e5e-4de7-b16a-cc6cbadedcc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\common\network">
+      <UniqueIdentifier>{2093bffc-0b0c-41b9-88b4-e43a3ef53892}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,9 +99,6 @@
     <ClCompile Include="..\Classes\User.cpp">
       <Filter>src\common\user</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Util.cpp">
-      <Filter>src\common\util</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\WebShare.cpp">
       <Filter>src\common\webshare</Filter>
     </ClCompile>
@@ -107,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Theme.cpp">
       <Filter>src\common\theme</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Network.cpp">
+      <Filter>src\common\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Util.cpp">
+      <Filter>src\common\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +155,6 @@
     <ClInclude Include="..\Classes\User.h">
       <Filter>src\common\user</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Util.h">
-      <Filter>src\common\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\WebShare.h">
       <Filter>src\common\webshare</Filter>
     </ClInclude>
@@ -160,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Theme.h">
       <Filter>src\common\theme</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Network.h">
+      <Filter>src\common\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Util.h">
+      <Filter>src\common\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

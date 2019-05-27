@@ -5,6 +5,7 @@
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "MenuScene.h"
+#include "Theme.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -22,16 +23,18 @@ public:
 private:
 	void initBackground();
 	void initUsername();
-	void initButtons(int x, int y, int level, float delayTime);
+	void initButtons(int x, int y, int type, float delayTime);
 	void update(float delta) override;
 
 
 	// 第一张背景图 （做滚动效果需要两张图来拼接） 
-	Sprite* backgroundFirst = nullptr;
-	Sprite* backgroundSecond = nullptr;
+	Sprite* background1_1 = nullptr;
+	Sprite* background1_2 = nullptr;
 	// 第二张背景图 
-	Sprite* foregroundFirst = nullptr;
-	Sprite* foregroundSecond = nullptr;
+	Sprite* background2_1 = nullptr;
+	Sprite* background2_2 = nullptr;
+
+	Theme* theme = Theme::getInstance();
 };
 
 #endif
