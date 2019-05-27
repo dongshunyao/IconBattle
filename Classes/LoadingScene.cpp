@@ -1,5 +1,4 @@
 #include "LoadingScene.h"
-#include "Network.h"
 
 Scene* LoadingScene::createScene()
 {
@@ -83,8 +82,6 @@ void LoadingScene::startGame(float)
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
-		Network::getInstance()->init();
-		Network::getInstance()->postScore("pjy", "9000", true);
 		Director::getInstance()->replaceScene(MenuScene::createScene());
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
