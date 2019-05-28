@@ -18,9 +18,6 @@ bool LoadingScene::init()
 {
 	if (!Scene::init()) return false;
 
-	// 初始化用户信息
-	User::getInstance();
-
 	// 添加背景图片
 	auto sprite = Sprite::create(theme->loadingSceneBackground);
 	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
@@ -45,7 +42,8 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// TODO 加载网络
+	// 加载网络
+	Network::getInstance();
 
 	// 初始化背景音乐
 	vector<string> musicPath;
