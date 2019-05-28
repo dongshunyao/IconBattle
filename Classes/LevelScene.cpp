@@ -21,14 +21,30 @@ bool LevelScene::init()
 
 	// 设置选关按钮的位置
 	int xPos[10], yPos[10];
-	for (int i = 0; i < 10; i++)
+	/*for (int i = 0; i < 10; i++)
 	{
+		// LUOYAO 模型
 		xPos[i] = i * 150 + 200;
 		if ((i % 4 == 0) || (i % 3 == 0))
 			yPos[i] = 350;
 		else
 			yPos[i] = 600;
-	}
+	
+	}*/
+
+#pragma region Level Button Location
+	xPos[0] = 200; yPos[0] = 600;
+	xPos[1] = 420; yPos[1] = 510;
+	xPos[2] = 640; yPos[2] = 640;
+	xPos[3] = 860; yPos[3] = 520;
+	xPos[4] = 1080; yPos[4] = 600;
+	xPos[5] = 1280; yPos[5] = 420;
+	xPos[6] = 1500; yPos[6] = 270;
+	xPos[7] = 1720; yPos[7] = 390;
+	xPos[8] = 1940; yPos[8] = 470;
+	xPos[9] = 2160; yPos[9] = 420;
+
+#pragma endregion 
 
 	// 初始化选关按钮
 	for (int i = 0; i < 10; i++)
@@ -44,7 +60,7 @@ bool LevelScene::init()
 	// 设置按钮
 	auto settingButton = SettingButton::create();
 	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton,4);
+	this->addChild(settingButton, 4);
 
 	// 返回按钮
 	this->addChild(BackButton::create(), 4);
@@ -129,48 +145,48 @@ void LevelScene::initScrollView()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	ui::Button *levelButton = nullptr;
+	ui::Button* levelButton = nullptr;
 	switch (level)
 	{
-	case 0: 	
-		 levelButton = ui::Button::create(theme->level1Normal, theme->level1Selected,
-			theme->level1Disabled);
+	case 0:
+		levelButton = ui::Button::create(theme->level1Normal, theme->level1Selected,
+		                                 theme->level1Disabled);
 		break;
-	case 1: 		
+	case 1:
 		levelButton = ui::Button::create(theme->level2Normal, theme->level2Selected,
-			theme->level2Disabled);
+		                                 theme->level2Disabled);
 		break;
 	case 2:
 		levelButton = ui::Button::create(theme->level3Normal, theme->level3Selected,
-			theme->level3Disabled);
+		                                 theme->level3Disabled);
 		break;
 	case 3:
 		levelButton = ui::Button::create(theme->level4Normal, theme->level4Selected,
-			theme->level4Disabled);
+		                                 theme->level4Disabled);
 		break;
 	case 4:
 		levelButton = ui::Button::create(theme->level5Normal, theme->level5Selected,
-			theme->level5Disabled);
+		                                 theme->level5Disabled);
 		break;
 	case 5:
 		levelButton = ui::Button::create(theme->level6Normal, theme->level6Selected,
-			theme->level6Disabled);
+		                                 theme->level6Disabled);
 		break;
 	case 6:
 		levelButton = ui::Button::create(theme->level7Normal, theme->level7Selected,
-			theme->level7Disabled);
+		                                 theme->level7Disabled);
 		break;
 	case 7:
 		levelButton = ui::Button::create(theme->level8Normal, theme->level8Selected,
-			theme->level8Disabled);
+		                                 theme->level8Disabled);
 		break;
 	case 8:
 		levelButton = ui::Button::create(theme->level9Normal, theme->level9Selected,
-			theme->level9Disabled);
+		                                 theme->level9Disabled);
 		break;
 	case 9:
 		levelButton = ui::Button::create(theme->level10Normal, theme->level10Selected,
-			theme->level10Disabled);
+		                                 theme->level10Disabled);
 		break;
 	default: break;
 	}

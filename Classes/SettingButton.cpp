@@ -10,6 +10,7 @@ bool SettingButton::init()
 
 	this->addChild(settingButton);
 
+
 	// settingButton响应，弹出设置内容
 	settingButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -30,8 +31,9 @@ bool SettingButton::init()
 				music = Sprite::create(musicMenuItemNormal);
 				musicMenuItem = MenuItemSprite::create(music, music, music, [&](Ref* sender)
 				{
-					musicVolume++;
-					Music::getInstance()->setVolume(100 - 20 * (musicVolume % 6)); // 音量设置为0、20、40、60、80、100
+					const auto volume = Music::getInstance()->getVolume() % 100 - 20;
+					Music::getInstance()->setVolume(volume); // 音量设置为0、20、40、60、80、100
+					// TODO 音量图片及图标更新
 				});
 				musicMenuItem->setPosition(
 					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
@@ -39,46 +41,35 @@ bool SettingButton::init()
 				sound = Sprite::create(soundMenuItemNormal);
 				soundMenuItem = MenuItemSprite::create(sound, sound, sound, [&](Ref* sender)
 				{
-					if (!soundPlay)
-					{
-						Sound::getInstance()->stop();
-						soundPlay = true;
-					}
-					else
-					{
-						Sound::getInstance()->play("/sound/clear.mp3");
-						soundPlay = false;
-					}
+					Sound::getInstance()->setStatus(!Sound::getInstance()->getStatus());
 				});
 				soundMenuItem->setPosition(
 					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
-
 
 #pragma region Appear Action
 				// common action
 				const auto delay = DelayTime::create(0.25);
 				const auto fadeIn = FadeIn::create(0.25);
 
-				//course action
+				// course action
 				const auto courseMoveBy = MoveBy::create(0.25, Vec2(-75, 0));
 				const auto courseSpawn = Spawn::create(fadeIn, delay, courseMoveBy, delay, nullptr);
 
-				//music action
+				// music action
 				const auto musicMoveBy = MoveBy::create(0.25, Vec2(-135, 0));
 				const auto musicSpawn = Spawn::create(fadeIn, delay, musicMoveBy, delay, nullptr);
 
-				//sound action
+				// sound action
 				const auto soundMoveBy = MoveBy::create(0.25, Vec2(-195, 0));
 				const auto soundSpawn = Spawn::create(fadeIn, delay, soundMoveBy, delay, nullptr);
+
+				menu = Menu::create(courseMenuItem, musicMenuItem, soundMenuItem, nullptr);
+				menu->setPosition(Point(0, 0));
+				Director::getInstance()->getRunningScene()->addChild(menu, 4);
 
 				courseMenuItem->runAction(courseSpawn);
 				musicMenuItem->runAction(musicSpawn);
 				soundMenuItem->runAction(soundSpawn);
-
-				menu = Menu::create(courseMenuItem, musicMenuItem, soundMenuItem, nullptr);
-				Director::getInstance()->getRunningScene()->addChild(menu, 4);
-				menu->setPosition(Point(0, 0));
-
 
 #pragma endregion
 				popItem = true;
@@ -102,14 +93,24 @@ bool SettingButton::init()
 				const auto soundMoveBy = MoveBy::create(0.25, Vec2(195, 0));
 				const auto soundSpawn = Spawn::create(fadeOut, delay, soundMoveBy, delay, nullptr);
 
-				courseMenuItem->runAction(courseSpawn);
-				musicMenuItem->runAction(musicSpawn);
-				soundMenuItem->runAction(soundSpawn);
+				courseMenuItem->runAction(Sequence::create(courseSpawn, CallFunc::create([&]()
+				{
+					Director::getInstance()
+						->getRunningScene()->removeChild(menu);
+				}), nullptr));
+				musicMenuItem->runAction(Sequence::create(musicSpawn, CallFunc::create([&]()
+				{
+					Director::getInstance()
+						->getRunningScene()->removeChild(menu);
+				}), nullptr));
+				soundMenuItem->runAction(Sequence::create(soundSpawn, CallFunc::create([&]()
+				{
+					Director::getInstance()
+						->getRunningScene()->removeChild(menu);
+				}), nullptr));
 
 #pragma endregion
 				popItem = false;
-
-				Director::getInstance()->getRunningScene()->removeChild(menu);
 			}
 		}
 	});

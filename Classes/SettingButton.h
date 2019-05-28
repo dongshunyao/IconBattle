@@ -16,7 +16,6 @@ class SettingButton final
 	: public Node
 {
 public:
-public:
 	bool init() override;
 	CREATE_FUNC(SettingButton)
 
@@ -33,8 +32,6 @@ private:
 #pragma endregion
 
 	bool popItem = false; // false弹出设置选项，反之收回
-	bool soundPlay = false; // false关闭音效，反之打开
-	int musicVolume = 0; // 音量
 	ui::Button* settingButton = nullptr;
 	Sprite* course = nullptr; // 教程
 	Sprite* music = nullptr; // 音乐
