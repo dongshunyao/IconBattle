@@ -20,7 +20,9 @@ bool MenuScene::init()
 	initGameButton();
 
 	// 设置按钮
-	new SettingButton(this,5);
+	auto settingButton = SettingButton::create();
+	settingButton->setPosition(Point(1150, 850));
+	this->addChild(settingButton);
 
 	// 滚动公告
 	const auto news = NewsBoard::create();

@@ -14,7 +14,7 @@ bool LevelScene::init()
 
 	// 设置layer来存放各个按钮
 	layer = Layer::create();
-	layer->setContentSize(Size(SCREEN_WIDTH*2, SCREEN_HEIGHT));
+	layer->setContentSize(Size(SCREEN_WIDTH * 2, SCREEN_HEIGHT));
 
 	// 设置页面滚动
 	initScrollView();
@@ -26,7 +26,7 @@ bool LevelScene::init()
 		xPos[i] = i * 200 + 200;
 		if ((i % 4 == 0) || (i % 3 == 0))
 			yPos[i] = 350;
-		else 
+		else
 			yPos[i] = 600;
 	}
 
@@ -42,10 +42,12 @@ bool LevelScene::init()
 		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
-	new SettingButton(this,4);
+	auto settingButton = SettingButton::create();
+	settingButton->setPosition(Point(1050, 850));
+	this->addChild(settingButton,4);
 
 	// 返回按钮
-	this->addChild(BackButton::create(),4);
+	this->addChild(BackButton::create(), 4);
 
 	return true;
 }
@@ -111,8 +113,8 @@ void LevelScene::initScrollView()
 	// 暂时未实现
 	scrollView->addEventListener([&](Ref* pSender, ui::ScrollView::EventType eventType)
 	{
-
-		switch (eventType) {
+		switch (eventType)
+		{
 		case ui::ScrollView::EventType::SCROLLING:
 			break;
 		case ui::ScrollView::EventType::SCROLL_TO_BOTTOM:

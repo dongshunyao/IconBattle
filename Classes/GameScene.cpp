@@ -22,7 +22,9 @@ bool GameScene::init()
 	this->addChild(sprite);
 
 	// 设置按钮
-	new SettingButton(this,4);
+	auto settingButton = SettingButton::create();
+	settingButton->setPosition(Point(1050, 850));
+	this->addChild(settingButton);
 
 	// 返回按钮
 	this->addChild(BackButton::create());
