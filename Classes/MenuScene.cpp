@@ -22,12 +22,6 @@ bool MenuScene::init()
 	// 设置按钮
 	new SettingButton(this);
 
-	// 公告栏
-	auto board = Label::createWithTTF("NOTICE", "/font/marker_felt.ttf", 24);
-	board->setColor(Color3B(255, 255, 255));
-	board->setPosition(Point(80, 55));
-	this->addChild(board);
-
 	// 滚动公告
 	const auto news = NewsBoard::create();
 	this->addChild(news);
@@ -37,10 +31,22 @@ bool MenuScene::init()
 
 void MenuScene::initUsername()
 {
-	auto usernameLabel = Label::createWithTTF("USERNAME:", "/font/marker_felt.ttf", 24);
-	usernameLabel->setColor(Color3B(255, 255, 255));
-	usernameLabel->setPosition(Point(100, 850));
-	this->addChild(usernameLabel);
+	auto userIcon = Sprite::create(theme->menuSceneUserIcon);
+	userIcon->setPosition(Point(60, 850));
+	this->addChild(userIcon);
+
+	auto editIcon = ui::Button::create(theme->menuSceneEditIcon,
+									theme->menuSceneEditIcon,
+									theme->menuSceneEditIcon);
+	editIcon->setPosition(Point(300, 850));
+	editIcon->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			//TODO 修改用户名
+		}
+	});
+	this->addChild(editIcon);
 
 	auto usernameText = ui::TextField::create(User::getInstance()->getUserName(), "/font/marker_felt.ttf", 30);
 	usernameText->setPasswordEnabled(true);
@@ -51,7 +57,7 @@ void MenuScene::initUsername()
 	{
 		// TODO 修改用户名+加个图标
 	});
-	usernameText->setPosition(Point(250, 850));
+	usernameText->setPosition(Point(180, 850));
 	this->addChild(usernameText);
 }
 
@@ -60,9 +66,6 @@ void MenuScene::initStoreButton()
 	auto storeButton = ui::Button::create(theme->menuSceneStoreButtonNormal,
 	                                      theme->menuSceneStoreButtonSelected,
 	                                      theme->menuSceneStoreButtonDisabled);
-	storeButton->setTitleText("STORE");
-	storeButton->setTitleFontName("/font/marker_felt.ttf");
-	storeButton->setTitleFontSize(25);
 	storeButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// 进入商店界面
@@ -77,9 +80,6 @@ void MenuScene::initRankButton()
 	auto rankButton = ui::Button::create(theme->menuSceneRankButtonNormal,
 	                                     theme->menuSceneRankButtonSelected,
 	                                     theme->menuSceneRankButtonDisabled);
-	rankButton->setTitleText("RANK");
-	rankButton->setTitleFontName("/font/marker_felt.ttf");
-	rankButton->setTitleFontSize(25);
 	rankButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 排名相关

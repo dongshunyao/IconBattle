@@ -12,12 +12,9 @@ bool LevelScene::init()
 	// 背景设置
 	initBackground();
 
-	// 用户名设置
-	initUsername();
-
 	// 设置layer来存放各个按钮
 	layer = Layer::create();
-	layer->setContentSize(Size(SCREEN_WIDTH*1.5, SCREEN_HEIGHT));
+	layer->setContentSize(Size(SCREEN_WIDTH*2, SCREEN_HEIGHT));
 
 	// 设置页面滚动
 	initScrollView();
@@ -26,10 +23,10 @@ bool LevelScene::init()
 	int xPos[10], yPos[10];
 	for (int i = 0; i < 10; i++)
 	{
-		xPos[i] = i * 150 + 200;
-		if (i % 2 == 0)
-			yPos[i] = 300;
-		else
+		xPos[i] = i * 200 + 200;
+		if ((i % 4 == 0) || (i % 3 == 0))
+			yPos[i] = 350;
+		else 
 			yPos[i] = 600;
 	}
 
@@ -98,26 +95,6 @@ void LevelScene::initBackground()
 	// //parallaxNode->runAction((RepeatForever::create(dynamic_cast<ActionInterval*>(seq))));
 }
 
-void LevelScene::initUsername()
-{
-	auto usernameLabel = Label::createWithTTF("USERNAME:", "/font/marker_felt.ttf", 24);
-	usernameLabel->setColor(Color3B(255, 255, 255));
-	usernameLabel->setPosition(Point(100, 850));
-	this->addChild(usernameLabel);
-
-	// TODO 获取 设置用户名
-	auto usernameText = ui::TextField::create("TQTQL", "/font/marker_felt.ttf", 30);
-	usernameText->setPasswordEnabled(true);
-	usernameText->setColor(Color3B(255, 255, 255));
-	usernameText->setMaxLength(10);
-
-	usernameText->addClickEventListener([&](Ref* sender)
-	{
-		// TODO 修改用户名
-	});
-	usernameText->setPosition(Point(250, 850));
-	this->addChild(usernameText);
-}
 
 void LevelScene::initScrollView()
 {

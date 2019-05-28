@@ -23,7 +23,6 @@ public:
 
 private:
 	void initBackground();
-	void initUsername();
 	void initScrollView();
 	void initButtons(int x, int y, int level, float delayTime);
 	void update(float delta) override;

@@ -38,7 +38,8 @@ public:
 	const string menuSceneStoreButtonDisabled = "/image/menuscene/common/store_disabled.png";
 
 	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
-
+	const string menuSceneUserIcon = "/image/menuscene/common/user.png";
+	const string menuSceneEditIcon = "/image/menuscene/common/edit.png";
 #pragma endregion
 
 #pragma region Level Scene

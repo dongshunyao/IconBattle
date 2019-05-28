@@ -3,10 +3,10 @@
 bool NewsBoard::init()
 {
 	if (!Node::init()) return false;
-	setPosition(Point(100.f, 40.f));
+	setPosition(Point(80.f, 30.f));
 
 	auto newsIcon = Sprite::create(theme->menuSceneNewsBoardIcon);
-	newsIcon->setPosition(80, 40);
+	newsIcon->setPosition(30, 30);
 	this->addChild(newsIcon);
 
 	auto sharpNode = DrawNode::create();
