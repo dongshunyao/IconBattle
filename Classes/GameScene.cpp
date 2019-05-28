@@ -14,6 +14,14 @@ bool GameScene::init()
 		return false;
 	}
 
+	initComponents();
+
+	return true;
+}
+
+void GameScene::initComponents()
+{
+
 #pragma  region Init GameScene
 
 	// 添加背景图片
@@ -22,7 +30,7 @@ bool GameScene::init()
 	this->addChild(sprite);
 
 	// 设置按钮
-	new SettingButton(this,4);
+	new SettingButton(this, 4);
 
 	// 返回按钮
 	this->addChild(BackButton::create());
@@ -72,7 +80,7 @@ bool GameScene::init()
 
 	// 提示按钮
 	auto hintButton = ui::Button::create(theme->gameSceneHintButtonNormal, theme->gameSceneHintButtonSelected,
-	                                     theme->gameSceneHintButtonDisabled);
+		theme->gameSceneHintButtonDisabled);
 	hintButton->setPosition(Point(375, 540));
 	hintButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -91,5 +99,10 @@ bool GameScene::init()
 
 #pragma endregion
 
-	return true;
+#pragma  region addMouseListener
+	{
+		
+	}
+
+#pragma endregion 
 }
