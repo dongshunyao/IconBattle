@@ -20,7 +20,7 @@ bool MenuScene::init()
 	initGameButton();
 
 	// 设置按钮
-	new SettingButton(this);
+	new SettingButton(this,5);
 
 	// 滚动公告
 	const auto news = NewsBoard::create();

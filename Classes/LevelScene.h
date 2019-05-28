@@ -26,7 +26,6 @@ private:
 	void initScrollView();
 	void initButtons(int x, int y, int level, float delayTime);
 	void update(float delta) override;
-	void scrollViewMoveCallback(Ref *pSender, ui::ScrollView::EventType eventType);
 
 	// 用于存放按钮的layer
 	Layer* layer = nullptr;

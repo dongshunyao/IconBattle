@@ -42,10 +42,10 @@ bool LevelScene::init()
 		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
-	new SettingButton(this);
+	new SettingButton(this,4);
 
 	// 返回按钮
-	this->addChild(BackButton::create());
+	this->addChild(BackButton::create(),4);
 
 	return true;
 }
@@ -108,22 +108,21 @@ void LevelScene::initScrollView()
 	scrollView->addChild(layer);
 	addChild(scrollView, 3);
 
-	scrollView->addEventListener(CC_CALLBACK_2(LevelScene::scrollViewMoveCallback,this));
-}
+	// 暂时未实现
+	scrollView->addEventListener([&](Ref* pSender, ui::ScrollView::EventType eventType)
+	{
 
-// 暂时未实现
-void LevelScene::scrollViewMoveCallback(Ref* pSender, ui::ScrollView::EventType eventType)
-{
-	switch (eventType) {
-	case ui::ScrollView::EventType::SCROLLING:
-		break;
-	case ui::ScrollView::EventType::SCROLL_TO_BOTTOM:
-		break;
-	case ui::ScrollView::EventType::SCROLL_TO_TOP:
-		break;
-	default:
-		break;
-	}
+		switch (eventType) {
+		case ui::ScrollView::EventType::SCROLLING:
+			break;
+		case ui::ScrollView::EventType::SCROLL_TO_BOTTOM:
+			break;
+		case ui::ScrollView::EventType::SCROLL_TO_TOP:
+			break;
+		default:
+			break;
+		}
+	});
 }
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
