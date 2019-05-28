@@ -11,6 +11,7 @@ USING_NS_CC;
 using std::vector;
 using std::string;
 using std::to_string;
+using std::pair;
 
 class Network
 {
@@ -18,8 +19,8 @@ public:
 	static Network* getInstance();
 
 	string getNews();
-	string getScore(const string& user, bool mode);
-	bool postScore(const string& name, const string& score, bool mode);
+	vector<pair<string, int>> getRank(bool isClassical);
+	bool postScore(const string& name, const int score, bool isClassical);
 
 private:
 	WSADATA wsd;
@@ -31,8 +32,10 @@ private:
 	char receiveBuf[300];
 	char sendBuf[300];
 
+	vector<pair<string, int>> rankOriginal;
+
 	const string news = "GET_NEWS";
-	const string score = "GET_SCORE";
+	const string rank = "GET_RANK";
 	const string mode1 = "MODE1";
 	const string mode2 = "MODE2";
 	const string post = "POST";
@@ -40,7 +43,9 @@ private:
 	static Network* instance;
 
 	void closeConnect() const;
-	Network();
+	vector<pair<string, int>> handleRankVector(const string rank);
+	void initConnect();
+	Network() = default;
 };
 
 #endif

@@ -10,8 +10,7 @@ Network* Network::getInstance()
 
 string Network::getNews()
 {
-	memset(receiveBuf, 0, 300);
-	memset(sendBuf, 0, 300);
+	initConnect();
 
 	if (!connected) return "网络连接失败，请重试......";
 
@@ -34,31 +33,26 @@ string Network::getNews()
 	return data;
 }
 
-// 发送失败返回串-1
-string Network::getScore(const string& user, const bool mode)
-{
-	memset(receiveBuf, 0, 300);
-	memset(sendBuf, 0, 300);
 
-	if (!connected) return "-1";
+vector<pair<string, int>> Network::getRank(const bool isClassical)
+{
+	initConnect();
+
+	if (!connected) return rankOriginal;
 
 	// 根据模式拼接发送字符串
-	if (mode)
+	if (isClassical)
 	{
-		auto temp = score;
+		auto temp = rank;
 		temp += "\t";
 		temp += mode1;
-		temp += "\t";
-		temp += user;
 		strcpy(sendBuf, temp.data());
 	}
 	else
 	{
-		auto temp = score;
+		auto temp = rank;
 		temp += "\t";
 		temp += mode2;
-		temp += "\t";
-		temp += user;
 		strcpy(sendBuf, temp.data());
 	}
 
@@ -66,32 +60,31 @@ string Network::getScore(const string& user, const bool mode)
 	if (check < 0)
 	{
 		closeConnect();
-		return "-1";
+		return rankOriginal;
 	}
 
 	recv(sockClient, receiveBuf, 100, 0);
 	if (receiveBuf[0] == '\0')
 	{
 		closeConnect();
-		return "-1";
+		return rankOriginal;
 	}
 
-	string data = receiveBuf;
+	const string data = receiveBuf;
 	closeConnect();
 
-	return data;
+	return handleRankVector(data);
 }
 
-bool Network::postScore(const string& name, const string& score, const bool mode)
+bool Network::postScore(const string& name, const int score, const bool isClassical)
 {
-	memset(receiveBuf, 0, 300);
-	memset(sendBuf, 0, 300);
+	initConnect();
 
 	if (!connected) return false;
 
 	//得到哈希值并根据模式拼接发送字符串
 	auto hashStr = to_string(Util::getStringHash(name));
-	if (mode)
+	if (isClassical)
 	{
 		auto temp = post;
 		temp += "\t";
@@ -99,7 +92,7 @@ bool Network::postScore(const string& name, const string& score, const bool mode
 		temp += "\t";
 		temp += name;
 		temp += "\t";
-		temp += score;
+		temp += std::to_string(score);
 		temp += "\t";
 		temp += hashStr;
 		strcpy(sendBuf, temp.data());
@@ -112,7 +105,7 @@ bool Network::postScore(const string& name, const string& score, const bool mode
 		temp += "\t";
 		temp += name;
 		temp += "\t";
-		temp += score;
+		temp += std::to_string(score);
 		temp += "\t";
 		temp += hashStr;
 		strcpy(sendBuf, temp.data());
@@ -130,7 +123,7 @@ bool Network::postScore(const string& name, const string& score, const bool mode
 	return true;
 }
 
-Network::Network()
+void Network::initConnect()
 {
 	memset(receiveBuf, 0, 300);
 	memset(sendBuf, 0, 300);
@@ -152,8 +145,40 @@ Network::Network()
 	connected = true;
 }
 
+
 void Network::closeConnect() const
 {
 	closesocket(sockClient);
 	WSACleanup();
+}
+
+vector<pair<string, int>> Network::handleRankVector(const string rank)
+{
+	char buf[300];
+	strcpy(buf, rank.data());
+
+	vector<string> name;
+	vector<string> score;
+	vector<pair<string, int>> final;
+
+	auto count = 1;
+	auto* split = "\t";
+	auto str = strtok(buf, split);
+	while (str != nullptr)
+	{
+		if (count % 2 != 0)
+			name.emplace_back(str);
+		else
+			score.emplace_back(str);
+
+		str = strtok(nullptr, split);
+		count++;
+	}
+
+	for (auto i = 0; i < name.size(); i++)
+	{
+		final.emplace_back(pair<string, int>(name[i], atoi(score[i].c_str())));
+	}
+
+	return final;
 }
