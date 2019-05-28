@@ -20,7 +20,7 @@ bool MenuScene::init()
 	initGameButton();
 
 	// 设置按钮
-	new SettingButton(this);
+	new SettingButton(this,5);
 
 	// 公告栏
 	auto board = Label::createWithTTF("NOTICE", "/font/marker_felt.ttf", 24);

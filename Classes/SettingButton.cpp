@@ -1,8 +1,9 @@
 #include "SettingButton.h"
 
-SettingButton::SettingButton(cocos2d::Scene* scene)
+SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 {
 	currentScene = scene;
+	zOrder = order;
 	settingButton = ui::Button::create(settingButtonNormal, settingButtonSelected,
 
 	                                   settingButtonDisabled);
@@ -71,7 +72,7 @@ SettingButton::SettingButton(cocos2d::Scene* scene)
 				soundMenuItem->runAction(soundSpawn);
 
 				menu = Menu::create(courseMenuItem, musicMenuItem, soundMenuItem, nullptr);
-				currentScene->addChild(menu);
+				currentScene->addChild(menu,zOrder);
 				menu->setPosition(Point(0, 0));
 
 
@@ -110,5 +111,6 @@ SettingButton::SettingButton(cocos2d::Scene* scene)
 	});
 
 	settingButton->setPosition(Point(1050, 850));
-	currentScene->addChild(settingButton);
+	currentScene->addChild(settingButton,order);
 }
+

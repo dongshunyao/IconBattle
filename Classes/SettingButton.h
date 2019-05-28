@@ -14,7 +14,7 @@ USING_NS_CC;
 class SettingButton
 {
 public:
-	SettingButton(Scene* scene);
+	SettingButton(Scene* scene,int order);
 
 private:
 #pragma region Image URL
@@ -31,6 +31,7 @@ private:
 	bool popItem = false; //false弹出设置选项，反之收回
 	bool soundPlay = false; //false关闭音效，反之打开
 	int musicVolume = 0; //音量
+	int zOrder = 0;
 	ui::Button* settingButton;
 	Scene* currentScene;
 	Sprite* course; //教程
