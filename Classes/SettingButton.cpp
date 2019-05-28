@@ -1,13 +1,14 @@
 #include "SettingButton.h"
 
-SettingButton::SettingButton(cocos2d::Scene* scene,int order)
+bool SettingButton::init()
 {
-	currentScene = scene;
-	zOrder = order;
+	if (!Node::init()) return false;
+
 	settingButton = ui::Button::create(settingButtonNormal, settingButtonSelected,
 
 	                                   settingButtonDisabled);
 
+	this->addChild(settingButton);
 
 	// settingButton响应，弹出设置内容
 	settingButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
@@ -23,15 +24,17 @@ SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 				{
 					// TODO 教程
 				});
-				courseMenuItem->setPosition(1050, 850);
+				courseMenuItem->setPosition(
+					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
 
 				music = Sprite::create(musicMenuItemNormal);
 				musicMenuItem = MenuItemSprite::create(music, music, music, [&](Ref* sender)
 				{
 					musicVolume++;
-					Music::getInstance()->setVolume(100 - 20 * (musicVolume % 6)); //音量设置为0、20、40、60、80、100
+					Music::getInstance()->setVolume(100 - 20 * (musicVolume % 6)); // 音量设置为0、20、40、60、80、100
 				});
-				musicMenuItem->setPosition(1050, 850);
+				musicMenuItem->setPosition(
+					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
 
 				sound = Sprite::create(soundMenuItemNormal);
 				soundMenuItem = MenuItemSprite::create(sound, sound, sound, [&](Ref* sender)
@@ -47,7 +50,8 @@ SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 						soundPlay = false;
 					}
 				});
-				soundMenuItem->setPosition(1050, 850);
+				soundMenuItem->setPosition(
+					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
 
 
 #pragma region Appear Action
@@ -56,23 +60,23 @@ SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 				const auto fadeIn = FadeIn::create(0.25);
 
 				//course action
-				const auto courseMoveTo = MoveTo::create(0.25, Vec2(975, 850));
-				const auto courseSpawn = Spawn::create(fadeIn, delay, courseMoveTo, delay, nullptr);
+				const auto courseMoveBy = MoveBy::create(0.25, Vec2(-75, 0));
+				const auto courseSpawn = Spawn::create(fadeIn, delay, courseMoveBy, delay, nullptr);
 
 				//music action
-				const auto musicMoveTo = MoveTo::create(0.25, Vec2(915, 850));
-				const auto musicSpawn = Spawn::create(fadeIn, delay, musicMoveTo, delay, nullptr);
+				const auto musicMoveBy = MoveBy::create(0.25, Vec2(-135, 0));
+				const auto musicSpawn = Spawn::create(fadeIn, delay, musicMoveBy, delay, nullptr);
 
 				//sound action
-				const auto soundMoveTo = MoveTo::create(0.25, Vec2(855, 850));
-				const auto soundSpawn = Spawn::create(fadeIn, delay, soundMoveTo, delay, nullptr);
+				const auto soundMoveBy = MoveBy::create(0.25, Vec2(-195, 0));
+				const auto soundSpawn = Spawn::create(fadeIn, delay, soundMoveBy, delay, nullptr);
 
 				courseMenuItem->runAction(courseSpawn);
 				musicMenuItem->runAction(musicSpawn);
 				soundMenuItem->runAction(soundSpawn);
 
 				menu = Menu::create(courseMenuItem, musicMenuItem, soundMenuItem, nullptr);
-				currentScene->addChild(menu,zOrder);
+				Director::getInstance()->getRunningScene()->addChild(menu, 4);
 				menu->setPosition(Point(0, 0));
 
 
@@ -87,16 +91,16 @@ SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 				const auto fadeOut = FadeOut::create(0.25);
 
 				//course action
-				const auto courseMoveTo = MoveTo::create(0.25, Vec2(1050, 850));
-				const auto courseSpawn = Spawn::create(fadeOut, delay, courseMoveTo, delay, nullptr);
+				const auto courseMoveBy = MoveBy::create(0.25, Vec2(75, 0));
+				const auto courseSpawn = Spawn::create(fadeOut, delay, courseMoveBy, delay, nullptr);
 
 				//music action
-				const auto musicMoveTo = MoveTo::create(0.25, Vec2(1050, 850));
-				const auto musicSpawn = Spawn::create(fadeOut, delay, musicMoveTo, delay, nullptr);
+				const auto musicMoveBy = MoveBy::create(0.25, Vec2(135, 0));
+				const auto musicSpawn = Spawn::create(fadeOut, delay, musicMoveBy, delay, nullptr);
 
 				//sound action
-				const auto soundMoveTo = MoveTo::create(0.25, Vec2(1050, 850));
-				const auto soundSpawn = Spawn::create(fadeOut, delay, soundMoveTo, delay, nullptr);
+				const auto soundMoveBy = MoveBy::create(0.25, Vec2(195, 0));
+				const auto soundSpawn = Spawn::create(fadeOut, delay, soundMoveBy, delay, nullptr);
 
 				courseMenuItem->runAction(courseSpawn);
 				musicMenuItem->runAction(musicSpawn);
@@ -105,12 +109,10 @@ SettingButton::SettingButton(cocos2d::Scene* scene,int order)
 #pragma endregion
 				popItem = false;
 
-				currentScene->removeChild(menu);
+				Director::getInstance()->getRunningScene()->removeChild(menu);
 			}
 		}
 	});
 
-	settingButton->setPosition(Point(1050, 850));
-	currentScene->addChild(settingButton,order);
+	return true;
 }
-

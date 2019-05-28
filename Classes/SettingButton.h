@@ -3,18 +3,22 @@
 
 
 #include "cocos2d.h"
-#include "ui/UIButton.h"
+#include "2d/CCClippingNode.h"
 #include "Music.h"
 #include "Sound.h"
+#include "ui/UIButton.h"
 
 
 using std::string;
 USING_NS_CC;
 
-class SettingButton
+class SettingButton final
+	: public Node
 {
 public:
-	SettingButton(Scene* scene,int order);
+public:
+	bool init() override;
+	CREATE_FUNC(SettingButton)
 
 private:
 #pragma region Image URL
@@ -28,19 +32,17 @@ private:
 
 #pragma endregion
 
-	bool popItem = false; //false弹出设置选项，反之收回
-	bool soundPlay = false; //false关闭音效，反之打开
-	int musicVolume = 0; //音量
-	int zOrder = 0;
-	ui::Button* settingButton;
-	Scene* currentScene;
-	Sprite* course; //教程
-	Sprite* music; //音乐
-	Sprite* sound; //音效
-	MenuItemSprite* courseMenuItem;
-	MenuItemSprite* musicMenuItem;
-	MenuItemSprite* soundMenuItem;
-	Menu* menu;
+	bool popItem = false; // false弹出设置选项，反之收回
+	bool soundPlay = false; // false关闭音效，反之打开
+	int musicVolume = 0; // 音量
+	ui::Button* settingButton = nullptr;
+	Sprite* course = nullptr; // 教程
+	Sprite* music = nullptr; // 音乐
+	Sprite* sound = nullptr; // 音效
+	MenuItemSprite* courseMenuItem = nullptr;
+	MenuItemSprite* musicMenuItem = nullptr;
+	MenuItemSprite* soundMenuItem = nullptr;
+	Menu* menu = nullptr;
 };
 
 #endif
