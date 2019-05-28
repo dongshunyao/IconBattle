@@ -43,6 +43,40 @@ public:
 #pragma endregion
 
 #pragma region Level Scene
+
+	string level1Disabled;
+	string level2Disabled;
+	string level3Disabled;
+	string level4Disabled;
+	string level5Disabled;
+	string level6Disabled;
+	string level7Disabled;
+	string level8Disabled;
+	string level9Disabled;
+	string level10Disabled;
+
+	string level1Selected;
+	string level2Selected;
+	string level3Selected;
+	string level4Selected;
+	string level5Selected;
+	string level6Selected;
+	string level7Selected;
+	string level8Selected;
+	string level9Selected;
+	string level10Selected;
+
+	string level1Normal;
+	string level2Normal;
+	string level3Normal;
+	string level4Normal;
+	string level5Normal;
+	string level6Normal;
+	string level7Normal;
+	string level8Normal;	
+	string level9Normal;	
+	string level10Normal;
+
 	// TODO 暂时不更换
 	const string levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
 	const string levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";

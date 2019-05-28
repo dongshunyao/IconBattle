@@ -23,7 +23,7 @@ bool LevelScene::init()
 	int xPos[10], yPos[10];
 	for (int i = 0; i < 10; i++)
 	{
-		xPos[i] = i * 200 + 200;
+		xPos[i] = i * 150 + 200;
 		if ((i % 4 == 0) || (i % 3 == 0))
 			yPos[i] = 350;
 		else 
@@ -127,37 +127,51 @@ void LevelScene::initScrollView()
 
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
-	auto levelButton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
-	                                      theme->levelSceneGameButtonDisabled);
-
+	ui::Button *levelButton = nullptr;
 	switch (level)
 	{
-	case 0: levelButton->setTitleText("Level 1");
+	case 0: 	
+		 levelButton = ui::Button::create(theme->level1Normal, theme->level1Selected,
+			theme->level1Disabled);
 		break;
-	case 1: levelButton->setTitleText("Level 2");
+	case 1: 		
+		levelButton = ui::Button::create(theme->level2Normal, theme->level2Selected,
+			theme->level2Disabled);
 		break;
-	case 2: levelButton->setTitleText("Level 3");
+	case 2:
+		levelButton = ui::Button::create(theme->level3Normal, theme->level3Selected,
+			theme->level3Disabled);
 		break;
-	case 3: levelButton->setTitleText("Level 4");
+	case 3:
+		levelButton = ui::Button::create(theme->level4Normal, theme->level4Selected,
+			theme->level4Disabled);
 		break;
-	case 4: levelButton->setTitleText("Level 5");
+	case 4:
+		levelButton = ui::Button::create(theme->level5Normal, theme->level5Selected,
+			theme->level5Disabled);
 		break;
-	case 5: levelButton->setTitleText("Level 6");
+	case 5:
+		levelButton = ui::Button::create(theme->level6Normal, theme->level6Selected,
+			theme->level6Disabled);
 		break;
-	case 6: levelButton->setTitleText("Level 7");
+	case 6:
+		levelButton = ui::Button::create(theme->level7Normal, theme->level7Selected,
+			theme->level7Disabled);
 		break;
-	case 7: levelButton->setTitleText("Level 8");
+	case 7:
+		levelButton = ui::Button::create(theme->level8Normal, theme->level8Selected,
+			theme->level8Disabled);
 		break;
-	case 8: levelButton->setTitleText("Level 9");
+	case 8:
+		levelButton = ui::Button::create(theme->level9Normal, theme->level9Selected,
+			theme->level9Disabled);
 		break;
-	case 9: levelButton->setTitleText("Level 10");
+	case 9:
+		levelButton = ui::Button::create(theme->level10Normal, theme->level10Selected,
+			theme->level10Disabled);
 		break;
 	default: break;
 	}
-
-	levelButton->setTitleFontName("/font/marker_felt.ttf");
-	levelButton->setTitleFontSize(30);
-	levelButton->setTitleColor(Color3B(0, 0, 0));
 	levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
