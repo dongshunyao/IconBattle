@@ -15,9 +15,16 @@ bool LevelScene::init()
 	// 用户名设置
 	initUsername();
 
+	// 设置layer来存放各个按钮
+	layer = Layer::create();
+	layer->setContentSize(Size(SCREEN_WIDTH*1.5, SCREEN_HEIGHT));
+
+	// 设置页面滚动
+	initScrollView();
+
 	// 设置选关按钮的位置
-	int xPos[6], yPos[6];
-	for (int i = 0; i < 6; i++)
+	int xPos[10], yPos[10];
+	for (int i = 0; i < 10; i++)
 	{
 		xPos[i] = i * 150 + 200;
 		if (i % 2 == 0)
@@ -27,13 +34,14 @@ bool LevelScene::init()
 	}
 
 	// 初始化选关按钮
-	for (int i = 0; i < 6; i++)
-		initButtons(xPos[i], yPos[i], i, i - 0.4);
+	for (int i = 0; i < 10; i++)
+		initButtons(xPos[i], yPos[i], i, i - 0.5);
+
 
 	// 画连接按钮的线
 	DrawNode* drawNode = DrawNode::create();
-	addChild(drawNode, 3);
-	for (int i = 0; i < 5; i++)
+	layer->addChild(drawNode, 3);
+	for (int i = 0; i < 9; i++)
 		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
 
 	// 设置按钮
@@ -111,6 +119,36 @@ void LevelScene::initUsername()
 	this->addChild(usernameText);
 }
 
+void LevelScene::initScrollView()
+{
+	auto scrollView = ui::ScrollView::create();
+	scrollView->setPosition(Point(0, 0));
+	scrollView->setDirection(ui::ScrollView::Direction::HORIZONTAL);
+	scrollView->setScrollBarEnabled(true);
+	scrollView->setBounceEnabled(true);
+	scrollView->setContentSize(Size(SCREEN_WIDTH, SCREEN_HEIGHT));
+	scrollView->setInnerContainerSize(layer->getContentSize());
+	scrollView->addChild(layer);
+	addChild(scrollView, 3);
+
+	scrollView->addEventListener(CC_CALLBACK_2(LevelScene::scrollViewMoveCallback,this));
+}
+
+// 暂时未实现
+void LevelScene::scrollViewMoveCallback(Ref* pSender, ui::ScrollView::EventType eventType)
+{
+	switch (eventType) {
+	case ui::ScrollView::EventType::SCROLLING:
+		break;
+	case ui::ScrollView::EventType::SCROLL_TO_BOTTOM:
+		break;
+	case ui::ScrollView::EventType::SCROLL_TO_TOP:
+		break;
+	default:
+		break;
+	}
+}
+
 void LevelScene::initButtons(int x, int y, int level, float delayTime)
 {
 	auto levelButton = ui::Button::create(theme->levelSceneGameButtonNormal, theme->levelSceneGameButtonSelected,
@@ -129,6 +167,14 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 	case 4: levelButton->setTitleText("Level 5");
 		break;
 	case 5: levelButton->setTitleText("Level 6");
+		break;
+	case 6: levelButton->setTitleText("Level 7");
+		break;
+	case 7: levelButton->setTitleText("Level 8");
+		break;
+	case 8: levelButton->setTitleText("Level 9");
+		break;
+	case 9: levelButton->setTitleText("Level 10");
 		break;
 	default: break;
 	}
@@ -149,11 +195,15 @@ void LevelScene::initButtons(int x, int y, int level, float delayTime)
 			case 3:
 			case 4:
 			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
 			default: break;
 			}
 		}
 	});
-	addChild(levelButton, 4);
+	layer->addChild(levelButton);
 	levelButton->setPosition(Point(x, y));
 	levelButton->setOpacity(0); //设置透明度为0
 	const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
