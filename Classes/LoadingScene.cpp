@@ -42,9 +42,6 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// 加载网络
-	Network::getInstance();
-
 	// 初始化背景音乐
 	vector<string> musicPath;
 	musicPath.emplace_back(theme->backgroundMusic);
