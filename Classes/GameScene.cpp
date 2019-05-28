@@ -118,7 +118,10 @@ void GameScene::initComponents()
 				// TODO: 选中标识动画
 				// 还未选中过方块
 				if (selectedBlockF.first == -1)
+				{
 					selectedBlockF = getIndex(Pii(cursorX, cursorY));
+				}
+					
 				//已经选中一个方块
 				else if(selectedBlockF.first != -1 && selectedBlockS.first == -1)
 				{
@@ -179,4 +182,13 @@ void GameScene::initComponents()
 	}
 
 #pragma endregion
+}
+
+Pii GameScene::getIndex(Pii pos)
+{
+	return { 0, 0 };
+}
+
+void GameScene::trySwap(Pii block1, Pii block2)
+{
 }

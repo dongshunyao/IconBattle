@@ -6,6 +6,7 @@
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "Theme.h"
+#include <algorithm>
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
