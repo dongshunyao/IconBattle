@@ -34,11 +34,21 @@ private:
 
 	static const int BOARD_SIZE = 8;
 
+	// 方块图片，后期移入Theme.h
+	const string BLOCK_N[6] = {
+		"/image/gamescene/jetbraintheme/iconset/large/1.png",
+		"/image/gamescene/jetbraintheme/iconset/large/2.png",
+		"/image/gamescene/jetbraintheme/iconset/large/3.png",
+		"/image/gamescene/jetbraintheme/iconset/large/4.png",
+		"/image/gamescene/jetbraintheme/iconset/large/5.png",
+		"/image/gamescene/jetbraintheme/iconset/large/6.png"
+	};
+
 	// 进行动画时锁定棋盘
 	bool boardLocked = true;
 	// 表示当前选中与否的两块
-	Pii selectedBlockF = { -1, -1 };
-	Pii selectedBlockS = { -1, -1 };
+	Pii selectedBlockF = {-1, -1};
+	Pii selectedBlockS = {-1, -1};
 
 	BlockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
 
@@ -50,7 +60,7 @@ private:
 	// 由位置得坐标
 	Pii getIndex(Pii pos);
 
-	Sprite* creatSprite(int picType, Pii pos);
+	Sprite* createSprite(int picType, Pii pos);
 
 	// 获取可消除方块列表
 	vector<pair<Pii, Pii>> getKillList();
@@ -64,12 +74,12 @@ private:
 	void refreshBoard();
 
 	// 方块交换动画
-	void blockSwap();
+	void blockSwap(Pii blocka, Pii blockb);
 	// 方块消除动画
-	void blockVanish();
+	void blockVanish(vector<pair<Pii, Pii>> killList);
 	// 消除后新产生方块下落动画
 	void newBlocksDrop();
-	
+
 	// 消除并下落动画回调函数：
 	// 检测若新棋盘无可消除则unlock，否则继续消除
 	void animationDoneCallback();

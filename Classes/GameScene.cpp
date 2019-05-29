@@ -16,6 +16,9 @@ bool GameScene::init()
 
 	initComponents();
 
+	initBoard();
+	newBlocksDrop();
+
 	return true;
 }
 
@@ -108,12 +111,13 @@ void GameScene::initComponents()
 		{
 			if (boardLocked)return;
 
-			const auto e = dynamic_cast<EventMouse*>(event);
+			auto e = (EventMouse*)(event);
 			// 只按下左键为有效操作
 			if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT)
 			{
 				auto cursorX = e->getCursorX();
 				auto cursorY = e->getCursorY();
+				log("click %f %f (%d,%d)", cursorX, cursorY, getIndex(Pii(cursorX, cursorY)));
 
 				// TODO: 选中标识动画
 				// 还未选中过方块
@@ -144,7 +148,7 @@ void GameScene::initComponents()
 						{
 							// 不相邻，现选择的方块变为第一块
 							if ((selectedBlockF.second - selectedBlockS.second != -1)
-								|| (selectedBlockF.second - selectedBlockS.second != 1))
+								&& (selectedBlockF.second - selectedBlockS.second != 1))
 							{
 								selectedBlockF = getIndex(Pii(cursorX, cursorY));
 								selectedBlockS = { -1,-1 };
@@ -168,7 +172,7 @@ void GameScene::initComponents()
 		// 鼠标弹起
 		mouseListener->onMouseUp = [&](Event* event)
 		{
-			const auto e = dynamic_cast<EventMouse*>(event);
+			auto e = (EventMouse*)(event);
 			// 只左键弹起有效
 			if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT)
 			{
@@ -179,16 +183,192 @@ void GameScene::initComponents()
 				}
 			}
 		};
+
+		getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, this);
 	}
 
 #pragma endregion
 }
 
+Pii GameScene::getPosition(Pii index)
+{
+	return Pii(550 + 64 * index.second, 230 + 64 * index.first);
+}
+
 Pii GameScene::getIndex(Pii pos)
 {
-	return { 0, 0 };
+	if (pos.first < 520 || pos.first > 520 + 512)return { -1,-1 };
+	if (pos.second < 210 || pos.second > 210 + 512)return { -1,-1 };
+	return Pii((pos.second - 200) / 64, (pos.first - 520) / 64);
+}
+
+Sprite* GameScene::createSprite(const int picType, Pii pos)
+{
+	auto block = Sprite::create(BLOCK_N[picType]);
+	block->setPosition(Point(pos.first, pos.second));
+	block->setScale(0.9f);
+	addChild(block);
+	return block;
+}
+
+vector<pair<Pii, Pii>> GameScene::getKillList()
+{
+	vector<pair<Pii, Pii>> rtn;
+	std::set<Pii> vis;
+
+	//TODO: check cross;
+	//TODO: check 6 link;
+	//TODO: check 5 link;
+	//TODO: check 4 link;
+
+	//check 3 link;
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int j = 0; j < BOARD_SIZE; j++) {
+			if ((i > 0 && i < BOARD_SIZE - 1)
+				&& (boardInfo[i - 1][j].first == boardInfo[i][j].first && boardInfo[i][j].first == boardInfo[i + 1][j].first)
+				&& (!vis.count({ i - 1,j }) && !vis.count({ i,j }) && !vis.count({ i + 1,j }))) {
+				rtn.push_back({ {i - 1,j},{-1,-1} }); vis.insert({ i - 1,j });
+				rtn.push_back({ {i ,j},{-1,-1} }); vis.insert({ i,j });
+				rtn.push_back({ {i + 1,j},{-1,-1} }); vis.insert({ i + 1,j });
+			}
+			if ((j > 0 && j < BOARD_SIZE - 1)
+				&& (boardInfo[i][j - 1].first == boardInfo[i][j].first && boardInfo[i][j].first == boardInfo[i][j + 1].first)
+				&& (!vis.count({ i,j - 1 }) && !vis.count({ i,j }) && !vis.count({ i,j + 1 }))) {
+				rtn.push_back({ {i,j - 1},{-1,-1} }); vis.insert({ i,j - 1 });
+				rtn.push_back({ {i ,j},{-1,-1} }); vis.insert({ i,j });
+				rtn.push_back({ {i,j + 1},{-1,-1} }); vis.insert({ i,j + 1 });
+			}
+		}
+	}
+
+	return rtn;
 }
 
 void GameScene::trySwap(Pii block1, Pii block2)
 {
+	selectedBlockF = { -1,-1 };
+	selectedBlockS = { -1,-1 };
+
+	boardLocked = true;
+	swap(boardInfo[block1.first][block1.second], boardInfo[block2.first][block2.second]);
+	auto tempList = getKillList();
+	swap(boardInfo[block1.first][block1.second], boardInfo[block2.first][block2.second]);
+
+	if (!tempList.empty()) {
+		blockSwap(block1, block2);
+	}
+}
+
+void GameScene::blockSwap(Pii blocka, Pii blockb)
+{
+	auto posa = getPosition(blocka);
+	auto posb = getPosition(blockb);
+	Vec2 veta = { static_cast<float>(posa.first),static_cast<float>(posa.second) };
+	Vec2 vetb = { static_cast<float>(posb.first),static_cast<float>(posb.second) };
+
+	boardInfo[blocka.first][blocka.second].second->runAction(Sequence::create(
+		CCMoveTo::create(0.25, vetb),
+		NULL
+	));
+
+	boardInfo[blockb.first][blockb.second].second->runAction(Sequence::create(
+		CCMoveTo::create(0.25, veta),
+		CCCallFunc::create([&]() {animationDoneCallback(); }),
+		NULL
+	));
+
+	swap(boardInfo[blocka.first][blocka.second], boardInfo[blockb.first][blockb.second]);
+}
+
+void GameScene::blockVanish(vector<pair<Pii, Pii>> killList)
+{
+	for (auto elm : killList) {
+		
+		Pii pos = elm.first;
+		Pii fil = elm.second;
+		Sprite* todel = boardInfo[pos.first][pos.second].second;
+		todel->runAction(Sequence::create(
+			CCScaleTo::create(.3f, .0f),
+			CCCallFunc::create([&, todel]() { removeChild(todel); }),
+			NULL
+		));
+
+		if (fil == Pii(-1, -1)) {
+			boardInfo[pos.first][pos.second] = { -1, nullptr };
+			auto ti = BOARD_SIZE;
+			while (boardInfo[ti][pos.second].first != -1) {
+				ti++;
+				assert(ti < 2 * BOARD_SIZE);
+			}
+			int typ = rand() % 6;
+			boardInfo[ti][pos.second] = { typ,createSprite(typ,getPosition({ti,pos.second })) };
+		}
+		else {
+			//TODO: fill
+		}
+	}
+	runAction(Sequence::createWithTwoActions(DelayTime::create(.3f), CCCallFunc::create([&]() {newBlocksDrop(); })));
+}
+
+void GameScene::initBoard()
+{
+	for (auto i = 0; i < 2 * BOARD_SIZE; i++) {
+		for (auto j = 0; j < BOARD_SIZE; j++) {
+			boardInfo[i][j] = { -1, nullptr };
+		}
+	}
+	refreshBoard();
+}
+
+void GameScene::refreshBoard()
+{
+	for (auto i = 0; i < 2 * BOARD_SIZE; i++) {
+		for (auto j = 0; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].first != -1) {
+				removeChild(boardInfo[i][j].second);
+				boardInfo[i][j].second->release();
+			}
+			boardInfo[i][j] = { -1, nullptr };
+		}
+	}
+	for (auto i = BOARD_SIZE; i < 2 * BOARD_SIZE; i++) {
+		for (auto j = 0; j < BOARD_SIZE; j++) {
+			const auto banx = ((i >= BOARD_SIZE + 2 && boardInfo[i - 1][j].first == boardInfo[i - 2][j].first) ? (boardInfo[i - 2][j].first) : (-1));
+			const auto bany = ((j >= 2 && boardInfo[i][j - 1].first == boardInfo[i][j - 2].first) ? (boardInfo[i][j - 2].first) : (-1));
+			auto typ = rand() % 6;
+			while (typ == banx || typ == bany)typ = rand() % 6;
+			boardInfo[i][j] = { typ,createSprite(typ,getPosition({i,j })) };
+		}
+	}
+}
+
+void GameScene::newBlocksDrop()
+{
+	for (auto i = 0; i < BOARD_SIZE; i++) {
+		for (auto j = 0; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].first == -1) {
+				auto tempi = i;
+				while (boardInfo[tempi][j].first == -1) {
+					tempi++;
+					assert(tempi < 2 * BOARD_SIZE);
+				}
+				auto ep = getPosition({ i,j });
+				//boardInfo[ti][j].second->runAction(EaseBounceOut::create(CCMoveTo::create(1, ccp(ep.first, ep.second))));
+				boardInfo[tempi][j].second->runAction(CCEaseOut::create(CCMoveTo::create(0.5, ccp(ep.first, ep.second)), 2.0f));
+				swap(boardInfo[i][j], boardInfo[tempi][j]);
+			}
+		}
+	}
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CCCallFunc::create([&]() {animationDoneCallback(); })));
+}
+
+void GameScene::animationDoneCallback()
+{
+	auto newList = getKillList();
+	if (newList.empty()) {
+		boardLocked = false;
+	}
+	else {
+		blockVanish(newList);
+	}
 }
