@@ -18,10 +18,12 @@ public:
 	void stop() const;
 	void play(const string& path);
 	void change(const string& path);
-	void setVolume(const int volume) const; // 范围0到100
-	int getVolume() const;
+	void setVolume(const int volume); // 范围0到100
+	int getVolume() const { return volume; }
 
 private:
+	int volume = 60;
+
 	static Music* instance;
 	int audioId = AudioEngine::INVALID_AUDIO_ID;
 

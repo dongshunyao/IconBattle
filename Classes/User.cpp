@@ -39,11 +39,21 @@ bool User::setUnlockedThemes(const vector<string>& v)
 	return update();
 }
 
-bool User::setUnlockedLevel(const int level)
+bool User::setUnlockedClassicalLevel(const int level)
 {
 	if (level >= 1 && level <= 10)
 	{
-		unlockedLevel = level;
+		unlockedClassicalLevel = level;
+		return update();
+	}
+	return false;
+}
+
+bool User::setUnlockedPlusLevel(const int level)
+{
+	if (level >= 1 && level <= 10)
+	{
+		unlockedPlusLevel = level;
 		return update();
 	}
 	return false;
@@ -63,7 +73,8 @@ bool User::update() const
 #endif
 	map["Coin"] = coin;
 	map["UnlockedThemes"] = unlockedThemes;
-	map["UnlockedLevel"] = unlockedLevel;
+	map["UnlockedClassicalLevel"] = unlockedClassicalLevel;
+	map["UnlockedPlusLevel"] = unlockedPlusLevel;
 	map["Key"] = getKey();
 
 	return FileUtils::getInstance()->writeToFile(map, filename);
@@ -79,6 +90,7 @@ User::User()
 		return;
 	}
 
+	newUser = false;
 	if (map.count("UserName")) setUserName(map["UserName"].asString());
 	if (map.count("CurrentTheme")) Theme::getInstance()->setCurrentTheme(map["CurrentTheme"].asString());
 	if (map.count("CurrentVolume")) Music::getInstance()->setVolume(map["CurrentVolume"].asInt());
@@ -88,7 +100,8 @@ User::User()
 		if (map.count("Coin")) coin = map["Coin"].asInt();
 		if (map.count("UnlockedThemes"))
 			for (const auto& it : map["UnlockedThemes"].asValueVector()) unlockedThemes.emplace_back(it.asString());
-		if (map.count("UnlockedLevel")) unlockedLevel = map["UnlockedLevel"].asInt();
+		if (map.count("UnlockedClassicalLevel")) unlockedClassicalLevel = map["UnlockedClassicalLevel"].asInt();
+		if (map.count("UnlockedPlusLevel")) unlockedPlusLevel = map["UnlockedPlusLevel"].asInt();
 	}
 	else unlockedThemes.emplace_back(Theme::getInstance()->jetBrainThemeName);
 }
@@ -118,7 +131,8 @@ int User::getKey() const
 #endif
 	v.emplace_back(to_string(coin));
 	for (const auto& it : unlockedThemes) v.emplace_back(it.asString());
-	v.emplace_back(to_string(unlockedLevel));
+	v.emplace_back(to_string(unlockedClassicalLevel));
+	v.emplace_back(to_string(unlockedPlusLevel));
 
 	return Util::getStringHash(v);
 }
@@ -133,7 +147,8 @@ int User::getKey(ValueMap& map) const
 	if (map.count("Coin")) v.emplace_back(to_string(map["Coin"].asInt()));
 	if (map.count("UnlockedThemes"))
 		for (const auto& it : map["UnlockedThemes"].asValueVector()) v.emplace_back(it.asString());
-	if (map.count("UnlockedLevel")) v.emplace_back(to_string(map["UnlockedLevel"].asInt()));
+	if (map.count("UnlockedClassicalLevel")) v.emplace_back(to_string(map["UnlockedClassicalLevel"].asInt()));
+	if (map.count("UnlockedPlusLevel")) v.emplace_back(to_string(map["UnlockedPlusLevel"].asInt()));
 
 	return Util::getStringHash(v);
 }

@@ -30,18 +30,25 @@ public:
 	vector<string> getUnlockedThemes() const;
 	bool setUnlockedThemes(const vector<string>& v);
 
-	int getUnlockedLevel() const { return unlockedLevel; }
-	bool setUnlockedLevel(const int level);
+	int getUnlockedClassicalLevel() const { return unlockedClassicalLevel; }
+	bool setUnlockedClassicalLevel(const int level);
+
+	int getUnlockedPlusLevel() const { return unlockedPlusLevel; }
+	bool setUnlockedPlusLevel(const int level);
+
+	bool isNewUser() const { return newUser; }
 
 	bool update() const;
 
 private:
+	bool newUser = true;
 
 	string userName = "Player3854";
 	string hardwareId = getHardwareId();
 	int coin = 0;
 	ValueVector unlockedThemes;
-	int unlockedLevel = 1;
+	int unlockedClassicalLevel = 1;
+	int unlockedPlusLevel = 1;
 
 	const string filename = FileUtils::getInstance()->getWritablePath() + "config.plist";
 	/**
@@ -54,7 +61,8 @@ private:
 	 * 硬件ID（计算机名，仅限Win32）HardwareID
 	 * 当前硬币数量 Coin
 	 * 主题购买情况 UnlockedThemes
-	 * 游戏进度 UnlockedLevel
+	 * 经典游戏进度 UnlockedClassicalLevel
+	 * 加强游戏进度 UnlockedPlusLevel
 	 */
 
 	static User* instance;

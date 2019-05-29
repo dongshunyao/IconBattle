@@ -20,22 +20,20 @@ void Music::stop() const
 
 void Music::play(const string& path)
 {
-	if (audioId == AudioEngine::INVALID_AUDIO_ID) audioId = AudioEngine::play2d(path, true, 0.5f);
+	if (audioId == AudioEngine::INVALID_AUDIO_ID)
+		audioId = AudioEngine::play2d(
+			path, true, static_cast<float>(volume) / 100);
 }
 
-void Music::setVolume(const int volume) const
+void Music::setVolume(const int volume)
 {
-	if (volume <= 100 && volume >= 0) AudioEngine::setVolume(audioId, static_cast<float>(volume) / 100);
-	else AudioEngine::setVolume(audioId, 0.5f);
-}
-
-int Music::getVolume() const
-{
-	return static_cast<int>(100 * AudioEngine::getVolume(audioId));
+	if (volume <= 100 && volume >= 0) this->volume = volume;
+	else this->volume = 60;
+	AudioEngine::setVolume(audioId, static_cast<float>(volume) / 100);
 }
 
 void Music::change(const string& path)
 {
 	AudioEngine::stop(audioId);
-	audioId = AudioEngine::play2d(path, true);
+	audioId = AudioEngine::play2d(path, true, static_cast<float>(volume) / 100);
 }
