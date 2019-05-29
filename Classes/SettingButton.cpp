@@ -4,26 +4,22 @@ bool SettingButton::init()
 {
 	if (!Node::init()) return false;
 
-	settingButton = ui::Button::create(settingButtonNormal, settingButtonSelected,
-
-	                                   settingButtonDisabled);
-
+	settingButton = ui::Button::create(settingButtonNormal, settingButtonSelected, settingButtonDisabled);
 	this->addChild(settingButton);
 
-
-	// settingButtonÏìÓ¦£¬µ¯³öÉèÖÃÄÚÈÝ
+	// settingButtonå“åº”ï¼Œå¼¹å‡ºè®¾ç½®å†…å®¹
 	settingButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
 			if (!popItem)
 			{
-				//TODO °´Å¥Í¼Æ¬¸ü»»
-				// Ìí¼Ó¾«Áé²Ëµ¥
+				//TODO æŒ‰é’®å›¾ç‰‡æ›´æ¢
+				// æ·»åŠ ç²¾çµèœå•
 				course = Sprite::create(courseMenuItemNormal);
 				courseMenuItem = MenuItemSprite::create(course, course, course, [&](Ref* sender)
 				{
-					// TODO ½Ì³Ì
+					// TODO æ•™ç¨‹
 				});
 				courseMenuItem->setPosition(
 					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
@@ -31,9 +27,9 @@ bool SettingButton::init()
 				music = Sprite::create(musicMenuItemNormal);
 				musicMenuItem = MenuItemSprite::create(music, music, music, [&](Ref* sender)
 				{
-					const auto volume = Music::getInstance()->getVolume() % 100 - 20;
-					Music::getInstance()->setVolume(volume); // ÒôÁ¿ÉèÖÃÎª0¡¢20¡¢40¡¢60¡¢80¡¢100
-					// TODO ÒôÁ¿Í¼Æ¬¼°Í¼±ê¸üÐÂ
+					const auto index = Music::getInstance()->getVolume() / 20;
+					Music::getInstance()->setVolume(20 * ((index + 1) % 6)); // éŸ³é‡è®¾ç½®ä¸º0ã€20ã€40ã€60ã€80ã€100
+					// TODO éŸ³é‡å›¾ç‰‡åŠå›¾æ ‡æ›´æ–°,å›¾ç‰‡ç¼–å·è¯·ç”¨ä¸Šæ–¹çš„indexï¼Œåˆå§‹åŒ–æŒ‰é’®æ—¶åŒç†
 				});
 				musicMenuItem->setPosition(
 					settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()));
@@ -93,20 +89,11 @@ bool SettingButton::init()
 				const auto soundMoveBy = MoveBy::create(0.25, Vec2(195, 0));
 				const auto soundSpawn = Spawn::create(fadeOut, delay, soundMoveBy, delay, nullptr);
 
-				courseMenuItem->runAction(Sequence::create(courseSpawn, CallFunc::create([&]()
-				{
-					Director::getInstance()
-						->getRunningScene()->removeChild(menu);
-				}), nullptr));
-				musicMenuItem->runAction(Sequence::create(musicSpawn, CallFunc::create([&]()
-				{
-					Director::getInstance()
-						->getRunningScene()->removeChild(menu);
-				}), nullptr));
+				courseMenuItem->runAction(courseSpawn);
+				musicMenuItem->runAction(musicSpawn);
 				soundMenuItem->runAction(Sequence::create(soundSpawn, CallFunc::create([&]()
 				{
-					Director::getInstance()
-						->getRunningScene()->removeChild(menu);
+					Director::getInstance()->getRunningScene()->removeChild(menu);
 				}), nullptr));
 
 #pragma endregion
