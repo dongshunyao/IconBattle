@@ -114,6 +114,9 @@
     <ClCompile Include="..\Classes\Util.cpp">
       <Filter>src\common\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\StructNames.cpp">
+      <Filter>src\scene\gamescene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Util.h">
       <Filter>src\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StructNames.h">
+      <Filter>src\scene\gamescene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

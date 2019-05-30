@@ -7,15 +7,17 @@
 #include "SettingButton.h"
 #include "Theme.h"
 #include <algorithm>
+#include  "StructNames.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
 using std::pair;
+using std::swap;
+using std::set;
+using namespace StructNames;
 USING_NS_CC;
 
-typedef pair<int, Sprite*> BlockInfo;
-typedef pair<int, int> Pii;
 
 class GameScene final :
 	public cocos2d::Scene
@@ -48,39 +50,30 @@ private:
 
 	static const int BOARD_SIZE = 8;
 
-	// 方块图片，后期移入Theme.h
-	const string BLOCK_N[6] = {
-		"/image/gamescene/jetbraintheme/iconset/large/1.png",
-		"/image/gamescene/jetbraintheme/iconset/large/2.png",
-		"/image/gamescene/jetbraintheme/iconset/large/3.png",
-		"/image/gamescene/jetbraintheme/iconset/large/4.png",
-		"/image/gamescene/jetbraintheme/iconset/large/5.png",
-		"/image/gamescene/jetbraintheme/iconset/large/6.png"
-	};
 
 	// 进行动画时锁定棋盘
 	bool boardLocked = true;
 	// 表示当前选中与否的两块
-	Pii selectedBlockF = {-1, -1};
-	Pii selectedBlockS = {-1, -1};
+	pii selectedBlockF = {-1, -1};
+	pii selectedBlockS = {-1, -1};
 
-	BlockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
+	blockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
 
 	// 建立布局，添加组件和鼠标监听器
 	void initComponents();
 
 	// 由坐标得位置
-	Pii getPosition(Pii index);
+	pii getPosition(pii index);
 	// 由位置得坐标
-	Pii getIndex(Pii pos);
+	pii getIndex(pii pos);
 
-	Sprite* createSprite(int picType, Pii pos);
+	Actor* createActor(int, int, pii);
 
 	// 获取可消除方块列表
-	vector<pair<Pii, Pii>> getKillList();
+	KillGroupList getKillList();
 
 	// 尝试两方快交换：若不可以交换则不做动画，反之进行
-	void trySwap(Pii block1, Pii block2);
+	void trySwap(pii block1, pii block2);
 
 	// 初始化棋盘，调用refreshBoard()
 	void initBoard();
@@ -88,9 +81,9 @@ private:
 	void refreshBoard();
 
 	// 方块交换动画
-	void blockSwap(Pii blocka, Pii blockb);
+	void blockSwap(pii blocka, pii blockb);
 	// 方块消除动画
-	void blockVanish(vector<pair<Pii, Pii>> killList);
+	void blockVanish(KillGroupList killList);
 	// 消除后新产生方块下落动画
 	void newBlocksDrop();
 

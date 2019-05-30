@@ -156,6 +156,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackButton.cpp" />
     <ClCompile Include="..\Classes\Network.cpp" />
+    <ClCompile Include="..\Classes\StructNames.cpp" />
     <ClCompile Include="..\Classes\Theme.cpp" />
     <ClCompile Include="..\Classes\WebShare.cpp" />
     <ClCompile Include="..\Classes\NewsBoard.cpp" />
@@ -176,6 +177,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackButton.h" />
     <ClInclude Include="..\Classes\Network.h" />
+    <ClInclude Include="..\Classes\StructNames.h" />
     <ClInclude Include="..\Classes\Theme.h" />
     <ClInclude Include="..\Classes\WebShare.h" />
     <ClInclude Include="..\Classes\NewsBoard.h" />
