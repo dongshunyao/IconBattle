@@ -22,6 +22,7 @@ bool GameScene::init()
 	return true;
 }
 
+
 void GameScene::initComponents()
 {
 #pragma  region Init GameScene
@@ -90,10 +91,10 @@ void GameScene::initComponents()
 			{
 				hint--;
 				hintNumber->setTexture(theme->gameSceneHintNumber + std::to_string(hint) + ".png");
-
 				// 接口测试
 				setTotalProgress(10);
 				setCurrentProgress(5);
+				judgeResult();
 			}
 		}
 	});
@@ -268,6 +269,10 @@ void GameScene::trySwap(Pii block1, Pii block2)
 	{
 		blockSwap(block1, block2);
 	}
+	else
+	{
+		animationDoneCallback();
+	}
 }
 
 void GameScene::blockSwap(Pii blocka, Pii blockb)
@@ -413,14 +418,46 @@ void GameScene::setTotalProgress(const int total)
 
 void GameScene::setCurrentProgress(int progress)
 {
+	const float previousPercentage = 100 * currentProgress / totalProgress;
 	if (progress < 0) { progress = 0; }
 	if (progress > totalProgress) { progress = totalProgress; }
 	currentProgress = progress;
 	scoreLabel->setString(std::to_string(currentProgress));
-	const auto processAction = ProgressFromTo::create(0.25, 0, currentProgress/totalProgress*100);
+	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentProgress / totalProgress);
 	progressTimer->runAction(processAction);
 }
 
 
 float GameScene::getCurrentProgress() const { return currentProgress; }
 float GameScene::getTotalProgress() const { return totalProgress; }
+
+void GameScene::judgeResult()
+{
+	// 两个精灵实现结果先后出现
+	firstSprite = Sprite::create(result
+		                             ? theme->gameSceneResultSprite + "2.png"
+		                             : theme->gameSceneResultSprite + +"0.png");
+	secondSprite = Sprite::create(result
+		                              ? theme->gameSceneResultSprite + +"3.png"
+		                              : theme->gameSceneResultSprite + +"1.png");
+	firstSprite->setPosition(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	secondSprite->setPosition(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	firstSprite->setOpacity(0);
+	secondSprite->setOpacity(0);
+	this->addChild(firstSprite, 10);
+	this->addChild(secondSprite, 10);
+
+	const auto delay = DelayTime::create(1.3);
+	const auto fadeIn = FadeIn::create(1.3);
+	const auto firstMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2,
+	                                                SCREEN_HEIGHT / 2 + 200));
+	const auto secondMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2,
+	                                                 SCREEN_HEIGHT / 2 + 200));
+	firstSprite->runAction(Sequence::create(fadeIn, delay, firstMoveTo, nullptr));
+	secondSprite->runAction(Sequence::create(delay, fadeIn, secondMoveTo, CallFunc::create([&]()
+	{
+		// Todo 排名相关
+		firstSprite->setVisible(false);
+		secondSprite->setVisible(false);
+	}), nullptr));
+}

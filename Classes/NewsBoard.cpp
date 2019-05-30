@@ -28,7 +28,7 @@ bool NewsBoard::init()
 
 void NewsBoard::initNews()
 {
-	news = Label::createWithSystemFont(Network::getInstance()->getNews(), "/font/marker_felt.ttf", 24);
+	news = Label::createWithTTF(Network::getInstance()->getNews(), theme->semiBoldFont, 26);
 	news->setColor(Color3B(255, 255, 255));
 	news->setAnchorPoint(Point::ZERO);
 	news->setPosition(Point(720, 10)); //设置公告文字内容的初始位置

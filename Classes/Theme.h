@@ -8,10 +8,18 @@ using std::string;
 class Theme
 {
 public:
+#pragma region Theme Name
 	const string jetBrainThemeName = "JetBrainTheme";
 	const string adobeThemeName = "AdobeTheme";
+#pragma endregion
 
+#pragma region Font TTF
+	const string semiBoldFont = "/font/semi_bold.ttf";
+#pragma endregion
+
+#pragma region Music
 	string backgroundMusic;
+#pragma endregion
 
 #pragma region Loading Sence
 	string iconSet;
@@ -44,7 +52,7 @@ public:
 
 #pragma region Level Scene
 	string levelSelectButton;
-	
+
 	// TODO 暂时不更换
 	const string levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
 	const string levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";
@@ -100,6 +108,7 @@ public:
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";
+	const string gameSceneResultSprite = "/image/gamescene/common/";
 
 #pragma endregion
 
