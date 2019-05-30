@@ -5,7 +5,7 @@ bool SettingButton::init()
 	if (!Node::init()) return false;
 
 	settingButton = ui::Button::create(settingButtonNormal, settingButtonSelected, settingButtonDisabled);
-	this->addChild(settingButton);
+	this->addChild(settingButton,5);
 
 	//TODO 按钮图片更换
 	// 添加精灵菜单

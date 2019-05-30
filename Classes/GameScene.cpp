@@ -90,8 +90,6 @@ void GameScene::initComponents()
 			{
 				hint--;
 				hintNumber->setTexture(theme->gameSceneHintNumber + std::to_string(hint) + ".png");
-
-				// 接口测试
 				setTotalProgress(10);
 				setCurrentProgress(5);
 			}
@@ -413,11 +411,12 @@ void GameScene::setTotalProgress(const int total)
 
 void GameScene::setCurrentProgress(int progress)
 {
+	const float previousPercentage = currentProgress * 100 / totalProgress;
 	if (progress < 0) { progress = 0; }
 	if (progress > totalProgress) { progress = totalProgress; }
 	currentProgress = progress;
 	scoreLabel->setString(std::to_string(currentProgress));
-	const auto processAction = ProgressFromTo::create(0.25, 0, currentProgress/totalProgress*100);
+	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, currentProgress * 100 / totalProgress);
 	progressTimer->runAction(processAction);
 }
 
