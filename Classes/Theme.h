@@ -72,6 +72,7 @@ public:
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";
+	const string gameSceneResultSprite = "/image/gamescene/common/";
 
 #pragma endregion
 
