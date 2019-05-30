@@ -90,6 +90,9 @@ private:
 	// 消除并下落动画回调函数：
 	// 检测若新棋盘无可消除则unlock，否则继续消除
 	void animationDoneCallback();
+
+	// 判断是否为死局
+	bool isDead();
 };
 
 #endif

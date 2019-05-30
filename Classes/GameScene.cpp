@@ -193,14 +193,14 @@ void GameScene::initComponents()
 
 pii GameScene::getPosition(pii index)
 {
-	return pii(550 + 64 * index.second, 230 + 64 * index.first);
+	return pii(550 + 75 * index.second, 200 + 75 * index.first);
 }
 
 pii GameScene::getIndex(pii pos)
 {
-	if (pos.first < 520 || pos.first > 520 + 512)return {-1, -1};
-	if (pos.second < 210 || pos.second > 210 + 512)return {-1, -1};
-	return pii((pos.second - 200) / 64, (pos.first - 520) / 64);
+	if (pos.first < 520 || pos.first > 520 + 600)return {-1, -1};
+	if (pos.second < 170 || pos.second > 170 + 600)return {-1, -1};
+	return pii((pos.second - 170) / 75, (pos.first - 520) / 75);
 }
 
 Actor* GameScene::createActor(int typ, int spv, pii pos)
@@ -407,6 +407,7 @@ void GameScene::trySwap(pii blocka, pii blockb)
 	CCLOG("[LOCK] Try Swap (%d,%d),(%d,%d)", blocka.first, blocka.second, blockb.first, blockb.second);
 	boardLocked = true;
 
+	// 如果交换的方块有特效方块
 	if (boardInfo[blocka.first][blocka.second].func == FUNC_SUPER && boardInfo[blockb.first][blockb.second].func ==
 		FUNC_SUPER)
 	{
@@ -487,6 +488,7 @@ void GameScene::blockSwap(pii blocka, pii blockb)
 	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
 }
 
+// TODO: 粒子特效已经注释掉，待添加
 void GameScene::blockVanish(KillGroupList killList)
 {
 	//移除过程中，检测到的被触发的特殊型宝石暂存于此
@@ -751,11 +753,21 @@ void GameScene::animationDoneCallback()
 	if (newList.empty())
 	{
 		boardLocked = false;
+		// 如果死局重新刷新面板
+		if (isDead())
+		{
+			refreshBoard();
+		}
 	}
 	else
 	{
 		blockVanish(newList);
 	}
+}
+
+bool GameScene::isDead()
+{
+	return false;
 }
 
 void GameScene::setTotalProgress(const int total)

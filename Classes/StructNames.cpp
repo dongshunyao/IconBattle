@@ -1,6 +1,7 @@
 #include "StructNames.h"
 using namespace StructNames;
 
+// 创建
 Actor* Actor::create(int type, int func, pii pos) {
 	Actor* actor = new (std::nothrow) Actor();
 	if (actor) {
@@ -36,11 +37,13 @@ Actor* Actor::create(int type, int func, pii pos) {
 	return nullptr;
 }
 
+// 本cpp文件中所有动画的实现调用方法
 void StructNames::Actor::allDo(Action* action) {
 	getGem()->runAction(action->clone());
 	if (getIcon())getIcon()->runAction(action->clone());
 }
 
+// 移动
 void StructNames::Actor::moveTo(pii pos) {
 	auto action = Sequence::create(
 		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
@@ -50,15 +53,7 @@ void StructNames::Actor::moveTo(pii pos) {
 	this->pos = pos;
 }
 
-void StructNames::Actor::moveToThenBack(pii posb) {
-	auto action = Sequence::create(
-		CCMoveTo::create(0.25, Vec2(posb.first, posb.second)),
-		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
-		NULL
-	);
-	allDo(action);
-}
-
+// 掉落动画
 void StructNames::Actor::dropTo(pii pos) {
 	auto action = Sequence::create(
 		CCEaseOut::create(CCMoveTo::create(0.5, ccp(pos.first, pos.second)), 2.0f),
@@ -68,6 +63,7 @@ void StructNames::Actor::dropTo(pii pos) {
 	this->pos = pos;
 }
 
+// 自己杀自己
 void StructNames::Actor::selfClose() {
 	auto action = Sequence::create(
 		CCScaleTo::create(.3f, .0f),

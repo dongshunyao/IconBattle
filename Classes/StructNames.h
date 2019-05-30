@@ -39,7 +39,7 @@ namespace StructNames
 		"spcecial_gem_lighting_ver_1.png",
 		"spcecial_gem_lighting_ver_3.png"
 	};
-
+	// 代表不同粒子特效的函数标号
 	const int FUNC_NO = -1;
 	const int FUNC_SUPER = 0;
 	const int FUNC_FIRE = 1;
@@ -53,6 +53,7 @@ namespace StructNames
 
 class StructNames::Actor : public Node
 {
+	// protected类型变量创建方式，ctrl点击见源码
 CC_SYNTHESIZE(int, type, Type);
 CC_SYNTHESIZE(int, func, Func);
 
@@ -64,7 +65,6 @@ public:
 	static Actor* create(int, int, pii);
 	void allDo(Action*);
 	void moveTo(pii);
-	void moveToThenBack(pii);
 	void dropTo(pii);
 	void selfClose();
 };
