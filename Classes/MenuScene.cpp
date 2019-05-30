@@ -37,30 +37,45 @@ void MenuScene::initUsername()
 	userIcon->setPosition(Point(60, 850));
 	this->addChild(userIcon);
 
+	auto userText = ui::TextField::create("", theme->semiBoldFont, 30);
+
 	auto editIcon = ui::Button::create(theme->menuSceneEditIcon,
-									theme->menuSceneEditIcon,
-									theme->menuSceneEditIcon);
-	editIcon->setPosition(Point(300, 850));
-	editIcon->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	                                   theme->menuSceneEditIcon,
+	                                   theme->menuSceneEditIcon);
+
+	// 动态确定用户名位置
+	userText->setString(User::getInstance()->getUserName());
+	userText->setMaxLengthEnabled(true);
+	userText->setMaxLength(7);
+	userText->setCursorEnabled(true);
+	userText->addEventListener([&, userText, editIcon](Ref* sender, ui::TextField::EventType type)
 	{
-		if (type == ui::Widget::TouchEventType::ENDED)
+		static string temp;
+
+		userText->setPosition(Point(userText->getContentSize().width / 2 + 100, 850));
+		editIcon->setPosition(Point(userText->getPosition().x + userText->getContentSize().width / 2 + 30, 850));
+
+		if (type == ui::TextField::EventType::ATTACH_WITH_IME)
 		{
-			//TODO 修改用户名
+			temp = userText->getString();
+			userText->setString("");
 		}
+
+		if (type == ui::TextField::EventType::DETACH_WITH_IME)
+		{
+			if (userText->getString().empty()) userText->setString(temp);
+			else User::getInstance()->setUserName(userText->getString());
+		}
+
+		userText->setPosition(Point(userText->getContentSize().width / 2 + 100, 850));
+		editIcon->setPosition(Point(userText->getPosition().x + userText->getContentSize().width / 2 + 30, 850));
 	});
+	userText->setPosition(Point(userText->getContentSize().width / 2 + 100, 850));
+	this->addChild(userText);
+
+	editIcon->setPosition(Point(userText->getPosition().x + userText->getContentSize().width / 2 + 30, 850));
+	editIcon->addClickEventListener([&, userText](Ref* sender) { userText->attachWithIME(); });
 	this->addChild(editIcon);
-
-	auto usernameText = ui::TextField::create(User::getInstance()->getUserName(), "/font/marker_felt.ttf", 30);
-	usernameText->setPasswordEnabled(true);
-	usernameText->setColor(Color3B(255, 255, 255));
-	usernameText->setMaxLength(10);
-
-	usernameText->addClickEventListener([&](Ref* sender)
-	{
-		// TODO 修改用户名+加个图标
-	});
-	usernameText->setPosition(Point(180, 850));
-	this->addChild(usernameText);
 }
 
 void MenuScene::initStoreButton()

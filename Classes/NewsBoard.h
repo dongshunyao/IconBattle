@@ -16,7 +16,6 @@ public:
 	CREATE_FUNC(NewsBoard)
 
 private:
-	void initNews();
 	void scrollText(float);
 
 	Label* news = nullptr;

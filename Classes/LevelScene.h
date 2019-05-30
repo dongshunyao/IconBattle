@@ -14,10 +14,10 @@
 USING_NS_CC;
 
 class LevelScene final :
-	public cocos2d::Scene
+	public Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static Scene* createScene();
 	bool init() override;
 	CREATE_FUNC(LevelScene)
 
@@ -25,7 +25,7 @@ private:
 	void initBackground();
 	void initScrollView();
 	void initButtons();
-	void update(float delta) override;
+	void update(float) override;
 
 	// 用于存放按钮的layer
 	Layer* layer = nullptr;
@@ -38,12 +38,21 @@ private:
 	Sprite* foregroundSecond = nullptr;
 
 	Theme* theme = Theme::getInstance();
-	DrawNode* drawNode=nullptr;
 
-	// 传入函数的参数
-	int xPos[12] = {0}, yPos[12] = {0};// 选关Button的位置数组
-	int i = 0;// 循环计数器
-	int count = 0;// 画边计数器
+	// 选关Button的位置数组
+	pair<int, int> pos[10] =
+	{
+		{200, 600},
+		{420, 510},
+		{640, 640},
+		{860, 520},
+		{1080, 600},
+		{1280, 420},
+		{1500, 270},
+		{1720, 390},
+		{1940, 470},
+		{2160, 420}
+	};
 };
 
 #endif

@@ -27,8 +27,6 @@ private:
 	SOCKET sockClient;
 	SOCKADDR_IN addressServer;
 
-	bool connected = false;
-
 	char receiveBuf[300];
 	char sendBuf[300];
 
@@ -44,7 +42,7 @@ private:
 
 	void closeConnect() const;
 	vector<pair<string, int>> handleRankVector(const string rank);
-	void initConnect();
+	bool initConnect();
 	Network() = default;
 };
 

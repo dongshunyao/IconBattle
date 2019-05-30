@@ -10,9 +10,7 @@ Network* Network::getInstance()
 
 string Network::getNews()
 {
-	initConnect();
-
-	if (!connected) return "网络连接失败，请重试......";
+	if (!initConnect()) return "网络连接失败，请重试......";
 
 	//根据需要拼接发送字符串
 	auto temp = news;
@@ -33,12 +31,9 @@ string Network::getNews()
 	return data;
 }
 
-
 vector<pair<string, int>> Network::getRank(const bool isClassical)
 {
-	initConnect();
-
-	if (!connected) return rankOriginal;
+	if (!initConnect()) return rankOriginal;
 
 	// 根据模式拼接发送字符串
 	if (isClassical)
@@ -78,9 +73,7 @@ vector<pair<string, int>> Network::getRank(const bool isClassical)
 
 bool Network::postScore(const string& name, const int score, const bool isClassical)
 {
-	initConnect();
-
-	if (!connected) return false;
+	if (!initConnect()) return false;
 
 	//得到哈希值并根据模式拼接发送字符串
 	auto hashStr = to_string(Util::getStringHash(name));
@@ -123,14 +116,14 @@ bool Network::postScore(const string& name, const int score, const bool isClassi
 	return true;
 }
 
-void Network::initConnect()
+bool Network::initConnect()
 {
 	memset(receiveBuf, 0, 300);
 	memset(sendBuf, 0, 300);
 
 	auto nNetTimeout = 2000;
 	//socket启动失败
-	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0) return;
+	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0) return false;
 
 	sockClient = socket(AF_INET, SOCK_STREAM, 0);
 	addressServer.sin_addr.S_un.S_addr = inet_addr("39.107.229.247"); //设置地址
@@ -141,10 +134,8 @@ void Network::initConnect()
 	setsockopt(sockClient, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&nNetTimeout), sizeof(int));
 	//连接服务器
 	const auto check = connect(sockClient, reinterpret_cast<SOCKADDR*>(&addressServer), sizeof(SOCKADDR));
-	if (check < 0) return;
-	connected = true;
+	return check >= 0;
 }
-
 
 void Network::closeConnect() const
 {
