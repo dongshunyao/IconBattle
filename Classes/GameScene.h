@@ -36,11 +36,15 @@ private:
 	int hint = 3;
 	int totalProgress = 0;
 	int currentProgress = 0;
+	bool result = false;
 	Theme* theme = Theme::getInstance();
 	Sprite* hintNumber = nullptr;
 	Sprite* progressBarScore = nullptr;
 	ProgressTimer* progressTimer = nullptr;
 	Label* scoreLabel = nullptr;
+	Sprite* firstSprite = nullptr;
+	Sprite* secondSprite = nullptr;
+	void judgeResult(); // 结果动画
 
 	static const int BOARD_SIZE = 8;
 
