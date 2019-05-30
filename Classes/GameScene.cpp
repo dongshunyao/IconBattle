@@ -266,6 +266,10 @@ void GameScene::trySwap(Pii block1, Pii block2)
 	{
 		blockSwap(block1, block2);
 	}
+	else
+	{
+		animationDoneCallback();
+	}
 }
 
 void GameScene::blockSwap(Pii blocka, Pii blockb)
