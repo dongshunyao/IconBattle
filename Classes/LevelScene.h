@@ -24,7 +24,7 @@ public:
 private:
 	void initBackground();
 	void initScrollView();
-	void initButtons(int x, int y, int level, float delayTime);
+	void initButtons();
 	void update(float delta) override;
 
 	// 用于存放按钮的layer
@@ -38,7 +38,12 @@ private:
 	Sprite* foregroundSecond = nullptr;
 
 	Theme* theme = Theme::getInstance();
+	DrawNode* drawNode=nullptr;
 
+	// 传入函数的参数
+	int xPos[12] = {0}, yPos[12] = {0};// 选关Button的位置数组
+	int i = 0;// 循环计数器
+	int count = 0;// 画边计数器
 };
 
 #endif

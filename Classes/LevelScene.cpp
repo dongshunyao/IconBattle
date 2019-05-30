@@ -20,42 +20,40 @@ bool LevelScene::init()
 	initScrollView();
 
 	// 设置选关按钮的位置
-	int xPos[10], yPos[10];
-	/*for (int i = 0; i < 10; i++)
-	{
-		// LUOYAO 模型
-		xPos[i] = i * 150 + 200;
-		if ((i % 4 == 0) || (i % 3 == 0))
-			yPos[i] = 350;
-		else
-			yPos[i] = 600;
-	
-	}*/
 
 #pragma region Level Button Location
-	xPos[0] = 200; yPos[0] = 600;
-	xPos[1] = 420; yPos[1] = 510;
-	xPos[2] = 640; yPos[2] = 640;
-	xPos[3] = 860; yPos[3] = 520;
-	xPos[4] = 1080; yPos[4] = 600;
-	xPos[5] = 1280; yPos[5] = 420;
-	xPos[6] = 1500; yPos[6] = 270;
-	xPos[7] = 1720; yPos[7] = 390;
-	xPos[8] = 1940; yPos[8] = 470;
-	xPos[9] = 2160; yPos[9] = 420;
+	xPos[0] = 200;
+	yPos[0] = 600;
+	xPos[1] = 420;
+	yPos[1] = 510;
+	xPos[2] = 640;
+	yPos[2] = 640;
+	xPos[3] = 860;
+	yPos[3] = 520;
+	xPos[4] = 1080;
+	yPos[4] = 600;
+	xPos[5] = 1280;
+	yPos[5] = 420;
+	xPos[6] = 1500;
+	yPos[6] = 270;
+	xPos[7] = 1720;
+	yPos[7] = 390;
+	xPos[8] = 1940;
+	yPos[8] = 470;
+	xPos[9] = 2160;
+	yPos[9] = 420;
+	xPos[10] = 2160;
+	yPos[10] = 420;
 
-#pragma endregion 
+
+#pragma endregion
 
 	// 初始化选关按钮
-	for (int i = 0; i < 10; i++)
-		initButtons(xPos[i], yPos[i], i, i - 0.5);
+	initButtons();
 
 
 	// 画连接按钮的线
-	DrawNode* drawNode = DrawNode::create();
-	layer->addChild(drawNode, 3);
-	for (int i = 0; i < 9; i++)
-		drawNode->drawSegment(Point(xPos[i], yPos[i]), Point(xPos[i + 1], yPos[i + 1]), 5, Color4F(1, 1, 1, 0.3));
+
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
@@ -143,81 +141,45 @@ void LevelScene::initScrollView()
 	});
 }
 
-void LevelScene::initButtons(int x, int y, int level, float delayTime)
+void LevelScene::initButtons()
 {
 	ui::Button* levelButton = nullptr;
-	switch (level)
+	drawNode = DrawNode::create();
+	layer->addChild(drawNode, 3);
+
+	for (i = 0; i < 10; i++)
 	{
-	case 0:
-		levelButton = ui::Button::create(theme->level1Normal, theme->level1Selected,
-		                                 theme->level1Disabled);
-		break;
-	case 1:
-		levelButton = ui::Button::create(theme->level2Normal, theme->level2Selected,
-		                                 theme->level2Disabled);
-		break;
-	case 2:
-		levelButton = ui::Button::create(theme->level3Normal, theme->level3Selected,
-		                                 theme->level3Disabled);
-		break;
-	case 3:
-		levelButton = ui::Button::create(theme->level4Normal, theme->level4Selected,
-		                                 theme->level4Disabled);
-		break;
-	case 4:
-		levelButton = ui::Button::create(theme->level5Normal, theme->level5Selected,
-		                                 theme->level5Disabled);
-		break;
-	case 5:
-		levelButton = ui::Button::create(theme->level6Normal, theme->level6Selected,
-		                                 theme->level6Disabled);
-		break;
-	case 6:
-		levelButton = ui::Button::create(theme->level7Normal, theme->level7Selected,
-		                                 theme->level7Disabled);
-		break;
-	case 7:
-		levelButton = ui::Button::create(theme->level8Normal, theme->level8Selected,
-		                                 theme->level8Disabled);
-		break;
-	case 8:
-		levelButton = ui::Button::create(theme->level9Normal, theme->level9Selected,
-		                                 theme->level9Disabled);
-		break;
-	case 9:
-		levelButton = ui::Button::create(theme->level10Normal, theme->level10Selected,
-		                                 theme->level10Disabled);
-		break;
-	default: break;
-	}
-	levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
+		levelButton = ui::Button::create(theme->levelSelectButton + std::to_string(i + 1) + "_normal.png",
+		                                 theme->levelSelectButton + std::to_string(i + 1) + "_selected.png",
+		                                 theme->levelSelectButton + std::to_string(i + 1) + "_disabled.png");
+
+		levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
-			switch (level)
+			if (type == ui::Widget::TouchEventType::ENDED)
 			{
-				// TODO 选关
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			default: break;
+				
+			// TODO 选关
+	
 			}
-		}
-	});
-	layer->addChild(levelButton);
-	levelButton->setPosition(Point(x, y));
-	levelButton->setOpacity(0); //设置透明度为0
-	const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
-	const auto delay = DelayTime::create(delayTime);
-	const auto sequence = Sequence::create(delay, fadeIn, nullptr); // 动作序列
-	levelButton->runAction(sequence);
+		});
+
+		layer->addChild(levelButton, 4);
+		levelButton->setPosition(Point(xPos[i], yPos[i]));
+		levelButton->setOpacity(0); //设置透明度为0
+		const auto fadeIn = FadeIn::create(1.3f); // 淡入的效果
+		const auto delay = DelayTime::create(2*i);
+		const auto sequence = Sequence::create(delay, fadeIn, CallFunc::create([&]()
+		{
+			if (i == 10)
+			{
+				drawNode->drawSegment(Point(xPos[count], yPos[count]), Point(xPos[count + 1], yPos[count + 1]), 5,
+				                      Color4F(1, 1, 1, 0.3));
+				count++;
+			}
+		}), nullptr); // 动作序列
+
+		levelButton->runAction(sequence);
+	}
 }
 
 void LevelScene::update(float delta)
