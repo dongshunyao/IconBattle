@@ -434,14 +434,18 @@ float GameScene::getTotalProgress() const { return totalProgress; }
 void GameScene::judgeResult()
 {
 	// 两个精灵实现结果先后出现
-	firstSprite = Sprite::create(result ? "/image/gamescene/common/2.png" : "/image/gamescene/common/0.png");
-	secondSprite = Sprite::create(result ? "/image/gamescene/common/3.png" : "/image/gamescene/common/1.png");
+	firstSprite = Sprite::create(result
+		                             ? theme->gameSceneResultSprite + "2.png"
+		                             : theme->gameSceneResultSprite + +"0.png");
+	secondSprite = Sprite::create(result
+		                              ? theme->gameSceneResultSprite + +"3.png"
+		                              : theme->gameSceneResultSprite + +"1.png");
 	firstSprite->setPosition(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	secondSprite->setPosition(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	firstSprite->setOpacity(0);
 	secondSprite->setOpacity(0);
-	this->addChild(firstSprite,10);
-	this->addChild(secondSprite,10);
+	this->addChild(firstSprite, 10);
+	this->addChild(secondSprite, 10);
 
 	const auto delay = DelayTime::create(1.3);
 	const auto fadeIn = FadeIn::create(1.3);
@@ -449,8 +453,8 @@ void GameScene::judgeResult()
 	                                                SCREEN_HEIGHT / 2 + 200));
 	const auto secondMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2,
 	                                                 SCREEN_HEIGHT / 2 + 200));
-	firstSprite->runAction(Sequence::create(fadeIn, delay,firstMoveTo, nullptr));
-	secondSprite->runAction(Sequence::create(delay, fadeIn, secondMoveTo,CallFunc::create([&]()
+	firstSprite->runAction(Sequence::create(fadeIn, delay, firstMoveTo, nullptr));
+	secondSprite->runAction(Sequence::create(delay, fadeIn, secondMoveTo, CallFunc::create([&]()
 	{
 		// Todo 排名相关
 		firstSprite->setVisible(false);
