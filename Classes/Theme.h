@@ -54,6 +54,42 @@ public:
 
 #pragma endregion
 
+#pragma region Store Scene
+
+	string storeSceneJetBrainThemeIcon;
+	string storeSceneAdobeThemeIcon;
+	string storeSceneOfficeThemeIcon;
+	string storeSceneStoreLabel;
+
+	const string storeSceneCoin = "/image/storescene/common/coins.png";
+
+	// 选择按钮
+	const string storeSceneChoiceButtonNormal = "/image/storescene/common/choice_normal.png";
+	const string storeSceneChoiceButtonSelected = "/image/storescene/common/choice_selected.png";
+	const string storeSceneChoiceButtonDisabled = "/image/storescene/common/choice_disabled.png";
+
+	// Adobe RMB 按钮
+	const string storeSceneAdobeRmbButtonNormal = "/image/storescene/common/adobe_RMB_normal.png";
+	const string storeSceneAdobeRmbButtonSelected = "/image/storescene/common/adobe_RMB_selected.png";
+	const string storeSceneAdobeRmbButtonDisabled = "/image/storescene/common/adobe_RMB_disabled.png";
+
+	// Office RMB 按钮
+	const string storeSceneOfficeRmbButtonNormal = "/image/storescene/common/office_RMB_normal.png";
+	const string storeSceneOfficeRmbButtonSelected = "/image/storescene/common/office_RMB_selected.png";
+	const string storeSceneOfficeRmbButtonDisabled = "/image/storescene/common/office_RMB_disabled.png";
+
+	// Adobe COINS 按钮
+	const string storeSceneAdobeCoinsButtonNormal = "/image/storescene/common/adobe_coins_normal.png";
+	const string storeSceneAdobeCoinsButtonSelected = "/image/storescene/common/adobe_coins_selected.png";
+	const string storeSceneAdobeCoinsButtonDisabled = "/image/storescene/common/adobe_coins_disabled.png";
+
+	// Office COINS 按钮
+	const string storeSceneOfficeCoinsButtonNormal = "/image/storescene/common/office_coins_normal.png";
+	const string storeSceneOfficeCoinsButtonSelected = "/image/storescene/common/office_coins_selected.png";
+	const string storeSceneOfficeCoinsButtonDisabled = "/image/storescene/common/office_coins_disabled.png";
+
+#pragma endregion
+
 #pragma region Game Scene
 	string gameSceneBackground;
 	string gameSceneLevelSpriteBackground;

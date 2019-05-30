@@ -45,6 +45,15 @@ void Theme::setJetBrainTheme()
 
 #pragma endregion
 
+#pragma region Store Scene
+
+	storeSceneJetBrainThemeIcon = "/image/storescene/jetbraintheme/jetbrains.png";
+	storeSceneAdobeThemeIcon = "/image/storescene/jetbraintheme/adobe.png";
+	storeSceneOfficeThemeIcon = "/image/storescene/jetbraintheme/office.png";
+	storeSceneStoreLabel = "/image/storescene/jetbraintheme/store_label.png";
+
+#pragma endregion
+
 #pragma region Game Scene
 	gameSceneBackground = "/image/gamescene/jetbraintheme/background.png";
 	gameSceneLevelSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
