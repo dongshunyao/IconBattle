@@ -30,33 +30,37 @@ void GameScene::initComponents()
 #pragma  region Init GameScene
 
 	// 添加背景图片
-	auto sprite = Sprite::create(theme->gameSceneBackground);
-	sprite->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-	this->addChild(sprite);
+	auto bottomBackground = Sprite::create(theme->gameSceneBottomBackground);
+	bottomBackground->setPosition(Point(793, 419));
+	this->addChild(bottomBackground, -1);
+
+	auto topBackground = Sprite::create(theme->gameSceneTopBackground);
+	topBackground->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	this->addChild(topBackground, 1);
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
 	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton);
+	this->addChild(settingButton, 2);
 
 	// 返回按钮
-	this->addChild(BackButton::create());
+	this->addChild(BackButton::create(), 2);
 
 	// 剩余步数Label
 	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);
 	levelSprite->setScale(1.5);
 	levelSprite->setPosition(225, 630);
-	this->addChild(levelSprite, 0);
-	auto remainStep = Label::createWithTTF("20", "/font/marker_felt.ttf", 48);
+	this->addChild(levelSprite, 3);
+	remainStep = Label::createWithTTF(std::to_string(steps), "/font/marker_felt.ttf", 48);
 	// glow effect is TTF only, specify the glow color desired.
 	remainStep->enableGlow(Color4B::YELLOW);
 	remainStep->setPosition(225, 625);
-	this->addChild(remainStep);
+	this->addChild(remainStep, 3);
 
 	// 添加积分条灰色背景
 	auto processBar = Sprite::create(theme->gameSceneGreyProcessBar);
 	processBar->setPosition(Point(225, 410));
-	this->addChild(processBar, 1);
+	this->addChild(processBar, 2);
 
 	progressBarScore = Sprite::create(theme->gameSceneProcessBar);
 	progressTimer = ProgressTimer::create(progressBarScore);
@@ -66,12 +70,12 @@ void GameScene::initComponents()
 	progressTimer->setBarChangeRate(Point(0, 1));
 	progressTimer->setMidpoint(Point(0, 0));
 	progressTimer->setPercentage(0);
-	this->addChild(progressTimer, 2);
+	this->addChild(progressTimer, 3);
 
 	// 分数板
-	scoreLabel = Label::createWithTTF("25", "/font/marker_felt.ttf", 32);
+	scoreLabel = Label::createWithTTF("0", "/font/marker_felt.ttf", 32);
 	scoreLabel->setPosition(225, 240);
-	this->addChild(scoreLabel);
+	this->addChild(scoreLabel, 2);
 
 	// 默认初始提示剩余次数为3
 	hintNumber = Sprite::createWithTexture(
@@ -79,7 +83,7 @@ void GameScene::initComponents()
 			theme->gameSceneHintNumber + std::to_string(hint)
 			+ ".png"));
 	hintNumber->setPosition(340, 520);
-	this->addChild(hintNumber, 2);
+	this->addChild(hintNumber, 3);
 
 	// 提示按钮
 	auto hintButton = ui::Button::create(theme->gameSceneHintButtonNormal, theme->gameSceneHintButtonSelected,
@@ -93,15 +97,10 @@ void GameScene::initComponents()
 			{
 				hint--;
 				hintNumber->setTexture(theme->gameSceneHintNumber + std::to_string(hint) + ".png");
-				// 接口测试
-				setTotalProgress(10);
-				setCurrentProgress(5);
-				judgeResult();
 			}
 		}
 	});
-	this->addChild(hintButton, 1);
-
+	this->addChild(hintButton, 2);
 
 #pragma endregion
 
@@ -193,14 +192,15 @@ void GameScene::initComponents()
 
 pii GameScene::getPosition(pii index)
 {
-	return pii(550 + 75 * index.second, 200 + 75 * index.first);
+	return pii(495 + 86 * index.second, 120 + 86 * index.first); // (495,120)为左下角第一个宝石的中心坐标
 }
 
 pii GameScene::getIndex(pii pos)
 {
-	if (pos.first < 520 || pos.first > 520 + 600)return {-1, -1};
-	if (pos.second < 170 || pos.second > 170 + 600)return {-1, -1};
-	return pii((pos.second - 170) / 75, (pos.first - 520) / 75);
+	if (pos.first < 465 || pos.first > 465 + 700)return {-1, -1};
+	// 棋盘可点击范围在465~1165(width),90~790(height)，棋盘中心点为(793，419)
+	if (pos.second < 90 || pos.second > 90 + 700)return {-1, -1};
+	return pii((pos.second - 90) / 86, (pos.first - 465) / 86); // 宝石大小为64，与缝隙总长86
 }
 
 Actor* GameScene::createActor(int typ, int spv, pii pos)
@@ -782,6 +782,7 @@ bool GameScene::isDead()
 	return false;
 }
 
+// 左面板接口
 void GameScene::setTotalProgress(const int total)
 {
 	totalProgress = total;
@@ -798,9 +799,18 @@ void GameScene::setCurrentProgress(int progress)
 	progressTimer->runAction(processAction);
 }
 
+void GameScene::setRemainStep(const int step)
+{
+	steps = step;
+	remainStep->setString(std::to_string(steps));
+}
 
-float GameScene::getCurrentProgress() const { return currentProgress; }
-float GameScene::getTotalProgress() const { return totalProgress; }
+
+int GameScene::getCurrentProgress() const { return currentProgress; }
+int GameScene::getTotalProgress() const { return totalProgress; }
+int GameScene::getRemainStep() const { return steps; }
+int GameScene::getHintNumber() const { return hint; }
+
 
 void GameScene::judgeResult()
 {

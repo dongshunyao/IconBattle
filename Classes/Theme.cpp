@@ -55,7 +55,8 @@ void Theme::setJetBrainTheme()
 #pragma endregion
 
 #pragma region Game Scene
-	gameSceneBackground = "/image/gamescene/jetbraintheme/background.png";
+	gameSceneTopBackground = "/image/gamescene/jetbraintheme/top_background.png";
+	gameSceneBottomBackground = "/image/gamescene/jetbraintheme/bottom_background.png";
 	gameSceneLevelSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";

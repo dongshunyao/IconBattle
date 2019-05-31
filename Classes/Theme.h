@@ -99,7 +99,8 @@ public:
 #pragma endregion
 
 #pragma region Game Scene
-	string gameSceneBackground;
+	string gameSceneTopBackground;
+	string gameSceneBottomBackground;
 	string gameSceneLevelSpriteBackground;
 	string gameSceneHintButtonNormal;
 	string gameSceneHintButtonSelected;

@@ -28,18 +28,24 @@ public:
 	bool init() override;
 	CREATE_FUNC(GameScene)
 
+	// 接口函数
 	void setTotalProgress(int total);
 	void setCurrentProgress(int progress);
-	float getCurrentProgress() const;
-	float getTotalProgress() const;
+	void setRemainStep(int step);
+	int getCurrentProgress() const;
+	int getTotalProgress() const;
+	int getRemainStep() const;
+	int getHintNumber() const;
 
 
 private:
+	int steps = 40;
 	int hint = 3;
 	int totalProgress = 0;
 	int currentProgress = 0;
 	bool result = false;
 	Theme* theme = Theme::getInstance();
+	Label* remainStep = nullptr;
 	Sprite* hintNumber = nullptr;
 	Sprite* progressBarScore = nullptr;
 	ProgressTimer* progressTimer = nullptr;
