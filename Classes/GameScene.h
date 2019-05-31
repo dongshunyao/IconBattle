@@ -74,6 +74,8 @@ private:
 
 	// 尝试两方快交换：若不可以交换则不做动画，反之进行
 	void trySwap(pii block1, pii block2);
+	// 无效交换动画
+	void failSwap(pii blocka, pii blockb);
 
 	// 初始化棋盘，调用refreshBoard()
 	void initBoard();

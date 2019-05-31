@@ -466,12 +466,24 @@ void GameScene::trySwap(pii blocka, pii blockb)
 
 	if (rst.empty())
 	{
-		animationDoneCallback();
+		failSwap(blocka, blockb);
 	}
 	else
 	{
 		blockSwap(blocka, blockb);
 	}
+}
+
+void GameScene::failSwap(pii blocka, pii blockb)
+{
+	pii posa = getPosition(blocka);
+	pii posb = getPosition(blockb);
+
+	boardInfo[blocka.first][blocka.second].actor->moveToThenBack(posb);
+	boardInfo[blockb.first][blockb.second].actor->moveToThenBack(posa);
+
+	runAction(Sequence::createWithTwoActions(DelayTime::create(.65f),
+	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
 }
 
 void GameScene::blockSwap(pii blocka, pii blockb)

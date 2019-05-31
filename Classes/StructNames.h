@@ -65,6 +65,7 @@ public:
 	static Actor* create(int, int, pii);
 	void allDo(Action*);
 	void moveTo(pii);
+	void moveToThenBack(pii);
 	void dropTo(pii);
 	void selfClose();
 };
