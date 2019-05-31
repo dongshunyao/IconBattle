@@ -43,7 +43,7 @@ public:
 private:
 	bool newUser = true;
 
-	string userName = "Player3854";
+	string userName = "玩家3265";
 	string hardwareId = getHardwareId();
 	int coin = 0;
 	ValueVector unlockedThemes;

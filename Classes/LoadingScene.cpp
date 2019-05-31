@@ -35,7 +35,7 @@ bool LoadingScene::init()
 	loadingThread.detach();
 
 	// 定时器，每2.5秒检测是否可以开始游戏
-	schedule(schedule_selector(LoadingScene::startGame), 2.5);
+	schedule(schedule_selector(LoadingScene::startGame), 1.5);
 
 	return true;
 }
@@ -92,6 +92,7 @@ void LoadingScene::jetIcon()
 		icon->setPosition(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height);
 		icon->setScale(1);
 		this->addChild(icon, -1, i); // 渲染时 z-order 值大的节点对象会后绘制，值小的节点对象先绘制。
+
 		// 创建一个Action来使得精灵从某一位置喷出，并通过数学表达式实现喷泉造型
 		const auto jumpRight = JumpBy::create(i, Point(SCREEN_WIDTH / 4 + 30 * i, 0 - icon->getContentSize().height),
 		                                      60 * i + 300, 1);
@@ -107,6 +108,7 @@ void LoadingScene::jetIcon()
 		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
 		// 同时运行多个动作
 		const auto sequence = Sequence::create(delay, spawn, delay, move, delay, scaleReverse, delay, nullptr); // 动作序列
+
 		icon->runAction(RepeatForever::create(sequence)); // 实现重复跳跃
 	}
 }

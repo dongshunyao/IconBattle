@@ -59,7 +59,6 @@ bool User::setUnlockedPlusLevel(const int level)
 	return false;
 }
 
-// TODO 修改时调用
 bool User::update() const
 {
 	ValueMap map;

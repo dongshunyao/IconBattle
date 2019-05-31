@@ -16,12 +16,13 @@
 #define SCREEN_HEIGHT 900
 
 USING_NS_CC;
+using ui::EditBox;
 
 class MenuScene final :
-	public cocos2d::Scene
+	public Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static Scene* createScene();
 
 	bool init() override;
 	CREATE_FUNC(MenuScene)
