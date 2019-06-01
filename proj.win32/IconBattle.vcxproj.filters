@@ -58,6 +58,9 @@
     <Filter Include="src\common\network">
       <UniqueIdentifier>{2093bffc-0b0c-41b9-88b4-e43a3ef53892}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\common\Dialog">
+      <UniqueIdentifier>{03ccb79e-d519-4ca3-97d5-99d6ada948d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,6 +120,9 @@
     <ClCompile Include="..\Classes\StructNames.cpp">
       <Filter>src\scene\gamescene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Dialog.cpp">
+      <Filter>src\common\Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -175,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\StructNames.h">
       <Filter>src\scene\gamescene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Dialog.h">
+      <Filter>src\common\Dialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "User.h"
+#include "Dialog.h"
 
 
 Scene* GameScene::createScene()
@@ -44,7 +45,31 @@ void GameScene::initComponents()
 	this->addChild(settingButton, 2);
 
 	// 返回按钮
-	this->addChild(BackButton::create(), 2);
+	auto backButton = ui::Button::create(BackButton::BACK_BUTTON_NORMAL_IMAGE, BackButton::BACK_BUTTON_SELECTED_IMAGE,
+	                                     BackButton::BACK_BUTTON_DISABLED_IMAGE);
+	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+
+		dialog->setContentText("Do you want to exit?", 28, 30, 20);
+
+		dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
+		                                         Sprite::create(theme->gameSceneYesButtonSelected),
+		                                         Sprite::create(theme->gameSceneYesButtonNormal), [&](Ref* sender)
+		                                         {
+			                                         Director::getInstance()->popScene();
+		                                         }));
+		dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneNoButtonNormal),
+		                                         Sprite::create(theme->gameSceneNoButtonSelected),
+		                                         Sprite::create(theme->gameSceneNoButtonNormal), [&,dialog](Ref* sender)
+		                                         {
+			                                         Director::getInstance()->getRunningScene()->removeChild(dialog);
+		                                         }));
+
+		this->addChild(dialog, 20);
+	});
+	backButton->setPosition(Point(1150, 850));
+	this->addChild(backButton, 2);
 
 	// 剩余步数Label
 	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);

@@ -110,6 +110,11 @@ public:
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";
 	const string gameSceneResultSprite = "/image/gamescene/common/";
+	const string gameSceneDialogBackground = "/image/gamescene/common/dialog_background.png";
+	const string gameSceneYesButtonNormal = "/image/gamescene/common/yes_normal.png";
+	const string gameSceneYesButtonSelected = "/image/gamescene/common/yes_selected.png";
+	const string gameSceneNoButtonNormal= "/image/gamescene/common/no_normal.png";
+	const string gameSceneNoButtonSelected = "/image/gamescene/common/no_selected.png";
 
 #pragma endregion
 

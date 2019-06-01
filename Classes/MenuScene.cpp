@@ -1,4 +1,5 @@
 #include "MenuScene.h"
+#include "Dialog.h"
 
 Scene* MenuScene::createScene()
 {
