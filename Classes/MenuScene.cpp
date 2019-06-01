@@ -119,7 +119,7 @@ void MenuScene::initGameButton()
 	gameButton1->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 选关按钮1
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(GameScene::createScene());
+		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(true);
 	});
 	gameButton1->setPosition(Point(650, 600));
 

@@ -61,6 +61,15 @@
     <Filter Include="src\common\Dialog">
       <UniqueIdentifier>{03ccb79e-d519-4ca3-97d5-99d6ada948d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene\common\backbutton">
+      <UniqueIdentifier>{5169d70a-6997-455c-98c0-988e88739069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\common\settingbutton">
+      <UniqueIdentifier>{f4da24b4-0da5-495b-9b0d-c2f0e2fe3523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\common\gamescenecontroller">
+      <UniqueIdentifier>{be510a06-cbad-4160-ba22-98cea6569e8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,12 +102,6 @@
     <ClCompile Include="..\Classes\Sound.cpp">
       <Filter>src\common\music</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\BackButton.cpp">
-      <Filter>src\scene\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SettingButton.cpp">
-      <Filter>src\scene\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\User.cpp">
       <Filter>src\common\user</Filter>
     </ClCompile>
@@ -122,6 +125,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src\common\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackButton.cpp">
+      <Filter>src\scene\common\backbutton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SettingButton.cpp">
+      <Filter>src\scene\common\settingbutton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\InformationBoard.cpp">
+      <Filter>src\scene\gamescene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameSceneController.cpp">
+      <Filter>src\scene\common\gamescenecontroller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,12 +170,6 @@
     <ClInclude Include="..\Classes\Sound.h">
       <Filter>src\common\music</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\BackButton.h">
-      <Filter>src\scene\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SettingButton.h">
-      <Filter>src\scene\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\User.h">
       <Filter>src\common\user</Filter>
     </ClInclude>
@@ -184,6 +193,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Dialog.h">
       <Filter>src\common\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackButton.h">
+      <Filter>src\scene\common\backbutton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingButton.h">
+      <Filter>src\scene\common\settingbutton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameSceneController.h">
+      <Filter>src\scene\common\gamescenecontroller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

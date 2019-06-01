@@ -1,11 +1,15 @@
 #include "GameScene.h"
-#include "User.h"
-#include "Dialog.h"
 
-
-Scene* GameScene::createScene()
+Scene* GameScene::createScene(const int stepNumber, const int totalScore, const bool isClassical, const int hintNumber)
 {
-	return GameScene::create();
+	const auto scene = GameScene::create();
+
+	scene->stepNumber = stepNumber;
+	scene->totalScore = totalScore;
+	scene->isClassical = isClassical;
+	scene->hintNumber = hintNumber;
+
+	return scene;
 }
 
 bool GameScene::init()
@@ -76,7 +80,7 @@ void GameScene::initComponents()
 	levelSprite->setScale(1.5);
 	levelSprite->setPosition(225, 630);
 	this->addChild(levelSprite, 3);
-	remainStep = Label::createWithTTF(std::to_string(steps), "/font/marker_felt.ttf", 48);
+	remainStep = Label::createWithTTF(std::to_string(stepNumber), "/font/marker_felt.ttf", 48);
 	// glow effect is TTF only, specify the glow color desired.
 	remainStep->enableGlow(Color4B::YELLOW);
 	remainStep->setPosition(225, 625);
@@ -103,12 +107,12 @@ void GameScene::initComponents()
 	this->addChild(scoreLabel, 2);
 
 	// 默认初始提示剩余次数为3
-	hintNumber = Sprite::createWithTexture(
+	hintNumberSprite = Sprite::createWithTexture(
 		Director::getInstance()->getTextureCache()->addImage(
-			theme->gameSceneHintNumber + std::to_string(hint)
+			theme->gameSceneHintNumber + std::to_string(hintNumber)
 			+ ".png"));
-	hintNumber->setPosition(340, 520);
-	this->addChild(hintNumber, 3);
+	hintNumberSprite->setPosition(340, 520);
+	this->addChild(hintNumberSprite, 3);
 
 	// 提示按钮
 	auto hintButton = ui::Button::create(theme->gameSceneHintButtonNormal, theme->gameSceneHintButtonSelected,
@@ -118,10 +122,10 @@ void GameScene::initComponents()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			if (hint > 0)
+			if (hintNumber > 0)
 			{
-				hint--;
-				hintNumber->setTexture(theme->gameSceneHintNumber + std::to_string(hint) + ".png");
+				hintNumber--;
+				hintNumberSprite->setTexture(theme->gameSceneHintNumber + std::to_string(hintNumber) + ".png");
 			}
 		}
 	});
@@ -804,37 +808,39 @@ void GameScene::animationDoneCallback()
 
 bool GameScene::isDead()
 {
+	// todo
+
 	return false;
 }
 
 // 左面板接口
 void GameScene::setTotalProgress(const int total)
 {
-	totalProgress = total;
+	totalScore = total;
 }
 
 void GameScene::setCurrentProgress(int progress)
 {
-	const float previousPercentage = 100 * currentProgress / totalProgress;
+	const float previousPercentage = 100 * currentScore / totalScore;
 	if (progress < 0) { progress = 0; }
-	if (progress > totalProgress) { progress = totalProgress; }
-	currentProgress = progress;
-	scoreLabel->setString(std::to_string(currentProgress));
-	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentProgress / totalProgress);
+	if (progress > totalScore) { progress = totalScore; }
+	currentScore = progress;
+	scoreLabel->setString(std::to_string(currentScore));
+	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentScore / totalScore);
 	progressTimer->runAction(processAction);
 }
 
 void GameScene::setRemainStep(const int step)
 {
-	steps = step;
-	remainStep->setString(std::to_string(steps));
+	stepNumber = step;
+	remainStep->setString(std::to_string(stepNumber));
 }
 
 
-int GameScene::getCurrentProgress() const { return currentProgress; }
-int GameScene::getTotalProgress() const { return totalProgress; }
-int GameScene::getRemainStep() const { return steps; }
-int GameScene::getHintNumber() const { return hint; }
+int GameScene::getCurrentProgress() const { return currentScore; }
+int GameScene::getTotalProgress() const { return totalScore; }
+int GameScene::getRemainStep() const { return stepNumber; }
+int GameScene::getHintNumber() const { return hintNumber; }
 
 
 void GameScene::judgeResult()

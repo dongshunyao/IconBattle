@@ -3,8 +3,9 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+
+#include "GameSceneController.h"
 #include "StoreScene.h"
-#include "GameScene.h"
 #include "LevelScene.h"
 #include "NewsBoard.h"
 #include "BackButton.h"

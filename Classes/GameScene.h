@@ -3,11 +3,16 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+
+#include <algorithm>
+
+#include "Theme.h"
+#include "User.h"
+
 #include "BackButton.h"
 #include "SettingButton.h"
-#include "Theme.h"
-#include <algorithm>
-#include  "StructNames.h"
+#include "StructNames.h"
+#include "Dialog.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -16,15 +21,16 @@ using std::pair;
 using std::swap;
 using std::set;
 using namespace StructNames;
+
 USING_NS_CC;
 
 
 class GameScene final :
-	public cocos2d::Scene
+	public Scene
 {
 public:
 
-	static cocos2d::Scene* createScene();
+	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int hintNumber = 3);
 	bool init() override;
 	CREATE_FUNC(GameScene)
 
@@ -39,19 +45,31 @@ public:
 
 
 private:
-	int steps = 40;
-	int hint = 3;
-	int totalProgress = 0;
-	int currentProgress = 0;
-	bool result = false;
+#pragma region Support
 	Theme* theme = Theme::getInstance();
+#pragma endregion
+
+#pragma region Information Board
+	int stepNumber = 0;
+	int hintNumber = 0;
+	int totalScore = 0;
+	int currentScore = 0;
+
+#pragma endregion
+
+	bool isClassical = true;
+
+	bool result = false;
+
+
 	Label* remainStep = nullptr;
-	Sprite* hintNumber = nullptr;
+	Sprite* hintNumberSprite = nullptr;
 	Sprite* progressBarScore = nullptr;
 	ProgressTimer* progressTimer = nullptr;
 	Label* scoreLabel = nullptr;
 	Sprite* firstSprite = nullptr;
 	Sprite* secondSprite = nullptr;
+
 	void judgeResult(); // 结果动画
 
 	static const int BOARD_SIZE = 8;
