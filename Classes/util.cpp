@@ -20,3 +20,13 @@ int Util::getStringHash(vector<string> str)
 
 	return static_cast<int>(hash);
 }
+
+int Util::getRandomNumber(const int l, const int r)
+{
+	mt19937 rand(time(nullptr));
+
+	auto num = rand();
+	num = l + num % (r - l + 1);
+
+	return num;
+}

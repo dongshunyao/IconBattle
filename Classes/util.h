@@ -4,10 +4,13 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <random>
+#include <ctime>
 
 using std::string;
 using std::vector;
 using std::sort;
+using std::mt19937;
 
 namespace Util
 {
@@ -17,6 +20,11 @@ namespace Util
 
 	int getStringHash(const string& str);
 	int getStringHash(vector<string> str);
+#pragma endregion
+
+#pragma region random
+	// 随机数，左右均为闭区间
+	int getRandomNumber(int l, int r);
 #pragma endregion
 };
 
