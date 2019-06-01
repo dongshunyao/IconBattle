@@ -3,15 +3,15 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-
-#include "GameSceneController.h"
 #include "StoreScene.h"
+#include "GameScene.h"
 #include "LevelScene.h"
 #include "NewsBoard.h"
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "Theme.h"
 #include "User.h"
+#include "GameSceneController.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
