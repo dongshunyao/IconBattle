@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Theme.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -41,6 +42,8 @@ public:
 	void backgroundFinish();
 
 private:
+	Theme* theme = Theme::getInstance();
+
 	// 文字内容两边的空白区
 	int contentPadding = 0;
 	int contentPaddingTop = 0;

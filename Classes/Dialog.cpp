@@ -48,7 +48,7 @@ void Dialog::setTitle(const string& title, const int fontSize)
 void Dialog::setContentText(const string& text, const int fontSize, const int padding, const int paddingTop)
 {
 	// TODO 统一字体？路径放到头文件orTheme？
-	const auto label = Label::createWithTTF(text, "/font/marker_felt.ttf", fontSize);
+	const auto label = Label::createWithTTF(text, theme->semiBoldFont, fontSize);
 	setLabelContentText(label);
 	contentPadding = padding;
 	contentPaddingTop = paddingTop;
@@ -126,6 +126,8 @@ void Dialog::backgroundFinish()
 	if (getLabelContentText())
 	{
 		auto content = getLabelContentText();
+		content->setLineBreakWithoutSpace(true);
+		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
 		content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 		content->setHorizontalAlignment(TextHAlignment::LEFT);
 		this->addChild(content);

@@ -15,6 +15,7 @@ public:
 #pragma endregion
 
 #pragma region Font TTF
+	const string markerFeltFont = "/font/marker_felt.ttf";
 	const string semiBoldFont = "/font/semi_bold.ttf";
 #pragma endregion
 
