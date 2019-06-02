@@ -4,135 +4,34 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 {
 	const auto scene = GameScene::create();
 
+	// 初始化变量
 	scene->stepNumber = stepNumber;
 	scene->totalScore = totalScore;
 	scene->isClassical = isClassical;
 	scene->hintNumber = hintNumber;
 
-	return scene;
-}
-
-bool GameScene::init()
-{
-	if (!Scene::init())
-	{
-		return false;
-	}
+	// TODO 初始化精灵缓存
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
 		"/image/gamescene/jetbraintheme/iconset/large/super_gems.plist",
 		"/image/gamescene/jetbraintheme/iconset/large/super_gems.png");
-	initComponents();
 
-	initBoard();
-	newBlocksDrop();
+	// 初始化背景板及按钮
+	scene->initInformationBoard();
 
-	return true;
+
+
+	scene->initComponents();
+
+	scene->initBoard();
+
+	scene->newBlocksDrop();
+
+	return scene;
 }
 
 
 void GameScene::initComponents()
 {
-#pragma  region Init GameScene
-
-	// 添加背景图片
-	auto bottomBackground = Sprite::create(theme->gameSceneBottomBackground);
-	bottomBackground->setPosition(Point(793, 419));
-	this->addChild(bottomBackground, -1);
-
-	auto topBackground = Sprite::create(theme->gameSceneTopBackground);
-	topBackground->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-	this->addChild(topBackground, 1);
-
-	// 设置按钮
-	auto settingButton = SettingButton::create();
-	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton, 2);
-
-	// 返回按钮
-	auto backButton = ui::Button::create(BackButton::BACK_BUTTON_NORMAL_IMAGE, BackButton::BACK_BUTTON_SELECTED_IMAGE,
-	                                     BackButton::BACK_BUTTON_DISABLED_IMAGE);
-	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
-		const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-
-		dialog->setContentText("Do you want to exit?", 28, 30, 20);
-
-		dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
-		                                         Sprite::create(theme->gameSceneYesButtonSelected),
-		                                         Sprite::create(theme->gameSceneYesButtonNormal), [&](Ref* sender)
-		                                         {
-			                                         Director::getInstance()->popScene();
-		                                         }));
-		dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneNoButtonNormal),
-		                                         Sprite::create(theme->gameSceneNoButtonSelected),
-		                                         Sprite::create(theme->gameSceneNoButtonNormal), [&,dialog](Ref* sender)
-		                                         {
-			                                         Director::getInstance()->getRunningScene()->removeChild(dialog);
-		                                         }));
-
-		this->addChild(dialog, 20);
-	});
-	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton, 2);
-
-	// 剩余步数Label
-	auto levelSprite = Sprite::create(theme->gameSceneLevelSpriteBackground);
-	levelSprite->setScale(1.5);
-	levelSprite->setPosition(225, 630);
-	this->addChild(levelSprite, 3);
-	remainStep = Label::createWithTTF(std::to_string(stepNumber), "/font/marker_felt.ttf", 48);
-	// glow effect is TTF only, specify the glow color desired.
-	remainStep->enableGlow(Color4B::YELLOW);
-	remainStep->setPosition(225, 625);
-	this->addChild(remainStep, 3);
-
-	// 添加积分条灰色背景
-	auto processBar = Sprite::create(theme->gameSceneGreyProcessBar);
-	processBar->setPosition(Point(225, 410));
-	this->addChild(processBar, 2);
-
-	progressBarScore = Sprite::create(theme->gameSceneProcessBar);
-	progressTimer = ProgressTimer::create(progressBarScore);
-	progressTimer->setPosition(Point(225, 410));
-	progressTimer->setType(ProgressTimer::Type::BAR);
-	// 设置竖向变化
-	progressTimer->setBarChangeRate(Point(0, 1));
-	progressTimer->setMidpoint(Point(0, 0));
-	progressTimer->setPercentage(0);
-	this->addChild(progressTimer, 3);
-
-	// 分数板
-	scoreLabel = Label::createWithTTF("0", "/font/marker_felt.ttf", 32);
-	scoreLabel->setPosition(225, 240);
-	this->addChild(scoreLabel, 2);
-
-	// 默认初始提示剩余次数为3
-	hintNumberSprite = Sprite::createWithTexture(
-		Director::getInstance()->getTextureCache()->addImage(
-			theme->gameSceneHintNumber + std::to_string(hintNumber)
-			+ ".png"));
-	hintNumberSprite->setPosition(340, 520);
-	this->addChild(hintNumberSprite, 3);
-
-	// 提示按钮
-	auto hintButton = ui::Button::create(theme->gameSceneHintButtonNormal, theme->gameSceneHintButtonSelected,
-	                                     theme->gameSceneHintButtonDisabled);
-	hintButton->setPosition(Point(375, 540));
-	hintButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
-		{
-			if (hintNumber > 0)
-			{
-				hintNumber--;
-				hintNumberSprite->setTexture(theme->gameSceneHintNumber + std::to_string(hintNumber) + ".png");
-			}
-		}
-	});
-	this->addChild(hintButton, 2);
-
-#pragma endregion
-
 #pragma  region addMouseListener
 	{
 		auto mouseListener = EventListenerMouse::create();
@@ -827,13 +726,13 @@ void GameScene::setCurrentProgress(int progress)
 	currentScore = progress;
 	scoreLabel->setString(std::to_string(currentScore));
 	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentScore / totalScore);
-	progressTimer->runAction(processAction);
+	progressController->runAction(processAction);
 }
 
 void GameScene::setRemainStep(const int step)
 {
 	stepNumber = step;
-	remainStep->setString(std::to_string(stepNumber));
+	stepNumberLabel->setString(std::to_string(stepNumber));
 }
 
 

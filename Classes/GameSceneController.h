@@ -1,6 +1,11 @@
 #ifndef __GAME_SCENE_CONTROLLER_H__
 #define __GAME_SCENE_CONTROLLER_H__
 
+#include "cocos2d.h"
+#include "GameScene.h"
+
+USING_NS_CC;
+
 class GameSceneController
 {
 public:
@@ -13,8 +18,6 @@ public:
 private:
 	static GameSceneController* instance;
 	GameSceneController() = default;
-
-
 };
 
 #endif

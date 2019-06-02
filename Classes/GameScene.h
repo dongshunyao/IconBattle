@@ -11,8 +11,9 @@
 
 #include "BackButton.h"
 #include "SettingButton.h"
-#include "StructNames.h"
 #include "Dialog.h"
+
+#include "StructNames.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -24,14 +25,21 @@ using namespace StructNames;
 
 USING_NS_CC;
 
+/*
+ * 图层顺序
+ * 从底到顶
+ * -1层 宝石的背景板
+ * 1+层 宝石
+ * 10+层 主背景板+所有按钮
+ * 20+层 提示框
+ */
 
 class GameScene final :
 	public Scene
 {
 public:
-
 	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int hintNumber = 3);
-	bool init() override;
+	bool init() override { return Scene::init(); }
 	CREATE_FUNC(GameScene)
 
 	// 接口函数
@@ -45,9 +53,8 @@ public:
 
 
 private:
-#pragma region Support
+	bool isClassical = true;
 	Theme* theme = Theme::getInstance();
-#pragma endregion
 
 #pragma region Information Board
 	int stepNumber = 0;
@@ -55,18 +62,20 @@ private:
 	int totalScore = 0;
 	int currentScore = 0;
 
-#pragma endregion
+	Label* stepNumberLabel = nullptr;
+	Sprite* hintNumberSprite = nullptr;
+	Label* scoreLabel = nullptr;
+	Sprite* currentProgressBar = nullptr;
+	ProgressTimer* progressController = nullptr;
 
-	bool isClassical = true;
+	void initInformationBoard();
+
+#pragma endregion
 
 	bool result = false;
 
 
-	Label* remainStep = nullptr;
-	Sprite* hintNumberSprite = nullptr;
-	Sprite* progressBarScore = nullptr;
-	ProgressTimer* progressTimer = nullptr;
-	Label* scoreLabel = nullptr;
+
 	Sprite* firstSprite = nullptr;
 	Sprite* secondSprite = nullptr;
 

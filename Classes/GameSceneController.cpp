@@ -10,4 +10,5 @@ GameSceneController* GameSceneController::getInstance()
 
 void GameSceneController::startPracticeGame(bool isClassical)
 {
+	Director::getInstance()->pushScene(GameScene::createScene(1, 1, true));
 }
