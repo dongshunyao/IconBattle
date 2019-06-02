@@ -68,7 +68,7 @@
       <UniqueIdentifier>{be510a06-cbad-4160-ba22-98cea6569e8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\scene\common\Dialog">
-      <UniqueIdentifier>{ec92c4ac-d006-4451-bf36-f47b52df23ef}</UniqueIdentifier>
+      <UniqueIdentifier>{03ccb79e-d519-4ca3-97d5-99d6ada948d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\StructNames.cpp">
       <Filter>src\scene\gamescene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Dialog.cpp">
+      <Filter>src\scene\common\Dialog</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\BackButton.cpp">
       <Filter>src\scene\common\backbutton</Filter>
     </ClCompile>
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GameSceneController.cpp">
       <Filter>src\scene\common\gamescenecontroller</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Dialog.cpp">
-      <Filter>src\scene\common\Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +191,9 @@
     <ClInclude Include="..\Classes\StructNames.h">
       <Filter>src\scene\gamescene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Dialog.h">
+      <Filter>src\scene\common\Dialog</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\BackButton.h">
       <Filter>src\scene\common\backbutton</Filter>
     </ClInclude>
@@ -199,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameSceneController.h">
       <Filter>src\scene\common\gamescenecontroller</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Dialog.h">
-      <Filter>src\scene\common\Dialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

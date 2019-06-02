@@ -114,7 +114,7 @@ public:
 	const string gameSceneDialogBackground = "/image/gamescene/common/dialog_background.png";
 	const string gameSceneYesButtonNormal = "/image/gamescene/common/yes_normal.png";
 	const string gameSceneYesButtonSelected = "/image/gamescene/common/yes_selected.png";
-	const string gameSceneNoButtonNormal= "/image/gamescene/common/no_normal.png";
+	const string gameSceneNoButtonNormal = "/image/gamescene/common/no_normal.png";
 	const string gameSceneNoButtonSelected = "/image/gamescene/common/no_selected.png";
 
 #pragma endregion
@@ -129,6 +129,8 @@ private:
 
 	string currentTheme;
 	void setJetBrainTheme();
+	void setAdobeTheme();
+	void setOfficeTheme();
 };
 
 #endif

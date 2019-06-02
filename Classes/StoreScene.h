@@ -2,6 +2,7 @@
 #define __STORE_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include "MenuScene.h"
 #include "Theme.h"
 #include "User.h"
@@ -11,33 +12,41 @@
 
 USING_NS_CC;
 using ui::Button;
-using namespace std;
+using std::to_string;
 
 class StoreScene final :
-	public cocos2d::Scene
+	public Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static Scene* createScene();
 	bool init() override;
 	CREATE_FUNC(StoreScene)
 
 private:
 	Theme* theme = Theme::getInstance();
 	User* user = User::getInstance();
-	Label* coinText = nullptr;
-	Menu* adobeMenu = nullptr;
-	Menu* officeMenu = nullptr;
-
-	void initLabel();
+	void initCoin();
 	void initThemeIcon();
-	void initJetBrainButtons(bool ownJetBrain);
-	void initAdobeButtons(bool ownAdobe);
-	void initOfficeButtons(bool ownOffice);
-	void initCoins();
 
-	void getAdobe();
-	void getOffice();
-	void notEnoughCoins();
+	Label* coinText = nullptr;
+
+	void updateCurrentTheme(const string& themeName) const;
+	void unlockTheme(const string& themeName, int coin);
+	void unlockTheme(const string& themeName);
+
+	void initButton();
+	Button* createSelectButton() const;
+
+	Button* jetBrainSelectButton = nullptr;
+
+	Menu* adobeMenu = nullptr;
+	Button* adobeSelectButton = nullptr;
+
+	Menu* officeMenu = nullptr;
+	Button* officeSelectButton = nullptr;
+
+	void createAdobeButton(bool unlocked);
+	void createOfficeButtons(bool unlocked);
 };
 
 #endif

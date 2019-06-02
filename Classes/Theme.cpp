@@ -15,6 +15,16 @@ void Theme::setCurrentTheme(const string& theme)
 		currentTheme = jetBrainThemeName;
 		setJetBrainTheme();
 	}
+	else if (theme == adobeThemeName)
+	{
+		currentTheme = adobeThemeName;
+		setAdobeTheme();
+	}
+	else if (theme == officeThemeName)
+	{
+		currentTheme = officeThemeName;
+		setOfficeTheme();
+	}
 }
 
 Theme::Theme()
@@ -64,3 +74,7 @@ void Theme::setJetBrainTheme()
 
 #pragma endregion
 }
+
+void Theme::setAdobeTheme() { }
+
+void Theme::setOfficeTheme() { }
