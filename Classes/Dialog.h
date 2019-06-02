@@ -2,42 +2,36 @@
 #define __DIALOG_H__
 
 #include "cocos2d.h"
-#include "cocos-ext.h"
+#include "ui/CocosGUI.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
-namespace cocos2d
-{
-	namespace ui
-	{
-		class Button;
-	}
-}
+USING_NS_CC;
+using namespace cocos2d::ui;
 
 using std::string;
-using namespace cocos2d;
-using namespace cocos2d::extension;
 
-class Dialog : public LayerColor
+class Dialog final :
+	public LayerColor
 {
 public:
-	Dialog();
+	Dialog() : menu(nullptr), backGround(nullptr), title(nullptr), contentText(nullptr) {}
 	~Dialog();
 
 	bool init() override;
 	CREATE_FUNC(Dialog);
-	static Dialog* create(const std::string background, Size size);
+	static Dialog* create(const string& background, const Size& size);
 
 	// touch事件监听
-	bool onTouchBegan(Touch* touch, Event* event) override;
-	void onTouchMoved(Touch* touch, Event* event) override;
-	void onTouchEnded(Touch* touch, Event* event) override;
+	bool onTouchBegan(Touch* touch, Event* event) override { return true; }
+	void onTouchMoved(Touch* touch, Event* event) override {}
+	void onTouchEnded(Touch* touch, Event* event) override {}
 
 	// 标题
-	void setTitle(const string title, int fontSize = 20);
+	void setTitle(const string& title, int fontSize = 20);
 	// 文本
-	void setContentText(const string text, const int fontSize, const int padding, const int paddingTop);
+	void setContentText(const string& text, const int fontSize, const int padding, const int paddingTop);
 	// 添加button
 	bool addButton(MenuItem* menuItem) const;
 
@@ -48,16 +42,16 @@ public:
 
 private:
 	// 文字内容两边的空白区
-	int contentPadding;
-	int contentPaddingTop;
+	int contentPadding = 0;
+	int contentPaddingTop = 0;
 
 	Size dialogContentSize;
 
 	// set and get
 CC_SYNTHESIZE_RETAIN(Menu*, menu, MenuButton);
-CC_SYNTHESIZE_RETAIN(ui::Scale9Sprite*,backGround, BackGround);
+CC_SYNTHESIZE_RETAIN(ui::Scale9Sprite*, backGround, BackGround);
 CC_SYNTHESIZE_RETAIN(Label*, title, LabelTitle);
-CC_SYNTHESIZE_RETAIN(Label*,contentText, LabelContentText);
+CC_SYNTHESIZE_RETAIN(Label*, contentText, LabelContentText);
 };
 
 #endif

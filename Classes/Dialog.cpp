@@ -1,15 +1,4 @@
 #include "Dialog.h"
-#include "ui/UIButton.h"
-
-Dialog::Dialog() :
-	contentPadding(0)
-	, contentPaddingTop(0)
-	, menu(nullptr)
-	, backGround(nullptr)
-	, title(nullptr)
-	, contentText(nullptr)
-{
-}
 
 Dialog::~Dialog()
 {
@@ -20,10 +9,8 @@ Dialog::~Dialog()
 
 bool Dialog::init()
 {
-	if (!LayerColor::init())
-	{
-		return false;
-	}
+	if (!LayerColor::init()) return false;
+
 	// 初始化需要的 Menu
 	auto menu = Menu::create();
 	menu->setPosition(Size::ZERO);
@@ -43,56 +30,37 @@ bool Dialog::init()
 	return true;
 }
 
-bool Dialog::onTouchBegan(Touch* touch, Event* event)
-{
-	return true;
-}
-
-void Dialog::onTouchMoved(Touch* touch, Event* event)
-{
-}
-
-void Dialog::onTouchEnded(Touch* touch, Event* event)
-{
-}
-
-Dialog* Dialog::create(const std::string background, const Size size)
+Dialog* Dialog::create(const string& background, const Size& size)
 {
 	auto layer = Dialog::create();
-
-	layer->setBackGround(ui::Scale9Sprite::create(background));
-
+	layer->setBackGround(Scale9Sprite::create(background));
 	layer->dialogContentSize = size;
-
 	return layer;
 }
 
-void Dialog::setTitle(const string title, int fontSize)
+void Dialog::setTitle(const string& title, const int fontSize)
 {
+	// TODO 统一字体？路径放到头文件orTheme？
 	const auto label = Label::createWithTTF(title, "/font/marker_felt.ttf", fontSize);
 	setLabelTitle(label);
 }
 
-void Dialog::setContentText(const string text, const int fontSize, const int padding, const int paddingTop)
+void Dialog::setContentText(const string& text, const int fontSize, const int padding, const int paddingTop)
 {
+	// TODO 统一字体？路径放到头文件orTheme？
 	const auto label = Label::createWithTTF(text, "/font/marker_felt.ttf", fontSize);
 	setLabelContentText(label);
 	contentPadding = padding;
 	contentPaddingTop = paddingTop;
 }
 
-
 bool Dialog::addButton(MenuItem* menuItem) const
 {
-	const auto center = Point(SCREEN_WIDTH/ 2, SCREEN_HEIGHT / 2);
-
+	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	menuItem->setPosition(center);
-
 	getMenuButton()->addChild(menuItem);
-
 	return true;
 }
-
 
 void Dialog::onEnter()
 {
@@ -129,7 +97,6 @@ void Dialog::onExit()
 	_eventDispatcher->resumeEventListenersForTarget(this->getParent(), true); // 还原事件监听
 }
 
-
 void Dialog::backgroundFinish()
 {
 	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -138,9 +105,9 @@ void Dialog::backgroundFinish()
 	this->addChild(getMenuButton());
 	const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
 
-	auto vector = getMenuButton()->getChildren();
+	auto nodes = getMenuButton()->getChildren();
 	auto i = 0;
-	for (auto menuItem : vector)
+	for (auto menuItem : nodes)
 	{
 		auto node = dynamic_cast<Node*>(menuItem);
 		node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
