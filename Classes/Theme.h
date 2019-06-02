@@ -11,6 +11,7 @@ public:
 #pragma region Theme Name
 	const string jetBrainThemeName = "JetBrainTheme";
 	const string adobeThemeName = "AdobeTheme";
+	const string officeThemeName = "OfficeTheme";
 #pragma endregion
 
 #pragma region Font TTF
