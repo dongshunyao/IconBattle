@@ -83,26 +83,23 @@ void LevelScene::initScrollView()
 	scrollView->addChild(layer);
 	addChild(scrollView, 3);
 
-	scrollView->addEventListener([&,scrollView](Ref* pSender, ui::ScrollView::EventType eventType)
+	//添加鼠标事件侦听
+	auto listenerMouse = EventListenerMouse::create();
+	listenerMouse->setEnabled(true);
+	listenerMouse->onMouseScroll = [&,scrollView](EventMouse* event)
 	{
-		//添加鼠标事件侦听
-		auto listenerMouse = EventListenerMouse::create();
-		listenerMouse->setEnabled(true);
-		listenerMouse->onMouseScroll = [&](EventMouse* event)
-		{
-			const auto x = event->getScrollY(); //滚轮上滑x值小于0，下滑x值小于0
+		const auto x = event->getScrollY(); //滚轮上滑x值小于0，下滑x值小于0
 
-			if (x < 0)
-			{
-				scrollView->scrollToLeft(0.5,true);
-			}
-			else
-			{
-				scrollView->scrollToRight(0.5, true);
-			}
-		};
-		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
-	});
+		if (x < 0)
+		{
+			scrollView->scrollToLeft(0.5, true);
+		}
+		else
+		{
+			scrollView->scrollToRight(0.5, true);
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
 }
 
 void LevelScene::initButtons()

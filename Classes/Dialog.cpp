@@ -140,9 +140,9 @@ void Dialog::backgroundFinish()
 		listenerMouse->setEnabled(true);
 		listenerMouse->onMouseScroll = [&](EventMouse* event)
 		{
-			const auto y = event->getScrollY(); //滚轮上滑y值小于0，下滑y值小于0
+			const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
 
-			if (y < 0)
+			if (y > 0)
 			{
 				if (position % 11 < 10)
 					position++;
@@ -170,16 +170,33 @@ void Dialog::backgroundFinish()
 
 			if (!Network::getInstance()->getRank(true).empty())
 			{
-				auto nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
-				                                      "/font/marker_felt.ttf", 30);
-				nameLabel->setPosition(Vec2(icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90,
-				                            30));
-				layout->addChild(nameLabel);
+				if (Network::getInstance()->getRank(true).at(i).first.empty())
+				{
+					auto nullLabel = Label::createWithTTF("--------------------", "/font/marker_felt.ttf", 30);
+					nullLabel->setPosition(Vec2(
+						icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
+						30));
+					layout->addChild(nullLabel);
 
 
-				auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-				rankLabel->setPosition(Vec2(450, 30));
-				layout->addChild(rankLabel);
+					auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+					rankLabel->setPosition(Vec2(450, 30));
+					layout->addChild(rankLabel);
+				}
+				else
+				{
+					auto nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
+					                                      "/font/marker_felt.ttf", 30);
+					nameLabel->setPosition(Vec2(
+						icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90,
+						30));
+					layout->addChild(nameLabel);
+
+
+					auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+					rankLabel->setPosition(Vec2(450, 30));
+					layout->addChild(rankLabel);
+				}
 			}
 			else
 			{
@@ -187,6 +204,10 @@ void Dialog::backgroundFinish()
 				nullLabel->setPosition(Vec2(icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
 				                            30));
 				layout->addChild(nullLabel);
+
+				auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+				rankLabel->setPosition(Vec2(450, 30));
+				layout->addChild(rankLabel);
 			}
 
 
