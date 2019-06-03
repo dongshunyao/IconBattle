@@ -78,7 +78,7 @@ void Dialog::onEnter()
 	//添加背景图片
 	auto background = getBackGround();
 	background->setContentSize(dialogContentSize);
-	background->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT/ 2));
+	background->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	this->addChild(background, 0, 0);
 
 	// 弹出效果
@@ -141,17 +141,18 @@ void Dialog::backgroundFinish()
 		listenerMouse->onMouseScroll = [&](EventMouse* event)
 		{
 			const auto y = event->getScrollY(); //滚轮上滑y值小于0，下滑y值小于0
+
 			if (y < 0)
 			{
-				auto curScale = listView->getScale();
-				curScale += 0.01;
-				listView->scrollToTop(curScale, true);
+				if (position % 11 < 10)
+					position++;
+				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
 			}
 			else
 			{
-				auto curScale = listView->getScale();
-				curScale -= 0.01;
-				listView->scrollToBottom(curScale, true);
+				if (position % 11 > 0)
+					position--;
+				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
 			}
 		};
 		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
@@ -170,9 +171,9 @@ void Dialog::backgroundFinish()
 			if (!Network::getInstance()->getRank(true).empty())
 			{
 				auto nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
-					"/font/marker_felt.ttf", 30);
+				                                      "/font/marker_felt.ttf", 30);
 				nameLabel->setPosition(Vec2(icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90,
-					30));
+				                            30));
 				layout->addChild(nameLabel);
 
 
@@ -184,7 +185,7 @@ void Dialog::backgroundFinish()
 			{
 				auto nullLabel = Label::createWithTTF("--------------------", "/font/marker_felt.ttf", 30);
 				nullLabel->setPosition(Vec2(icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
-					30));
+				                            30));
 				layout->addChild(nullLabel);
 			}
 

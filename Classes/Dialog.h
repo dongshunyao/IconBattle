@@ -53,6 +53,7 @@ private:
 	Size dialogContentSize;
 
 	int i = 0; // 循环计数器
+	int position =11;
 	bool rank = false; // 对话框类型
 	ListView* listView = nullptr;
 
