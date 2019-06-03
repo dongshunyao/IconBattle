@@ -690,11 +690,19 @@ void GameScene::animationDoneCallback()
 	auto newList = getKillList();
 	if (newList.empty())
 	{
-		boardLocked = false;
 		// 如果死局重新刷新面板
 		if (isDead())
 		{
 			refreshBoard();
+			newBlocksDrop();
+		}
+		else if (getHintList().size())
+		{
+			boardLocked = false;
+		}
+		else
+		{
+			// TODO: 次数用尽
 		}
 	}
 	else
@@ -705,7 +713,57 @@ void GameScene::animationDoneCallback()
 
 bool GameScene::isDead()
 {
-	// todo
-
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int j = 0; j < BOARD_SIZE; j++) {
+			if ((i > 0 && i < BOARD_SIZE - 1)
+				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type)
+				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].func != FUNC_SUPER)
+				) {
+				return true;
+			}
+			if ((j > 0 && j < BOARD_SIZE - 1)
+				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type)
+				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].func != FUNC_SUPER)
+				) {
+				return true;
+			}
+		}
+	}
 	return false;
+}
+
+validOperateList GameScene::getHintList()
+{
+	validOperateList rtn;
+	auto beginTime = clock();
+
+	//1ms
+	for (int i = 1; i < BOARD_SIZE; i++) {
+		for (int j = 0; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i - 1][j].func == FUNC_SUPER) {
+				rtn.push_back({ {i,j} ,{i - 1,j} });
+				continue;
+			}
+			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+			if (isDead())rtn.push_back({ {i,j} ,{i - 1,j} });
+			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+		}
+	}
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int j = 1; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i][j - 1].func == FUNC_SUPER) {
+				rtn.push_back({ {i,j} ,{i,j - 1} });
+				continue;
+			}
+			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+			if (isDead())rtn.push_back({ {i,j} ,{i,j - 1} });
+			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+		}
+	}
+
+	auto endTime = clock();
+
+	CCLOG("Hit calc time: %dms.", endTime - beginTime);
+
+	return rtn;
 }
