@@ -128,6 +128,9 @@ private:
 
 	// 判断是否为死局
 	bool isDead();
+	// 得到提示
+	validOperateList getHintList();
+
 };
 
 #endif
