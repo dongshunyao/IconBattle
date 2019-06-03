@@ -28,7 +28,6 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	return scene;
 }
 
-
 void GameScene::initComponents()
 {
 #pragma  region addMouseListener
@@ -709,65 +708,4 @@ bool GameScene::isDead()
 	// todo
 
 	return false;
-}
-
-// 左面板接口
-void GameScene::setTotalProgress(const int total)
-{
-	totalScore = total;
-}
-
-void GameScene::setCurrentProgress(int progress)
-{
-	const float previousPercentage = 100 * currentScore / totalScore;
-	if (progress < 0) { progress = 0; }
-	if (progress > totalScore) { progress = totalScore; }
-	currentScore = progress;
-	scoreLabel->setString(std::to_string(currentScore));
-	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentScore / totalScore);
-	progressController->runAction(processAction);
-}
-
-void GameScene::setRemainStep(const int step)
-{
-	stepNumber = step;
-	stepNumberLabel->setString(std::to_string(stepNumber));
-}
-
-
-int GameScene::getCurrentProgress() const { return currentScore; }
-int GameScene::getTotalProgress() const { return totalScore; }
-int GameScene::getRemainStep() const { return stepNumber; }
-int GameScene::getHintNumber() const { return hintNumber; }
-
-
-void GameScene::judgeResult()
-{
-	// 两个精灵实现结果先后出现
-	firstSprite = Sprite::create(result
-		                             ? theme->gameSceneResultSprite + "2.png"
-		                             : theme->gameSceneResultSprite + +"0.png");
-	secondSprite = Sprite::create(result
-		                              ? theme->gameSceneResultSprite + +"3.png"
-		                              : theme->gameSceneResultSprite + +"1.png");
-	firstSprite->setPosition(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-	secondSprite->setPosition(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-	firstSprite->setOpacity(0);
-	secondSprite->setOpacity(0);
-	this->addChild(firstSprite, 10);
-	this->addChild(secondSprite, 10);
-
-	const auto delay = DelayTime::create(1.3);
-	const auto fadeIn = FadeIn::create(1.3);
-	const auto firstMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2,
-	                                                SCREEN_HEIGHT / 2 + 200));
-	const auto secondMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2,
-	                                                 SCREEN_HEIGHT / 2 + 200));
-	firstSprite->runAction(Sequence::create(fadeIn, delay, firstMoveTo, nullptr));
-	secondSprite->runAction(Sequence::create(delay, fadeIn, secondMoveTo, CallFunc::create([&]()
-	{
-		// Todo 排名相关
-		firstSprite->setVisible(false);
-		secondSprite->setVisible(false);
-	}), nullptr));
 }

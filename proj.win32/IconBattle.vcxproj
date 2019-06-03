@@ -156,9 +156,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackButton.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
+    <ClCompile Include="..\Classes\GameBoard.cpp" />
     <ClCompile Include="..\Classes\InformationBoard.cpp" />
     <ClCompile Include="..\Classes\GameSceneController.cpp" />
     <ClCompile Include="..\Classes\Network.cpp" />
+    <ClCompile Include="..\Classes\ResultBoard.cpp" />
     <ClCompile Include="..\Classes\StructNames.cpp" />
     <ClCompile Include="..\Classes\Theme.cpp" />
     <ClCompile Include="..\Classes\WebShare.cpp" />
