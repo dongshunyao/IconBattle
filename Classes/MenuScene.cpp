@@ -106,7 +106,7 @@ void MenuScene::initRankButton()
 			const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
 
 			dialog->addListView(true);
-			dialog->setTitle("Rank List", 50);
+			dialog->setTitle("Classical Rank List", 50);
 			dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
 			                                         Sprite::create(theme->gameSceneYesButtonSelected),
 			                                         Sprite::create(theme->gameSceneYesButtonNormal),

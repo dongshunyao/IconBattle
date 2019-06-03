@@ -41,7 +41,7 @@ Dialog* Dialog::create(const string& background, const Size& size)
 void Dialog::setTitle(const string& title, const int fontSize)
 {
 	// TODO 统一字体？路径放到头文件orTheme？
-	const auto label = Label::createWithTTF(title, "/font/marker_felt.ttf", fontSize);
+	const auto label = Label::createWithTTF(title, theme->semiBoldFont, fontSize);
 	setLabelTitle(label);
 }
 
@@ -124,7 +124,14 @@ void Dialog::backgroundFinish()
 			i++;
 		}
 
-		const auto theme = Theme::getInstance();
+		auto changeTypeButton = Button::create(theme->menuChangeTypeButtonNormalBackground,
+		                                       theme->menuChangeTypeButtonSelectedBackground,
+		                                       theme->menuChangeTypeButtonDisabledBackground);
+
+		auto backTypeButton = Button::create(theme->menuBackTypeButtonNormalBackground,
+		                                     theme->menuBackTypeButtonSelectedBackground,
+		                                     theme->menuBackTypeButtonDisabledBackground);
+
 		listView = ListView::create();
 		listView->setDirection(ScrollView::Direction::VERTICAL);
 		listView->setTouchEnabled(true);
@@ -134,6 +141,38 @@ void Dialog::backgroundFinish()
 		listView->setContentSize(Size(500, 400));
 		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 		listView->setScrollBarAutoHideTime(0);
+
+		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
+		                                    SCREEN_HEIGHT / 2));
+		this->addChild(changeTypeButton, 30);
+		backTypeButton->setPosition(Point(SCREEN_WIDTH / 2 - listView->getContentSize().width / 2 - 50,
+		                                  SCREEN_HEIGHT / 2));
+		backTypeButton->setOpacity(0);
+		this->addChild(backTypeButton, 30);
+
+		backTypeButton->addTouchEventListener(
+			[&,changeTypeButton,backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
+			{
+				if (type == Widget::TouchEventType::ENDED)
+				{
+					title->setString("Classical Rank List");
+					backTypeButton->setOpacity(0);
+					changeTypeButton->runAction(FadeIn::create(0.25));
+					getRankByType(true);
+				}
+			});
+
+		changeTypeButton->addTouchEventListener(
+			[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
+			{
+				if (type == Widget::TouchEventType::ENDED)
+				{
+					title->setString("Plus Rank List");
+					changeTypeButton->setOpacity(0);
+					backTypeButton->runAction(FadeIn::create(0.25));
+					getRankByType(false);
+				}
+			});
 
 		//添加鼠标事件侦听
 		auto listenerMouse = EventListenerMouse::create();
@@ -157,63 +196,7 @@ void Dialog::backgroundFinish()
 		};
 		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
 
-		for (i = 0; i < 10; i++)
-		{
-			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
-			auto layout = Layout::create();
-			layout->setLayoutType(Layout::Type::ABSOLUTE);
-			layout->setContentSize(Size(500, icon->getContentSize().height + 30));
-
-			icon->setPosition(Vec2(icon->getContentSize().width / 2 + 50, 30));
-			layout->addChild(icon);
-			layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
-
-			if (!Network::getInstance()->getRank(true).empty())
-			{
-				if (Network::getInstance()->getRank(true).at(i).first.empty())
-				{
-					auto nullLabel = Label::createWithTTF("--------------------", "/font/marker_felt.ttf", 30);
-					nullLabel->setPosition(Vec2(
-						icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
-						30));
-					layout->addChild(nullLabel);
-
-
-					auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-					rankLabel->setPosition(Vec2(450, 30));
-					layout->addChild(rankLabel);
-				}
-				else
-				{
-					auto nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
-					                                      "/font/marker_felt.ttf", 30);
-					nameLabel->setPosition(Vec2(
-						icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90,
-						30));
-					layout->addChild(nameLabel);
-
-
-					auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-					rankLabel->setPosition(Vec2(450, 30));
-					layout->addChild(rankLabel);
-				}
-			}
-			else
-			{
-				auto nullLabel = Label::createWithTTF("--------------------", "/font/marker_felt.ttf", 30);
-				nullLabel->setPosition(Vec2(icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
-				                            30));
-				layout->addChild(nullLabel);
-
-				auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-				rankLabel->setPosition(Vec2(450, 30));
-				layout->addChild(rankLabel);
-			}
-
-
-			listView->pushBackCustomItem(layout);
-			listView->setBottomPadding(icon->getContentSize().height);
-		}
+		this->getRankByType(true);
 		this->addChild(listView);
 	}
 	else
@@ -251,4 +234,70 @@ void Dialog::backgroundFinish()
 		}
 	}
 	rank = false;
+}
+
+void Dialog::getRankByType(bool type)
+{
+	rankType = type;
+	for (i = 0; i < 10; i++)
+	{
+		auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
+		layout = Layout::create();
+		layout->setLayoutType(Layout::Type::ABSOLUTE);
+		layout->setContentSize(Size(500, icon->getContentSize().height + 30));
+
+		icon->setPosition(Vec2(icon->getContentSize().width / 2 +60, 30));
+		layout->addChild(icon);
+		layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
+
+		rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+		rankLabel->setPosition(Vec2(icon->getContentSize().width / 2 + 10, 30));
+		layout->addChild(rankLabel);
+
+		if (!Network::getInstance()->getRank(rankType).empty())
+		{
+			if (Network::getInstance()->getRank(rankType).at(i).first.empty())
+			{
+				nameLabel = Label::createWithTTF("------------------", "/font/marker_felt.ttf", 30);
+				nameLabel->setPosition(Vec2(
+					icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 75,
+					30));
+				layout->addChild(nameLabel);
+
+				scoreLabel = Label::createWithTTF("-------", "/font/marker_felt.ttf", 30);
+				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
+				layout->addChild(scoreLabel);
+			}
+			else
+			{
+				nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
+				                                 "/font/marker_felt.ttf", 30);
+				nameLabel->setPosition(Vec2(
+					icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 75,
+					30));
+				layout->addChild(nameLabel);
+
+				scoreLabel = Label::createWithTTF(std::to_string(Network::getInstance()->getRank(true).at(i).second),
+				                                  "/font/marker_felt.ttf", 30);
+				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
+				layout->addChild(scoreLabel);
+			}
+		}
+		else
+		{
+			nameLabel = Label::createWithTTF("------------------", "/font/marker_felt.ttf", 30);
+			nameLabel->setPosition(Vec2(
+				icon->getContentSize().width / 2 + 30 + nameLabel->getContentSize().width / 2 + 75,
+				30));
+			layout->addChild(nameLabel);
+
+			scoreLabel = Label::createWithTTF("-------", "/font/marker_felt.ttf", 30);
+			scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
+			layout->addChild(scoreLabel);
+		}
+
+
+		listView->pushBackCustomItem(layout);
+		listView->setBottomPadding(icon->getContentSize().height);
+	}
 }

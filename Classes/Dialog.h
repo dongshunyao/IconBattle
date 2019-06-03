@@ -53,9 +53,16 @@ private:
 	Size dialogContentSize;
 
 	int i = 0; // 循环计数器
-	int position =11;
+	int position = 11;
 	bool rank = false; // 对话框类型
+	bool rankType = false; // 排行榜类型
 	ListView* listView = nullptr;
+	Label* nameLabel = nullptr;
+	Label* rankLabel = nullptr;
+	Label* scoreLabel = nullptr;
+	Layout* layout = nullptr;
+
+	void getRankByType(bool type);
 
 
 	// set and get

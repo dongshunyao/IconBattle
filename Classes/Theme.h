@@ -37,6 +37,14 @@ public:
 
 	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
 
+	const string menuChangeTypeButtonNormalBackground = "/image/menuscene/common/change_button_normal.png";
+	const string menuChangeTypeButtonSelectedBackground = "/image/menuscene/common/change_button_selected.png";
+	const string menuChangeTypeButtonDisabledBackground = "/image/menuscene/common/change_button_disabled.png";
+
+	const string menuBackTypeButtonNormalBackground = "/image/menuscene/common/back_change_button_normal.png";
+	const string menuBackTypeButtonSelectedBackground = "/image/menuscene/common/back_change_button_selected.png";
+	const string menuBackTypeButtonDisabledBackground = "/image/menuscene/common/back_change_button_disabled.png";
+
 	const string menuSceneGameButtonNormal = "/image/menuscene/common/game_normal.png";
 	const string menuSceneGameButtonSelected = "/image/menuscene/common/game_selected.png";
 	const string menuSceneGameButtonDisabled = "/image/menuscene/common/game_disabled.png";
