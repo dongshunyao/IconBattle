@@ -12,8 +12,8 @@ public:
 	static GameSceneController* getInstance();
 
 	void startPracticeGame(bool isClassical);
-	//void startLevelGame(bool isClassical, int level);
-	//void startInfiniteGame(bool isClassical);
+	void startLevelGame(bool isClassical, int level);
+	void startInfiniteGame(bool isClassical);
 
 private:
 	static GameSceneController* instance;

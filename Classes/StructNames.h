@@ -22,6 +22,9 @@ namespace StructNames
 	struct ActorInfo;
 	typedef vector<ActorInfo> ActorInfoList;
 
+	typedef pair<pii, pii> validOperate;
+	typedef vector<validOperate> validOperateList;
+
 #pragma region CONST_VAL
 	const string GEM_N[6] = {
 		"/image/gamescene/jetbraintheme/iconset/large/1.png",

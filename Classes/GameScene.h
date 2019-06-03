@@ -31,7 +31,8 @@ USING_NS_CC;
  * -1层 宝石的背景板
  * 1+层 宝石
  * 10+层 主背景板+所有按钮
- * 20+层 提示框
+ * 20+层 结算结果框
+ * 30+层 返回提示框
  */
 
 class GameScene final :
@@ -41,16 +42,6 @@ public:
 	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int hintNumber = 3);
 	bool init() override { return Scene::init(); }
 	CREATE_FUNC(GameScene)
-
-	// 接口函数
-	void setTotalProgress(int total);
-	void setCurrentProgress(int progress);
-	void setRemainStep(int step);
-	int getCurrentProgress() const;
-	int getTotalProgress() const;
-	int getRemainStep() const;
-	int getHintNumber() const;
-
 
 private:
 	bool isClassical = true;
@@ -62,6 +53,10 @@ private:
 	int totalScore = 0;
 	int currentScore = 0;
 
+	void setStepNumber(int step);
+	void setTotalScore(int score);
+	void setCurrentScore(int score);
+
 	Label* stepNumberLabel = nullptr;
 	Sprite* hintNumberSprite = nullptr;
 	Label* scoreLabel = nullptr;
@@ -72,14 +67,10 @@ private:
 
 #pragma endregion
 
-	bool result = false;
+#pragma region Result Board
+	void showResult(bool result);
 
-
-
-	Sprite* firstSprite = nullptr;
-	Sprite* secondSprite = nullptr;
-
-	void judgeResult(); // 结果动画
+#pragma endregion
 
 	static const int BOARD_SIZE = 8;
 
@@ -128,6 +119,9 @@ private:
 
 	// 判断是否为死局
 	bool isDead();
+	// 得到提示
+	validOperateList getHintList();
+
 };
 
 #endif

@@ -138,6 +138,12 @@
     <ClCompile Include="..\Classes\GameSceneController.cpp">
       <Filter>src\scene\common\gamescenecontroller</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ResultBoard.cpp">
+      <Filter>src\scene\gamescene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameBoard.cpp">
+      <Filter>src\scene\gamescene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

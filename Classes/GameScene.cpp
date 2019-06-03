@@ -28,7 +28,6 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	return scene;
 }
 
-
 void GameScene::initComponents()
 {
 #pragma  region addMouseListener
@@ -691,11 +690,19 @@ void GameScene::animationDoneCallback()
 	auto newList = getKillList();
 	if (newList.empty())
 	{
-		boardLocked = false;
 		// 如果死局重新刷新面板
 		if (isDead())
 		{
 			refreshBoard();
+			newBlocksDrop();
+		}
+		else if (getHintList().size())
+		{
+			boardLocked = false;
+		}
+		else
+		{
+			// TODO: 次数用尽
 		}
 	}
 	else
@@ -706,68 +713,57 @@ void GameScene::animationDoneCallback()
 
 bool GameScene::isDead()
 {
-	// todo
-
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int j = 0; j < BOARD_SIZE; j++) {
+			if ((i > 0 && i < BOARD_SIZE - 1)
+				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type)
+				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].func != FUNC_SUPER)
+				) {
+				return true;
+			}
+			if ((j > 0 && j < BOARD_SIZE - 1)
+				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type)
+				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].func != FUNC_SUPER)
+				) {
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
-// 左面板接口
-void GameScene::setTotalProgress(const int total)
+validOperateList GameScene::getHintList()
 {
-	totalScore = total;
-}
+	validOperateList rtn;
+	auto beginTime = clock();
 
-void GameScene::setCurrentProgress(int progress)
-{
-	const float previousPercentage = 100 * currentScore / totalScore;
-	if (progress < 0) { progress = 0; }
-	if (progress > totalScore) { progress = totalScore; }
-	currentScore = progress;
-	scoreLabel->setString(std::to_string(currentScore));
-	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100 * currentScore / totalScore);
-	progressController->runAction(processAction);
-}
+	//1ms
+	for (int i = 1; i < BOARD_SIZE; i++) {
+		for (int j = 0; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i - 1][j].func == FUNC_SUPER) {
+				rtn.push_back({ {i,j} ,{i - 1,j} });
+				continue;
+			}
+			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+			if (isDead())rtn.push_back({ {i,j} ,{i - 1,j} });
+			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+		}
+	}
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int j = 1; j < BOARD_SIZE; j++) {
+			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i][j - 1].func == FUNC_SUPER) {
+				rtn.push_back({ {i,j} ,{i,j - 1} });
+				continue;
+			}
+			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+			if (isDead())rtn.push_back({ {i,j} ,{i,j - 1} });
+			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+		}
+	}
 
-void GameScene::setRemainStep(const int step)
-{
-	stepNumber = step;
-	stepNumberLabel->setString(std::to_string(stepNumber));
-}
+	auto endTime = clock();
 
+	CCLOG("Hit calc time: %dms.", endTime - beginTime);
 
-int GameScene::getCurrentProgress() const { return currentScore; }
-int GameScene::getTotalProgress() const { return totalScore; }
-int GameScene::getRemainStep() const { return stepNumber; }
-int GameScene::getHintNumber() const { return hintNumber; }
-
-
-void GameScene::judgeResult()
-{
-	// 两个精灵实现结果先后出现
-	firstSprite = Sprite::create(result
-		                             ? theme->gameSceneResultSprite + "2.png"
-		                             : theme->gameSceneResultSprite + +"0.png");
-	secondSprite = Sprite::create(result
-		                              ? theme->gameSceneResultSprite + +"3.png"
-		                              : theme->gameSceneResultSprite + +"1.png");
-	firstSprite->setPosition(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-	secondSprite->setPosition(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-	firstSprite->setOpacity(0);
-	secondSprite->setOpacity(0);
-	this->addChild(firstSprite, 10);
-	this->addChild(secondSprite, 10);
-
-	const auto delay = DelayTime::create(1.3);
-	const auto fadeIn = FadeIn::create(1.3);
-	const auto firstMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 - firstSprite->getContentSize().width / 2,
-	                                                SCREEN_HEIGHT / 2 + 200));
-	const auto secondMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 + secondSprite->getContentSize().width / 2,
-	                                                 SCREEN_HEIGHT / 2 + 200));
-	firstSprite->runAction(Sequence::create(fadeIn, delay, firstMoveTo, nullptr));
-	secondSprite->runAction(Sequence::create(delay, fadeIn, secondMoveTo, CallFunc::create([&]()
-	{
-		// Todo 排名相关
-		firstSprite->setVisible(false);
-		secondSprite->setVisible(false);
-	}), nullptr));
+	return rtn;
 }
