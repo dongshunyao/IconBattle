@@ -46,7 +46,7 @@ void GameScene::initInformationBoard()
 					Director::getInstance()->getRunningScene()->removeChild(dialog);
 				}));
 
-			this->addChild(dialog, 20);
+			this->addChild(dialog, 30);
 		}
 	});
 	backButton->setPosition(Point(1150, 850));
@@ -106,4 +106,32 @@ void GameScene::initInformationBoard()
 		}
 	});
 	this->addChild(hintButton, 11);
+}
+
+void GameScene::setTotalScore(const int totalScore)
+{
+	this->totalScore = totalScore;
+}
+
+void GameScene::setStepNumber(const int stepNumber)
+{
+	if (stepNumber >= 0)
+	{
+		this->stepNumber = stepNumber;
+		stepNumberLabel->setString(to_string(stepNumber));
+	}
+}
+
+void GameScene::setCurrentScore(int score)
+{
+	const auto previousPercentage = 100.0f * currentScore / totalScore;
+
+	if (score < 0) score = 0;
+	if (score > totalScore) score = totalScore;
+
+	currentScore = score;
+	scoreLabel->setString(to_string(currentScore));
+
+	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100.0f * currentScore / totalScore);
+	progressController->runAction(processAction);
 }

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Theme.h"
+#include "Network.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -52,6 +53,7 @@ private:
 	Size dialogContentSize;
 
 	int i = 0; // 循环计数器
+	int position =11;
 	bool rank = false; // 对话框类型
 	ListView* listView = nullptr;
 
