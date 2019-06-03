@@ -24,27 +24,30 @@ void GameScene::initInformationBoard()
 		BackButton::BACK_BUTTON_DISABLED_IMAGE);
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-		dialog->setContentText("您确定要退出当前游戏么？这将丢失当前游戏进度！", 36, 60, 20);
+		if (type == Widget::TouchEventType::ENDED)
+		{
+			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+			dialog->setContentText("您确定要退出当前游戏么？这将丢失当前游戏进度！", 36, 60, 20);
 
-		dialog->addButton(MenuItemSprite::create(
-			Sprite::create(theme->gameSceneYesButtonNormal),
-			Sprite::create(theme->gameSceneYesButtonSelected),
-			Sprite::create(theme->gameSceneYesButtonNormal),
-			[&](Ref* sender)
-			{
-				Director::getInstance()->popScene();
-			}));
-		dialog->addButton(MenuItemSprite::create(
-			Sprite::create(theme->gameSceneNoButtonNormal),
-			Sprite::create(theme->gameSceneNoButtonSelected),
-			Sprite::create(theme->gameSceneNoButtonNormal),
-			[&, dialog](Ref* sender)
-			{
-				Director::getInstance()->getRunningScene()->removeChild(dialog);
-			}));
+			dialog->addButton(MenuItemSprite::create(
+				Sprite::create(theme->gameSceneYesButtonNormal),
+				Sprite::create(theme->gameSceneYesButtonSelected),
+				Sprite::create(theme->gameSceneYesButtonNormal),
+				[&](Ref* sender)
+				{
+					Director::getInstance()->popScene();
+				}));
+			dialog->addButton(MenuItemSprite::create(
+				Sprite::create(theme->gameSceneNoButtonNormal),
+				Sprite::create(theme->gameSceneNoButtonSelected),
+				Sprite::create(theme->gameSceneNoButtonNormal),
+				[&, dialog](Ref* sender)
+				{
+					Director::getInstance()->getRunningScene()->removeChild(dialog);
+				}));
 
-		this->addChild(dialog, 20);
+			this->addChild(dialog, 20);
+		}
 	});
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 11);

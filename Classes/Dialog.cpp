@@ -62,6 +62,12 @@ bool Dialog::addButton(MenuItem* menuItem) const
 	return true;
 }
 
+
+void Dialog::addListView(bool dialogType)
+{
+	rank = dialogType;
+}
+
 void Dialog::onEnter()
 {
 	LayerColor::onEnter();
@@ -93,6 +99,7 @@ void Dialog::onEnter()
 
 void Dialog::onExit()
 {
+	Layer::onExit();
 	LayerColor::onExit();
 	_eventDispatcher->resumeEventListenersForTarget(this->getParent(), true); // 还原事件监听
 }
@@ -101,35 +108,93 @@ void Dialog::backgroundFinish()
 {
 	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	// 添加按钮，并设置其位置
-	this->addChild(getMenuButton());
-	const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
-
-	auto nodes = getMenuButton()->getChildren();
-	auto i = 0;
-	for (auto menuItem : nodes)
+	if (rank)
 	{
-		auto node = dynamic_cast<Node*>(menuItem);
-		node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
-		                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 3));
-		i++;
-	}
+		if (getLabelTitle())
+		{
+			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 75.0f));
+			this->addChild(getLabelTitle());
+		}
 
-	// 显示对话框标题
-	if (getLabelTitle())
-	{
-		getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 35.0f));
-		this->addChild(getLabelTitle());
-	}
+		this->addChild(getMenuButton());
+		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
+		auto nodes = getMenuButton()->getChildren();
+		auto i = 0;
+		for (auto menuItem : nodes)
+		{
+			auto node = dynamic_cast<Node*>(menuItem);
+			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
+			i++;
+		}
 
-	// 显示文本内容
-	if (getLabelContentText())
-	{
-		auto content = getLabelContentText();
-		content->setLineBreakWithoutSpace(true);
-		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
-		content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-		content->setHorizontalAlignment(TextHAlignment::LEFT);
-		this->addChild(content);
+		const auto theme = Theme::getInstance();
+		listView = ListView::create();
+		listView->setDirection(ScrollView::Direction::VERTICAL);
+		listView->setTouchEnabled(true);
+		listView->setBounceEnabled(true);
+		listView->setBackGroundImageScale9Enabled(true);
+		listView->setAnchorPoint(Point(0.5f, 0.5f));
+		listView->setContentSize(Size(500, 400));
+		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		for (i = 0; i < 10; i++)// TODO 网络排行榜为空，测试
+		{
+			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
+			auto layout = Layout::create();
+			layout->setLayoutType(Layout::Type::ABSOLUTE);
+			layout->setContentSize(Size(500, icon->getContentSize().height + 30));
+
+			icon->setPosition(Vec2(icon->getContentSize().width / 2 + 50, 30));
+			layout->addChild(icon);
+			layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
+
+			auto nameLabel = Label::createWithTTF("test", "/font/marker_felt.ttf", 30);
+			nameLabel->setPosition(Vec2(icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90, 30));
+			layout->addChild(nameLabel);
+
+
+			auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+			rankLabel->setPosition(Vec2(450, 30));
+			layout->addChild(rankLabel);
+
+			listView->pushBackCustomItem(layout);
+			listView->setBottomPadding(icon->getContentSize().height);
+		}
+		this->addChild(listView);
 	}
+	else
+	{
+		// 添加按钮，并设置其位置
+		this->addChild(getMenuButton());
+		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
+
+		auto nodes = getMenuButton()->getChildren();
+		auto i = 0;
+		for (auto menuItem : nodes)
+		{
+			auto node = dynamic_cast<Node*>(menuItem);
+			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 3));
+			i++;
+		}
+
+		// 显示对话框标题
+		if (getLabelTitle())
+		{
+			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 35.0f));
+			this->addChild(getLabelTitle());
+		}
+
+		// 显示文本内容
+		if (getLabelContentText())
+		{
+			auto content = getLabelContentText();
+			content->setLineBreakWithoutSpace(true);
+			content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
+			content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+			content->setHorizontalAlignment(TextHAlignment::LEFT);
+			this->addChild(content);
+		}
+	}
+	rank = false;
 }

@@ -33,8 +33,9 @@ public:
 	void setTitle(const string& title, int fontSize = 20);
 	// 文本
 	void setContentText(const string& text, const int fontSize, const int padding, const int paddingTop);
-	// 添加button
+	// 添加button或列表
 	bool addButton(MenuItem* menuItem) const;
+	void addListView(bool dialogType);
 
 	void onEnter() override;
 	void onExit() override;
@@ -49,6 +50,11 @@ private:
 	int contentPaddingTop = 0;
 
 	Size dialogContentSize;
+
+	int i = 0; // 循环计数器
+	bool rank = false; // 对话框类型
+	ListView* listView = nullptr;
+
 
 	// set and get
 CC_SYNTHESIZE_RETAIN(Menu*, menu, MenuButton);

@@ -35,6 +35,8 @@ public:
 #pragma region Menu Sence
 	string menuSceneBackground;
 
+	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
+
 	const string menuSceneGameButtonNormal = "/image/menuscene/common/game_normal.png";
 	const string menuSceneGameButtonSelected = "/image/menuscene/common/game_selected.png";
 	const string menuSceneGameButtonDisabled = "/image/menuscene/common/game_disabled.png";

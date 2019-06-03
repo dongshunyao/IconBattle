@@ -98,9 +98,27 @@ void MenuScene::initRankButton()
 	auto rankButton = ui::Button::create(theme->menuSceneRankButtonNormal,
 	                                     theme->menuSceneRankButtonSelected,
 	                                     theme->menuSceneRankButtonDisabled);
-	rankButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	rankButton->addTouchEventListener([&, rankButton](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 排名相关
+		if (type == Widget::TouchEventType::ENDED)
+		{
+			rankButton->setBright(false);
+			const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
+
+			dialog->addListView(true);
+			dialog->setTitle("Rank List", 50);
+			dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
+			                                         Sprite::create(theme->gameSceneYesButtonSelected),
+			                                         Sprite::create(theme->gameSceneYesButtonNormal),
+			                                         [&, dialog, rankButton](Ref* sender)
+			                                         {
+				                                         Director::getInstance()
+					                                         ->getRunningScene()->removeChild(dialog);
+				                                         rankButton->setBright(true);
+			                                         }
+			));
+			this->addChild(dialog, 20);
+		}
 	});
 	rankButton->setPosition(Point(750, 850));
 	this->addChild(rankButton);

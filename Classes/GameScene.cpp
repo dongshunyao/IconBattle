@@ -19,7 +19,6 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->initInformationBoard();
 
 
-
 	scene->initComponents();
 
 	scene->initBoard();
