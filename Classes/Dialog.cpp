@@ -75,14 +75,10 @@ void Dialog::onEnter()
 
 	_eventDispatcher->pauseEventListenersForTarget(this->getParent(), true); // 阻止事件向下传递
 
-	const auto winSize = Director::getInstance()->getWinSize();
-	auto pCenter = Point(winSize.width / 2, winSize.height / 2);
-
-
 	//添加背景图片
 	auto background = getBackGround();
 	background->setContentSize(dialogContentSize);
-	background->setPosition(Point(winSize.width / 2, winSize.height / 2));
+	background->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT/ 2));
 	this->addChild(background, 0, 0);
 
 	// 弹出效果
@@ -137,7 +133,30 @@ void Dialog::backgroundFinish()
 		listView->setAnchorPoint(Point(0.5f, 0.5f));
 		listView->setContentSize(Size(500, 400));
 		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-		for (i = 0; i < 10; i++)// TODO 网络排行榜为空，测试
+		listView->setScrollBarAutoHideTime(0);
+
+		//添加鼠标事件侦听
+		auto listenerMouse = EventListenerMouse::create();
+		listenerMouse->setEnabled(true);
+		listenerMouse->onMouseScroll = [&](EventMouse* event)
+		{
+			const auto y = event->getScrollY(); //滚轮上滑y值小于0，下滑y值小于0
+			if (y < 0)
+			{
+				auto curScale = listView->getScale();
+				curScale += 0.01;
+				listView->scrollToTop(curScale, true);
+			}
+			else
+			{
+				auto curScale = listView->getScale();
+				curScale -= 0.01;
+				listView->scrollToBottom(curScale, true);
+			}
+		};
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
+
+		for (i = 0; i < 10; i++)
 		{
 			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
 			auto layout = Layout::create();
@@ -148,14 +167,27 @@ void Dialog::backgroundFinish()
 			layout->addChild(icon);
 			layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
 
-			auto nameLabel = Label::createWithTTF("test", "/font/marker_felt.ttf", 30);
-			nameLabel->setPosition(Vec2(icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90, 30));
-			layout->addChild(nameLabel);
+			if (!Network::getInstance()->getRank(true).empty())
+			{
+				auto nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
+					"/font/marker_felt.ttf", 30);
+				nameLabel->setPosition(Vec2(icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 90,
+					30));
+				layout->addChild(nameLabel);
 
 
-			auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-			rankLabel->setPosition(Vec2(450, 30));
-			layout->addChild(rankLabel);
+				auto rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+				rankLabel->setPosition(Vec2(450, 30));
+				layout->addChild(rankLabel);
+			}
+			else
+			{
+				auto nullLabel = Label::createWithTTF("--------------------", "/font/marker_felt.ttf", 30);
+				nullLabel->setPosition(Vec2(icon->getContentSize().width + nullLabel->getContentSize().width / 2 + 90,
+					30));
+				layout->addChild(nullLabel);
+			}
+
 
 			listView->pushBackCustomItem(layout);
 			listView->setBottomPadding(icon->getContentSize().height);

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Theme.h"
+#include "Network.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
