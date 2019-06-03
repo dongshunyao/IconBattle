@@ -3,7 +3,7 @@
 Scene* LevelScene::createScene()
 {
 	return LevelScene::create();
-} 
+}
 
 bool LevelScene::init()
 {
@@ -75,27 +75,33 @@ void LevelScene::initScrollView()
 	auto scrollView = ui::ScrollView::create();
 	scrollView->setPosition(Point(0, 0));
 	scrollView->setDirection(ui::ScrollView::Direction::HORIZONTAL);
-	scrollView->setScrollBarEnabled(true);
+	scrollView->setTouchEnabled(true);
+	scrollView->setScrollBarAutoHideTime(0);
 	scrollView->setBounceEnabled(true);
 	scrollView->setContentSize(Size(SCREEN_WIDTH, SCREEN_HEIGHT));
 	scrollView->setInnerContainerSize(layer->getContentSize());
 	scrollView->addChild(layer);
 	addChild(scrollView, 3);
 
-	// TODO 实现
-	scrollView->addEventListener([&](Ref* pSender, ui::ScrollView::EventType eventType)
+	scrollView->addEventListener([&,scrollView](Ref* pSender, ui::ScrollView::EventType eventType)
 	{
-		switch (eventType)
+		//添加鼠标事件侦听
+		auto listenerMouse = EventListenerMouse::create();
+		listenerMouse->setEnabled(true);
+		listenerMouse->onMouseScroll = [&](EventMouse* event)
 		{
-		case ui::ScrollView::EventType::SCROLLING:
-			break;
-		case ui::ScrollView::EventType::SCROLL_TO_BOTTOM:
-			break;
-		case ui::ScrollView::EventType::SCROLL_TO_TOP:
-			break;
-		default:
-			break;
-		}
+			const auto x = event->getScrollY(); //滚轮上滑x值小于0，下滑x值小于0
+
+			if (x < 0)
+			{
+				scrollView->scrollToLeft(0.5,true);
+			}
+			else
+			{
+				scrollView->scrollToRight(0.5, true);
+			}
+		};
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
 	});
 }
 
