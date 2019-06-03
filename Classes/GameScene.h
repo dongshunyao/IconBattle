@@ -53,8 +53,8 @@ private:
 	int totalScore = 0;
 	int currentScore = 0;
 
-	void setStepNumber(int stepNumber);
-	void setTotalScore(int totalScore);
+	void setStepNumber(int step);
+	void setTotalScore(int score);
 	void setCurrentScore(int score);
 
 	Label* stepNumberLabel = nullptr;

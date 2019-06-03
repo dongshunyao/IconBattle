@@ -108,17 +108,17 @@ void GameScene::initInformationBoard()
 	this->addChild(hintButton, 11);
 }
 
-void GameScene::setTotalScore(const int totalScore)
+void GameScene::setTotalScore(const int score)
 {
-	this->totalScore = totalScore;
+	if (totalScore >= 0) totalScore = score;
 }
 
-void GameScene::setStepNumber(const int stepNumber)
+void GameScene::setStepNumber(const int step)
 {
-	if (stepNumber >= 0)
+	if (step >= 0 && stepNumberLabel != nullptr)
 	{
-		this->stepNumber = stepNumber;
-		stepNumberLabel->setString(to_string(stepNumber));
+		stepNumber = step;
+		stepNumberLabel->setString(to_string(step));
 	}
 }
 
