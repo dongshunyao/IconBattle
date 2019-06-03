@@ -144,11 +144,11 @@ void Dialog::backgroundFinish()
 
 		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
 		                                    SCREEN_HEIGHT / 2));
-		this->addChild(changeTypeButton, 30);
+		this->addChild(changeTypeButton);
 		backTypeButton->setPosition(Point(SCREEN_WIDTH / 2 - listView->getContentSize().width / 2 - 50,
 		                                  SCREEN_HEIGHT / 2));
 		backTypeButton->setOpacity(0);
-		this->addChild(backTypeButton, 30);
+		this->addChild(backTypeButton);
 
 		backTypeButton->addTouchEventListener(
 			[&,changeTypeButton,backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
