@@ -72,8 +72,32 @@ private:
 
 #pragma endregion
 
+
+#pragma region Game Board
+	// 初始化棋盘和鼠标监听器
+	void initGameBoard();
+
+#pragma endregion
+	// TODO 不同消除的得分@PJ
+
+	/*
+	 * 标准模式：
+	 * 三消
+	 * 加强模式：
+	 * 横四消：直接清除在本行的所有宝石
+	 * 竖四消：直接清除在本列的所有宝石
+	 * 横五消：直接清除在临近三行的所有宝石
+	 * 竖五消：直接清除在临近三列的所有宝石
+	 * 有交点的双三消：直接清除临近 3X3 的所有宝石
+	 * 有交点的双三消+横或竖添加任意一直多个宝石：生成SUPER宝石
+	 * SUPER宝石与某个颜色交换：消去整个画面中该颜色的宝石，两个SUPER换则刷新棋盘
+	 */
+
+
 	static const int BOARD_SIZE = 8;
 
+
+	
 
 	// 进行动画时锁定棋盘
 	bool boardLocked = true;
@@ -83,8 +107,7 @@ private:
 
 	blockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
 
-	// 建立布局，添加组件和鼠标监听器
-	void initComponents();
+	
 
 	// 由坐标得位置
 	pii getPosition(pii index);
@@ -101,8 +124,7 @@ private:
 	// 无效交换动画
 	void failSwap(pii blocka, pii blockb);
 
-	// 初始化棋盘，调用refreshBoard()
-	void initBoard();
+	
 	// 刷新棋盘：上半部分BFS填充，下半部分-1初始化
 	void refreshBoard();
 
@@ -121,7 +143,6 @@ private:
 	bool isDead();
 	// 得到提示
 	validOperateList getHintList();
-
 };
 
 #endif

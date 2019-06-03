@@ -14,4 +14,4 @@ void GameSceneController::startPracticeGame(bool isClassical)
 }
 
 void GameSceneController::startLevelGame(bool isClassical, int level) {}
-void GameSceneController::startInfiniteGame(bool isClassical) {}
+void GameSceneController::startChallengeGame(bool isClassical) {}
