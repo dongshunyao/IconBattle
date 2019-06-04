@@ -60,6 +60,7 @@ private:
 	Label* nameLabel = nullptr;
 	Label* rankLabel = nullptr;
 	Label* scoreLabel = nullptr;
+	Label* content = nullptr;
 	Layout* layout = nullptr;
 
 	void getRankByType(bool type);

@@ -120,9 +120,6 @@
     <ClCompile Include="..\Classes\Util.cpp">
       <Filter>src\common\util</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\StructNames.cpp">
-      <Filter>src\scene\gamescene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src\scene\common\Dialog</Filter>
     </ClCompile>
@@ -142,6 +139,9 @@
       <Filter>src\scene\gamescene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameBoard.cpp">
+      <Filter>src\scene\gamescene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameBoardInformation.cpp">
       <Filter>src\scene\gamescene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,9 +194,6 @@
     <ClInclude Include="..\Classes\Util.h">
       <Filter>src\common\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\StructNames.h">
-      <Filter>src\scene\gamescene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Dialog.h">
       <Filter>src\scene\common\Dialog</Filter>
     </ClInclude>
@@ -208,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameSceneController.h">
       <Filter>src\scene\common\gamescenecontroller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameBoardInformation.h">
+      <Filter>src\scene\gamescene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

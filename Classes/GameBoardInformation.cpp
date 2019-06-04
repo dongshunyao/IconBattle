@@ -1,8 +1,8 @@
-#include "StructNames.h"
-using namespace StructNames;
+#include "GameBoardInformation.h"
+using namespace GameBoardInformation;
 
 // 创建
-Actor* Actor::create(int type, int func, pii pos)
+Actor* Actor::create(int type, int func, Pair pos)
 {
 	Actor* actor = new(std::nothrow) Actor();
 	if (actor)
@@ -42,14 +42,14 @@ Actor* Actor::create(int type, int func, pii pos)
 }
 
 // 本cpp文件中所有动画的实现调用方法
-void StructNames::Actor::allDo(Action* action)
+void GameBoardInformation::Actor::allDo(Action* action)
 {
 	getGem()->runAction(action->clone());
 	if (getIcon())getIcon()->runAction(action->clone());
 }
 
 // 移动
-void StructNames::Actor::moveTo(pii pos)
+void GameBoardInformation::Actor::moveTo(Pair pos)
 {
 	auto action = Sequence::create(
 		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
@@ -59,7 +59,7 @@ void StructNames::Actor::moveTo(pii pos)
 	this->pos = pos;
 }
 
-void Actor::moveToThenBack(pii posb)
+void Actor::moveToThenBack(Pair posb)
 {
 	auto action = Sequence::create(
 		CCMoveTo::create(0.25, Vec2(posb.first, posb.second)),
@@ -70,7 +70,7 @@ void Actor::moveToThenBack(pii posb)
 }
 
 // 掉落动画
-void StructNames::Actor::dropTo(pii pos)
+void GameBoardInformation::Actor::dropTo(Pair pos)
 {
 	auto action = Sequence::create(
 		CCEaseOut::create(CCMoveTo::create(0.5, ccp(pos.first, pos.second)), 2.0f),
@@ -81,7 +81,7 @@ void StructNames::Actor::dropTo(pii pos)
 }
 
 // 自己杀自己
-void StructNames::Actor::selfClose()
+void GameBoardInformation::Actor::selfClose()
 {
 	auto action = Sequence::create(
 		CCScaleTo::create(.3f, .0f),
