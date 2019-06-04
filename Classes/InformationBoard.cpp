@@ -122,16 +122,28 @@ void GameScene::setStepNumber(const int step)
 	}
 }
 
-void GameScene::setCurrentScore(int score)
+void GameScene::minusStepNumber()
 {
-	const auto previousPercentage = 100.0f * currentScore / totalScore;
+	if (stepNumber > 0 && stepNumberLabel != nullptr)
+	{
+		stepNumber--;
+		stepNumberLabel->setString(to_string(stepNumber));
+	}
+}
 
-	if (score < 0) score = 0;
-	if (score > totalScore) score = totalScore;
+void GameScene::addCurrentScore(const int deltaScore)
+{
+	const auto previousScore = currentScore;
 
-	currentScore += score;
+	if (currentScore + deltaScore <= 0) currentScore = 0;
+	else if (currentScore + deltaScore >= totalScore) currentScore = totalScore;
+	else currentScore += deltaScore;
+
+	log("Score: Add %d; From %d; To %d; Total %d;", deltaScore, previousScore, currentScore, totalScore);
+
 	scoreLabel->setString(to_string(currentScore));
 
-	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100.0f * currentScore / totalScore);
+	const auto processAction = ProgressFromTo::create(0.25, 100.0f * previousScore / totalScore,
+	                                                  100.0f * currentScore / totalScore);
 	progressController->runAction(processAction);
 }

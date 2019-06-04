@@ -161,7 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameSceneController.cpp" />
     <ClCompile Include="..\Classes\Network.cpp" />
     <ClCompile Include="..\Classes\ResultBoard.cpp" />
-    <ClCompile Include="..\Classes\StructNames.cpp" />
+    <ClCompile Include="..\Classes\GameBoardInformation.cpp" />
     <ClCompile Include="..\Classes\Theme.cpp" />
     <ClCompile Include="..\Classes\WebShare.cpp" />
     <ClCompile Include="..\Classes\NewsBoard.cpp" />
@@ -184,7 +184,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Dialog.h" />
     <ClInclude Include="..\Classes\GameSceneController.h" />
     <ClInclude Include="..\Classes\Network.h" />
-    <ClInclude Include="..\Classes\StructNames.h" />
+    <ClInclude Include="..\Classes\GameBoardInformation.h" />
     <ClInclude Include="..\Classes\Theme.h" />
     <ClInclude Include="..\Classes\WebShare.h" />
     <ClInclude Include="..\Classes\NewsBoard.h" />
