@@ -3,6 +3,7 @@
 Dialog::~Dialog()
 {
 	CC_SAFE_RELEASE(menu);
+	CC_SAFE_RELEASE(labelMenu);
 	CC_SAFE_RELEASE(contentText);
 	CC_SAFE_RELEASE(title);
 }
@@ -15,6 +16,10 @@ bool Dialog::init()
 	auto menu = Menu::create();
 	menu->setPosition(Size::ZERO);
 	setMenuButton(menu);
+
+	auto labelMenu = Menu::create();
+	labelMenu->setPosition(Size::ZERO);
+	setMenuLabel(labelMenu);
 
 	// add layer touch event
 	auto listener = EventListenerTouchOneByOne::create();
@@ -62,6 +67,13 @@ bool Dialog::addButton(MenuItem* menuItem) const
 	return true;
 }
 
+bool Dialog::addLabel(MenuItem* menuItem) const
+{
+	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	menuItem->setPosition(center);
+	getMenuLabel()->addChild(menuItem);
+	return true;
+}
 
 void Dialog::addListView(bool dialogType)
 {
@@ -115,7 +127,7 @@ void Dialog::backgroundFinish()
 		this->addChild(getMenuButton());
 		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
 		auto nodes = getMenuButton()->getChildren();
-		auto i = 0;
+		i = 0;
 		for (auto menuItem : nodes)
 		{
 			auto node = dynamic_cast<Node*>(menuItem);
@@ -182,7 +194,7 @@ void Dialog::backgroundFinish()
 		else
 		{
 			listView->setScrollBarAutoHideTime(0);
-
+			
 			//添加鼠标事件侦听
 			auto listenerMouse = EventListenerMouse::create();
 			listenerMouse->setEnabled(true);
@@ -210,16 +222,31 @@ void Dialog::backgroundFinish()
 	else
 	{
 		// 添加按钮，并设置其位置
+		this->addChild(getMenuLabel());
+		const auto labelHeight = dialogContentSize.height / (getMenuLabel()->getChildrenCount() + 2);
+		auto labels = getMenuLabel()->getChildren();
+		i = 0;
+		for (auto menuItem : labels)
+		{
+			auto node = dynamic_cast<Node*>(menuItem);
+			node->setPosition(Point(SCREEN_WIDTH / 2 ,
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5+ labelHeight * (getMenuLabel()->getChildrenCount()-i)));
+			i++;
+		}
+
+
 		this->addChild(getMenuButton());
 		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
 
+
 		auto nodes = getMenuButton()->getChildren();
-		auto i = 0;
+		i = 0;
 		for (auto menuItem : nodes)
 		{
 			auto node = dynamic_cast<Node*>(menuItem);
+
 			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 3));
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height /2.5));
 			i++;
 		}
 

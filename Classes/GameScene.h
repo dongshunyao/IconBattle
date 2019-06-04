@@ -45,6 +45,7 @@ public:
 
 private:
 	bool isClassical = true;
+	bool isAppear = false;
 	Theme* theme = Theme::getInstance();
 
 #pragma region Information Board
@@ -68,7 +69,7 @@ private:
 #pragma endregion
 
 #pragma region Result Board
-	void showResult(bool result);
+	void showResult(bool result,int mode);// 0为练习模式，1为闯关模式，2为无尽模式
 
 #pragma endregion
 
