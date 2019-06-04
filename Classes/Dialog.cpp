@@ -140,7 +140,6 @@ void Dialog::backgroundFinish()
 		listView->setAnchorPoint(Point(0.5f, 0.5f));
 		listView->setContentSize(Size(500, 400));
 		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-		listView->setScrollBarAutoHideTime(0);
 
 		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
 		                                    SCREEN_HEIGHT / 2));
@@ -151,7 +150,7 @@ void Dialog::backgroundFinish()
 		this->addChild(backTypeButton);
 
 		backTypeButton->addTouchEventListener(
-			[&,changeTypeButton,backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
+			[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
 			{
 				if (type == Widget::TouchEventType::ENDED)
 				{
@@ -174,30 +173,39 @@ void Dialog::backgroundFinish()
 				}
 			});
 
-		//添加鼠标事件侦听
-		auto listenerMouse = EventListenerMouse::create();
-		listenerMouse->setEnabled(true);
-		listenerMouse->onMouseScroll = [&](EventMouse* event)
-		{
-			const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
-
-			if (y > 0)
-			{
-				if (position % 11 < 10)
-					position++;
-				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-			}
-			else
-			{
-				if (position % 11 > 0)
-					position--;
-				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-			}
-		};
-		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
-
 		this->getRankByType(true);
-		this->addChild(listView);
+
+		if (content)
+		{
+			this->addChild(content);;
+		}
+		else
+		{
+			listView->setScrollBarAutoHideTime(0);
+
+			//添加鼠标事件侦听
+			auto listenerMouse = EventListenerMouse::create();
+			listenerMouse->setEnabled(true);
+			listenerMouse->onMouseScroll = [&](EventMouse* event)
+			{
+				const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
+
+				if (y > 0)
+				{
+					if (position % 11 < 10)
+						position++;
+					listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+				}
+				else
+				{
+					if (position % 11 > 0)
+						position--;
+					listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+				}
+			};
+			_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
+			this->addChild(listView);
+		}
 	}
 	else
 	{
@@ -246,7 +254,7 @@ void Dialog::getRankByType(bool type)
 		layout->setLayoutType(Layout::Type::ABSOLUTE);
 		layout->setContentSize(Size(500, icon->getContentSize().height + 30));
 
-		icon->setPosition(Vec2(icon->getContentSize().width / 2 +60, 30));
+		icon->setPosition(Vec2(icon->getContentSize().width / 2 + 60, 30));
 		layout->addChild(icon);
 		layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
 
@@ -282,22 +290,17 @@ void Dialog::getRankByType(bool type)
 				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
 				layout->addChild(scoreLabel);
 			}
+			listView->pushBackCustomItem(layout);
+			listView->setBottomPadding(icon->getContentSize().height);
 		}
 		else
 		{
-			nameLabel = Label::createWithTTF("------------------", "/font/marker_felt.ttf", 30);
-			nameLabel->setPosition(Vec2(
-				icon->getContentSize().width / 2 + 30 + nameLabel->getContentSize().width / 2 + 75,
-				30));
-			layout->addChild(nameLabel);
-
-			scoreLabel = Label::createWithTTF("-------", "/font/marker_felt.ttf", 30);
-			scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
-			layout->addChild(scoreLabel);
+			setContentText("网络连接失败，请重试", 36, 60, 20);
+			content = getLabelContentText();
+			content->setLineBreakWithoutSpace(true);
+			content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
+			content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+			content->setHorizontalAlignment(TextHAlignment::LEFT);
 		}
-
-
-		listView->pushBackCustomItem(layout);
-		listView->setBottomPadding(icon->getContentSize().height);
 	}
 }
