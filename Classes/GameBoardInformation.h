@@ -1,5 +1,5 @@
-#ifndef __STRUCTNAMES_H__
-#define __STRUCTNAMES_H__
+#ifndef __GAME_BOARD_INFORMATION_H__
+#define __GAME_BOARD_INFORMATION_H__
 
 #include <utility>
 #include <string>
@@ -12,9 +12,10 @@ using std::vector;
 
 USING_NS_CC;
 
-namespace StructNames
+namespace GameBoardInformation
 {
-	typedef pair<int, int> pii;
+	typedef pair<int, int> Pair;
+
 	class Actor;
 	struct blockInfo;
 	struct KillGroup;
@@ -22,7 +23,7 @@ namespace StructNames
 	struct ActorInfo;
 	typedef vector<ActorInfo> ActorInfoList;
 
-	typedef pair<pii, pii> validOperate;
+	typedef pair<Pair, Pair> validOperate;
 	typedef vector<validOperate> validOperateList;
 
 #pragma region CONST_VAL
@@ -54,54 +55,48 @@ namespace StructNames
 #pragma endregion
 }
 
-class StructNames::Actor : public Node
+class GameBoardInformation::Actor : public Node
 {
 	// protected类型变量创建方式，ctrl点击见源码
 CC_SYNTHESIZE(int, type, Type);
 CC_SYNTHESIZE(int, func, Func);
 
-CC_SYNTHESIZE(pii, pos, Pos);
+CC_SYNTHESIZE(Pair, pos, Pos);
 
 CC_SYNTHESIZE_RETAIN(Sprite*, gem, Gem);
 CC_SYNTHESIZE_RETAIN(Sprite*, icon, Icon);
 public:
-	static Actor* create(int, int, pii);
+	static Actor* create(int, int, Pair);
 	void allDo(Action*);
-	void moveTo(pii);
-	void moveToThenBack(pii);
-	void dropTo(pii);
+	void moveTo(Pair);
+	void moveToThenBack(Pair);
+	void dropTo(Pair);
 	void selfClose();
 };
 
-struct StructNames::ActorInfo
+struct GameBoardInformation::ActorInfo
 {
-	pii pos;
+	Pair pos;
 	int type;
 	int func;
 
-	ActorInfo(pii pos, int type = -1, int func = -1) : pos(pos), type(type), func(func)
-	{
-	};
+	ActorInfo(Pair pos, int type = -1, int func = -1) : pos(pos), type(type), func(func) { };
 
-	ActorInfo(int x, int y, int type = -1, int func = -1) : pos({x, y}), type(type), func(func)
-	{
-	};
+	ActorInfo(int x, int y, int type = -1, int func = -1) : pos({x, y}), type(type), func(func) { };
 };
 
-struct StructNames::blockInfo
+struct GameBoardInformation::blockInfo
 {
 	int type;
 	int func;
 	Actor* actor;
 
-	blockInfo(int type = -1, int func = -1, Actor* actor = NULL) : type(type), func(func), actor(actor)
-	{
-	};
+	blockInfo(int type = -1, int func = -1, Actor* actor = NULL) : type(type), func(func), actor(actor) { };
 };
 
-struct StructNames::KillGroup
+struct GameBoardInformation::KillGroup
 {
-	pii markPoint;
+	Pair markPoint;
 	int markValue;
 	ActorInfoList killInfo;
 	ActorInfoList newInfo;

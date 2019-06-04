@@ -3,26 +3,22 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-
-#include <algorithm>
-
+#include <set>
 #include "Theme.h"
 #include "User.h"
-
+#include "GameBoardInformation.h"
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "Dialog.h"
 
-#include "StructNames.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
-using std::pair;
+
 using std::swap;
 using std::set;
-using namespace StructNames;
-
+using namespace GameBoardInformation;
 USING_NS_CC;
 
 /*
@@ -55,8 +51,11 @@ private:
 	int currentScore = 0;
 
 	void setStepNumber(int step);
+	// 剩余步数减一
+	void minusStepNumber();
 	void setTotalScore(int score);
-	void setCurrentScore(int score);
+	// 添加分数，可正可负，需要直接设置请另加方法
+	void addCurrentScore(int deltaScore);
 
 	Label* stepNumberLabel = nullptr;
 	Sprite* hintNumberSprite = nullptr;
@@ -73,64 +72,71 @@ private:
 
 #pragma endregion
 
-
 #pragma region Game Board
+
+	// 棋盘锁：进行动画时锁定
+	bool boardLock = true;
+	// 棋盘大小
+	static const int BOARD_SIZE = 8;
+	// 当前先后选中的块
+	Pair firstSelectedBlock = {-1, -1};
+	Pair secondSelectedBlock = {-1, -1};
+
+
 	// 初始化棋盘和鼠标监听器
 	void initGameBoard();
 
+	// 由坐标得棋盘位置
+	Pair getPositionByIndex(Pair index);
+	// 由棋盘位置得坐标
+	Pair getIndexByPosition(Pair position);
+
 #pragma endregion
-	// TODO 不同消除的得分@PJ
+
+	// TODO 不同模式得分，待调整
+	const int threeScore = 100;
+	const int fourScore = 150;
+	const int fiveScore = 200;
+	const int doubleThree = 300;
+	const int otherDouble = 500;
+	const int super = 800;
+	const int superKillScore = 10000;
 
 	/*
 	 * 标准模式：
-	 * 三消
+	 * 三消 四消 五消 有交点的双三消 有交点的双三消+横或竖添加任意一至多个宝石
 	 * 加强模式：
-	 * 横四消：直接清除在本行的所有宝石
+	 * 三消（threeKill）
+	 * 横四消（fourKill）：直接清除在本行的所有宝石
 	 * 竖四消：直接清除在本列的所有宝石
-	 * 横五消：直接清除在临近三行的所有宝石
+	 * 横五消（fiveKill）：直接清除在临近三行的所有宝石
 	 * 竖五消：直接清除在临近三列的所有宝石
-	 * 有交点的双三消：直接清除临近 3X3 的所有宝石
-	 * 有交点的双三消+横或竖添加任意一直多个宝石：生成SUPER宝石
-	 * SUPER宝石与某个颜色交换：消去整个画面中该颜色的宝石，两个SUPER换则刷新棋盘
+	 * 有交点的双三消（双三doubleThreeKill）：直接清除临近 3X3 的所有宝石
+	 * 有交点的双三消+横或竖添加任意一至多个宝石（双四doubleFourKill）：生成SUPER宝石
+	 * SUPER宝石与某个颜色交换（superKill）：消去整个画面中该颜色的宝石
+	 * 两个SUPER交换（doubleSuperKill）：刷新棋盘
 	 */
 
 
-	static const int BOARD_SIZE = 8;
-
-
-	
-
-	// 进行动画时锁定棋盘
-	bool boardLocked = true;
-	// 表示当前选中与否的两块
-	pii selectedBlockF = {-1, -1};
-	pii selectedBlockS = {-1, -1};
-
 	blockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
 
-	
 
-	// 由坐标得位置
-	pii getPosition(pii index);
-	// 由位置得坐标
-	pii getIndex(pii pos);
-
-	Actor* createActor(int, int, pii);
+	Actor* createActor(int, int, Pair);
 
 	// 获取可消除方块列表
 	KillGroupList getKillList();
 
 	// 尝试两方快交换：若不可以交换则不做动画，反之进行
-	void trySwap(pii block1, pii block2);
+	void trySwap(Pair block1, Pair block2);
 	// 无效交换动画
-	void failSwap(pii blocka, pii blockb);
+	void failSwap(Pair blocka, Pair blockb);
 
-	
+
 	// 刷新棋盘：上半部分BFS填充，下半部分-1初始化
 	void refreshBoard();
 
 	// 方块交换动画
-	void blockSwap(pii blocka, pii blockb);
+	void blockSwap(Pair blocka, Pair blockb);
 	// 方块消除动画
 	void blockVanish(KillGroupList killList);
 	// 消除后新产生方块下落动画
@@ -144,6 +150,9 @@ private:
 	bool isDead();
 	// 得到提示
 	validOperateList getHintList();
+
+	// 显示得分动画
+	void showScore(int value, Pair pos);
 };
 
 #endif

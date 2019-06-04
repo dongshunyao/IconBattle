@@ -46,6 +46,10 @@ void Theme::setJetBrainTheme()
 
 #pragma region Menu Scene
 	menuSceneBackground = "/image/menuscene/jetbraintheme/background.jpg";
+	menuSceneClassicLabel = "/image/menuscene/jetbraintheme/classic_label.png";
+	menuSceneClassicPlate = "/image/menuscene/jetbraintheme/classic_plate.png";
+	menuSceneEnhancedLabel = "/image/menuscene/jetbraintheme/enhanced_label.png";
+	menuSceneEnhancedPlate = "/image/menuscene/jetbraintheme/enhanced_plate.png";
 
 #pragma endregion
 

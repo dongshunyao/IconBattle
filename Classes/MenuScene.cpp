@@ -19,6 +19,7 @@ bool MenuScene::init()
 	initStoreButton();
 	initRankButton();
 	initGameButton();
+	initPlate();
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
@@ -126,96 +127,161 @@ void MenuScene::initRankButton()
 
 void MenuScene::initGameButton()
 {
-	// 选关按钮1
-	auto gameButton1 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton1->setTitleText("Practice-1");
-	gameButton1->setTitleFontName("/font/marker_felt.ttf");
-	gameButton1->setTitleFontSize(35);
-	gameButton1->setTitleColor(Color3B(0, 0, 0));
-	gameButton1->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 经典练习
+	classicPractice = ui::Button::create(theme->menuScenePracticeButtonNormal,
+	                                     theme->menuScenePracticeButtonSelected,
+	                                     theme->menuScenePracticeButtonDisabled);
+	classicPractice->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮1
+		// TODO 经典练习
 		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(true);
 	});
-	gameButton1->setPosition(Point(650, 600));
+	classicPractice->setPosition(Vec2(100, 30));
 
-	this->addChild(gameButton1);
-
-	// 选关按钮2
-	auto gameButton2 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton2->setTitleText("Level-1");
-	gameButton2->setTitleFontName("/font/marker_felt.ttf");
-	gameButton2->setTitleFontSize(35);
-	gameButton2->setTitleColor(Color3B(0, 0, 0));
-	gameButton2->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 经典闯关
+	classicLevel = ui::Button::create(theme->menuSceneLevelButtonNormal,
+	                                  theme->menuSceneLevelButtonSelected,
+	                                  theme->menuSceneLevelButtonDisabled);
+	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮2
+		// TODO 经典闯关
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(LevelScene::createScene());
 	});
-	gameButton2->setPosition(Point(850, 600));
-	this->addChild(gameButton2);
+	classicLevel->setPosition(Vec2(250, 30));
 
-	// 选关按钮3
-	auto gameButton3 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton3->setTitleText("Infinity-1");
-	gameButton3->setTitleFontName("/font/marker_felt.ttf");
-	gameButton3->setTitleFontSize(35);
-	gameButton3->setTitleColor(Color3B(0, 0, 0));
-	gameButton3->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 经典挑战
+	classicChallenge = ui::Button::create(theme->menuSceneChallengeButtonNormal,
+	                                      theme->menuSceneChallengeButtonSelected,
+	                                      theme->menuSceneChallengeButtonDisabled);
+	classicChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮3
+		// TODO 经典挑战
 	});
-	gameButton3->setPosition(Point(1050, 600));
-	this->addChild(gameButton3);
+	classicChallenge->setPosition(Vec2(400, 30));
 
-	// 选关按钮4
-	auto gameButton4 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton4->setTitleText("Practice-2");
-	gameButton4->setTitleFontName("/font/marker_felt.ttf");
-	gameButton4->setTitleFontSize(35);
-	gameButton4->setTitleColor(Color3B(0, 0, 0));
-	gameButton4->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 加强练习
+	enhancedPractice = ui::Button::create(theme->menuScenePracticeButtonNormal,
+	                                      theme->menuScenePracticeButtonSelected,
+	                                      theme->menuScenePracticeButtonDisabled);
+	enhancedPractice->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮4
+		// TODO 加强练习
+		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(false);
 	});
-	gameButton4->setPosition(Point(650, 350));
-	this->addChild(gameButton4);
+	enhancedPractice->setPosition(Vec2(100, 30));
 
-	// 选关按钮5
-	auto gameButton5 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton5->setTitleText("Level-2");
-	gameButton5->setTitleFontName("/font/marker_felt.ttf");
-	gameButton5->setTitleFontSize(35);
-	gameButton5->setTitleColor(Color3B(0, 0, 0));
-	gameButton5->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 加强闯关
+	enhancedLevel = ui::Button::create(theme->menuSceneLevelButtonNormal,
+	                                   theme->menuSceneLevelButtonSelected,
+	                                   theme->menuSceneLevelButtonDisabled);
+	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮5
+		// TODO 加强闯关
+		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(LevelScene::createScene());
 	});
-	gameButton5->setPosition(Point(850, 350));
-	this->addChild(gameButton5);
+	enhancedLevel->setPosition(Vec2(250, 30));
 
-	// 选关按钮6
-	auto gameButton6 = ui::Button::create(theme->menuSceneGameButtonNormal,
-	                                      theme->menuSceneGameButtonSelected,
-	                                      theme->menuSceneGameButtonDisabled);
-	gameButton6->setTitleText("Infinity-1");
-	gameButton6->setTitleFontName("/font/marker_felt.ttf");
-	gameButton6->setTitleFontSize(35);
-	gameButton6->setTitleColor(Color3B(0, 0, 0));
-	gameButton6->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	// 加强挑战
+	enhancedChallenge = ui::Button::create(theme->menuSceneChallengeButtonNormal,
+	                                       theme->menuSceneChallengeButtonSelected,
+	                                       theme->menuSceneChallengeButtonDisabled);
+	enhancedChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 选关按钮6
+		// TODO 加强挑战
 	});
-	gameButton6->setPosition(Point(1050, 350));
-	this->addChild(gameButton6);
+	enhancedChallenge->setPosition(Vec2(400, 30));
+}
+
+void MenuScene::initPlate()
+{
+	//经典模式
+	auto classicPlate = Sprite::create(theme->menuSceneClassicPlate);
+	classicPlate->setPosition(Point(850, 600));
+	addChild(classicPlate);
+
+	auto classicLabel = Sprite::create(theme->menuSceneClassicLabel);
+	classicLabel->setPosition(Vec2(250, 150));
+
+	classicListView = ListView::create();
+	classicListView->setDirection(ScrollView::Direction::VERTICAL);
+	classicListView->setBounceEnabled(true);
+	classicListView->setBackGroundImageScale9Enabled(true);
+	classicListView->setAnchorPoint(Point(0.5f, 0.5f));
+	classicListView->setContentSize(Size(500, 250));
+	classicListView->setPosition(Point(850, 600));
+
+	auto classicLabelLayout = Layout::create();
+	classicLabelLayout->setContentSize(Size(500, 250));
+	classicLabelLayout->addChild(classicLabel);
+
+	auto classicButtonsLayout = Layout::create();
+	classicButtonsLayout->setContentSize(Size(500, 60));
+	classicButtonsLayout->addChild(classicPractice);
+	classicButtonsLayout->addChild(classicLevel);
+	classicButtonsLayout->addChild(classicChallenge);
+
+	classicListView->pushBackCustomItem(classicLabelLayout);
+	classicListView->pushBackCustomItem(classicButtonsLayout);
+
+	//加强模式
+	auto enhancedPlate = Sprite::create(theme->menuSceneEnhancedPlate);
+	enhancedPlate->setPosition(Point(850, 280));
+	addChild(enhancedPlate);
+
+	auto enhancedLabel = Sprite::create(theme->menuSceneEnhancedLabel);
+	enhancedLabel->setPosition(Vec2(250, 150));
+
+	enhancedListView = ListView::create();
+	enhancedListView->setDirection(ScrollView::Direction::VERTICAL);
+	enhancedListView->setBounceEnabled(true);
+	enhancedListView->setBackGroundImageScale9Enabled(true);
+	enhancedListView->setAnchorPoint(Point(0.5f, 0.5f));
+	enhancedListView->setContentSize(Size(500, 250));
+	enhancedListView->setPosition(Point(850, 280));
+
+	auto enhancedLabelLayout = Layout::create();
+	enhancedLabelLayout->setContentSize(Size(500, 250));
+	enhancedLabelLayout->addChild(enhancedLabel);
+
+	auto enhancedButtonsLayout = Layout::create();
+	enhancedButtonsLayout->setContentSize(Size(500, 60));
+	enhancedButtonsLayout->addChild(enhancedPractice);
+	enhancedButtonsLayout->addChild(enhancedLevel);
+	enhancedButtonsLayout->addChild(enhancedChallenge);
+
+	enhancedListView->pushBackCustomItem(enhancedLabelLayout);
+	enhancedListView->pushBackCustomItem(enhancedButtonsLayout);
+
+	//添加鼠标事件侦听
+	auto listenerMouse = EventListenerMouse::create();
+	listenerMouse->setEnabled(true);
+	listenerMouse->onMouseMove = [&](EventMouse* event)
+	{
+		EventMouse* e = (EventMouse*)event;
+		
+		if (!classicMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 450 && e->getCursorY() < 750)
+		{
+			classicListView->scrollToPercentVertical(100, 0.5, true);
+			classicMoveOut = true;
+		}
+		if (!enhancedMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 100 && e->getCursorY() < 400)
+		{
+			enhancedListView->scrollToPercentVertical(100, 0.5, true);
+			enhancedMoveOut = true;
+		}
+		if (classicMoveOut &&(e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 450 || e->getCursorY() > 750))
+		{
+			classicListView->scrollToPercentVertical(0, 0.5, true);
+			classicMoveOut = false;
+		}
+		if(enhancedMoveOut &&(e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 100 || e->getCursorY() > 400))
+		{
+			enhancedListView->scrollToPercentVertical(0, 0.5, true);
+			enhancedMoveOut = false;
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
+
+	addChild(classicListView);
+	addChild(enhancedListView);
 }
