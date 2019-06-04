@@ -114,7 +114,7 @@ private:
 
 	blockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
 
-	
+	int leftStepNumber = 0;
 
 	// 由坐标得位置
 	pii getPosition(pii index);
@@ -153,8 +153,6 @@ private:
 
 	// 显示得分动画
 	void showScore(int value, pii pos);
-	// 添加得分
-	void addScore(int score);
 };
 
 #endif

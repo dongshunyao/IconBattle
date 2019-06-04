@@ -6,6 +6,7 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 
 	// 初始化变量
 	scene->stepNumber = stepNumber;
+	scene->leftStepNumber = stepNumber;
 	scene->totalScore = totalScore;
 	scene->isClassical = isClassical;
 	scene->hintNumber = hintNumber;
@@ -322,6 +323,7 @@ void GameScene::failSwap(pii blocka, pii blockb)
 
 void GameScene::blockSwap(pii blocka, pii blockb)
 {
+	leftStepNumber--;
 	pii posa = getPosition(blocka);
 	pii posb = getPosition(blockb);
 
@@ -593,20 +595,22 @@ void GameScene::animationDoneCallback()
 	auto newList = getKillList();
 	if (newList.empty())
 	{
+		if (leftStepNumber == 0)
+		{
+			// TODO: 剩余次数为0
+			// 练习模式不用判断
+			// 其余模式要加判断currentScore和totalScore的关系
+		}
 		// 如果死局重新刷新面板
-		if (isDead())
+		else if (isDead())
 		{
 			refreshBoard();
 			newBlocksDrop();
-		}
-		else if (getHintList().size())
-		{
 			boardLocked = false;
 		}
 		else
 		{
-			// TODO: 次数用尽
-			// 练习模式不用判断，无限交换
+			boardLocked = false;
 		}
 	}
 	else
