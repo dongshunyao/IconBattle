@@ -18,7 +18,7 @@ class Dialog final :
 	public LayerColor
 {
 public:
-	Dialog() : menu(nullptr), backGround(nullptr), title(nullptr), contentText(nullptr) {}
+	Dialog() : menu(nullptr), labelMenu(nullptr), backGround(nullptr), title(nullptr), contentText(nullptr) {}
 	~Dialog();
 
 	bool init() override;
@@ -36,6 +36,7 @@ public:
 	void setContentText(const string& text, const int fontSize, const int padding, const int paddingTop);
 	// 添加button或列表
 	bool addButton(MenuItem* menuItem) const;
+	bool addLabel(MenuItem* menuItem) const;
 	void addListView(bool dialogType);
 
 	void onEnter() override;
@@ -68,6 +69,7 @@ private:
 
 	// set and get
 CC_SYNTHESIZE_RETAIN(Menu*, menu, MenuButton);
+CC_SYNTHESIZE_RETAIN(Menu*, labelMenu, MenuLabel);
 CC_SYNTHESIZE_RETAIN(ui::Scale9Sprite*, backGround, BackGround);
 CC_SYNTHESIZE_RETAIN(Label*, title, LabelTitle);
 CC_SYNTHESIZE_RETAIN(Label*, contentText, LabelContentText);

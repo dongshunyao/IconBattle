@@ -102,6 +102,7 @@ void GameScene::initInformationBoard()
 			{
 				hintNumber--;
 				hintNumberSprite->setTexture(theme->gameSceneHintNumber + to_string(hintNumber) + ".png");
+				showResult(true, 0);
 			}
 		}
 	});
