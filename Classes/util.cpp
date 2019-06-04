@@ -30,3 +30,8 @@ int Util::getRandomNumber(const int l, const int r)
 
 	return num;
 }
+
+int Util::getRandomNumber(const int r)
+{
+	return getRandomNumber(0, r - 1);
+}

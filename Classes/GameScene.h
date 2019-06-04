@@ -19,6 +19,7 @@
 using std::swap;
 using std::set;
 using namespace GameBoardInformation;
+using namespace Util;
 USING_NS_CC;
 
 /*
@@ -73,10 +74,15 @@ private:
 
 #pragma region Game Board
 
+	// 棋盘
+	static const int BOARD_SIZE = 8;
+	// 块的种类，不含Super块
+	static const int TYPE_NUMBER = 5;
+	// 上方不可见，下方可见
+	Block board[BOARD_SIZE * 2][BOARD_SIZE];
 	// 棋盘锁：进行动画时锁定
 	bool boardLock = true;
-	// 棋盘大小
-	static const int BOARD_SIZE = 8;
+
 	// 当前先后选中的块
 	Pair firstSelectedBlock = {-1, -1};
 	Pair secondSelectedBlock = {-1, -1};
@@ -117,7 +123,7 @@ private:
 	 */
 
 
-	blockInfo boardInfo[BOARD_SIZE * 2][BOARD_SIZE];
+	
 
 
 	Actor* createActor(int, int, Pair);

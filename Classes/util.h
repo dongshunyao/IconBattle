@@ -25,6 +25,8 @@ namespace Util
 #pragma region random
 	// 随机数，左右均为闭区间
 	int getRandomNumber(int l, int r);
+	// 随机数，0到r左闭右开区间
+	int getRandomNumber(int r);
 #pragma endregion
 };
 

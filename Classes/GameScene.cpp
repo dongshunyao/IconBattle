@@ -44,37 +44,37 @@ KillGroupList GameScene::getKillList()
 			int ilen = 1, jlen = 1;
 			ActorInfoList tCrossActor;
 			tCrossActor.push_back(ActorInfo(i, j));
-			for (int ip = i + 1; ip < BOARD_SIZE && boardInfo[ip][j].type == boardInfo[i][j].type && !vis.count({ip, j})
-			     && boardInfo[ip][j].func != FUNC_SUPER; ip++)
+			for (int ip = i + 1; ip < BOARD_SIZE && board[ip][j].type == board[i][j].type && !vis.count({ip, j})
+			     && board[ip][j].func != FUNC_SUPER; ip++)
 			{
 				ilen++;
 				tCrossActor.push_back(ActorInfo(ip, j));
 			}
-			for (int ip = i - 1; ip >= 0 && boardInfo[ip][j].type == boardInfo[i][j].type && !vis.count({ip, j}) &&
-			     boardInfo[ip][j].func != FUNC_SUPER; ip--)
+			for (int ip = i - 1; ip >= 0 && board[ip][j].type == board[i][j].type && !vis.count({ip, j}) &&
+			     board[ip][j].func != FUNC_SUPER; ip--)
 			{
 				ilen++;
 				tCrossActor.push_back(ActorInfo(ip, j));
 			}
-			for (int jp = j + 1; jp < BOARD_SIZE && boardInfo[i][jp].type == boardInfo[i][j].type && !vis.count({i, jp})
-			     && boardInfo[i][jp].func != FUNC_SUPER; jp++)
+			for (int jp = j + 1; jp < BOARD_SIZE && board[i][jp].type == board[i][j].type && !vis.count({i, jp})
+			     && board[i][jp].func != FUNC_SUPER; jp++)
 			{
 				jlen++;
 				tCrossActor.push_back(ActorInfo(i, jp));
 			}
-			for (int jp = j - 1; jp >= 0 && boardInfo[i][jp].type == boardInfo[i][j].type && !vis.count({i, jp}) &&
-			     boardInfo[i][jp].func != FUNC_SUPER; jp--)
+			for (int jp = j - 1; jp >= 0 && board[i][jp].type == board[i][j].type && !vis.count({i, jp}) &&
+			     board[i][jp].func != FUNC_SUPER; jp--)
 			{
 				jlen++;
 				tCrossActor.push_back(ActorInfo(i, jp));
 			}
 			if (ilen == 3 && jlen == 3)
 			{
-				rtn.push_back({{i, j}, doubleThree, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_FIRE)}});
+				rtn.push_back({{i, j}, doubleThree, tCrossActor, {ActorInfo(i, j, board[i][j].type, FUNC_FIRE)}});
 			}
 			else if (ilen >= 3 && jlen >= 3)
 			{
-				rtn.push_back({{i, j}, otherDouble, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_SUPER)}});
+				rtn.push_back({{i, j}, otherDouble, tCrossActor, {ActorInfo(i, j, board[i][j].type, FUNC_SUPER)}});
 			}
 			if (ilen >= 3 && jlen >= 3)
 			{
@@ -95,11 +95,11 @@ KillGroupList GameScene::getKillList()
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			if ((i > 1 && i < BOARD_SIZE - 2)
-				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type
-					&& boardInfo[i][j].type == boardInfo[i + 2][j].type && boardInfo[i][j].type == boardInfo[i - 2][j].
+				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
+					&& board[i][j].type == board[i + 2][j].type && board[i][j].type == board[i - 2][j].
 					type)
-				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].
-					func != FUNC_SUPER && boardInfo[i + 2][j].func != FUNC_SUPER && boardInfo[i - 2][j].func !=
+				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
+					func != FUNC_SUPER && board[i + 2][j].func != FUNC_SUPER && board[i - 2][j].func !=
 					FUNC_SUPER)
 				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j}) && !vis.count({i + 2, j}) &&
 					!vis.count({i - 2, j})))
@@ -115,15 +115,15 @@ KillGroupList GameScene::getKillList()
 						ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j),
 						ActorInfo(i - 2, j)
 					},
-					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_H_3)}
+					{ActorInfo(i, j, board[i][j].type, FUNC_H_3)}
 				});
 			}
 			if ((j > 1 && j < BOARD_SIZE - 2)
-				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type
-					&& boardInfo[i][j].type == boardInfo[i][j + 2].type && boardInfo[i][j].type == boardInfo[i][j - 2].
+				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
+					&& board[i][j].type == board[i][j + 2].type && board[i][j].type == board[i][j - 2].
 					type)
-				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].
-					func != FUNC_SUPER && boardInfo[i][j + 2].func != FUNC_SUPER && boardInfo[i][j - 2].func !=
+				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
+					func != FUNC_SUPER && board[i][j + 2].func != FUNC_SUPER && board[i][j - 2].func !=
 					FUNC_SUPER)
 				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1}) && !vis.count({i, j + 2}) &&
 					!vis.count({i, j - 2})))
@@ -139,7 +139,7 @@ KillGroupList GameScene::getKillList()
 						ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2),
 						ActorInfo(i, j - 2)
 					},
-					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_V_3)}
+					{ActorInfo(i, j, board[i][j].type, FUNC_V_3)}
 				});
 			}
 		}
@@ -151,10 +151,10 @@ KillGroupList GameScene::getKillList()
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			if ((i > 0 && i < BOARD_SIZE - 2)
-				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type
-					&& boardInfo[i][j].type == boardInfo[i + 2][j].type)
-				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].
-					func != FUNC_SUPER && boardInfo[i + 2][j].func != FUNC_SUPER)
+				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
+					&& board[i][j].type == board[i + 2][j].type)
+				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
+					func != FUNC_SUPER && board[i + 2][j].func != FUNC_SUPER)
 				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j}) && !vis.count({i + 2, j})))
 			{
 				vis.insert({i - 1, j});
@@ -163,14 +163,14 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i + 2, j});
 				rtn.push_back({
 					{i, j}, fourScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j)},
-					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_H_1)}
+					{ActorInfo(i, j, board[i][j].type, FUNC_H_1)}
 				});
 			}
 			if ((j > 0 && j < BOARD_SIZE - 2)
-				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type
-					&& boardInfo[i][j].type == boardInfo[i][j + 2].type)
-				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].
-					func != FUNC_SUPER && boardInfo[i][j + 2].func != FUNC_SUPER)
+				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
+					&& board[i][j].type == board[i][j + 2].type)
+				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
+					func != FUNC_SUPER && board[i][j + 2].func != FUNC_SUPER)
 				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1}) && !vis.count({i, j + 2})))
 			{
 				vis.insert({i, j - 1});
@@ -179,7 +179,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j + 2});
 				rtn.push_back({
 					{i, j}, fourScore, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2)},
-					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_V_1)}
+					{ActorInfo(i, j, board[i][j].type, FUNC_V_1)}
 				});
 			}
 		}
@@ -191,9 +191,9 @@ KillGroupList GameScene::getKillList()
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			if ((i > 0 && i < BOARD_SIZE - 1)
-				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type
+				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
 				)
-				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].
+				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
 					func != FUNC_SUPER)
 				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j})))
 			{
@@ -203,9 +203,9 @@ KillGroupList GameScene::getKillList()
 				rtn.push_back({{i, j}, threeScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j)}, {}});
 			}
 			if ((j > 0 && j < BOARD_SIZE - 1)
-				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type
+				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
 				)
-				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].
+				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
 					func != FUNC_SUPER)
 				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1})))
 			{
@@ -229,7 +229,7 @@ void GameScene::trySwap(Pair blocka, Pair blockb)
 	boardLock = true;
 
 	// 如果交换的方块有特效方块
-	if (boardInfo[blocka.first][blocka.second].func == FUNC_SUPER && boardInfo[blockb.first][blockb.second].func ==
+	if (board[blocka.first][blocka.second].func == FUNC_SUPER && board[blockb.first][blockb.second].func ==
 		FUNC_SUPER)
 	{
 		Pair center = blocka;
@@ -238,38 +238,38 @@ void GameScene::trySwap(Pair blocka, Pair blockb)
 		{
 			for (int j = 0; j < BOARD_SIZE; j++)
 			{
-				if (boardInfo[i][j].func == FUNC_SUPER) boardInfo[i][j].func = FUNC_NO;
+				if (board[i][j].func == FUNC_SUPER) board[i][j].func = FUNC_NO;
 				tCrossActor.push_back(ActorInfo(i, j));
 			}
 		}
 		blockVanish({{center, 5000, tCrossActor, {}}});
 		return;
 	}
-	else if (boardInfo[blocka.first][blocka.second].func == FUNC_SUPER || boardInfo[blocka.first][blocka.second].func ==
+	else if (board[blocka.first][blocka.second].func == FUNC_SUPER || board[blocka.first][blocka.second].func ==
 		FUNC_SUPER)
 	{
 		int toDelColor = -1;
 		Pair center = {-1, -1};
 		ActorInfoList tCrossActor;
-		if (boardInfo[blocka.first][blocka.second].func == FUNC_SUPER)
+		if (board[blocka.first][blocka.second].func == FUNC_SUPER)
 		{
-			boardInfo[blocka.first][blocka.second].func = -1;
-			boardInfo[blocka.first][blocka.second].type = boardInfo[blockb.first][blockb.second].type;
+			board[blocka.first][blocka.second].func = -1;
+			board[blocka.first][blocka.second].type = board[blockb.first][blockb.second].type;
 			center = blocka;
-			toDelColor = boardInfo[blockb.first][blockb.second].type;
+			toDelColor = board[blockb.first][blockb.second].type;
 		}
 		else
 		{
-			boardInfo[blockb.first][blockb.second].func = -1;
-			boardInfo[blockb.first][blockb.second].type = boardInfo[blocka.first][blocka.second].type;
+			board[blockb.first][blockb.second].func = -1;
+			board[blockb.first][blockb.second].type = board[blocka.first][blocka.second].type;
 			center = blockb;
-			toDelColor = boardInfo[blocka.first][blocka.second].type;
+			toDelColor = board[blocka.first][blocka.second].type;
 		}
 		for (int i = 0; i < BOARD_SIZE; i++)
 		{
 			for (int j = 0; j < BOARD_SIZE; j++)
 			{
-				if (boardInfo[i][j].type == toDelColor && boardInfo[i][j].func != FUNC_SUPER)
+				if (board[i][j].type == toDelColor && board[i][j].func != FUNC_SUPER)
 				{
 					tCrossActor.push_back(ActorInfo(i, j));
 				}
@@ -281,9 +281,9 @@ void GameScene::trySwap(Pair blocka, Pair blockb)
 	}
 
 
-	swap(boardInfo[blocka.first][blocka.second], boardInfo[blockb.first][blockb.second]);
+	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
 	auto rst = getKillList();
-	swap(boardInfo[blocka.first][blocka.second], boardInfo[blockb.first][blockb.second]);
+	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
 
 	if (rst.empty())
 	{
@@ -300,8 +300,8 @@ void GameScene::failSwap(Pair blocka, Pair blockb)
 	Pair posa = getPositionByIndex(blocka);
 	Pair posb = getPositionByIndex(blockb);
 
-	boardInfo[blocka.first][blocka.second].actor->moveToThenBack(posb);
-	boardInfo[blockb.first][blockb.second].actor->moveToThenBack(posa);
+	board[blocka.first][blocka.second].actor->moveToThenBack(posb);
+	board[blockb.first][blockb.second].actor->moveToThenBack(posa);
 
 	runAction(Sequence::createWithTwoActions(DelayTime::create(.65f),
 	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
@@ -313,10 +313,10 @@ void GameScene::blockSwap(Pair blocka, Pair blockb)
 	Pair posa = getPositionByIndex(blocka);
 	Pair posb = getPositionByIndex(blockb);
 
-	boardInfo[blocka.first][blocka.second].actor->moveTo(posb);
-	boardInfo[blockb.first][blockb.second].actor->moveTo(posa);
+	board[blocka.first][blocka.second].actor->moveTo(posb);
+	board[blockb.first][blockb.second].actor->moveTo(posa);
 
-	swap(boardInfo[blocka.first][blocka.second], boardInfo[blockb.first][blockb.second]);
+	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
 
 	runAction(Sequence::createWithTwoActions(DelayTime::create(.4f),
 	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
@@ -338,43 +338,44 @@ void GameScene::blockVanish(KillGroupList killList)
 		{
 			//delete
 			Pair pos = toDelActorInfo.pos;
-			assert(boardInfo[pos.first][pos.second].type != -1);
-			if (boardInfo[pos.first][pos.second].func != -1)
+			// TODO BUG
+			assert(board[pos.first][pos.second].type != -1);
+			if (board[pos.first][pos.second].func != -1)
 			{
 				specialActors.push_back({
-					pos, boardInfo[pos.first][pos.second].type, boardInfo[pos.first][pos.second].func
+					pos, board[pos.first][pos.second].type, board[pos.first][pos.second].func
 				});
 			}
-			boardInfo[pos.first][pos.second].actor->selfClose();
-			boardInfo[pos.first][pos.second] = blockInfo();
+			board[pos.first][pos.second].actor->selfClose();
+			board[pos.first][pos.second] = Block();
 			//placeDropper
 			int ti = BOARD_SIZE;
-			while (boardInfo[ti][pos.second].type != -1)
+			while (board[ti][pos.second].type != -1)
 			{
 				ti++;
 				assert(ti < 2 * BOARD_SIZE);
 			}
-			int type = rand() % 6;
+			int type = rand() % TYPE_NUMBER;
 			auto droper = createActor(type, -1, getPositionByIndex({ti, pos.second}));
-			boardInfo[ti][pos.second] = blockInfo(type, -1, droper);
+			board[ti][pos.second] = Block(type, -1, droper);
 		}
 		//1.3添加奖励特殊方块
 		for (ActorInfo toAddActorInfo : killGroup.newInfo)
 		{
 			//create
 			Pair pos = toAddActorInfo.pos;
-			assert(boardInfo[pos.first][pos.second].type == -1);
+			assert(board[pos.first][pos.second].type == -1);
 			auto newActor = createActor(toAddActorInfo.type, toAddActorInfo.func, getPositionByIndex(pos));
-			boardInfo[pos.first][pos.second] = blockInfo(toAddActorInfo.type, toAddActorInfo.func, newActor);
+			board[pos.first][pos.second] = Block(toAddActorInfo.type, toAddActorInfo.func, newActor);
 			//deleteDropper
 			int ti = 2 * BOARD_SIZE - 1;
-			while (boardInfo[ti][pos.second].type == -1)
+			while (board[ti][pos.second].type == -1)
 			{
 				ti--;
 				assert(ti >= BOARD_SIZE);
 			}
-			removeChild(boardInfo[ti][pos.second].actor);
-			boardInfo[ti][pos.second] = blockInfo();
+			removeChild(board[ti][pos.second].actor);
+			board[ti][pos.second] = Block();
 		}
 	}
 
@@ -400,9 +401,9 @@ void GameScene::blockVanish(KillGroupList killList)
 					//showThunder_H(getPosition({ i,0 }).second);
 					for (int j = 0; j < BOARD_SIZE; j++)
 					{
-						if (boardInfo[i][j].type == -1 || vis.count({i, j}))continue;
+						if (board[i][j].type == -1 || vis.count({i, j}))continue;
 						nowKill.killInfo.push_back(ActorInfo(i, j));
-						if (boardInfo[i][j].func == FUNC_SUPER)boardInfo[i][j].type = specialActor.type;
+						if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 						vis.insert({i, j});
 					}
 					break;
@@ -413,9 +414,9 @@ void GameScene::blockVanish(KillGroupList killList)
 					//showThunder_V(getPosition({ 0,j }).first);
 					for (int i = 0; i < BOARD_SIZE; i++)
 					{
-						if (boardInfo[i][j].type == -1 || vis.count({i, j}))continue;
+						if (board[i][j].type == -1 || vis.count({i, j}))continue;
 						nowKill.killInfo.push_back(ActorInfo(i, j));
-						if (boardInfo[i][j].func == FUNC_SUPER)boardInfo[i][j].type = specialActor.type;
+						if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 						vis.insert({i, j});
 					}
 					break;
@@ -428,9 +429,9 @@ void GameScene::blockVanish(KillGroupList killList)
 						//showThunder_H(getPosition({ i,0 }).second);
 						for (int j = 0; j < BOARD_SIZE; j++)
 						{
-							if (boardInfo[i][j].type == -1 || vis.count({i, j}))continue;
+							if (board[i][j].type == -1 || vis.count({i, j}))continue;
 							nowKill.killInfo.push_back(ActorInfo(i, j));
-							if (boardInfo[i][j].func == FUNC_SUPER)boardInfo[i][j].type = specialActor.type;
+							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
 					}
@@ -444,9 +445,9 @@ void GameScene::blockVanish(KillGroupList killList)
 						//showThunder_V(getPosition({ 0,j }).first);
 						for (int i = 0; i < BOARD_SIZE; i++)
 						{
-							if (boardInfo[i][j].type == -1 || vis.count({i, j}))continue;
+							if (board[i][j].type == -1 || vis.count({i, j}))continue;
 							nowKill.killInfo.push_back(ActorInfo(i, j));
-							if (boardInfo[i][j].func == FUNC_SUPER)boardInfo[i][j].type = specialActor.type;
+							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
 					}
@@ -461,9 +462,9 @@ void GameScene::blockVanish(KillGroupList killList)
 						{
 							if (i < 0 || i > BOARD_SIZE)continue;
 							if (j < 0 || j > BOARD_SIZE)continue;
-							if (boardInfo[i][j].type == -1 || vis.count({i, j}))continue;
+							if (board[i][j].type == -1 || vis.count({i, j}))continue;
 							nowKill.killInfo.push_back(ActorInfo(i, j));
-							if (boardInfo[i][j].func == FUNC_SUPER)boardInfo[i][j].type = specialActor.type;
+							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
 					}
@@ -473,13 +474,13 @@ void GameScene::blockVanish(KillGroupList killList)
 				{
 					int toDelColor = specialActor.type;
 					Pair center = specialActor.pos;
-					boardInfo[center.first][center.second].func = -1;
+					board[center.first][center.second].func = -1;
 
 					for (int i = 0; i < BOARD_SIZE; i++)
 					{
 						for (int j = 0; j < BOARD_SIZE; j++)
 						{
-							if (boardInfo[i][j].type == toDelColor && boardInfo[i][j].func != FUNC_SUPER && !vis.count({
+							if (board[i][j].type == toDelColor && board[i][j].func != FUNC_SUPER && !vis.count({
 								i, j
 							}))
 							{
@@ -504,71 +505,23 @@ void GameScene::blockVanish(KillGroupList killList)
 	}
 }
 
-void GameScene::refreshBoard()
-{
-	for (int i = 0; i < 2 * BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if (boardInfo[i][j].type != -1)
-			{
-				removeChild(boardInfo[i][j].actor);
-				boardInfo[i][j].actor->release();
-			}
-			boardInfo[i][j] = blockInfo();
-		}
-	}
-	for (int i = BOARD_SIZE; i < 2 * BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			int banx = ((i >= BOARD_SIZE + 2 && boardInfo[i - 1][j].type == boardInfo[i - 2][j].type)
-				            ? (boardInfo[i - 2][j].type)
-				            : (-1));
-			int bany = ((j >= 2 && boardInfo[i][j - 1].type == boardInfo[i][j - 2].type)
-				            ? (boardInfo[i][j - 2].type)
-				            : (-1));
-			int typ = rand() % 6;
-			while (typ == banx || typ == bany)typ = rand() % 6;
-			//DEBUG=================
-			if (true)
-			{
-				if (i - 10 == 6 && j == 3)
-				{
-					boardInfo[i][j] = {0, FUNC_SUPER, createActor(0, FUNC_SUPER, getPositionByIndex({i, j}))};
-					continue;
-				}
-				if (i - 10 == 6 && j == 4)
-				{
-					boardInfo[i][j] = {0, FUNC_SUPER, createActor(0, FUNC_SUPER, getPositionByIndex({i, j}))};
-					continue;
-				}
-				//if(i-10==5&&j==4) { boardInfo[i][j] = { 0, FUNC_V_3 ,createActor(0,FUNC_V_3,getPosition({i,j })) }; continue; }
-				//if(i-10==5&&j==5) { boardInfo[i][j] = { 0, -1 ,createActor(0,-1,getPosition({i,j })) }; continue; }
-			}
-			//======================
-			boardInfo[i][j] = {typ, -1, createActor(typ, -1, getPositionByIndex({i, j}))};
-		}
-	}
-}
-
 void GameScene::newBlocksDrop()
 {
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if (boardInfo[i][j].type == -1)
+			if (board[i][j].type == -1)
 			{
 				int ti = i;
-				while (boardInfo[ti][j].type == -1)
+				while (board[ti][j].type == -1)
 				{
 					ti++;
 					assert(ti < 2 * BOARD_SIZE);
 				}
 				Pair ep = getPositionByIndex({i, j});
-				boardInfo[ti][j].actor->dropTo(ep);
-				swap(boardInfo[i][j], boardInfo[ti][j]);
+				board[ti][j].actor->dropTo(ep);
+				swap(board[i][j], board[ti][j]);
 			}
 		}
 	}
@@ -612,18 +565,18 @@ bool GameScene::isDead()
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			if ((i > 0 && i < BOARD_SIZE - 1)
-				&& (boardInfo[i - 1][j].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i + 1][j].type
+				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
 				)
-				&& (boardInfo[i - 1][j].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i + 1][j].
+				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
 					func != FUNC_SUPER)
 			)
 			{
 				return true;
 			}
 			if ((j > 0 && j < BOARD_SIZE - 1)
-				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type
+				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
 				)
-				&& (boardInfo[i][j - 1].func != FUNC_SUPER && boardInfo[i][j].func != FUNC_SUPER && boardInfo[i][j + 1].
+				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
 					func != FUNC_SUPER)
 			)
 			{
@@ -644,28 +597,28 @@ validOperateList GameScene::getHintList()
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i - 1][j].func == FUNC_SUPER)
+			if (board[i][j].func == FUNC_SUPER || board[i - 1][j].func == FUNC_SUPER)
 			{
 				rtn.push_back({{i, j}, {i - 1, j}});
 				continue;
 			}
-			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+			swap(board[i][j], board[i - 1][j]);
 			if (isDead())rtn.push_back({{i, j}, {i - 1, j}});
-			swap(boardInfo[i][j], boardInfo[i - 1][j]);
+			swap(board[i][j], board[i - 1][j]);
 		}
 	}
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 1; j < BOARD_SIZE; j++)
 		{
-			if (boardInfo[i][j].func == FUNC_SUPER || boardInfo[i][j - 1].func == FUNC_SUPER)
+			if (board[i][j].func == FUNC_SUPER || board[i][j - 1].func == FUNC_SUPER)
 			{
 				rtn.push_back({{i, j}, {i, j - 1}});
 				continue;
 			}
-			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+			swap(board[i][j], board[i][j - 1]);
 			if (isDead())rtn.push_back({{i, j}, {i, j - 1}});
-			swap(boardInfo[i][j], boardInfo[i][j - 1]);
+			swap(board[i][j], board[i][j - 1]);
 		}
 	}
 

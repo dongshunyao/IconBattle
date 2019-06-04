@@ -16,8 +16,11 @@ namespace GameBoardInformation
 {
 	typedef pair<int, int> Pair;
 
+	// 宝石块
+	struct Block;
+
+
 	class Actor;
-	struct blockInfo;
 	struct KillGroup;
 	typedef vector<KillGroup> KillGroupList;
 	struct ActorInfo;
@@ -55,6 +58,16 @@ namespace GameBoardInformation
 #pragma endregion
 }
 
+struct GameBoardInformation::Block
+{
+	int type;
+	int func; // TODO del
+	Actor* actor;
+
+	explicit Block(const int type = -1, const int func = -1, Actor* actor = nullptr)
+		: type(type), func(func), actor(actor) {}
+};
+
 class GameBoardInformation::Actor : public Node
 {
 	// protected类型变量创建方式，ctrl点击见源码
@@ -85,14 +98,6 @@ struct GameBoardInformation::ActorInfo
 	ActorInfo(int x, int y, int type = -1, int func = -1) : pos({x, y}), type(type), func(func) { };
 };
 
-struct GameBoardInformation::blockInfo
-{
-	int type;
-	int func;
-	Actor* actor;
-
-	blockInfo(int type = -1, int func = -1, Actor* actor = NULL) : type(type), func(func), actor(actor) { };
-};
 
 struct GameBoardInformation::KillGroup
 {

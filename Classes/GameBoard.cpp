@@ -101,3 +101,36 @@ Pair GameScene::getIndexByPosition(const Pair position)
 	// 宝石大小为64，与缝隙总长86
 	return Pair((position.second - 90) / 86, (position.first - 465) / 86);
 }
+
+void GameScene::refreshBoard()
+{
+	// 下半部置空
+	for (auto i = 0; i < 2 * BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type != -1)
+			{
+				removeChild(board[i][j].actor);
+				// 强制回收
+				// board[i][j].actor->release();
+			}
+			board[i][j] = Block();
+		}
+
+	// 上半部生成
+	for (auto i = BOARD_SIZE; i < 2 * BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			// 禁止块
+			const auto banX = i >= BOARD_SIZE + 2 && board[i - 1][j].type == board[i - 2][j].type
+				? board[i - 2][j].type
+				: -1;
+			const auto banY = j >= 2 && board[i][j - 1].type == board[i][j - 2].type
+				? board[i][j - 2].type
+				: -1;
+			auto type = rand() % TYPE_NUMBER;
+			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
+
+			board[i][j] = Block(type, -1, createActor(type, -1, getPositionByIndex({ i, j })));
+		}
+}
