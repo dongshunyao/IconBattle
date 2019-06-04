@@ -34,6 +34,10 @@ public:
 
 #pragma region Menu Sence
 	string menuSceneBackground;
+	string menuSceneClassicLabel;
+	string menuSceneClassicPlate;
+	string menuSceneEnhancedLabel;
+	string menuSceneEnhancedPlate;
 
 	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
 
@@ -45,9 +49,17 @@ public:
 	const string menuBackTypeButtonSelectedBackground = "/image/menuscene/common/back_change_button_selected.png";
 	const string menuBackTypeButtonDisabledBackground = "/image/menuscene/common/back_change_button_disabled.png";
 
-	const string menuSceneGameButtonNormal = "/image/menuscene/common/game_normal.png";
-	const string menuSceneGameButtonSelected = "/image/menuscene/common/game_selected.png";
-	const string menuSceneGameButtonDisabled = "/image/menuscene/common/game_disabled.png";
+	const string menuSceneLevelButtonNormal = "/image/menuscene/common/level_normal.png";
+	const string menuSceneLevelButtonSelected = "/image/menuscene/common/level_selected.png";
+	const string menuSceneLevelButtonDisabled = "/image/menuscene/common/level_disabled.png";
+
+	const string menuScenePracticeButtonNormal = "/image/menuscene/common/practice_normal.png";
+	const string menuScenePracticeButtonSelected = "/image/menuscene/common/practice_selected.png";
+	const string menuScenePracticeButtonDisabled = "/image/menuscene/common/practice_disabled.png";
+
+	const string menuSceneChallengeButtonNormal = "/image/menuscene/common/challenge_normal.png";
+	const string menuSceneChallengeButtonSelected = "/image/menuscene/common/challenge_selected.png";
+	const string menuSceneChallengeButtonDisabled = "/image/menuscene/common/challenge_disabled.png";
 
 	const string menuSceneRankButtonNormal = "/image/menuscene/common/rank_normal.png";
 	const string menuSceneRankButtonSelected = "/image/menuscene/common/rank_selected.png";

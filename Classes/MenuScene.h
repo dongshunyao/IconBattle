@@ -34,6 +34,21 @@ private:
 	void initStoreButton();
 	void initRankButton();
 	void initGameButton();
+	void initPlate();
+
+	Button* classicPractice = nullptr;
+	Button* classicLevel = nullptr;
+	Button* classicChallenge = nullptr;
+	Button* enhancedPractice = nullptr;
+	Button* enhancedLevel = nullptr;
+	Button* enhancedChallenge = nullptr;
+
+	ListView* enhancedListView = nullptr;
+	ListView* classicListView = nullptr;
+
+	bool classicMoveOut = false;
+	bool enhancedMoveOut = false;
+
 };
 
 #endif
