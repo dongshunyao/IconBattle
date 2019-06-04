@@ -83,11 +83,11 @@ KillGroupList GameScene::getKillList()
 			}
 			if (ilen == 3 && jlen == 3)
 			{
-				rtn.push_back({{i, j}, 500, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_FIRE)}});
+				rtn.push_back({{i, j}, doubleThree, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_FIRE)}});
 			}
 			else if (ilen >= 3 && jlen >= 3)
 			{
-				rtn.push_back({{i, j}, 1000, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_SUPER)}});
+				rtn.push_back({{i, j}, otherDouble, tCrossActor, {ActorInfo(i, j, boardInfo[i][j].type, FUNC_SUPER)}});
 			}
 			if (ilen >= 3 && jlen >= 3)
 			{
@@ -123,7 +123,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i + 2, j});
 				vis.insert({i - 2, j});
 				rtn.push_back({
-					{i, j}, 200,
+					{i, j}, fiveScore,
 					{
 						ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j),
 						ActorInfo(i - 2, j)
@@ -147,7 +147,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j + 2});
 				vis.insert({i, j - 2});
 				rtn.push_back({
-					{i, j}, 200,
+					{i, j}, fiveScore,
 					{
 						ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2),
 						ActorInfo(i, j - 2)
@@ -175,7 +175,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i + 1, j});
 				vis.insert({i + 2, j});
 				rtn.push_back({
-					{i, j}, 200, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j)},
+					{i, j}, fourScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j)},
 					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_H_1)}
 				});
 			}
@@ -191,7 +191,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j + 1});
 				vis.insert({i, j + 2});
 				rtn.push_back({
-					{i, j}, 200, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2)},
+					{i, j}, fourScore, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2)},
 					{ActorInfo(i, j, boardInfo[i][j].type, FUNC_V_1)}
 				});
 			}
@@ -213,7 +213,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i - 1, j});
 				vis.insert({i, j});
 				vis.insert({i + 1, j});
-				rtn.push_back({{i, j}, 100, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j)}, {}});
+				rtn.push_back({{i, j}, threeScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j)}, {}});
 			}
 			if ((j > 0 && j < BOARD_SIZE - 1)
 				&& (boardInfo[i][j - 1].type == boardInfo[i][j].type && boardInfo[i][j].type == boardInfo[i][j + 1].type
@@ -225,7 +225,7 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j - 1});
 				vis.insert({i, j});
 				vis.insert({i, j + 1});
-				rtn.push_back({{i, j}, 100, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1)}, {}});
+				rtn.push_back({{i, j}, threeScore, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1)}, {}});
 			}
 		}
 	}
@@ -344,7 +344,7 @@ void GameScene::blockVanish(KillGroupList killList)
 	for (KillGroup killGroup : killList)
 	{
 		//1.1展示分数
-		//showScore(killGroup.markValue, killGroup.markPoint);
+		showScore(killGroup.markValue, killGroup.markPoint);
 		//1.2移除所有得分块
 		for (ActorInfo toDelActorInfo : killGroup.killInfo)
 		{
@@ -606,6 +606,7 @@ void GameScene::animationDoneCallback()
 		else
 		{
 			// TODO: 次数用尽
+			// 练习模式不用判断，无限交换
 		}
 	}
 	else
@@ -669,4 +670,24 @@ validOperateList GameScene::getHintList()
 	CCLOG("Hit calc time: %dms.", endTime - beginTime);
 
 	return rtn;
+}
+
+void GameScene::showScore(int value, pii pos)
+{
+	auto labelScore = Label::createWithSystemFont(std::to_string(value), "Arial", 36);
+	pos = getPosition(pos);
+	labelScore->setPosition(pos.first, pos.second);
+	labelScore->enableShadow(Color4B::ORANGE);
+	labelScore->runAction(
+		Sequence::create(
+			Spawn::create(
+				MoveBy::create(1.0f, { 40,40 }),
+				FadeOut::create(1.0f),
+				NULL),
+			CallFunc::create([&, labelScore]() {removeChild(labelScore); }),
+			NULL
+		));
+	addChild(labelScore, 5);
+
+	setCurrentScore(value);
 }

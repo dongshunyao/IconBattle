@@ -129,7 +129,7 @@ void GameScene::setCurrentScore(int score)
 	if (score < 0) score = 0;
 	if (score > totalScore) score = totalScore;
 
-	currentScore = score;
+	currentScore += score;
 	scoreLabel->setString(to_string(currentScore));
 
 	const auto processAction = ProgressFromTo::create(0.25, previousPercentage, 100.0f * currentScore / totalScore);

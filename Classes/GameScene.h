@@ -78,7 +78,14 @@ private:
 	void initGameBoard();
 
 #pragma endregion
-	// TODO 不同消除的得分@PJ
+	// 不同模式得分，待调整
+	const int threeScore = 100;
+	const int fourScore = 150;
+	const int fiveScore = 200;
+	const int doubleThree = 300;
+	const int otherDouble = 500;
+	const int super = 800;
+	const int doubleSuper = 10000;
 
 	/*
 	 * 标准模式：
@@ -89,7 +96,7 @@ private:
 	 * 横五消：直接清除在临近三行的所有宝石
 	 * 竖五消：直接清除在临近三列的所有宝石
 	 * 有交点的双三消：直接清除临近 3X3 的所有宝石
-	 * 有交点的双三消+横或竖添加任意一直多个宝石：生成SUPER宝石
+	 * 有交点的双三消+横或竖添加任意一至多个宝石：生成SUPER宝石
 	 * SUPER宝石与某个颜色交换：消去整个画面中该颜色的宝石，两个SUPER换则刷新棋盘
 	 */
 
@@ -143,6 +150,11 @@ private:
 	bool isDead();
 	// 得到提示
 	validOperateList getHintList();
+
+	// 显示得分动画
+	void showScore(int value, pii pos);
+	// 添加得分
+	void addScore(int score);
 };
 
 #endif
