@@ -1,41 +1,24 @@
 #include "GameBoardInformation.h"
 using namespace GameBoardInformation;
 
-// 创建
-Actor* Actor::create(const int type, int func, const Pair position)
+Actor* Actor::create(const int type, const Pair position)
 {
 	auto actor = new(std::nothrow) Actor();
 	if (actor)
 	{
-		actor->setType(type);
-		actor->setFunc(func);
+		actor->type = type;
 		actor->position = position;
 
 		assert(type >= 0 && type <= 6);
 
-		actor->setGem(Sprite::create(GEM_N[type]));
-		actor->getGem()->setPosition(position.first, position.second);
-		actor->getGem()->setScale(0.9f);
-		actor->getGem()->setZOrder(0);
-		actor->addChild(actor->getGem());
-
-		if (func == -1)
-		{
-			actor->setIcon(NULL);
-		}
-		else
-		{
-			actor->setIcon(Sprite::createWithSpriteFrameName(SPIC_N[func]));
-			actor->getIcon()->setPosition(position.first, position.second);
-			actor->getIcon()->setScale(0.9f);
-			actor->getIcon()->setZOrder(1);
-			actor->addChild(actor->getIcon());
-		}
-		//DONE: check Zorder -- OK
-
+		actor->sprite = Sprite::create(SPRITE_URL[type]);
+		actor->sprite->setPosition(position.first, position.second);
+		actor->sprite->setScale(0.9f);
+		actor->addChild(actor->sprite);
 		actor->autorelease();
 		return actor;
 	}
+
 	CC_SAFE_DELETE(actor);
 	return nullptr;
 }
@@ -44,50 +27,32 @@ void Actor::dropTo(const Pair toPosition)
 {
 	const auto action = Sequence::create(
 		EaseOut::create(MoveTo::create(0.5, Vec2(toPosition.first, toPosition.second)), 2.0f), nullptr);
-	allDo(action);
+	runAction(action);
 	this->position = toPosition;
 }
 
-// 本cpp文件中所有动画的实现调用方法
-void GameBoardInformation::Actor::allDo(Action* action)
+void Actor::moveTo(const Pair toPosition)
 {
-	getGem()->runAction(action->clone());
-	if (getIcon())getIcon()->runAction(action->clone());
+	const auto action = Sequence::create(MoveTo::create(0.25, Vec2(toPosition.first, toPosition.second)), nullptr);
+	runAction(action);
+	this->position = toPosition;
 }
 
-// 移动
-void GameBoardInformation::Actor::moveTo(Pair pos)
+void Actor::moveToAndBack(const Pair toPosition)
 {
-	auto action = Sequence::create(
-		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
-		NULL
-	);
-	allDo(action);
-	this->position = pos;
+	const auto action = Sequence::create(
+		MoveTo::create(0.25, Vec2(toPosition.first, toPosition.second)),
+		MoveTo::create(0.25, Vec2(position.first, position.second)),
+		nullptr);
+	runAction(action);
 }
 
-void Actor::moveToThenBack(Pair posb)
+void Actor::disappear()
 {
-	auto action = Sequence::create(
-		CCMoveTo::create(0.25, Vec2(posb.first, posb.second)),
-		CCMoveTo::create(0.25, Vec2(position.first, position.second)),
-		NULL
-	);
-	allDo(action);
-}
+	runAction(Sequence::create(ScaleTo::create(0.3f, 0.0f), nullptr));
 
-
-// 自己杀自己
-void GameBoardInformation::Actor::selfClose()
-{
-	auto action = Sequence::create(
-		CCScaleTo::create(.3f, .0f),
-		NULL
-	);
-	allDo(action);
-	Node* father = getParent();
-	Node* me = this;
-	runAction(Sequence::createWithTwoActions(DelayTime::create(.3f),
-	                                         CCCallFunc::create([father, me]() { father->removeChild(me); })));
-	//LEAK?
+	auto parent = getParent();
+	Node* child = this;
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.3f),
+	                                         CallFunc::create([parent, child]() { parent->removeChild(child); })));
 }

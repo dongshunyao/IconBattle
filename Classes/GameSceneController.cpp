@@ -10,7 +10,7 @@ GameSceneController* GameSceneController::getInstance()
 
 void GameSceneController::startPracticeGame(bool isClassical)
 {
-	Director::getInstance()->pushScene(GameScene::createScene(30, 1, true));
+	Director::getInstance()->pushScene(GameScene::createScene(30, 1, true, PRACTICE_MODE));
 }
 
 void GameSceneController::startLevelGame(const bool isClassical)

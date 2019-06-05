@@ -29,8 +29,6 @@ void GameScene::initGameBoard()
 
 			log("Click: Position %f, %f; Index %d, %d;", cursorX, cursorY, getIndexByPosition(Pair(cursorX, cursorY)));
 
-			// TODO 选中标识动画+图层
-
 			// 还未选中过方块
 			if (firstSelectedBlockIndex == Pair(-1, -1))
 			{
@@ -131,9 +129,9 @@ void GameScene::initGameBoard()
 	dropBlock();
 }
 
-Actor* GameScene::addActor(const int type, int spv, const Pair position)
+Actor* GameScene::addActor(const int type, const Pair position)
 {
-	const auto actor = Actor::create(type, spv, position);
+	const auto actor = Actor::create(type, position);
 	addChild(actor, 1);
 	return actor;
 }
@@ -182,7 +180,7 @@ void GameScene::refreshBoard()
 			auto type = rand() % TYPE_NUMBER;
 			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
 
-			board[i][j] = Block(type, -1, addActor(type, -1, getPositionByIndex({i, j})));
+			board[i][j] = Block(type, addActor(type, getPositionByIndex({i, j})));
 		}
 }
 
@@ -206,5 +204,173 @@ void GameScene::dropBlock()
 		}
 
 	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5),
-	                                         CallFunc::create([&]() { animationDoneCallback(); })));
+	                                         CallFunc::create([&]() { mainCallback(); })));
+}
+
+bool GameScene::canKill() const
+{
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE) return false;
+
+			if (i > 0 && i < BOARD_SIZE - 1 &&
+				(board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type))
+				return false;
+
+			if (j > 0 && j < BOARD_SIZE - 1 &&
+				(board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type))
+				return false;
+		}
+
+	return true;
+}
+
+bool GameScene::canKill(const Pair blockAIndex, const Pair blockBIndex)
+{
+	swap(board[blockAIndex.first][blockAIndex.second], board[blockBIndex.first][blockBIndex.second]);
+	const auto flag = canKill();
+	swap(board[blockAIndex.first][blockAIndex.second], board[blockBIndex.first][blockBIndex.second]);
+	return flag;
+}
+
+void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
+{
+	selectedHighLight->setPosition({9999, 9999});
+	firstSelectedBlockIndex = {-1, -1};
+	secondSelectedBlockIndex = {-1, -1};
+
+	minusStepNumber();
+	boardLock = true;
+	log("[LOCK] Try Swap: 1st (%d,%d), 2ed (%d,%d)", blockAIndex.first, blockAIndex.second, blockBIndex.first,
+	    blockBIndex.second);
+
+	ActorInformationList killActorList;
+
+	// 均为Super块
+	if (board[blockAIndex.first][blockAIndex.second].type == SUPER_TYPE && board[blockBIndex.first][blockBIndex.second].
+		type == SUPER_TYPE)
+	{
+		for (auto i = 0; i < BOARD_SIZE; i++)
+			for (auto j = 0; j < BOARD_SIZE; j++) killActorList.push_back(ActorInformation(i, j));
+		killBlock({KillInformation(DOUBLE_SUPER_KILL, killActorList)});
+		return;
+	}
+
+	// 有一个Super块
+	if (board[blockAIndex.first][blockAIndex.second].type == SUPER_TYPE)
+	{
+		for (auto i = 0; i < BOARD_SIZE; i++)
+			for (auto j = 0; j < BOARD_SIZE; j++)
+			{
+				if (board[i][j].type == board[blockBIndex.first][blockBIndex.second].type)
+					killActorList.push_back(ActorInformation(i, j));
+			}
+		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		return;
+	}
+
+	if (board[blockBIndex.first][blockBIndex.second].type == SUPER_TYPE)
+	{
+		for (auto i = 0; i < BOARD_SIZE; i++)
+			for (auto j = 0; j < BOARD_SIZE; j++)
+			{
+				if (board[i][j].type == board[blockAIndex.first][blockAIndex.second].type)
+					killActorList.push_back(ActorInformation(i, j));
+			}
+		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		return;
+	}
+
+	if (canKill(blockAIndex, blockBIndex)) swapFail(blockAIndex, blockBIndex);
+	else swapSuccess(blockAIndex, blockBIndex);
+}
+
+HintOperation GameScene::isImpasse()
+{
+	const auto beginTime = clock();
+
+	for (auto i = 1; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+			if (!canKill({i, j}, {i - 1, j}))
+			{
+				log("Hit: Use %d ms;", clock() - beginTime);
+				return {{i, j}, {i - 1, j}};
+			}
+
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 1; j < BOARD_SIZE; j++)
+			if (!canKill({i, j}, {i, j - 1}))
+			{
+				log("Hit: Use %d ms;", clock() - beginTime);
+				return {{i, j}, {i, j - 1}};
+			}
+
+	return {{-1, -1}, {-1, -1}};
+}
+
+bool GameScene::showHint()
+{
+	if (boardLock) return false;
+
+	boardLock = true;
+	const auto hint = isImpasse();
+
+	log("[LOCK] Hint: (%d, %d); (%d, %d);", hint.first.first, hint.first.second, hint.second.first, hint.second.second);
+	assert(hint != HintOperation({-1, -1},{-1,-1}));
+
+	// TODO 展示hint
+
+	boardLock = false;
+	log("[UNLOCK] Hint");
+	return true;
+}
+
+void GameScene::swapSuccess(const Pair blockAIndex, const Pair blockBIndex)
+{
+	board[blockAIndex.first][blockAIndex.second].actor->moveTo(getPositionByIndex(blockBIndex));
+	board[blockBIndex.first][blockBIndex.second].actor->moveTo(getPositionByIndex(blockAIndex));
+
+	swap(board[blockAIndex.first][blockAIndex.second], board[blockBIndex.first][blockBIndex.second]);
+
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.4f),
+	                                         CallFunc::create([&]() { mainCallback(); })));
+}
+
+void GameScene::swapFail(const Pair blockAIndex, const Pair blockBIndex)
+{
+	board[blockAIndex.first][blockAIndex.second].actor->moveToAndBack(getPositionByIndex(blockBIndex));
+	board[blockBIndex.first][blockBIndex.second].actor->moveToAndBack(getPositionByIndex(blockAIndex));
+
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.65f),
+	                                         CallFunc::create([&]() { mainCallback(); })));
+}
+
+void GameScene::mainCallback()
+{
+	if (canKill())
+	{
+		log("[CAN_KILL]");
+		killBlock(getKillList());
+	}
+	else
+	{
+		if (stepNumber == 0 || currentScore >= totalScore)
+		{
+			log("[END]");
+			endGame();
+			return;
+		}
+
+		if (isImpasse() == HintOperation({-1, -1}, {-1, -1}))
+		{
+			log("[IMPASSE]");
+			refreshBoard();
+			dropBlock();
+			return;
+		}
+
+		log("[UNLOCK]");
+		boardLock = false;
+	}
 }

@@ -11,13 +11,12 @@
 #include "SettingButton.h"
 #include "Dialog.h"
 
-
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
-
 using std::swap;
 using std::set;
+
 using namespace GameBoardInformation;
 using namespace Util;
 USING_NS_CC;
@@ -26,8 +25,9 @@ USING_NS_CC;
  * 图层顺序
  * 从底到顶
  * -1层 宝石的背景板
- * 1+层 宝石
+ * 1+层 宝石 宝石1 选中高亮3 移动高亮5
  * 10+层 主背景板+所有按钮
+ * 15+层 所有特效
  * 20+层 结算结果框
  * 30+层 返回提示框
  */
@@ -36,14 +36,20 @@ class GameScene final :
 	public Scene
 {
 public:
-	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int hintNumber = 3);
+	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int mode, int hintNumber = 3);
 	bool init() override { return Scene::init(); }
 	CREATE_FUNC(GameScene)
 
 private:
 	bool isClassical = true;
-	bool isAppear = false;
+	int mode = -1;
 	Theme* theme = Theme::getInstance();
+
+	// 显示得分
+	void showScore(ActorInformation actorInformation);
+
+	// 结束游戏
+	void endGame();
 
 #pragma region Information Board
 	int stepNumber = 0;
@@ -55,12 +61,12 @@ private:
 	// 剩余步数减一
 	void minusStepNumber();
 	void setTotalScore(int score);
-	// 添加分数，可正可负，需要直接设置请另加方法
+	// 添加分数，可正可负
 	void addCurrentScore(int deltaScore);
 
 	Label* stepNumberLabel = nullptr;
 	Sprite* hintNumberSprite = nullptr;
-	Label* scoreLabel = nullptr;
+	Label* currentScoreLabel = nullptr;
 	Sprite* currentProgressBar = nullptr;
 	ProgressTimer* progressController = nullptr;
 
@@ -96,7 +102,7 @@ private:
 	// 初始化棋盘和鼠标监听器
 	void initGameBoard();
 	// 添加Actor
-	Actor* addActor(int type, int, Pair position); //TODO
+	Actor* addActor(int type, Pair position);
 
 	// 由坐标得棋盘位置
 	Pair getPositionByIndex(Pair index);
@@ -108,62 +114,32 @@ private:
 	// 上方块下落
 	void dropBlock();
 	// 尝试交换
-	void trySwapBlock(Pair blockA, Pair blockB);
+	void trySwapBlock(Pair blockAIndex, Pair blockBIndex);
 
+	// 判断当前局面是否有可消除块
+	bool canKill() const;
+	// 交换后判断是否有可消除块
+	bool canKill(Pair blockAIndex, Pair blockBIndex);
+	// HintOperation({-1, -1}, {-1, -1})表示当前死局，反之返回提示
+	HintOperation isImpasse();
+	// 展示提示
+	bool showHint();
+
+	// 交换失败
+	void swapFail(Pair blockAIndex, Pair blockBIndex);
+	// 交换成功
+	void swapSuccess(Pair blockAIndex, Pair blockBIndex);
+
+	// 主回调函数
+	void mainCallback();
 #pragma endregion
 
-	// TODO 不同模式得分，待调整
-	const int threeScore = 100;
-	const int fourScore = 150;
-	const int fiveScore = 200;
-	const int doubleThree = 300;
-	const int otherDouble = 500;
-	const int super = 800;
-	const int superKillScore = 10000;
-
-	/*
-	 * 标准模式：
-	 * 三消 四消 五消 有交点的双三消 有交点的双三消+横或竖添加任意一至多个宝石
-	 * 加强模式：
-	 * 三消（threeKill）
-	 * 横四消（fourKill）：直接清除在本行的所有宝石
-	 * 竖四消：直接清除在本列的所有宝石
-	 * 横五消（fiveKill）：直接清除在临近三行的所有宝石
-	 * 竖五消：直接清除在临近三列的所有宝石
-	 * 有交点的双三消（双三doubleThreeKill）：直接清除临近 3X3 的所有宝石
-	 * 有交点的双三消+横或竖添加任意一至多个宝石（双四doubleFourKill）：生成SUPER宝石
-	 * SUPER宝石与某个颜色交换（superKill）：消去整个画面中该颜色的宝石
-	 * 两个SUPER交换（doubleSuperKill）：刷新棋盘
-	 */
-
-
-	
 
 	// 获取可消除方块列表
-	KillGroupList getKillList();
+	KillInformationList getKillList();
 
-	
-	// 无效交换动画
-	void failSwap(Pair blocka, Pair blockb);
-
-
-	// 方块交换动画
-	void blockSwap(Pair blocka, Pair blockb);
 	// 方块消除动画
-	void blockVanish(KillGroupList killList);
-
-
-	// 消除并下落动画回调函数：
-	// 检测若新棋盘无可消除则unlock，否则继续消除
-	void animationDoneCallback();
-
-	// 判断是否为死局
-	bool isDead();
-	// 得到提示
-	validOperateList getHintList();
-
-	// 显示得分动画
-	void showScore(int value, Pair pos);
+	void killBlock(KillInformationList killList);
 };
 
 #endif

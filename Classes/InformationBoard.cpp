@@ -80,9 +80,9 @@ void GameScene::initInformationBoard()
 	this->addChild(progressController, 12);
 
 	// 分数板
-	scoreLabel = Label::createWithTTF("0", theme->markerFeltFont, 32);
-	scoreLabel->setPosition(225, 240);
-	this->addChild(scoreLabel, 11);
+	currentScoreLabel = Label::createWithTTF("0", theme->markerFeltFont, 32);
+	currentScoreLabel->setPosition(225, 240);
+	this->addChild(currentScoreLabel, 11);
 
 	// 提示次数
 	hintNumberSprite = Sprite::create(theme->gameSceneHintNumber + to_string(hintNumber) + ".png");
@@ -98,11 +98,10 @@ void GameScene::initInformationBoard()
 	{
 		if (type == Widget::TouchEventType::ENDED)
 		{
-			if (hintNumber > 0)
+			if (hintNumber > 0 && showHint())
 			{
 				hintNumber--;
 				hintNumberSprite->setTexture(theme->gameSceneHintNumber + to_string(hintNumber) + ".png");
-				showResult(true, 0);
 			}
 		}
 	});
@@ -140,11 +139,11 @@ void GameScene::addCurrentScore(const int deltaScore)
 	else if (currentScore + deltaScore >= totalScore) currentScore = totalScore;
 	else currentScore += deltaScore;
 
-	log("Score: Add %d; From %d; To %d; Total %d;", deltaScore, previousScore, currentScore, totalScore);
-
-	scoreLabel->setString(to_string(currentScore));
-
 	const auto processAction = ProgressFromTo::create(0.25, 100.0f * previousScore / totalScore,
 	                                                  100.0f * currentScore / totalScore);
 	progressController->runAction(processAction);
+
+	currentScore = previousScore + deltaScore;
+	log("Score: Add %d; From %d; To %d; Total %d;", deltaScore, previousScore, currentScore, totalScore);
+	currentScoreLabel->setString(to_string(currentScore));
 }

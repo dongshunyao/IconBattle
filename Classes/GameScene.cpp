@@ -1,6 +1,7 @@
 #include "GameScene.h"
 
-Scene* GameScene::createScene(const int stepNumber, const int totalScore, const bool isClassical, const int hintNumber)
+Scene* GameScene::createScene(const int stepNumber, const int totalScore, const bool isClassical, const int mode,
+                              const int hintNumber)
 {
 	const auto scene = GameScene::create();
 
@@ -9,11 +10,7 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->totalScore = totalScore;
 	scene->isClassical = isClassical;
 	scene->hintNumber = hintNumber;
-
-	// TODO 初始化精灵缓存
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(
-		"/image/gamescene/jetbraintheme/iconset/large/super_gems.plist",
-		"/image/gamescene/jetbraintheme/iconset/large/super_gems.png");
+	scene->mode = mode;
 
 	// 初始化背景板及按钮
 	scene->initInformationBoard();
@@ -24,12 +21,50 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	return scene;
 }
 
-
-
-
-KillGroupList GameScene::getKillList()
+void GameScene::showScore(const ActorInformation actorInformation)
 {
-	KillGroupList rtn;
+	// TODO 换字体？
+	auto scoreLabel = Label::createWithTTF(to_string(actorInformation.score), theme->semiBoldFont, 36);
+
+	const auto position = getPositionByIndex(actorInformation.blockIndex);
+	scoreLabel->setPosition(position.first, position.second);
+
+	scoreLabel->enableShadow(Color4B::ORANGE);
+	scoreLabel->runAction(Sequence::create(
+		Spawn::create(MoveBy::create(1.0f, {40, 40}), FadeOut::create(1.0f), nullptr),
+		CallFunc::create([&, scoreLabel]() { removeChild(scoreLabel); }), nullptr));
+
+	addChild(scoreLabel, 19);
+	addCurrentScore(actorInformation.score);
+}
+
+void GameScene::endGame()
+{
+	// TODO 计算分数，动画，成功失败，分模式调用
+	if (true)
+	{
+		switch (mode)
+		{
+		case PRACTICE_MODE: { }
+		case LEVEL_MODE: { }
+		case CHALLENGE_MODE: { }
+		}
+	}
+	else
+	{
+		switch (mode)
+		{
+		case PRACTICE_MODE: { }
+		case LEVEL_MODE: { }
+		case CHALLENGE_MODE: { }
+		}
+	}
+}
+
+// TODO 
+KillInformationList GameScene::getKillList()
+{
+	KillInformationList rtn;
 	set<Pair> vis;
 
 	//TODO: check cross;
@@ -38,39 +73,42 @@ KillGroupList GameScene::getKillList()
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			int ilen = 1, jlen = 1;
-			ActorInfoList tCrossActor;
-			tCrossActor.push_back(ActorInfo(i, j));
+			ActorInformationList tCrossActor;
+			tCrossActor.push_back(ActorInformation(i, j));
 			for (int ip = i + 1; ip < BOARD_SIZE && board[ip][j].type == board[i][j].type && !vis.count({ip, j})
 			     && board[ip][j].func != FUNC_SUPER; ip++)
 			{
 				ilen++;
-				tCrossActor.push_back(ActorInfo(ip, j));
+				tCrossActor.push_back(ActorInformation(ip, j));
 			}
 			for (int ip = i - 1; ip >= 0 && board[ip][j].type == board[i][j].type && !vis.count({ip, j}) &&
 			     board[ip][j].func != FUNC_SUPER; ip--)
 			{
 				ilen++;
-				tCrossActor.push_back(ActorInfo(ip, j));
+				tCrossActor.push_back(ActorInformation(ip, j));
 			}
 			for (int jp = j + 1; jp < BOARD_SIZE && board[i][jp].type == board[i][j].type && !vis.count({i, jp})
 			     && board[i][jp].func != FUNC_SUPER; jp++)
 			{
 				jlen++;
-				tCrossActor.push_back(ActorInfo(i, jp));
+				tCrossActor.push_back(ActorInformation(i, jp));
 			}
 			for (int jp = j - 1; jp >= 0 && board[i][jp].type == board[i][j].type && !vis.count({i, jp}) &&
 			     board[i][jp].func != FUNC_SUPER; jp--)
 			{
 				jlen++;
-				tCrossActor.push_back(ActorInfo(i, jp));
+				tCrossActor.push_back(ActorInformation(i, jp));
 			}
 			if (ilen == 3 && jlen == 3)
 			{
-				rtn.push_back({{i, j}, doubleThree, tCrossActor, {ActorInfo(i, j, board[i][j].type, FUNC_FIRE)}});
+				rtn.push_back({
+					{i, j}, doubleThree, tCrossActor, {ActorInformation(i, j, board[i][j].type, FUNC_FIRE)}
+				});
 			}
 			else if (ilen >= 3 && jlen >= 3)
 			{
-				rtn.push_back({{i, j}, otherDouble, tCrossActor, {ActorInfo(i, j, board[i][j].type, FUNC_SUPER)}});
+				rtn.push_back(
+					{{i, j}, otherDouble, tCrossActor, {ActorInformation(i, j, board[i][j].type, FUNC_SUPER)}});
 			}
 			if (ilen >= 3 && jlen >= 3)
 			{
@@ -82,8 +120,6 @@ KillGroupList GameScene::getKillList()
 		}
 	}
 
-	//TODO: check 6 link;
-	//砍了，具体看info
 
 	//TODO: check 5 link;
 	for (int i = 0; i < BOARD_SIZE; i++)
@@ -108,10 +144,11 @@ KillGroupList GameScene::getKillList()
 				rtn.push_back({
 					{i, j}, fiveScore,
 					{
-						ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j),
-						ActorInfo(i - 2, j)
+						ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j),
+						ActorInformation(i + 2, j),
+						ActorInformation(i - 2, j)
 					},
-					{ActorInfo(i, j, board[i][j].type, FUNC_H_3)}
+					{ActorInformation(i, j, board[i][j].type, FUNC_H_3)}
 				});
 			}
 			if ((j > 1 && j < BOARD_SIZE - 2)
@@ -132,10 +169,11 @@ KillGroupList GameScene::getKillList()
 				rtn.push_back({
 					{i, j}, fiveScore,
 					{
-						ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2),
-						ActorInfo(i, j - 2)
+						ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1),
+						ActorInformation(i, j + 2),
+						ActorInformation(i, j - 2)
 					},
-					{ActorInfo(i, j, board[i][j].type, FUNC_V_3)}
+					{ActorInformation(i, j, board[i][j].type, FUNC_V_3)}
 				});
 			}
 		}
@@ -158,8 +196,12 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i + 1, j});
 				vis.insert({i + 2, j});
 				rtn.push_back({
-					{i, j}, fourScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j), ActorInfo(i + 2, j)},
-					{ActorInfo(i, j, board[i][j].type, FUNC_H_1)}
+					{i, j}, FOUR_KILL_SCORE,
+					{
+						ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j),
+						ActorInformation(i + 2, j)
+					},
+					{ActorInformation(i, j, board[i][j].type, FUNC_H_1)}
 				});
 			}
 			if ((j > 0 && j < BOARD_SIZE - 2)
@@ -174,8 +216,12 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j + 1});
 				vis.insert({i, j + 2});
 				rtn.push_back({
-					{i, j}, fourScore, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1), ActorInfo(i, j + 2)},
-					{ActorInfo(i, j, board[i][j].type, FUNC_V_1)}
+					{i, j}, FOUR_KILL_SCORE,
+					{
+						ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1),
+						ActorInformation(i, j + 2)
+					},
+					{ActorInformation(i, j, board[i][j].type, FUNC_V_1)}
 				});
 			}
 		}
@@ -196,7 +242,10 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i - 1, j});
 				vis.insert({i, j});
 				vis.insert({i + 1, j});
-				rtn.push_back({{i, j}, threeScore, {ActorInfo(i - 1, j), ActorInfo(i, j), ActorInfo(i + 1, j)}, {}});
+				rtn.push_back({
+					{i, j}, threeScore,
+					{ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j)}, {}
+				});
 			}
 			if ((j > 0 && j < BOARD_SIZE - 1)
 				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
@@ -208,7 +257,10 @@ KillGroupList GameScene::getKillList()
 				vis.insert({i, j - 1});
 				vis.insert({i, j});
 				vis.insert({i, j + 1});
-				rtn.push_back({{i, j}, threeScore, {ActorInfo(i, j - 1), ActorInfo(i, j), ActorInfo(i, j + 1)}, {}});
+				rtn.push_back({
+					{i, j}, threeScore,
+					{ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1)}, {}
+				});
 			}
 		}
 	}
@@ -216,128 +268,22 @@ KillGroupList GameScene::getKillList()
 	return rtn;
 }
 
-void GameScene::trySwapBlock(const Pair blockA, const Pair blockB)
-{
-	selectedHighLight->setPosition({9999, 9999});
-	firstSelectedBlockIndex = {-1, -1};
-	secondSelectedBlockIndex = {-1, -1};
-
-	minusStepNumber();
-	boardLock = true;
-	log("[LOCK] Try Swap: 1st (%d,%d), 2ed (%d,%d)", blockA.first, blockA.second, blockB.first, blockB.second);
-
-	// 均为Super块
-	if (board[blockA.first][blockA.second].func == FUNC_SUPER && board[blockB.first][blockB.second].func ==
-		FUNC_SUPER)
-	{
-		Pair center = blockA;
-		ActorInfoList tCrossActor;
-		for (int i = 0; i < BOARD_SIZE; i++)
-		{
-			for (int j = 0; j < BOARD_SIZE; j++)
-			{
-				if (board[i][j].func == FUNC_SUPER) board[i][j].func = FUNC_NO;
-				tCrossActor.push_back(ActorInfo(i, j));
-			}
-		}
-		blockVanish({{center, 5000, tCrossActor, {}}});
-		return;
-	}
-
-	else if (board[blockA.first][blockA.second].func == FUNC_SUPER || board[blockA.first][blockA.second].func ==
-		FUNC_SUPER)
-	{
-		int toDelColor = -1;
-		Pair center = {-1, -1};
-		ActorInfoList tCrossActor;
-		if (board[blockA.first][blockA.second].func == FUNC_SUPER)
-		{
-			board[blockA.first][blockA.second].func = -1;
-			board[blockA.first][blockA.second].type = board[blockB.first][blockB.second].type;
-			center = blockA;
-			toDelColor = board[blockB.first][blockB.second].type;
-		}
-		else
-		{
-			board[blockB.first][blockB.second].func = -1;
-			board[blockB.first][blockB.second].type = board[blockA.first][blockA.second].type;
-			center = blockB;
-			toDelColor = board[blockA.first][blockA.second].type;
-		}
-		for (int i = 0; i < BOARD_SIZE; i++)
-		{
-			for (int j = 0; j < BOARD_SIZE; j++)
-			{
-				if (board[i][j].type == toDelColor && board[i][j].func != FUNC_SUPER)
-				{
-					tCrossActor.push_back(ActorInfo(i, j));
-				}
-			}
-		}
-		//TODO: anim
-		blockVanish({{center, 5000, tCrossActor, {}}});
-		return;
-	}
-
-
-	swap(board[blockA.first][blockA.second], board[blockB.first][blockB.second]);
-	auto rst = getKillList();
-	swap(board[blockA.first][blockA.second], board[blockB.first][blockB.second]);
-
-	if (rst.empty())
-	{
-		failSwap(blockA, blockB);
-	}
-	else
-	{
-		blockSwap(blockA, blockB);
-	}
-}
-
-void GameScene::failSwap(Pair blocka, Pair blockb)
-{
-	Pair posa = getPositionByIndex(blocka);
-	Pair posb = getPositionByIndex(blockb);
-
-	board[blocka.first][blocka.second].actor->moveToThenBack(posb);
-	board[blockb.first][blockb.second].actor->moveToThenBack(posa);
-
-	runAction(Sequence::createWithTwoActions(DelayTime::create(.65f),
-	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
-}
-
-void GameScene::blockSwap(Pair blocka, Pair blockb)
-{
-	
-	Pair posa = getPositionByIndex(blocka);
-	Pair posb = getPositionByIndex(blockb);
-
-	board[blocka.first][blocka.second].actor->moveTo(posb);
-	board[blockb.first][blockb.second].actor->moveTo(posa);
-
-	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
-
-	runAction(Sequence::createWithTwoActions(DelayTime::create(.4f),
-	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
-}
-
-// TODO: 粒子特效已经注释掉，待添加
-void GameScene::blockVanish(KillGroupList killList)
+void GameScene::killBlock(KillInformationList killList)
 {
 	//移除过程中，检测到的被触发的特殊型宝石暂存于此
-	ActorInfoList specialActors;
+	ActorInformationList specialActors;
 
 	//1:移除过程
-	for (KillGroup killGroup : killList)
+	for (KillInformation killGroup : killList)
 	{
 		//1.1展示分数
-		showScore(killGroup.markValue, killGroup.markPoint);
+		showScore(killGroup);
 		//1.2移除所有得分块
-		for (ActorInfo toDelActorInfo : killGroup.killInfo)
+		for (ActorInformation toDelActorInfo : killGroup.killActorList)
 		{
 			//delete
 			Pair pos = toDelActorInfo.pos;
-			// TODO BUG
+
 			assert(board[pos.first][pos.second].type != -1);
 			if (board[pos.first][pos.second].func != -1)
 			{
@@ -345,7 +291,7 @@ void GameScene::blockVanish(KillGroupList killList)
 					pos, board[pos.first][pos.second].type, board[pos.first][pos.second].func
 				});
 			}
-			board[pos.first][pos.second].actor->selfClose();
+			board[pos.first][pos.second].actor->disappear();
 			board[pos.first][pos.second] = Block();
 			//placeDropper
 			int ti = BOARD_SIZE;
@@ -359,7 +305,7 @@ void GameScene::blockVanish(KillGroupList killList)
 			board[ti][pos.second] = Block(type, -1, droper);
 		}
 		//1.3添加奖励特殊方块
-		for (ActorInfo toAddActorInfo : killGroup.newInfo)
+		for (ActorInformation toAddActorInfo : killGroup.newActorList)
 		{
 			//create
 			Pair pos = toAddActorInfo.pos;
@@ -386,12 +332,12 @@ void GameScene::blockVanish(KillGroupList killList)
 	}
 	else
 	{
-		KillGroupList causedKillList;
+		KillInformationList causedKillList;
 		set<Pair> vis;
 
 		for (auto specialActor : specialActors)
 		{
-			KillGroup nowKill = {specialActor.pos, 114, {}, {}};
+			KillInformation nowKill = {specialActor.pos, 114, {}, {}};
 			switch (specialActor.func)
 			{
 			case FUNC_H_1:
@@ -401,7 +347,7 @@ void GameScene::blockVanish(KillGroupList killList)
 					for (int j = 0; j < BOARD_SIZE; j++)
 					{
 						if (board[i][j].type == -1 || vis.count({i, j}))continue;
-						nowKill.killInfo.push_back(ActorInfo(i, j));
+						nowKill.killActorList.push_back(ActorInformation(i, j));
 						if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 						vis.insert({i, j});
 					}
@@ -414,7 +360,7 @@ void GameScene::blockVanish(KillGroupList killList)
 					for (int i = 0; i < BOARD_SIZE; i++)
 					{
 						if (board[i][j].type == -1 || vis.count({i, j}))continue;
-						nowKill.killInfo.push_back(ActorInfo(i, j));
+						nowKill.killActorList.push_back(ActorInformation(i, j));
 						if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 						vis.insert({i, j});
 					}
@@ -429,7 +375,7 @@ void GameScene::blockVanish(KillGroupList killList)
 						for (int j = 0; j < BOARD_SIZE; j++)
 						{
 							if (board[i][j].type == -1 || vis.count({i, j}))continue;
-							nowKill.killInfo.push_back(ActorInfo(i, j));
+							nowKill.killActorList.push_back(ActorInformation(i, j));
 							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
@@ -445,7 +391,7 @@ void GameScene::blockVanish(KillGroupList killList)
 						for (int i = 0; i < BOARD_SIZE; i++)
 						{
 							if (board[i][j].type == -1 || vis.count({i, j}))continue;
-							nowKill.killInfo.push_back(ActorInfo(i, j));
+							nowKill.killActorList.push_back(ActorInformation(i, j));
 							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
@@ -462,7 +408,7 @@ void GameScene::blockVanish(KillGroupList killList)
 							if (i < 0 || i >= BOARD_SIZE)continue;
 							if (j < 0 || j >= BOARD_SIZE)continue;
 							if (board[i][j].type == -1 || vis.count({i, j}))continue;
-							nowKill.killInfo.push_back(ActorInfo(i, j));
+							nowKill.killActorList.push_back(ActorInformation(i, j));
 							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
 							vis.insert({i, j});
 						}
@@ -483,7 +429,7 @@ void GameScene::blockVanish(KillGroupList killList)
 								i, j
 							}))
 							{
-								nowKill.killInfo.push_back(ActorInfo(i, j));
+								nowKill.killActorList.push_back(ActorInformation(i, j));
 							}
 						}
 					}
@@ -499,127 +445,7 @@ void GameScene::blockVanish(KillGroupList killList)
 		runAction(Sequence::createWithTwoActions(DelayTime::create(.2f),
 		                                         CCCallFunc::create([&, causedKillList]()
 		                                         {
-			                                         blockVanish(causedKillList);
+			                                         killBlock(causedKillList);
 		                                         })));
 	}
-}
-
-void GameScene::animationDoneCallback()
-{
-	auto newList = getKillList();
-	if (newList.empty())
-	{
-		if (stepNumber == 0)
-		{
-			// TODO: 剩余次数为0
-			// 练习模式不用判断
-			// 其余模式要加判断currentScore和totalScore的关系
-		}
-			// 如果死局重新刷新面板
-		else if (isDead())
-		{
-			refreshBoard();
-			dropBlock();
-			boardLock = false;
-		}
-		else
-		{
-			boardLock = false;
-		}
-	}
-	else
-	{
-		blockVanish(newList);
-	}
-}
-
-bool GameScene::isDead()
-{
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if ((i > 0 && i < BOARD_SIZE - 1)
-				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
-				)
-				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
-					func != FUNC_SUPER)
-			)
-			{
-				return true;
-			}
-			if ((j > 0 && j < BOARD_SIZE - 1)
-				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
-				)
-				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
-					func != FUNC_SUPER)
-			)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-validOperateList GameScene::getHintList()
-{
-	validOperateList rtn;
-	auto beginTime = clock();
-
-	//1ms
-	for (int i = 1; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if (board[i][j].func == FUNC_SUPER || board[i - 1][j].func == FUNC_SUPER)
-			{
-				rtn.push_back({{i, j}, {i - 1, j}});
-				continue;
-			}
-			swap(board[i][j], board[i - 1][j]);
-			if (isDead())rtn.push_back({{i, j}, {i - 1, j}});
-			swap(board[i][j], board[i - 1][j]);
-		}
-	}
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 1; j < BOARD_SIZE; j++)
-		{
-			if (board[i][j].func == FUNC_SUPER || board[i][j - 1].func == FUNC_SUPER)
-			{
-				rtn.push_back({{i, j}, {i, j - 1}});
-				continue;
-			}
-			swap(board[i][j], board[i][j - 1]);
-			if (isDead())rtn.push_back({{i, j}, {i, j - 1}});
-			swap(board[i][j], board[i][j - 1]);
-		}
-	}
-
-	auto endTime = clock();
-
-	CCLOG("Hit calc time: %dms.", endTime - beginTime);
-
-	return rtn;
-}
-
-void GameScene::showScore(int value, Pair pos)
-{
-	auto labelScore = Label::createWithSystemFont(std::to_string(value), "Arial", 36);
-	pos = getPositionByIndex(pos);
-	labelScore->setPosition(pos.first, pos.second);
-	labelScore->enableShadow(Color4B::ORANGE);
-	labelScore->runAction(
-		Sequence::create(
-			Spawn::create(
-				MoveBy::create(1.0f, {40, 40}),
-				FadeOut::create(1.0f),
-				NULL),
-			CallFunc::create([&, labelScore]() { removeChild(labelScore); }),
-			NULL
-		));
-	addChild(labelScore, 5);
-
-	addCurrentScore(value);
 }

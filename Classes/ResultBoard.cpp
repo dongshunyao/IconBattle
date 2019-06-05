@@ -180,7 +180,7 @@ void GameScene::showResult(const bool result, int mode)
 							Label::createWithTTF("Used Hints : " + std::to_string(3 - hintNumber), theme->semiBoldFont,
 							                     50)));
 						resultDialog->addLabel(MenuItemLabel::create(
-							Label::createWithTTF("Score : " + scoreLabel->getString(), theme->semiBoldFont,
+							Label::createWithTTF("Score : " + currentScoreLabel->getString(), theme->semiBoldFont,
 							                     50)));
 					}
 

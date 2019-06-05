@@ -4,13 +4,16 @@
 #include "cocos2d.h"
 #include "GameScene.h"
 #include "LevelScene.h"
+#include "GameBoardInformation.h"
 
+using namespace GameBoardInformation;
 USING_NS_CC;
 
 class GameSceneController
 {
 public:
 	static GameSceneController* getInstance();
+
 
 #pragma region Game Information
 	// pair<totalScore, stepNumber>
@@ -55,7 +58,7 @@ public:
 	void startLevelGame(bool isClassical);
 	void startChallengeGame(bool isClassical);
 
-	// TODO 掉落结算 User更新 网络排行榜更新
+	// TODO 掉落结算 User更新
 
 private:
 	friend class GameScene;
