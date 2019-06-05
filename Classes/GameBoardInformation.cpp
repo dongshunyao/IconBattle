@@ -9,7 +9,7 @@ Actor* Actor::create(int type, int func, Pair pos)
 	{
 		actor->setType(type);
 		actor->setFunc(func);
-		actor->setPos(pos);
+		actor->position = pos;
 
 		assert(type >= 0 && type <= 6);
 		assert(func >= -1 && type <= 6);
@@ -41,6 +41,14 @@ Actor* Actor::create(int type, int func, Pair pos)
 	return nullptr;
 }
 
+void Actor::dropTo(const Pair toPosition)
+{
+	const auto action = Sequence::create(
+		EaseOut::create(MoveTo::create(0.5, Vec2(toPosition.first, toPosition.second)), 2.0f), nullptr);
+	allDo(action);
+	this->position = toPosition;
+}
+
 // 本cpp文件中所有动画的实现调用方法
 void GameBoardInformation::Actor::allDo(Action* action)
 {
@@ -56,29 +64,19 @@ void GameBoardInformation::Actor::moveTo(Pair pos)
 		NULL
 	);
 	allDo(action);
-	this->pos = pos;
+	this->position = pos;
 }
 
 void Actor::moveToThenBack(Pair posb)
 {
 	auto action = Sequence::create(
 		CCMoveTo::create(0.25, Vec2(posb.first, posb.second)),
-		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
+		CCMoveTo::create(0.25, Vec2(position.first, position.second)),
 		NULL
 	);
 	allDo(action);
 }
 
-// Actor下落动画
-void Actor::dropTo(const Pair position)
-{
-	auto action = Sequence::create(
-		CCEaseOut::create(CCMoveTo::create(0.5, ccp(pos.first, pos.second)), 2.0f),
-		NULL
-	);
-	allDo(action);
-	this->pos = pos;
-}
 
 // 自己杀自己
 void GameBoardInformation::Actor::selfClose()

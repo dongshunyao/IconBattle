@@ -460,8 +460,8 @@ void GameScene::blockVanish(KillGroupList killList)
 					{
 						for (int j = specialActor.pos.second - 1; j <= specialActor.pos.second + 1; j++)
 						{
-							if (i < 0 || i > BOARD_SIZE)continue;
-							if (j < 0 || j > BOARD_SIZE)continue;
+							if (i < 0 || i >= BOARD_SIZE)continue;
+							if (j < 0 || j >= BOARD_SIZE)continue;
 							if (board[i][j].type == -1 || vis.count({i, j}))continue;
 							nowKill.killInfo.push_back(ActorInfo(i, j));
 							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
