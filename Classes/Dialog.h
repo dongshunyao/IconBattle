@@ -57,12 +57,17 @@ private:
 	int position = 11;
 	bool rank = false; // 对话框类型
 	bool rankType = false; // 排行榜类型
+	bool changed = false;
 	ListView* listView = nullptr;
 	Label* nameLabel = nullptr;
 	Label* rankLabel = nullptr;
 	Label* scoreLabel = nullptr;
 	Label* content = nullptr;
 	Layout* layout = nullptr;
+	EventListenerMouse* listenerMouse = nullptr;
+
+	vector<pair<string, int>> classicalRank;
+	vector<pair<string, int>> plusRank;
 
 	void getRankByType(bool type);
 
