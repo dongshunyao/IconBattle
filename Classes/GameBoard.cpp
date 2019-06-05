@@ -53,7 +53,7 @@ void GameScene::initGameBoard()
 						{
 							firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
 							selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
-								getPositionByIndex(firstSelectedBlockIndex).second));
+							                                    getPositionByIndex(firstSelectedBlockIndex).second));
 							secondSelectedBlockIndex = {-1, -1};
 						}
 						break;
@@ -67,7 +67,7 @@ void GameScene::initGameBoard()
 						{
 							firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
 							selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
-								getPositionByIndex(firstSelectedBlockIndex).second));
+							                                    getPositionByIndex(firstSelectedBlockIndex).second));
 							secondSelectedBlockIndex = {-1, -1};
 						}
 						break;
@@ -78,7 +78,7 @@ void GameScene::initGameBoard()
 					{
 						firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
 						selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
-							getPositionByIndex(firstSelectedBlockIndex).second));
+						                                    getPositionByIndex(firstSelectedBlockIndex).second));
 						secondSelectedBlockIndex = {-1, -1};
 						break;
 					}
@@ -96,7 +96,7 @@ void GameScene::initGameBoard()
 		{
 			// 已经选中两块则尝试交换，否则不进行操作
 			if (firstSelectedBlockIndex != Pair(-1, -1) && secondSelectedBlockIndex != Pair(-1, -1))
-				trySwap(firstSelectedBlockIndex, secondSelectedBlockIndex);
+				trySwapBlock(firstSelectedBlockIndex, secondSelectedBlockIndex);
 		}
 	};
 
@@ -129,6 +129,13 @@ void GameScene::initGameBoard()
 	// 刷新棋盘并下落开始
 	refreshBoard();
 	dropBlock();
+}
+
+Actor* GameScene::addActor(const int type, int spv, const Pair position)
+{
+	const auto actor = Actor::create(type, spv, position);
+	addChild(actor, 1);
+	return actor;
 }
 
 Pair GameScene::getPositionByIndex(const Pair index)
@@ -175,6 +182,29 @@ void GameScene::refreshBoard()
 			auto type = rand() % TYPE_NUMBER;
 			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
 
-			board[i][j] = Block(type, -1, createActor(type, -1, getPositionByIndex({i, j})));
+			board[i][j] = Block(type, -1, addActor(type, -1, getPositionByIndex({i, j})));
 		}
+}
+
+void GameScene::dropBlock()
+{
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == -1)
+			{
+				auto upperI = i;
+				while (board[upperI][j].type == -1)
+				{
+					upperI++;
+					assert(upperI < 2 * BOARD_SIZE);
+				}
+				const auto nowBlock = getPositionByIndex({i, j});
+				board[upperI][j].actor->dropTo(nowBlock);
+				swap(board[i][j], board[upperI][j]);
+			}
+		}
+
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5),
+	                                         CallFunc::create([&]() { animationDoneCallback(); })));
 }

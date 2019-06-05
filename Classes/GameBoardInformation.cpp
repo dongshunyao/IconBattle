@@ -2,20 +2,19 @@
 using namespace GameBoardInformation;
 
 // 创建
-Actor* Actor::create(int type, int func, Pair pos)
+Actor* Actor::create(const int type, int func, const Pair position)
 {
-	Actor* actor = new(std::nothrow) Actor();
+	auto actor = new(std::nothrow) Actor();
 	if (actor)
 	{
 		actor->setType(type);
 		actor->setFunc(func);
-		actor->position = pos;
+		actor->position = position;
 
 		assert(type >= 0 && type <= 6);
-		assert(func >= -1 && type <= 6);
 
 		actor->setGem(Sprite::create(GEM_N[type]));
-		actor->getGem()->setPosition(pos.first, pos.second);
+		actor->getGem()->setPosition(position.first, position.second);
 		actor->getGem()->setScale(0.9f);
 		actor->getGem()->setZOrder(0);
 		actor->addChild(actor->getGem());
@@ -27,7 +26,7 @@ Actor* Actor::create(int type, int func, Pair pos)
 		else
 		{
 			actor->setIcon(Sprite::createWithSpriteFrameName(SPIC_N[func]));
-			actor->getIcon()->setPosition(pos.first, pos.second);
+			actor->getIcon()->setPosition(position.first, position.second);
 			actor->getIcon()->setScale(0.9f);
 			actor->getIcon()->setZOrder(1);
 			actor->addChild(actor->getIcon());

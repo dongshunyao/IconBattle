@@ -95,6 +95,8 @@ private:
 
 	// 初始化棋盘和鼠标监听器
 	void initGameBoard();
+	// 添加Actor
+	Actor* addActor(int type, int, Pair position); //TODO
 
 	// 由坐标得棋盘位置
 	Pair getPositionByIndex(Pair index);
@@ -105,6 +107,8 @@ private:
 	void refreshBoard();
 	// 上方块下落
 	void dropBlock();
+	// 尝试交换
+	void trySwapBlock(Pair blockA, Pair blockB);
 
 #pragma endregion
 
@@ -133,13 +137,12 @@ private:
 	 */
 
 
-	Actor* createActor(int, int, Pair);
+	
 
 	// 获取可消除方块列表
 	KillGroupList getKillList();
 
-	// 尝试两方快交换：若不可以交换则不做动画，反之进行
-	void trySwap(Pair block1, Pair block2);
+	
 	// 无效交换动画
 	void failSwap(Pair blocka, Pair blockb);
 

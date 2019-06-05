@@ -18,9 +18,9 @@ namespace GameBoardInformation
 
 	// 宝石块
 	struct Block;
-
-
+	// 精灵演员
 	class Actor;
+
 	struct KillGroup;
 	typedef vector<KillGroup> KillGroupList;
 	struct ActorInfo;
