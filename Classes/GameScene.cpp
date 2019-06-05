@@ -222,8 +222,9 @@ KillGroupList GameScene::getKillList()
 
 void GameScene::trySwap(Pair blocka, Pair blockb)
 {
-	firstSelectedBlock = {-1, -1};
-	secondSelectedBlock = {-1, -1};
+	selectedHighLight->setPosition({9999, 9999});
+	firstSelectedBlockIndex = {-1, -1};
+	secondSelectedBlockIndex = {-1, -1};
 
 	CCLOG("[LOCK] Try Swap (%d,%d),(%d,%d)", blocka.first, blocka.second, blockb.first, blockb.second);
 	boardLock = true;

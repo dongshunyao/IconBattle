@@ -85,10 +85,12 @@ private:
 	bool boardLock = true;
 
 	// 鼠标移动高亮
-	ImageView* actorHighLight = nullptr;
+	ImageView* moveHighLight = nullptr;
+	// 选中块高亮
+	ImageView* selectedHighLight = nullptr;
 	// 当前先后选中的块
-	Pair firstSelectedBlock = {-1, -1};
-	Pair secondSelectedBlock = {-1, -1};
+	Pair firstSelectedBlockIndex = {-1, -1};
+	Pair secondSelectedBlockIndex = {-1, -1};
 
 
 	// 初始化棋盘和鼠标监听器
