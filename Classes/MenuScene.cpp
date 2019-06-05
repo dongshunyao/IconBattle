@@ -209,6 +209,7 @@ void MenuScene::initPlate()
 	classicListView->setAnchorPoint(Point(0.5f, 0.5f));
 	classicListView->setContentSize(Size(500, 250));
 	classicListView->setPosition(Point(850, 600));
+	classicListView->setScrollBarEnabled(false);
 
 	auto classicLabelLayout = Layout::create();
 	classicLabelLayout->setContentSize(Size(500, 250));
@@ -238,6 +239,7 @@ void MenuScene::initPlate()
 	enhancedListView->setAnchorPoint(Point(0.5f, 0.5f));
 	enhancedListView->setContentSize(Size(500, 250));
 	enhancedListView->setPosition(Point(850, 280));
+	enhancedListView->setScrollBarEnabled(false);
 
 	auto enhancedLabelLayout = Layout::create();
 	enhancedLabelLayout->setContentSize(Size(500, 250));
@@ -258,23 +260,27 @@ void MenuScene::initPlate()
 	listenerMouse->onMouseMove = [&](EventMouse* event)
 	{
 		EventMouse* e = (EventMouse*)event;
-		
-		if (!classicMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 450 && e->getCursorY() < 750)
+
+		if (!classicMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 450 && e->
+			getCursorY() < 750)
 		{
 			classicListView->scrollToPercentVertical(100, 0.5, true);
 			classicMoveOut = true;
 		}
-		if (!enhancedMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 100 && e->getCursorY() < 400)
+		if (!enhancedMoveOut && e->getCursorX() > 600 && e->getCursorX() < 1100 && e->getCursorY() > 100 && e->
+			getCursorY() < 400)
 		{
 			enhancedListView->scrollToPercentVertical(100, 0.5, true);
 			enhancedMoveOut = true;
 		}
-		if (classicMoveOut &&(e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 450 || e->getCursorY() > 750))
+		if (classicMoveOut && (e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 450 || e->
+			getCursorY() > 750))
 		{
 			classicListView->scrollToPercentVertical(0, 0.5, true);
 			classicMoveOut = false;
 		}
-		if(enhancedMoveOut &&(e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 100 || e->getCursorY() > 400))
+		if (enhancedMoveOut && (e->getCursorX() < 600 || e->getCursorX() > 1100 || e->getCursorY() < 100 || e->
+			getCursorY() > 400))
 		{
 			enhancedListView->scrollToPercentVertical(0, 0.5, true);
 			enhancedMoveOut = false;

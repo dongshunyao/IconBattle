@@ -139,24 +139,26 @@ void LevelScene::initCoin()
 {
 	auto coinIcon = Sprite::create(theme->storeSceneCoin);
 	coinIcon->setPosition(Point(130, 850));
-	this->addChild(coinIcon,4);
+	this->addChild(coinIcon, 4);
 
 	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
 	coinText->setPosition(Point(220, 850));
-	this->addChild(coinText,4);
+	this->addChild(coinText, 4);
 }
 
 void LevelScene::initModeLabel(const bool isClassic)
 {
 	Label* modeLabel;
-	if (isClassic) {
+	if (isClassic)
+	{
 		modeLabel = Label::createWithTTF("经典模式", theme->semiBoldFont, 50);
-	}else
+	}
+	else
 	{
 		modeLabel = Label::createWithTTF("加强模式", theme->semiBoldFont, 50);
 	}
 	modeLabel->setPosition(Point(600, 820));
-	this->addChild(modeLabel,4);
+	this->addChild(modeLabel, 4);
 }
 
 void LevelScene::update(float)

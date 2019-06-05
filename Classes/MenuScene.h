@@ -50,7 +50,6 @@ private:
 
 	bool classicMoveOut = false;
 	bool enhancedMoveOut = false;
-
 };
 
 #endif
