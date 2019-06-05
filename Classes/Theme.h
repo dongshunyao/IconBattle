@@ -65,9 +65,9 @@ public:
 	const string menuSceneRankButtonSelected = "/image/menuscene/common/rank_selected.png";
 	const string menuSceneRankButtonDisabled = "/image/menuscene/common/rank_disabled.png";
 
-	const string menuSceneStoreButtonNormal = "/image/menuscene/common/store_normal.png";
-	const string menuSceneStoreButtonSelected = "/image/menuscene/common/store_selected.png";
-	const string menuSceneStoreButtonDisabled = "/image/menuscene/common/store_disabled.png";
+	const string menuSceneStoreButtonNormal = "/image/menuscene/common/buy_car_normal.png";
+	const string menuSceneStoreButtonSelected = "/image/menuscene/common/buy_car_selected.png";
+	const string menuSceneStoreButtonDisabled = "/image/menuscene/common/buy_car_disabled.png";
 
 	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
 	const string menuSceneUserIcon = "/image/menuscene/common/user.png";
@@ -139,6 +139,26 @@ public:
 	const string gameSceneYesButtonSelected = "/image/gamescene/common/yes_selected.png";
 	const string gameSceneNoButtonNormal = "/image/gamescene/common/no_normal.png";
 	const string gameSceneNoButtonSelected = "/image/gamescene/common/no_selected.png";
+
+	const string gameSceneShareButtonNormal = "/image/gamescene/common/share_button_normal.png";
+	const string gameSceneShareButtonSelected = "/image/gamescene/common/share_button_selected.png";
+	const string gameSceneShareButtonDisabled = "/image/gamescene/common/share_button_disabled.png";
+
+	const string gameSceneQQShareButtonNormal = "/image/gamescene/common/qq.png";
+	const string gameSceneQQShareButtonSelected = "/image/gamescene/common/qq.png";
+	const string gameSceneQQShareButtonDisabled = "/image/gamescene/common/qq.png";
+
+	const string gameSceneWBShareButtonNormal = "/image/gamescene/common/weibo.png";
+	const string gameSceneWBShareButtonSelected = "/image/gamescene/common/weibo.png";
+	const string gameSceneWBShareButtonDisabled = "/image/gamescene/common/weibo.png";
+
+	const string gameSceneRRShareButtonNormal = "/image/gamescene/common/renren.png";
+	const string gameSceneRRShareButtonSelected = "/image/gamescene/common/renren.png";
+	const string gameSceneRRShareButtonDisabled = "/image/gamescene/common/renren.png";
+
+	const string gameSceneDBShareButtonNormal = "/image/gamescene/common/douban.png";
+	const string gameSceneDBShareButtonSelected = "/image/gamescene/common/douban.png";
+	const string gameSceneDBShareButtonDisabled = "/image/gamescene/common/douban.png";
 
 #pragma endregion
 

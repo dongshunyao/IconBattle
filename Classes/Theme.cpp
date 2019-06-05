@@ -39,7 +39,7 @@ void Theme::setJetBrainTheme()
 #pragma endregion
 
 #pragma region Loading Scene
-	iconSet = "/image/loadingscene/jetbraintheme/iconset/large/";
+	iconSet = "/image/common/jetbraintheme/";
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";
 
 #pragma endregion

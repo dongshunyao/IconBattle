@@ -20,16 +20,34 @@ namespace NetworkShare
 #pragma region URL
 	// TODO 规范URL，放到函数里，动态处理字符串
 	const string QQ_SHARE_URL =
-		"https://connect.qq.com/widget/shareqq/index.html?url=http://www.iconbattle.net/&desc=IconBattle%E6%B8%B8%E6%88%8F%E5%88%86%E4%BA%AB&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&flash=&site=&style=201&width=32&height=32";
+		"https://connect.qq.com/widget/shareqq/index.html?url=http://www.iconbattle.net/";
 	const string WEIBO_SHARE_URL =
-		"http://service.weibo.com/share/share.php?url=&reason=&retcode=&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+		"http://service.weibo.com/share/share.php?";
 	const string RENREN_SHARE_URL =
-		"http://widget.renren.com/dialog/share?url=http://www.iconbattle.net/&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+		"http://widget.renren.com/dialog/share?url=http://www.iconbattle.net/";
 	const string DOUBAN_SHARE_URL =
 		"https://www.douban.com/share/service?image=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
 #pragma endregion
 
-	bool share(vector<string>& info, const int target);
+#pragma region Share Pic Url
+	// TODO: 制作并上传分享图片
+	const string QQ_PIC_CLASSICAL = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&flash=&site=&style=201&width=32&height=3";
+	const string QQ_PIC = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&flash=&site=&style=201&width=32&height=3";
+
+	const string WEIBO_PIC_CLASSICAL = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+	const string WEIBO_PIC = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+
+	const string RENREN_PIC_CLASSICAL = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+	const string RENREN_PIC = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+
+	const string DOUBAN_PIC_CLASSICAL = "&image=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+	const string DOUBAN_PIC = "&image=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
+#pragma endregion 
+
+	bool share(bool isClassical, const string title, const int target);
+	bool sharePractice(bool isClassical, const int target);
+	bool shareLevel(bool isClassical, const int target, const int level);
+	bool shareRank(bool isClassical, const int target, const int score, const int rank);
 };
 
 #endif
