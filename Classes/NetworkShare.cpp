@@ -1,31 +1,46 @@
 #include "NetworkShare.h"
- // TODO 三个分享方法重载 const int target
- // bool NetworkShare::share(bool isClassical)
- // bool NetworkShare::share(bool isClassical,int level,int score)
- // bool NetworkShare::share(bool isClassical,int score,int rank) 
+// TODO 三个分享方法重载 const int target
+// bool NetworkShare::share(bool isClassical)
+// bool NetworkShare::share(bool isClassical,int level,int score)
+// bool NetworkShare::share(bool isClassical,int score,int rank) 
 bool NetworkShare::share(vector<string>& info, const int target)
 {
-	// TODO 处理信息并生成相应字符串
 	switch (target)
 	{
 	case QQ:
 		{
-			Application::getInstance()->openURL(QQ_SHARE_URL);
+			auto qq = QQ_SHARE_URL;
+			qq += "&desc=";
+			qq += info[0];
+			qq += QQ_PIC;
+			Application::getInstance()->openURL(qq);
 			break;
 		}
 	case WEIBO:
 		{
-			Application::getInstance()->openURL(WEIBO_SHARE_URL);
+			auto weibo = WEIBO_SHARE_URL;
+			weibo += "title=";
+			weibo += info[0];
+			weibo += WEIBO_PIC;
+			Application::getInstance()->openURL(weibo);
 			break;
 		}
 	case RENREN:
 		{
+			auto renren = WEIBO_SHARE_URL;
+			renren += "&title=";
+			renren += info[0];
+			renren += RENREN_PIC;
 			Application::getInstance()->openURL(RENREN_SHARE_URL);
 			break;
 		}
 	case DOUBAN:
 		{
-			Application::getInstance()->openURL(DOUBAN_SHARE_URL);
+			auto douban = WEIBO_SHARE_URL;
+			douban += "name=";
+			douban += info[0];
+			douban += DOUBAN_PIC;
+			Application::getInstance()->openURL(douban);
 			break;
 		}
 	default:
