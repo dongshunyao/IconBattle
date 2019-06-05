@@ -12,7 +12,10 @@ bool Dialog::init()
 {
 	if (!LayerColor::init()) return false;
 
+	classicalRank = Network::getInstance()->getRank(true);
+	plusRank = Network::getInstance()->getRank(false);
 	// 初始化需要的 Menu
+
 	auto menu = Menu::create();
 	menu->setPosition(Size::ZERO);
 	setMenuButton(menu);
@@ -153,6 +156,29 @@ void Dialog::backgroundFinish()
 		listView->setContentSize(Size(500, 400));
 		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 
+		//添加鼠标事件侦听
+		listenerMouse = EventListenerMouse::create();
+		listenerMouse->setEnabled(true);
+		listenerMouse->onMouseScroll = [&](EventMouse* event)
+		{
+			const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
+
+			if (y > 0)
+			{
+				if (position % 11 < 10)
+					position++;
+				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+			}
+			else
+			{
+				if (position % 11 > 0)
+					position--;
+				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+			}
+		};
+
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
+
 		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
 		                                    SCREEN_HEIGHT / 2));
 		this->addChild(changeTypeButton);
@@ -170,6 +196,7 @@ void Dialog::backgroundFinish()
 					backTypeButton->setOpacity(0);
 					changeTypeButton->runAction(FadeIn::create(0.25));
 					getRankByType(true);
+					changed = false;
 				}
 			});
 
@@ -182,42 +209,11 @@ void Dialog::backgroundFinish()
 					changeTypeButton->setOpacity(0);
 					backTypeButton->runAction(FadeIn::create(0.25));
 					getRankByType(false);
+					changed = true;
 				}
 			});
 
 		this->getRankByType(true);
-
-		if (content)
-		{
-			this->addChild(content);;
-		}
-		else
-		{
-			listView->setScrollBarAutoHideTime(0);
-			
-			//添加鼠标事件侦听
-			auto listenerMouse = EventListenerMouse::create();
-			listenerMouse->setEnabled(true);
-			listenerMouse->onMouseScroll = [&](EventMouse* event)
-			{
-				const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
-
-				if (y > 0)
-				{
-					if (position % 11 < 10)
-						position++;
-					listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-				}
-				else
-				{
-					if (position % 11 > 0)
-						position--;
-					listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-				}
-			};
-			_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
-			this->addChild(listView);
-		}
 	}
 	else
 	{
@@ -229,8 +225,9 @@ void Dialog::backgroundFinish()
 		for (auto menuItem : labels)
 		{
 			auto node = dynamic_cast<Node*>(menuItem);
-			node->setPosition(Point(SCREEN_WIDTH / 2 ,
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5+ labelHeight * (getMenuLabel()->getChildrenCount()-i)));
+			node->setPosition(Point(SCREEN_WIDTH / 2,
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
+				                        getChildrenCount() - i)));
 			i++;
 		}
 
@@ -246,7 +243,7 @@ void Dialog::backgroundFinish()
 			auto node = dynamic_cast<Node*>(menuItem);
 
 			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height /2.5));
+			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
 			i++;
 		}
 
@@ -274,24 +271,32 @@ void Dialog::backgroundFinish()
 void Dialog::getRankByType(bool type)
 {
 	rankType = type;
-	for (i = 0; i < 10; i++)
+	if (content)
 	{
-		auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
-		layout = Layout::create();
-		layout->setLayoutType(Layout::Type::ABSOLUTE);
-		layout->setContentSize(Size(500, icon->getContentSize().height + 30));
+		this->removeChild(content);
+		listView->setScrollBarEnabled(true);
+		listView->setScrollBarAutoHideTime(0);
+	}
 
-		icon->setPosition(Vec2(icon->getContentSize().width / 2 + 60, 30));
-		layout->addChild(icon);
-		layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
-
-		rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
-		rankLabel->setPosition(Vec2(icon->getContentSize().width / 2 + 10, 30));
-		layout->addChild(rankLabel);
-
-		if (!Network::getInstance()->getRank(rankType).empty())
+	if (!(rankType ? classicalRank.empty() : plusRank.empty()))
+	{
+		for (i = 0; i < 10; i++)
 		{
-			if (Network::getInstance()->getRank(rankType).at(i).first.empty())
+			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
+			layout = Layout::create();
+			layout->setLayoutType(Layout::Type::ABSOLUTE);
+			layout->setContentSize(Size(500, icon->getContentSize().height + 30));
+
+			icon->setPosition(Vec2(icon->getContentSize().width / 2 + 60, 30));
+			layout->addChild(icon);
+			layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
+
+			rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+			rankLabel->setPosition(Vec2(icon->getContentSize().width / 2 + 10, 30));
+			layout->addChild(rankLabel);
+
+
+			if (i > (rankType ? classicalRank.size() : plusRank.size()) - 1)
 			{
 				nameLabel = Label::createWithTTF("------------------", "/font/marker_felt.ttf", 30);
 				nameLabel->setPosition(Vec2(
@@ -305,29 +310,36 @@ void Dialog::getRankByType(bool type)
 			}
 			else
 			{
-				nameLabel = Label::createWithTTF(Network::getInstance()->getRank(true).at(i).first,
+				nameLabel = Label::createWithTTF(rankType ? classicalRank.at(i).first : plusRank.at(i).first,
 				                                 "/font/marker_felt.ttf", 30);
 				nameLabel->setPosition(Vec2(
 					icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 75,
 					30));
 				layout->addChild(nameLabel);
 
-				scoreLabel = Label::createWithTTF(std::to_string(Network::getInstance()->getRank(true).at(i).second),
-				                                  "/font/marker_felt.ttf", 30);
+				scoreLabel = Label::createWithTTF(
+					std::to_string(rankType ? classicalRank.at(i).second : plusRank.at(i).second),
+					"/font/marker_felt.ttf", 30);
 				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
 				layout->addChild(scoreLabel);
 			}
 			listView->pushBackCustomItem(layout);
 			listView->setBottomPadding(icon->getContentSize().height);
 		}
-		else
-		{
-			setContentText("网络连接失败，请重试", 36, 60, 20);
-			content = getLabelContentText();
-			content->setLineBreakWithoutSpace(true);
-			content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
-			content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-			content->setHorizontalAlignment(TextHAlignment::LEFT);
-		}
+
+		if (!changed)
+			this->addChild(listView);
+	}
+	else
+	{
+		if (listView->getChildrenCount() > 0)listView->removeAllChildren();
+		listView->setScrollBarEnabled(false);
+		setContentText("网络连接失败，请重试", 36, 60, 20);
+		content = getLabelContentText();
+		content->setLineBreakWithoutSpace(true);
+		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
+		content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		content->setHorizontalAlignment(TextHAlignment::LEFT);
+		this->addChild(content);
 	}
 }
