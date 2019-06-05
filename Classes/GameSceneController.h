@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameScene.h"
+#include "LevelScene.h"
 
 USING_NS_CC;
 
@@ -51,7 +52,7 @@ public:
 #pragma endregion
 
 	void startPracticeGame(bool isClassical);
-	void startLevelGame(bool isClassical, int level);
+	void startLevelGame(bool isClassical);
 	void startChallengeGame(bool isClassical);
 
 	// TODO 掉落结算 User更新 网络排行榜更新

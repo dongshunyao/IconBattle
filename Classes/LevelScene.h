@@ -17,7 +17,7 @@ class LevelScene final :
 	public Scene
 {
 public:
-	static Scene* createScene();
+	static Scene* createScene(bool isClassical);
 	bool init() override;
 	CREATE_FUNC(LevelScene)
 
@@ -25,6 +25,8 @@ private:
 	void initBackground();
 	void initScrollView();
 	void initButtons();
+	void initCoin();
+	void initModeLabel(bool isClassic);
 	void update(float) override;
 
 	// 用于存放按钮的layer
@@ -38,6 +40,13 @@ private:
 	Sprite* foregroundSecond = nullptr;
 
 	Theme* theme = Theme::getInstance();
+	User* user = User::getInstance();
+
+	// 金币数
+	Label* coinText = nullptr;
+
+	// 模式
+	bool isClassic = true;
 
 	// 选关Button的位置数组
 	pair<int, int> pos[10] =

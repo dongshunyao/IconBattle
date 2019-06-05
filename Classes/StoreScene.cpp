@@ -39,8 +39,7 @@ void StoreScene::initCoin()
 	coinIcon->setPosition(Point(130, 850));
 	this->addChild(coinIcon);
 
-	// TODO 统一字体？路径放到头文件orTheme？
-	coinText = Label::createWithTTF(to_string(user->getCoin()), "font/marker_felt.ttf", 30);
+	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
 	coinText->setPosition(Point(220, 850));
 	this->addChild(coinText);
 }

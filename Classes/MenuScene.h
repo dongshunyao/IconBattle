@@ -30,6 +30,8 @@ public:
 
 private:
 	Theme* theme = Theme::getInstance();
+	User* user = User::getInstance();
+
 	void initUsername();
 	void initStoreButton();
 	void initRankButton();

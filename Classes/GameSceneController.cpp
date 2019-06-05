@@ -13,5 +13,9 @@ void GameSceneController::startPracticeGame(bool isClassical)
 	Director::getInstance()->pushScene(GameScene::createScene(30, 1, true));
 }
 
-void GameSceneController::startLevelGame(bool isClassical, int level) {}
+void GameSceneController::startLevelGame(const bool isClassical)
+{
+	Director::getInstance()->pushScene(LevelScene::createScene(isClassical));
+}
+
 void GameSceneController::startChallengeGame(bool isClassical) {}

@@ -145,7 +145,7 @@ void MenuScene::initGameButton()
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 经典闯关
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(LevelScene::createScene());
+		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startLevelGame(true);
 	});
 	classicLevel->setPosition(Vec2(250, 30));
 
@@ -177,7 +177,7 @@ void MenuScene::initGameButton()
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 加强闯关
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(LevelScene::createScene());
+		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startLevelGame(false);
 	});
 	enhancedLevel->setPosition(Vec2(250, 30));
 

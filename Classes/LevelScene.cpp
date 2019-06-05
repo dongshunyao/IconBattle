@@ -1,8 +1,11 @@
 #include "LevelScene.h"
 
-Scene* LevelScene::createScene()
+Scene* LevelScene::createScene(const bool isClassical)
 {
-	return LevelScene::create();
+	const auto scene = LevelScene::create();
+	scene->isClassic = isClassical;
+	scene->initModeLabel(isClassical);
+	return scene;
 }
 
 bool LevelScene::init()
@@ -21,6 +24,9 @@ bool LevelScene::init()
 
 	// 初始化选关按钮
 	initButtons();
+
+	// 初始化金币
+	initCoin();
 
 	// 画连接按钮的线
 	auto drawNode = DrawNode::create();
@@ -127,6 +133,30 @@ void LevelScene::initButtons()
 
 		levelButton->runAction(Sequence::create(delay, fadeIn, nullptr));
 	}
+}
+
+void LevelScene::initCoin()
+{
+	auto coinIcon = Sprite::create(theme->storeSceneCoin);
+	coinIcon->setPosition(Point(130, 850));
+	this->addChild(coinIcon,4);
+
+	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
+	coinText->setPosition(Point(220, 850));
+	this->addChild(coinText,4);
+}
+
+void LevelScene::initModeLabel(const bool isClassic)
+{
+	Label* modeLabel;
+	if (isClassic) {
+		modeLabel = Label::createWithTTF("经典模式", theme->semiBoldFont, 50);
+	}else
+	{
+		modeLabel = Label::createWithTTF("加强模式", theme->semiBoldFont, 50);
+	}
+	modeLabel->setPosition(Point(600, 820));
+	this->addChild(modeLabel,4);
 }
 
 void LevelScene::update(float)
