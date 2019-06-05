@@ -157,7 +157,7 @@ void LevelScene::initModeLabel(const bool isClassic)
 	{
 		modeLabel = Label::createWithTTF("加强模式", theme->semiBoldFont, 50);
 	}
-	modeLabel->setPosition(Point(600, 820));
+	modeLabel->setPosition(Point(600, 850));
 	this->addChild(modeLabel, 4);
 }
 
