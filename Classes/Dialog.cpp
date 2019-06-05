@@ -78,9 +78,11 @@ bool Dialog::addLabel(MenuItem* menuItem) const
 	return true;
 }
 
-void Dialog::addListView(bool dialogType)
+void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
 {
 	rank = dialogType;
+	isInMenu = inMenu;
+	isClassical = classical;
 }
 
 void Dialog::onEnter()
@@ -179,11 +181,17 @@ void Dialog::backgroundFinish()
 
 		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
 		                                    SCREEN_HEIGHT / 2));
-		this->addChild(changeTypeButton);
+
 		backTypeButton->setPosition(Point(SCREEN_WIDTH / 2 - listView->getContentSize().width / 2 - 50,
 		                                  SCREEN_HEIGHT / 2));
 		backTypeButton->setOpacity(0);
-		this->addChild(backTypeButton);
+
+		if (isInMenu)
+		{
+			this->addChild(changeTypeButton);
+			this->addChild(backTypeButton);
+		}
+
 
 		backTypeButton->addTouchEventListener(
 			[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
@@ -193,7 +201,8 @@ void Dialog::backgroundFinish()
 					title->setString("Classical Rank List");
 					backTypeButton->setOpacity(0);
 					changeTypeButton->runAction(FadeIn::create(0.25));
-					getRankByType(true);
+					if (changed)
+						getRankByType(true);
 					changed = false;
 				}
 			});
@@ -206,12 +215,13 @@ void Dialog::backgroundFinish()
 					title->setString("Plus Rank List");
 					changeTypeButton->setOpacity(0);
 					backTypeButton->runAction(FadeIn::create(0.25));
-					getRankByType(false);
+					if (!changed)
+						getRankByType(false);
 					changed = true;
 				}
 			});
 
-		this->getRankByType(true);
+		this->getRankByType(isClassical);
 	}
 	else
 	{

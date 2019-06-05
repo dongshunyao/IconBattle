@@ -69,7 +69,9 @@ private:
 #pragma endregion
 
 #pragma region Result Board
-	void showResult(bool result,int mode);// 0为练习模式，1为闯关模式，2为无尽模式
+	void showFailedResult(int targetScore, int realScore);
+	void showResult(int usedSteps, int usedHints);
+	void showResult(bool isChallenge, int remainSteps, int remainHints, int score);
 
 #pragma endregion
 
@@ -122,9 +124,6 @@ private:
 	 * SUPER宝石与某个颜色交换（superKill）：消去整个画面中该颜色的宝石
 	 * 两个SUPER交换（doubleSuperKill）：刷新棋盘
 	 */
-
-
-	
 
 
 	Actor* createActor(int, int, Pair);

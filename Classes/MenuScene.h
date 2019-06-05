@@ -37,6 +37,7 @@ private:
 	void initRankButton();
 	void initGameButton();
 	void initPlate();
+	void initCoin();
 
 	Button* classicPractice = nullptr;
 	Button* classicLevel = nullptr;
@@ -44,6 +45,9 @@ private:
 	Button* enhancedPractice = nullptr;
 	Button* enhancedLevel = nullptr;
 	Button* enhancedChallenge = nullptr;
+
+	// 金币数
+	Label* coinText = nullptr;
 
 	ListView* enhancedListView = nullptr;
 	ListView* classicListView = nullptr;
