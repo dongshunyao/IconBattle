@@ -99,9 +99,7 @@ void Dialog::onEnter()
 	// 弹出效果
 	Action* dialog = Sequence::create(
 		ScaleTo::create(0.0f, 0.0f),
-		ScaleTo::create(0.2f, 1.05f),
-		ScaleTo::create(0.2f, 0.95f),
-		ScaleTo::create(0.1f, 1.0f),
+		ScaleTo::create(0.3f, 1.0f),
 		CallFunc::create(CC_CALLBACK_0(Dialog::backgroundFinish, this)),
 		nullptr
 	);
