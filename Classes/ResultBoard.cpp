@@ -1,6 +1,4 @@
 #include "GameScene.h"
-#include "NetworkShare.h"
-
 
 // 失败结果
 void GameScene::showFailedResult(int targetScore, int realScore)
@@ -172,7 +170,7 @@ void GameScene::showResult(int usedSteps, int usedHints)
 						const auto menu = Menu::create(qq, weibo, douban, renren, nullptr);
 						menu->setPosition(Point(0, 0));
 
-						if (!isAppear)
+						if (!isShareButtonAppear)
 						{
 							this->addChild(menu, 24);
 							qq->runAction(buttonFadeIn);
@@ -180,7 +178,7 @@ void GameScene::showResult(int usedSteps, int usedHints)
 							renren->runAction(Sequence::create(buttonDelay, buttonDelay, buttonFadeIn, nullptr));
 							douban->runAction(
 								Sequence::create(buttonDelay, buttonDelay, buttonDelay, buttonFadeIn, nullptr));
-							isAppear = true;
+							isShareButtonAppear = true;
 						}
 					}));
 

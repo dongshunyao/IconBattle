@@ -90,9 +90,9 @@ void GameScene::initInformationBoard()
 	this->addChild(progressController, 12);
 
 	// 分数板
-	scoreLabel = Label::createWithTTF("0", theme->markerFeltFont, 32);
-	scoreLabel->setPosition(225, 230);
-	this->addChild(scoreLabel, 11);
+	currentScoreLabel = Label::createWithTTF("0", theme->markerFeltFont, 32);
+	currentScoreLabel->setPosition(225, 230);
+	this->addChild(currentScoreLabel, 11);
 
 	// 提示次数
 	hintNumberSprite = Sprite::create(theme->gameSceneHintNumber + to_string(hintNumber) + ".png");

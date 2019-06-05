@@ -61,6 +61,7 @@ void GameScene::endGame()
 	}
 }
 
+/*
 // TODO 
 KillInformationList GameScene::getKillList()
 {
@@ -449,3 +450,5 @@ void GameScene::killBlock(KillInformationList killList)
 		                                         })));
 	}
 }
+*/
+

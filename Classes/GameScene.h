@@ -10,6 +10,7 @@
 #include "BackButton.h"
 #include "SettingButton.h"
 #include "Dialog.h"
+#include "NetworkShare.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -19,6 +20,7 @@ using std::set;
 
 using namespace GameBoardInformation;
 using namespace Util;
+using namespace NetworkShare;
 USING_NS_CC;
 
 /*
@@ -75,6 +77,8 @@ private:
 #pragma endregion
 
 #pragma region Result Board
+	bool isShareButtonAppear = false;
+
 	void showFailedResult(int targetScore, int realScore);
 	void showResult(int usedSteps, int usedHints);
 	void showResult(bool isChallenge, int remainSteps, int remainHints, int score);
@@ -137,11 +141,11 @@ private:
 #pragma endregion
 
 
-	// 获取可消除方块列表
-	KillInformationList getKillList();
+	// TODO 获取可消除方块列表
+	KillInformationList getKillList() { return {}; };
 
-	// 方块消除动画
-	void killBlock(KillInformationList killList);
+	// TODO 方块消除动画
+	void killBlock(KillInformationList killList){};
 };
 
 #endif
