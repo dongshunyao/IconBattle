@@ -383,7 +383,7 @@ void GameScene::blockVanish(KillGroupList killList)
 	if (specialActors.empty())
 	{
 		runAction(
-			Sequence::createWithTwoActions(DelayTime::create(.3f), CCCallFunc::create([&]() { newBlocksDrop(); })));
+			Sequence::createWithTwoActions(DelayTime::create(.3f), CCCallFunc::create([&]() { dropBlock(); })));
 	}
 	else
 	{
@@ -505,26 +505,25 @@ void GameScene::blockVanish(KillGroupList killList)
 	}
 }
 
-void GameScene::newBlocksDrop()
+void GameScene::dropBlock()
 {
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
 			if (board[i][j].type == -1)
 			{
-				int ti = i;
-				while (board[ti][j].type == -1)
+				auto upperI = i;
+				while (board[upperI][j].type == -1)
 				{
-					ti++;
-					assert(ti < 2 * BOARD_SIZE);
+					upperI++;
+					assert(upperI < 2 * BOARD_SIZE);
 				}
-				Pair ep = getPositionByIndex({i, j});
-				board[ti][j].actor->dropTo(ep);
-				swap(board[i][j], board[ti][j]);
+				const auto nowBlock = getPositionByIndex({i, j});
+				board[upperI][j].actor->dropTo(nowBlock);
+				swap(board[i][j], board[upperI][j]);
 			}
 		}
-	}
+
 	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5),
 	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
 }
@@ -544,7 +543,7 @@ void GameScene::animationDoneCallback()
 		else if (isDead())
 		{
 			refreshBoard();
-			newBlocksDrop();
+			dropBlock();
 			boardLock = false;
 		}
 		else

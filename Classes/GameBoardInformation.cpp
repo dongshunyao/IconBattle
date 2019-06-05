@@ -69,8 +69,8 @@ void Actor::moveToThenBack(Pair posb)
 	allDo(action);
 }
 
-// 掉落动画
-void GameBoardInformation::Actor::dropTo(Pair pos)
+// Actor下落动画
+void Actor::dropTo(const Pair position)
 {
 	auto action = Sequence::create(
 		CCEaseOut::create(CCMoveTo::create(0.5, ccp(pos.first, pos.second)), 2.0f),

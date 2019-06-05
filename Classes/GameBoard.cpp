@@ -2,6 +2,11 @@
 
 void GameScene::initGameBoard()
 {
+	// TODO 高亮图片修改
+	// actorHighLight = ImageView::create(theme->gameSceneNoButtonNormal);
+	// actorHighLight->setPosition({9999, 9999});
+	//addChild(actorHighLight, 5);
+
 	// 鼠标监听
 	auto mouseListener = EventListenerMouse::create();
 
@@ -79,12 +84,35 @@ void GameScene::initGameBoard()
 		}
 	};
 
+	// 鼠标移动
+	// mouseListener->onMouseMove = [&](Event* event)
+	// {
+	// 	const auto e = dynamic_cast<EventMouse*>(event);
+	// 	auto cursorX = e->getCursorX();
+	// 	auto cursorY = e->getCursorY();
+	// 	if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_UNSET)
+	// 	{
+	// 		if (boardLock)
+	// 		{
+	// 			actorHighLight->setPosition({9999, 9999});
+	// 			return;
+	// 		}
+	// 		const auto block = getIndexByPosition(Pair(cursorX, cursorY));
+	// 		if (block != Pair(-1, -1))
+	// 		{
+	// 			const auto position = getPositionByIndex(block);
+	// 			actorHighLight->setPosition(Vec2(position.first, position.second));
+	// 		}
+	// 		else actorHighLight->setPosition({9999, 9999});
+	// 	}
+	// };
+
 	// 添加监听器
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
 	// 刷新棋盘并下落开始
 	refreshBoard();
-	newBlocksDrop();
+	dropBlock();
 }
 
 Pair GameScene::getPositionByIndex(const Pair index)
@@ -123,14 +151,14 @@ void GameScene::refreshBoard()
 		{
 			// 禁止块
 			const auto banX = i >= BOARD_SIZE + 2 && board[i - 1][j].type == board[i - 2][j].type
-				? board[i - 2][j].type
-				: -1;
+				                  ? board[i - 2][j].type
+				                  : -1;
 			const auto banY = j >= 2 && board[i][j - 1].type == board[i][j - 2].type
-				? board[i][j - 2].type
-				: -1;
+				                  ? board[i][j - 2].type
+				                  : -1;
 			auto type = rand() % TYPE_NUMBER;
 			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
 
-			board[i][j] = Block(type, -1, createActor(type, -1, getPositionByIndex({ i, j })));
+			board[i][j] = Block(type, -1, createActor(type, -1, getPositionByIndex({i, j})));
 		}
 }

@@ -68,7 +68,8 @@ struct GameBoardInformation::Block
 		: type(type), func(func), actor(actor) {}
 };
 
-class GameBoardInformation::Actor : public Node
+class GameBoardInformation::Actor :
+	public Node
 {
 	// protected类型变量创建方式，ctrl点击见源码
 CC_SYNTHESIZE(int, type, Type);

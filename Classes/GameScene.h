@@ -69,7 +69,7 @@ private:
 #pragma endregion
 
 #pragma region Result Board
-	void showResult(bool result,int mode);// 0为练习模式，1为闯关模式，2为无尽模式
+	void showResult(bool result, int mode); // 0为练习模式，1为闯关模式，2为无尽模式
 
 #pragma endregion
 
@@ -84,6 +84,8 @@ private:
 	// 棋盘锁：进行动画时锁定
 	bool boardLock = true;
 
+	// 鼠标移动高亮
+	ImageView* actorHighLight = nullptr;
 	// 当前先后选中的块
 	Pair firstSelectedBlock = {-1, -1};
 	Pair secondSelectedBlock = {-1, -1};
@@ -96,6 +98,11 @@ private:
 	Pair getPositionByIndex(Pair index);
 	// 由棋盘位置得坐标
 	Pair getIndexByPosition(Pair position);
+
+	// 刷新棋盘：上方BFS填充，下方置空
+	void refreshBoard();
+	// 上方块下落
+	void dropBlock();
 
 #pragma endregion
 
@@ -124,9 +131,6 @@ private:
 	 */
 
 
-	
-
-
 	Actor* createActor(int, int, Pair);
 
 	// 获取可消除方块列表
@@ -138,15 +142,11 @@ private:
 	void failSwap(Pair blocka, Pair blockb);
 
 
-	// 刷新棋盘：上半部分BFS填充，下半部分-1初始化
-	void refreshBoard();
-
 	// 方块交换动画
 	void blockSwap(Pair blocka, Pair blockb);
 	// 方块消除动画
 	void blockVanish(KillGroupList killList);
-	// 消除后新产生方块下落动画
-	void newBlocksDrop();
+
 
 	// 消除并下落动画回调函数：
 	// 检测若新棋盘无可消除则unlock，否则继续消除
