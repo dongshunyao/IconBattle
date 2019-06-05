@@ -43,9 +43,6 @@
     <Filter Include="src\common\music">
       <UniqueIdentifier>{e0264607-4138-4fea-a797-407610bb3353}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\common\webshare">
-      <UniqueIdentifier>{fe626e07-8484-45f7-9072-03b901e9e610}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\temp">
       <UniqueIdentifier>{c73dfcf3-ef0b-44cc-bda7-c6dc9e8c10eb}</UniqueIdentifier>
     </Filter>
@@ -105,9 +102,6 @@
     <ClCompile Include="..\Classes\User.cpp">
       <Filter>src\common\user</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\WebShare.cpp">
-      <Filter>src\common\webshare</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src\temp</Filter>
     </ClCompile>
@@ -144,6 +138,9 @@
     <ClCompile Include="..\Classes\GameBoardInformation.cpp">
       <Filter>src\scene\gamescene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\NetworkShare.cpp">
+      <Filter>src\common\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -179,9 +176,6 @@
     <ClInclude Include="..\Classes\User.h">
       <Filter>src\common\user</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\WebShare.h">
-      <Filter>src\common\webshare</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src\temp</Filter>
     </ClInclude>
@@ -208,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameBoardInformation.h">
       <Filter>src\scene\gamescene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NetworkShare.h">
+      <Filter>src\common\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

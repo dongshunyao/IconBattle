@@ -1,5 +1,5 @@
-#ifndef __WEB_SHARE_H__
-#define __WEB_SHARE_H__
+#ifndef __NETWORK_SHARE_H__
+#define __NETWORK_SHARE_H__
 
 #include "cocos2d.h"
 #include <vector>
@@ -8,7 +8,7 @@ USING_NS_CC;
 using std::string;
 using std::vector;
 
-namespace WebShare
+namespace NetworkShare
 {
 #pragma region Target Index
 	const int QQ = 1;

@@ -1,6 +1,9 @@
-#include "WebShare.h"
-
-bool WebShare::share(vector<string>& info, const int target)
+#include "NetworkShare.h"
+ // TODO 三个分享方法重载 const int target
+ // bool NetworkShare::share(bool isClassical)
+ // bool NetworkShare::share(bool isClassical,int level,int score)
+ // bool NetworkShare::share(bool isClassical,int score,int rank) 
+bool NetworkShare::share(vector<string>& info, const int target)
 {
 	// TODO 处理信息并生成相应字符串
 	switch (target)
