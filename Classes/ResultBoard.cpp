@@ -1,208 +1,423 @@
 #include "GameScene.h"
+#include "NetworkShare.h"
 
-void GameScene::showResult(const bool result, int mode)
+
+// 失败结果
+void GameScene::showFailedResult(int targetScore, int realScore)
 {
-	// TODO 代码复用，但dialog声明放在外面，在else语句块中会报异常
+	auto layerColor = LayerColor::create();
+	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+	layerColor->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	layerColor->setColor(Color3B(0, 0, 0));
+	layerColor->setOpacity(128);
+	this->addChild(layerColor, 21);
+	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto first = Sprite::create(theme->gameSceneResultSprite + ("2.png"));
+	auto second = Sprite::create(theme->gameSceneResultSprite + ("3.png"));
 
-	if (mode == 0)
-	{
-		const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	first->setOpacity(0);
+	second->setOpacity(0);
 
-		resultDialog->addButton(MenuItemSprite::create(
-			Sprite::create(theme->gameSceneNoButtonNormal),
-			Sprite::create(theme->gameSceneNoButtonSelected),
-			Sprite::create(theme->gameSceneNoButtonNormal),
-			[&](Ref* sender)
+	this->addChild(first, 22);
+	this->addChild(second, 22);
+
+	const auto delay = DelayTime::create(1);
+	const auto fadeIn = FadeIn::create(1);
+
+	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	second->runAction(Sequence::create(
+		delay, fadeIn, CallFunc::create(
+			[&, layerColor,targetScore,realScore,first,second]()
 			{
-				Director::getInstance()->popScene();
-			}));
+				this->removeChild(first);
+				this->removeChild(second);
 
-		resultDialog->addButton(MenuItemSprite::create(
-			Sprite::create("/image/gamescene/common/share_button_normal.png"),
-			Sprite::create("/image/gamescene/common/share_button_selected.png"),
-			Sprite::create("/image/gamescene/common/share_button_normal.png"),
-			[&,resultDialog](Ref* sender)
+				const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+				resultDialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					Sprite::create(theme->gameSceneNoButtonSelected),
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					[&](Ref* sender)
+					{
+						Director::getInstance()->popScene();
+					}));
+
+				resultDialog->setTitle("遗憾", 50);
+
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("目标分数 : " + std::to_string(targetScore), theme->semiBoldFont,
+					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("实际得分 : " + std::to_string(realScore), theme->semiBoldFont,
+					                     50)));
+
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("很遗憾你没有达到目标分数", theme->semiBoldFont,
+					                     50)));
+
+				this->removeChild(layerColor);
+
+
+				this->addChild(resultDialog, 22);
+			}), nullptr));
+}
+
+// 练习结果
+void GameScene::showResult(int usedSteps, int usedHints)
+{
+	auto layerColor = LayerColor::create();
+	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+	layerColor->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	layerColor->setColor(Color3B(0, 0, 0));
+	layerColor->setOpacity(128);
+	this->addChild(layerColor, 21);
+	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
+	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
+
+	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	first->setOpacity(0);
+	second->setOpacity(0);
+
+	this->addChild(first, 22);
+	this->addChild(second, 22);
+
+	const auto delay = DelayTime::create(1);
+	const auto fadeIn = FadeIn::create(1);
+
+	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	second->runAction(Sequence::create(
+		delay, fadeIn, CallFunc::create(
+			[&, layerColor, usedSteps, usedHints,first,second]()
 			{
-				const auto width = resultDialog->getContentSize().width / 7;
-				auto qq = MenuItemSprite::create(Sprite::create("/image/gamescene/common/qq.png"),
-				                                 Sprite::create("/image/gamescene/common/qq.png"),
-				                                 Sprite::create("/image/gamescene/common/qq.png"));
+				this->removeChild(first);
+				this->removeChild(second);
 
-				qq->setPosition(Point(
-					SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width,
-					SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+				const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+				resultDialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					Sprite::create(theme->gameSceneNoButtonSelected),
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					[&](Ref* sender)
+					{
+						Director::getInstance()->popScene();
+					}));
 
-				qq->setOpacity(0);
-
-				auto weibo = MenuItemSprite::create(Sprite::create("/image/gamescene/common/weibo.png"),
-				                                    Sprite::create("/image/gamescene/common/weibo.png"),
-				                                    Sprite::create("/image/gamescene/common/weibo.png"));
-
-				weibo->setPosition(Point(
-					SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 2,
-					SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
-				weibo->setOpacity(0);
-
-				auto renren = MenuItemSprite::create(Sprite::create("/image/gamescene/common/renren.png"),
-				                                     Sprite::create("/image/gamescene/common/renren.png"),
-				                                     Sprite::create("/image/gamescene/common/renren.png"));
-
-				renren->setPosition(Point(
-					SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 3,
-					SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
-				renren->setOpacity(0);
-				auto douban = MenuItemSprite::create(Sprite::create("/image/gamescene/common/douban.png"),
-				                                     Sprite::create("/image/gamescene/common/douban.png"),
-				                                     Sprite::create("/image/gamescene/common/douban.png"));
-
-
-				douban->setPosition(Point(
-					SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 4,
-					SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
-
-				douban->setOpacity(0);
-
-				const auto fadeIn = FadeIn::create(0.5);
-				const auto fadeOut = FadeOut::create(0.5);
-				const auto delay = DelayTime::create(0.5);
-
-				if (!isAppear)
-				{
-					const auto menu = Menu::create(qq, weibo, douban, renren, nullptr);
-					menu->setPosition(Point(0, 0));
-					this->addChild(menu, 24);
-
-					qq->runAction(fadeIn);
-					weibo->runAction(Sequence::create(delay, fadeIn, nullptr));
-					renren->runAction(Sequence::create(delay, delay, fadeIn, nullptr));
-					douban->runAction(Sequence::create(delay, delay, delay, fadeIn, nullptr));
-					isAppear = true;
-				}
-				else
-				{
-					qq->runAction(fadeOut);
-					weibo->runAction(Sequence::create(delay, fadeOut, nullptr));
-					renren->runAction(Sequence::create(delay, delay, fadeOut, nullptr));
-					douban->runAction(Sequence::create(delay, delay, delay, fadeOut, nullptr));
-					isAppear = false;
-				}
-			}));
-
-		resultDialog->addButton(MenuItemSprite::create(
-			Sprite::create("/image/gamescene/common/next_button_normal.png"),
-			Sprite::create("/image/gamescene/common/next_button_selected.png"),
-			Sprite::create("/image/gamescene/common/next_button_normal.png"),
-			[&](Ref* sender)
-			{
-				// TODO next
-			}));
-
-		resultDialog->setTitle("Congratulations", 50);
-		resultDialog->addLabel(MenuItemLabel::create(
-			Label::createWithTTF("Used Steps : " + std::to_string(stepNumber), theme->semiBoldFont, 50)));
-
-
-		this->addChild(resultDialog, 22);
-	}
-	else
-	{
-		auto layerColor = LayerColor::create();
-		layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
-		layerColor->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-		layerColor->setColor(Color3B(0, 0, 0));
-		layerColor->setOpacity(128);
-		this->addChild(layerColor, 21);
-		_eventDispatcher->pauseEventListenersForTarget(this, true);
-
-		// 两个精灵实现结果先后出现
-		auto first = Sprite::create(theme->gameSceneResultSprite + (result ? "0.png" : "2.png"));
-		auto second = Sprite::create(theme->gameSceneResultSprite + (result ? "1.png" : "3.png"));
-
-		first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-		second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
-		first->setOpacity(0);
-		second->setOpacity(0);
-
-		this->addChild(first, 22);
-		this->addChild(second, 22);
-
-		const auto delay = DelayTime::create(1);
-		const auto fadeIn = FadeIn::create(1);
-		const auto fadeOut = FadeOut::create(1);
-
-		/*const auto firstMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 - first->getContentSize().width / 2,
-		                                                SCREEN_HEIGHT / 2 + 200));
-		const auto secondMoveTo = MoveTo::create(1, Vec2(SCREEN_WIDTH / 2 + second->getContentSize().width / 2,
-		                                                 SCREEN_HEIGHT / 2 + 200));*/
-
-		first->runAction(Sequence::create(fadeIn, delay, fadeOut, delay, nullptr));
-		second->runAction(Sequence::create(
-			delay, fadeIn, delay, fadeOut, DelayTime::create(0.5), CallFunc::create(
-				[&,layerColor,result,mode]()
-				{
-					const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-					resultDialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						Sprite::create(theme->gameSceneNoButtonSelected),
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						[&](Ref* sender)
-						{
-							Director::getInstance()->popScene();
-						}));
-
-					resultDialog->addButton(MenuItemSprite::create(
-						Sprite::create("/image/gamescene/common/share_button_normal.png"),
-						Sprite::create("/image/gamescene/common/share_button_selected.png"),
-						Sprite::create("/image/gamescene/common/share_button_normal.png"),
+				resultDialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneShareButtonNormal),
+					Sprite::create(theme->gameSceneShareButtonSelected),
+					Sprite::create(theme->gameSceneShareButtonNormal),
+					[&, resultDialog](Ref* sender)
+					{
+						const auto width = resultDialog->getContentSize().width / 7;
+						auto qq = MenuItemSprite::create(Sprite::create(theme->gameSceneQQShareButtonNormal),
+						                                 Sprite::create(theme->gameSceneQQShareButtonSelected),
+						                                 Sprite::create(theme->gameSceneQQShareButtonNormal));
 						[&](Ref* sender)
 						{
 							// TODO share
-						}));
+						};
+						qq->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
 
-					resultDialog->addButton(MenuItemSprite::create(
-						Sprite::create("/image/gamescene/common/next_button_normal.png"),
-						Sprite::create("/image/gamescene/common/next_button_selected.png"),
-						Sprite::create("/image/gamescene/common/next_button_normal.png"),
-						[&](Ref* sender)
+						qq->setOpacity(0);
+
+						auto weibo = MenuItemSprite::create(Sprite::create(theme->gameSceneWBShareButtonNormal),
+						                                    Sprite::create(theme->gameSceneWBShareButtonSelected),
+						                                    Sprite::create(theme->gameSceneWBShareButtonNormal),
+						                                    [&](Ref* sender)
+						                                    {
+							                                    // TODO share
+						                                    });
+
+						weibo->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 2,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+						weibo->setOpacity(0);
+
+						auto renren = MenuItemSprite::create(Sprite::create(theme->gameSceneRRShareButtonNormal),
+						                                     Sprite::create(theme->gameSceneRRShareButtonSelected),
+						                                     Sprite::create(theme->gameSceneRRShareButtonNormal),
+						                                     [&](Ref* sender)
+						                                     {
+							                                     // TODO share
+						                                     });
+
+						renren->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 3,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+						renren->setOpacity(0);
+						auto douban = MenuItemSprite::create(Sprite::create(theme->gameSceneDBShareButtonNormal),
+						                                     Sprite::create(theme->gameSceneDBShareButtonSelected),
+						                                     Sprite::create(theme->gameSceneDBShareButtonNormal),
+						                                     [&](Ref* sender)
+						                                     {
+							                                     // TODO share
+						                                     });
+
+						douban->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 4,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+
+						douban->setOpacity(0);
+
+						const auto buttonFadeIn = FadeIn::create(0.5);
+						const auto buttonDelay = DelayTime::create(0.5);
+
+
+						const auto menu = Menu::create(qq, weibo, douban, renren, nullptr);
+						menu->setPosition(Point(0, 0));
+
+						if (!isAppear)
 						{
-							// TODO next
-						}));
-					resultDialog->setTitle(result ? "Congratulations" : "Pity", 50);
+							this->addChild(menu, 24);
+							qq->runAction(buttonFadeIn);
+							weibo->runAction(Sequence::create(buttonDelay, buttonFadeIn, nullptr));
+							renren->runAction(Sequence::create(buttonDelay, buttonDelay, buttonFadeIn, nullptr));
+							douban->runAction(
+								Sequence::create(buttonDelay, buttonDelay, buttonDelay, buttonFadeIn, nullptr));
+							isAppear = true;
+						}
+					}));
 
-					// TODO COIN
+				resultDialog->setTitle("恭喜", 50);
 
-					if (result)
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("交换次数 : " + std::to_string(usedSteps), theme->semiBoldFont,
+					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("提示次数 : " + std::to_string(usedHints), theme->semiBoldFont,
+					                     50)));
+
+				this->removeChild(layerColor);
+
+
+				this->addChild(resultDialog, 22);
+			}), nullptr));
+}
+
+// 闯关和挑战结果
+void GameScene::showResult(bool isChallenge, int remainSteps, int remainHints, int score)
+{
+	auto layerColor = LayerColor::create();
+	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+	layerColor->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	layerColor->setColor(Color3B(0, 0, 0));
+	layerColor->setOpacity(128);
+	this->addChild(layerColor, 21);
+	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
+	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
+
+	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
+	first->setOpacity(0);
+	second->setOpacity(0);
+
+	this->addChild(first, 22);
+	this->addChild(second, 22);
+
+	const auto delay = DelayTime::create(1);
+	const auto fadeIn = FadeIn::create(1);
+
+	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	second->runAction(Sequence::create(
+		delay, fadeIn, CallFunc::create(
+			[&, layerColor, isChallenge,remainSteps, remainHints,score,first,second]()
+			{
+				this->removeChild(first);
+				this->removeChild(second);
+
+				const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+				resultDialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					Sprite::create(theme->gameSceneNoButtonSelected),
+					Sprite::create(theme->gameSceneNoButtonNormal),
+					[&](Ref* sender)
 					{
-						resultDialog->addLabel(MenuItemLabel::create(
-							Label::createWithTTF("Used Steps : " + std::to_string(stepNumber), theme->semiBoldFont,
-							                     50)));
-						resultDialog->addLabel(MenuItemLabel::create(
-							Label::createWithTTF("Used Hints : " + std::to_string(3 - hintNumber), theme->semiBoldFont,
-							                     50)));
-						resultDialog->addLabel(MenuItemLabel::create(
-							Label::createWithTTF("Score : " + scoreLabel->getString(), theme->semiBoldFont,
-							                     50)));
-					}
+						Director::getInstance()->popScene();
+					}));
 
-					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("Coins : " + std::to_string(5), theme->semiBoldFont, 50)));
-
-					if (mode == 2)
+				resultDialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneShareButtonNormal),
+					Sprite::create(theme->gameSceneShareButtonSelected),
+					Sprite::create(theme->gameSceneShareButtonNormal),
+					[&, resultDialog](Ref* sender)
 					{
-						auto rank = Network::getInstance()->getRank(isClassical);
-						for (auto item : rank)
+						const auto width = resultDialog->getContentSize().width / 7;
+						auto qq = MenuItemSprite::create(Sprite::create(theme->gameSceneQQShareButtonNormal),
+						                                 Sprite::create(theme->gameSceneQQShareButtonSelected),
+						                                 Sprite::create(theme->gameSceneQQShareButtonNormal),
+						                                 [&](Ref* sender)
+						                                 {
+							                                 // TODO share
+						                                 });
+
+						qq->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+
+						qq->setOpacity(0);
+
+						auto weibo = MenuItemSprite::create(Sprite::create(theme->gameSceneWBShareButtonNormal),
+						                                    Sprite::create(theme->gameSceneWBShareButtonSelected),
+						                                    Sprite::create(theme->gameSceneWBShareButtonNormal),
+						                                    [&](Ref* sender)
+						                                    {
+							                                    // TODO share
+						                                    });
+
+						weibo->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 2,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+						weibo->setOpacity(0);
+
+						auto renren = MenuItemSprite::create(Sprite::create(theme->gameSceneRRShareButtonNormal),
+						                                     Sprite::create(theme->gameSceneRRShareButtonSelected),
+						                                     Sprite::create(theme->gameSceneRRShareButtonNormal),
+						                                     [&](Ref* sender)
+						                                     {
+							                                     // TODO share
+						                                     });
+
+						renren->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 3,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+						renren->setOpacity(0);
+						auto douban = MenuItemSprite::create(Sprite::create(theme->gameSceneDBShareButtonNormal),
+						                                     Sprite::create(theme->gameSceneDBShareButtonSelected),
+						                                     Sprite::create(theme->gameSceneDBShareButtonNormal),
+						                                     [&](Ref* sender)
+						                                     {
+							                                     // TODO share
+						                                     });
+
+
+						douban->setPosition(Point(
+							SCREEN_WIDTH / 2 - resultDialog->getContentSize().width / 2.8 + width * 4,
+							SCREEN_HEIGHT / 2 - resultDialog->getContentSize().height / 2 + 150));
+
+						douban->setOpacity(0);
+
+						const auto buttonFadeIn = FadeIn::create(0.5);
+						const auto buttonDelay = DelayTime::create(0.5);
+
+
+						const auto menu = Menu::create(qq, weibo, douban, renren, nullptr);
+						menu->setPosition(Point(0, 0));
+						this->addChild(menu, 24);
+
+						qq->runAction(buttonFadeIn);
+						weibo->runAction(Sequence::create(buttonDelay, buttonFadeIn, nullptr));
+						renren->runAction(Sequence::create(buttonDelay, buttonDelay, buttonFadeIn, nullptr));
+						douban->runAction(
+							Sequence::create(buttonDelay, buttonDelay, buttonDelay, buttonFadeIn, nullptr));
+					}));
+
+
+				resultDialog->setTitle("恭喜", 50);
+
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("交换次数 : " + std::to_string(remainSteps), theme->semiBoldFont,
+					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("提示次数 : " + std::to_string(remainHints), theme->semiBoldFont,
+					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("玩家分数 : " + std::to_string(score), theme->semiBoldFont,
+					                     50)));
+
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("本局总分 : " + std::to_string(remainSteps + remainHints + score),
+					                     theme->semiBoldFont,
+					                     50)));
+
+				if (isChallenge)
+				{
+					bool find = false;
+					auto rank = Network::getInstance()->getRank(isClassical);
+
+					for (auto user : rank)
+					{
+						if (user.first == User::getInstance()->getUserName())
 						{
-							if (item.first == User::getInstance()->getUserName())
-								resultDialog->addLabel(MenuItemLabel::create(
-									Label::createWithTTF("Rank : " + std::to_string(item.second), theme->semiBoldFont,
-									                     50)));
+							find = true;
+							user.second = remainSteps + remainHints + score;
 						}
 					}
 
-					this->removeChild(layerColor);
+					if (!find)
+					{
+						rank.emplace_back(User::getInstance()->getUserName(), remainSteps + remainHints + score);
+					}
 
 
-					this->addChild(resultDialog, 22);
-				}), nullptr));
-	}
+					sort(rank.begin(), rank.end(), [](const auto x, const auto y)
+					{
+						return x.second > y.second;
+					});
+
+					auto position = 1;
+					for (auto user : rank)
+					{
+						if (user.first == User::getInstance()->getUserName())
+						{
+							resultDialog->addLabel(MenuItemLabel::create(
+								Label::createWithTTF("当前排名 : " + std::to_string(position),
+								                     theme->semiBoldFont,
+								                     50)));
+							break;
+						}
+						position++;
+					}
+
+
+					Network::getInstance()->postScore(User::getInstance()->getUserName(),
+					                                  remainSteps + remainHints + score, isClassical);
+
+
+					resultDialog->addButton(MenuItemSprite::create(
+						Sprite::create("/image/gamescene/common/rank_normal.png"),
+						Sprite::create("/image/gamescene/common/rank_selected.png"),
+						Sprite::create("/image/gamescene/common/rank_normal.png"),
+						[&,resultDialog](Ref* sender)
+						{
+							this->removeChild(resultDialog);
+
+							const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
+
+							dialog->addListView(true, false, isClassical);
+							dialog->setTitle("Classical Rank List", 50);
+							dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
+							                                         Sprite::create(theme->gameSceneYesButtonSelected),
+							                                         Sprite::create(theme->gameSceneYesButtonNormal),
+							                                         [&](Ref* sender)
+							                                         {
+								                                         Director::getInstance()
+									                                         ->popScene();
+							                                         }
+							));
+							this->addChild(dialog, 20);
+						}));
+				}
+				this->removeChild(layerColor);
+
+
+				auto coin = Sprite::create(theme->storeSceneCoin);
+				coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 2 - 100,
+				                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 2 - 150));
+				coin->runAction(Spawn::create(ScaleTo::create(1.5, 0),
+				                              MoveTo::create(
+					                              1.5, Point(SCREEN_WIDTH / 2 + 300, SCREEN_HEIGHT / 2 + 200)),
+				                              nullptr));
+				// TODO 硬币清算
+
+				this->addChild(coin, 25);
+
+				this->addChild(resultDialog, 22);
+			}), nullptr));
 }

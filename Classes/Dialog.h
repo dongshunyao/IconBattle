@@ -37,7 +37,7 @@ public:
 	// 添加button或列表
 	bool addButton(MenuItem* menuItem) const;
 	bool addLabel(MenuItem* menuItem) const;
-	void addListView(bool dialogType);
+	void addListView(bool dialogType, bool inMenu,bool classical);
 
 	void onEnter() override;
 	void onExit() override;
@@ -57,6 +57,8 @@ private:
 	int position = 11;
 	bool rank = false; // 对话框类型
 	bool rankType = false; // 排行榜类型
+	bool isInMenu = true; // 排行榜是否在menuScene
+	bool isClassical = true;
 	bool changed = false;
 	ListView* listView = nullptr;
 	Label* nameLabel = nullptr;
