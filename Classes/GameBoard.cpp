@@ -2,6 +2,16 @@
 
 void GameScene::initGameBoard()
 {
+	// TODO 移动高亮图片修改
+	moveHighLight = ImageView::create(theme->gameSceneNoButtonNormal);
+	moveHighLight->setPosition({9999, 9999});
+	addChild(moveHighLight, 5);
+
+	// TODO 选中高亮图片修改
+	selectedHighLight = ImageView::create(theme->gameSceneYesButtonNormal);
+	selectedHighLight->setPosition({9999, 9999});
+	addChild(selectedHighLight, 3);
+
 	// 鼠标监听
 	auto mouseListener = EventListenerMouse::create();
 
@@ -22,22 +32,29 @@ void GameScene::initGameBoard()
 			// TODO 选中标识动画+图层
 
 			// 还未选中过方块
-			if (firstSelectedBlock == Pair(-1, -1)) firstSelectedBlock = getIndexByPosition(Pair(cursorX, cursorY));
-				//已经选中一个方块
-			else if (firstSelectedBlock.first != -1 && secondSelectedBlock.first == -1)
+			if (firstSelectedBlockIndex == Pair(-1, -1))
 			{
-				secondSelectedBlock = getIndexByPosition(Pair(cursorX, cursorY));
+				firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
+				selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
+				                                    getPositionByIndex(firstSelectedBlockIndex).second));
+			}
+			else if (firstSelectedBlockIndex.first != -1 && secondSelectedBlockIndex.first == -1)
+			{
+				//已经选中一个方块
+				secondSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
 				// 判断第二方块是否相邻
-				switch (secondSelectedBlock.first - firstSelectedBlock.first)
+				switch (secondSelectedBlockIndex.first - firstSelectedBlockIndex.first)
 				{
 				case 1:
 				case -1:
 					{
 						// 不相邻，现选择的方块变为第一块
-						if (firstSelectedBlock.second != secondSelectedBlock.second)
+						if (firstSelectedBlockIndex.second != secondSelectedBlockIndex.second)
 						{
-							firstSelectedBlock = getIndexByPosition(Pair(cursorX, cursorY));
-							secondSelectedBlock = {-1, -1};
+							firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
+							selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
+							                                    getPositionByIndex(firstSelectedBlockIndex).second));
+							secondSelectedBlockIndex = {-1, -1};
 						}
 						break;
 					}
@@ -45,11 +62,13 @@ void GameScene::initGameBoard()
 				case 0:
 					{
 						// 不相邻，现选择的方块变为第一块
-						if (firstSelectedBlock.second - secondSelectedBlock.second != -1
-							&& firstSelectedBlock.second - secondSelectedBlock.second != 1)
+						if (firstSelectedBlockIndex.second - secondSelectedBlockIndex.second != -1
+							&& firstSelectedBlockIndex.second - secondSelectedBlockIndex.second != 1)
 						{
-							firstSelectedBlock = getIndexByPosition(Pair(cursorX, cursorY));
-							secondSelectedBlock = {-1, -1};
+							firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
+							selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
+							                                    getPositionByIndex(firstSelectedBlockIndex).second));
+							secondSelectedBlockIndex = {-1, -1};
 						}
 						break;
 					}
@@ -57,8 +76,10 @@ void GameScene::initGameBoard()
 					// 不相邻，现选择的方块变为第一块
 				default:
 					{
-						firstSelectedBlock = getIndexByPosition(Pair(cursorX, cursorY));
-						secondSelectedBlock = {-1, -1};
+						firstSelectedBlockIndex = getIndexByPosition(Pair(cursorX, cursorY));
+						selectedHighLight->setPosition(Vec2(getPositionByIndex(firstSelectedBlockIndex).first,
+						                                    getPositionByIndex(firstSelectedBlockIndex).second));
+						secondSelectedBlockIndex = {-1, -1};
 						break;
 					}
 				}
@@ -74,8 +95,31 @@ void GameScene::initGameBoard()
 		if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT)
 		{
 			// 已经选中两块则尝试交换，否则不进行操作
-			if (firstSelectedBlock != Pair(-1, -1) && secondSelectedBlock != Pair(-1, -1))
-				trySwap(firstSelectedBlock, secondSelectedBlock);
+			if (firstSelectedBlockIndex != Pair(-1, -1) && secondSelectedBlockIndex != Pair(-1, -1))
+				trySwapBlock(firstSelectedBlockIndex, secondSelectedBlockIndex);
+		}
+	};
+
+	// 鼠标移动
+	mouseListener->onMouseMove = [&](Event* event)
+	{
+		const auto e = dynamic_cast<EventMouse*>(event);
+		auto cursorX = e->getCursorX();
+		auto cursorY = e->getCursorY();
+		if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_UNSET)
+		{
+			if (boardLock)
+			{
+				moveHighLight->setPosition({9999, 9999});
+				return;
+			}
+			const auto block = getIndexByPosition(Pair(cursorX, cursorY));
+			if (block != Pair(-1, -1))
+			{
+				const auto position = getPositionByIndex(block);
+				moveHighLight->setPosition(Vec2(position.first, position.second));
+			}
+			else moveHighLight->setPosition({9999, 9999});
 		}
 	};
 
@@ -84,7 +128,14 @@ void GameScene::initGameBoard()
 
 	// 刷新棋盘并下落开始
 	refreshBoard();
-	newBlocksDrop();
+	dropBlock();
+}
+
+Actor* GameScene::addActor(const int type, int spv, const Pair position)
+{
+	const auto actor = Actor::create(type, spv, position);
+	addChild(actor, 1);
+	return actor;
 }
 
 Pair GameScene::getPositionByIndex(const Pair index)
@@ -123,14 +174,37 @@ void GameScene::refreshBoard()
 		{
 			// 禁止块
 			const auto banX = i >= BOARD_SIZE + 2 && board[i - 1][j].type == board[i - 2][j].type
-				? board[i - 2][j].type
-				: -1;
+				                  ? board[i - 2][j].type
+				                  : -1;
 			const auto banY = j >= 2 && board[i][j - 1].type == board[i][j - 2].type
-				? board[i][j - 2].type
-				: -1;
+				                  ? board[i][j - 2].type
+				                  : -1;
 			auto type = rand() % TYPE_NUMBER;
 			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
 
-			board[i][j] = Block(type, -1, createActor(type, -1, getPositionByIndex({ i, j })));
+			board[i][j] = Block(type, -1, addActor(type, -1, getPositionByIndex({i, j})));
 		}
+}
+
+void GameScene::dropBlock()
+{
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == -1)
+			{
+				auto upperI = i;
+				while (board[upperI][j].type == -1)
+				{
+					upperI++;
+					assert(upperI < 2 * BOARD_SIZE);
+				}
+				const auto nowBlock = getPositionByIndex({i, j});
+				board[upperI][j].actor->dropTo(nowBlock);
+				swap(board[i][j], board[upperI][j]);
+			}
+		}
+
+	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5),
+	                                         CallFunc::create([&]() { animationDoneCallback(); })));
 }

@@ -24,12 +24,8 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	return scene;
 }
 
-Actor* GameScene::createActor(int typ, int spv, Pair pos)
-{
-	Actor* rtn = Actor::create(typ, spv, pos);
-	addChild(rtn);
-	return rtn;
-}
+
+
 
 KillGroupList GameScene::getKillList()
 {
@@ -220,19 +216,21 @@ KillGroupList GameScene::getKillList()
 	return rtn;
 }
 
-void GameScene::trySwap(Pair blocka, Pair blockb)
+void GameScene::trySwapBlock(const Pair blockA, const Pair blockB)
 {
-	firstSelectedBlock = {-1, -1};
-	secondSelectedBlock = {-1, -1};
+	selectedHighLight->setPosition({9999, 9999});
+	firstSelectedBlockIndex = {-1, -1};
+	secondSelectedBlockIndex = {-1, -1};
 
-	CCLOG("[LOCK] Try Swap (%d,%d),(%d,%d)", blocka.first, blocka.second, blockb.first, blockb.second);
+	minusStepNumber();
 	boardLock = true;
+	log("[LOCK] Try Swap: 1st (%d,%d), 2ed (%d,%d)", blockA.first, blockA.second, blockB.first, blockB.second);
 
-	// 如果交换的方块有特效方块
-	if (board[blocka.first][blocka.second].func == FUNC_SUPER && board[blockb.first][blockb.second].func ==
+	// 均为Super块
+	if (board[blockA.first][blockA.second].func == FUNC_SUPER && board[blockB.first][blockB.second].func ==
 		FUNC_SUPER)
 	{
-		Pair center = blocka;
+		Pair center = blockA;
 		ActorInfoList tCrossActor;
 		for (int i = 0; i < BOARD_SIZE; i++)
 		{
@@ -245,25 +243,26 @@ void GameScene::trySwap(Pair blocka, Pair blockb)
 		blockVanish({{center, 5000, tCrossActor, {}}});
 		return;
 	}
-	else if (board[blocka.first][blocka.second].func == FUNC_SUPER || board[blocka.first][blocka.second].func ==
+
+	else if (board[blockA.first][blockA.second].func == FUNC_SUPER || board[blockA.first][blockA.second].func ==
 		FUNC_SUPER)
 	{
 		int toDelColor = -1;
 		Pair center = {-1, -1};
 		ActorInfoList tCrossActor;
-		if (board[blocka.first][blocka.second].func == FUNC_SUPER)
+		if (board[blockA.first][blockA.second].func == FUNC_SUPER)
 		{
-			board[blocka.first][blocka.second].func = -1;
-			board[blocka.first][blocka.second].type = board[blockb.first][blockb.second].type;
-			center = blocka;
-			toDelColor = board[blockb.first][blockb.second].type;
+			board[blockA.first][blockA.second].func = -1;
+			board[blockA.first][blockA.second].type = board[blockB.first][blockB.second].type;
+			center = blockA;
+			toDelColor = board[blockB.first][blockB.second].type;
 		}
 		else
 		{
-			board[blockb.first][blockb.second].func = -1;
-			board[blockb.first][blockb.second].type = board[blocka.first][blocka.second].type;
-			center = blockb;
-			toDelColor = board[blocka.first][blocka.second].type;
+			board[blockB.first][blockB.second].func = -1;
+			board[blockB.first][blockB.second].type = board[blockA.first][blockA.second].type;
+			center = blockB;
+			toDelColor = board[blockA.first][blockA.second].type;
 		}
 		for (int i = 0; i < BOARD_SIZE; i++)
 		{
@@ -281,17 +280,17 @@ void GameScene::trySwap(Pair blocka, Pair blockb)
 	}
 
 
-	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
+	swap(board[blockA.first][blockA.second], board[blockB.first][blockB.second]);
 	auto rst = getKillList();
-	swap(board[blocka.first][blocka.second], board[blockb.first][blockb.second]);
+	swap(board[blockA.first][blockA.second], board[blockB.first][blockB.second]);
 
 	if (rst.empty())
 	{
-		failSwap(blocka, blockb);
+		failSwap(blockA, blockB);
 	}
 	else
 	{
-		blockSwap(blocka, blockb);
+		blockSwap(blockA, blockB);
 	}
 }
 
@@ -309,7 +308,7 @@ void GameScene::failSwap(Pair blocka, Pair blockb)
 
 void GameScene::blockSwap(Pair blocka, Pair blockb)
 {
-	minusStepNumber();
+	
 	Pair posa = getPositionByIndex(blocka);
 	Pair posb = getPositionByIndex(blockb);
 
@@ -356,7 +355,7 @@ void GameScene::blockVanish(KillGroupList killList)
 				assert(ti < 2 * BOARD_SIZE);
 			}
 			int type = rand() % TYPE_NUMBER;
-			auto droper = createActor(type, -1, getPositionByIndex({ti, pos.second}));
+			auto droper = addActor(type, -1, getPositionByIndex({ti, pos.second}));
 			board[ti][pos.second] = Block(type, -1, droper);
 		}
 		//1.3添加奖励特殊方块
@@ -365,7 +364,7 @@ void GameScene::blockVanish(KillGroupList killList)
 			//create
 			Pair pos = toAddActorInfo.pos;
 			assert(board[pos.first][pos.second].type == -1);
-			auto newActor = createActor(toAddActorInfo.type, toAddActorInfo.func, getPositionByIndex(pos));
+			auto newActor = addActor(toAddActorInfo.type, toAddActorInfo.func, getPositionByIndex(pos));
 			board[pos.first][pos.second] = Block(toAddActorInfo.type, toAddActorInfo.func, newActor);
 			//deleteDropper
 			int ti = 2 * BOARD_SIZE - 1;
@@ -383,7 +382,7 @@ void GameScene::blockVanish(KillGroupList killList)
 	if (specialActors.empty())
 	{
 		runAction(
-			Sequence::createWithTwoActions(DelayTime::create(.3f), CCCallFunc::create([&]() { newBlocksDrop(); })));
+			Sequence::createWithTwoActions(DelayTime::create(.3f), CCCallFunc::create([&]() { dropBlock(); })));
 	}
 	else
 	{
@@ -460,8 +459,8 @@ void GameScene::blockVanish(KillGroupList killList)
 					{
 						for (int j = specialActor.pos.second - 1; j <= specialActor.pos.second + 1; j++)
 						{
-							if (i < 0 || i > BOARD_SIZE)continue;
-							if (j < 0 || j > BOARD_SIZE)continue;
+							if (i < 0 || i >= BOARD_SIZE)continue;
+							if (j < 0 || j >= BOARD_SIZE)continue;
 							if (board[i][j].type == -1 || vis.count({i, j}))continue;
 							nowKill.killInfo.push_back(ActorInfo(i, j));
 							if (board[i][j].func == FUNC_SUPER)board[i][j].type = specialActor.type;
@@ -505,30 +504,6 @@ void GameScene::blockVanish(KillGroupList killList)
 	}
 }
 
-void GameScene::newBlocksDrop()
-{
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if (board[i][j].type == -1)
-			{
-				int ti = i;
-				while (board[ti][j].type == -1)
-				{
-					ti++;
-					assert(ti < 2 * BOARD_SIZE);
-				}
-				Pair ep = getPositionByIndex({i, j});
-				board[ti][j].actor->dropTo(ep);
-				swap(board[i][j], board[ti][j]);
-			}
-		}
-	}
-	runAction(Sequence::createWithTwoActions(DelayTime::create(0.5),
-	                                         CCCallFunc::create([&]() { animationDoneCallback(); })));
-}
-
 void GameScene::animationDoneCallback()
 {
 	auto newList = getKillList();
@@ -544,7 +519,7 @@ void GameScene::animationDoneCallback()
 		else if (isDead())
 		{
 			refreshBoard();
-			newBlocksDrop();
+			dropBlock();
 			boardLock = false;
 		}
 		else

@@ -86,18 +86,31 @@ private:
 	// 棋盘锁：进行动画时锁定
 	bool boardLock = true;
 
+	// 鼠标移动高亮
+	ImageView* moveHighLight = nullptr;
+	// 选中块高亮
+	ImageView* selectedHighLight = nullptr;
 	// 当前先后选中的块
-	Pair firstSelectedBlock = {-1, -1};
-	Pair secondSelectedBlock = {-1, -1};
+	Pair firstSelectedBlockIndex = {-1, -1};
+	Pair secondSelectedBlockIndex = {-1, -1};
 
 
 	// 初始化棋盘和鼠标监听器
 	void initGameBoard();
+	// 添加Actor
+	Actor* addActor(int type, int, Pair position); //TODO
 
 	// 由坐标得棋盘位置
 	Pair getPositionByIndex(Pair index);
 	// 由棋盘位置得坐标
 	Pair getIndexByPosition(Pair position);
+
+	// 刷新棋盘：上方BFS填充，下方置空
+	void refreshBoard();
+	// 上方块下落
+	void dropBlock();
+	// 尝试交换
+	void trySwapBlock(Pair blockA, Pair blockB);
 
 #pragma endregion
 
@@ -126,26 +139,21 @@ private:
 	 */
 
 
-	Actor* createActor(int, int, Pair);
+	
 
 	// 获取可消除方块列表
 	KillGroupList getKillList();
 
-	// 尝试两方快交换：若不可以交换则不做动画，反之进行
-	void trySwap(Pair block1, Pair block2);
+	
 	// 无效交换动画
 	void failSwap(Pair blocka, Pair blockb);
 
-
-	// 刷新棋盘：上半部分BFS填充，下半部分-1初始化
-	void refreshBoard();
 
 	// 方块交换动画
 	void blockSwap(Pair blocka, Pair blockb);
 	// 方块消除动画
 	void blockVanish(KillGroupList killList);
-	// 消除后新产生方块下落动画
-	void newBlocksDrop();
+
 
 	// 消除并下落动画回调函数：
 	// 检测若新棋盘无可消除则unlock，否则继续消除

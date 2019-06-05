@@ -18,9 +18,9 @@ namespace GameBoardInformation
 
 	// 宝石块
 	struct Block;
-
-
+	// 精灵演员
 	class Actor;
+
 	struct KillGroup;
 	typedef vector<KillGroup> KillGroupList;
 	struct ActorInfo;
@@ -68,22 +68,28 @@ struct GameBoardInformation::Block
 		: type(type), func(func), actor(actor) {}
 };
 
-class GameBoardInformation::Actor : public Node
+class GameBoardInformation::Actor :
+	public Node
 {
 	// protected类型变量创建方式，ctrl点击见源码
 CC_SYNTHESIZE(int, type, Type);
 CC_SYNTHESIZE(int, func, Func);
 
-CC_SYNTHESIZE(Pair, pos, Pos);
 
 CC_SYNTHESIZE_RETAIN(Sprite*, gem, Gem);
 CC_SYNTHESIZE_RETAIN(Sprite*, icon, Icon);
+
+private:
+	Pair position = {-1, -1};
+
 public:
 	static Actor* create(int, int, Pair);
+
+	// 下落到指定位置
+	void dropTo(Pair toPosition);
 	void allDo(Action*);
 	void moveTo(Pair);
 	void moveToThenBack(Pair);
-	void dropTo(Pair);
 	void selfClose();
 };
 

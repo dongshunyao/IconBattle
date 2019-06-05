@@ -2,20 +2,19 @@
 using namespace GameBoardInformation;
 
 // 创建
-Actor* Actor::create(int type, int func, Pair pos)
+Actor* Actor::create(const int type, int func, const Pair position)
 {
-	Actor* actor = new(std::nothrow) Actor();
+	auto actor = new(std::nothrow) Actor();
 	if (actor)
 	{
 		actor->setType(type);
 		actor->setFunc(func);
-		actor->setPos(pos);
+		actor->position = position;
 
 		assert(type >= 0 && type <= 6);
-		assert(func >= -1 && type <= 6);
 
 		actor->setGem(Sprite::create(GEM_N[type]));
-		actor->getGem()->setPosition(pos.first, pos.second);
+		actor->getGem()->setPosition(position.first, position.second);
 		actor->getGem()->setScale(0.9f);
 		actor->getGem()->setZOrder(0);
 		actor->addChild(actor->getGem());
@@ -27,7 +26,7 @@ Actor* Actor::create(int type, int func, Pair pos)
 		else
 		{
 			actor->setIcon(Sprite::createWithSpriteFrameName(SPIC_N[func]));
-			actor->getIcon()->setPosition(pos.first, pos.second);
+			actor->getIcon()->setPosition(position.first, position.second);
 			actor->getIcon()->setScale(0.9f);
 			actor->getIcon()->setZOrder(1);
 			actor->addChild(actor->getIcon());
@@ -39,6 +38,14 @@ Actor* Actor::create(int type, int func, Pair pos)
 	}
 	CC_SAFE_DELETE(actor);
 	return nullptr;
+}
+
+void Actor::dropTo(const Pair toPosition)
+{
+	const auto action = Sequence::create(
+		EaseOut::create(MoveTo::create(0.5, Vec2(toPosition.first, toPosition.second)), 2.0f), nullptr);
+	allDo(action);
+	this->position = toPosition;
 }
 
 // 本cpp文件中所有动画的实现调用方法
@@ -56,29 +63,19 @@ void GameBoardInformation::Actor::moveTo(Pair pos)
 		NULL
 	);
 	allDo(action);
-	this->pos = pos;
+	this->position = pos;
 }
 
 void Actor::moveToThenBack(Pair posb)
 {
 	auto action = Sequence::create(
 		CCMoveTo::create(0.25, Vec2(posb.first, posb.second)),
-		CCMoveTo::create(0.25, Vec2(pos.first, pos.second)),
+		CCMoveTo::create(0.25, Vec2(position.first, position.second)),
 		NULL
 	);
 	allDo(action);
 }
 
-// 掉落动画
-void GameBoardInformation::Actor::dropTo(Pair pos)
-{
-	auto action = Sequence::create(
-		CCEaseOut::create(CCMoveTo::create(0.5, ccp(pos.first, pos.second)), 2.0f),
-		NULL
-	);
-	allDo(action);
-	this->pos = pos;
-}
 
 // 自己杀自己
 void GameBoardInformation::Actor::selfClose()
