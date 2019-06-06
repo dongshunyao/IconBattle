@@ -26,6 +26,7 @@ void GameScene::initInformationBoard()
 	{
 		if (type == Widget::TouchEventType::ENDED)
 		{
+
 			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
 			dialog->setContentText("您确定要退出当前游戏么？这将丢失当前游戏进度！", 36, 60, 20);
 
@@ -70,7 +71,7 @@ void GameScene::initInformationBoard()
 	this->addChild(stepNumberLabel, 12);
 
 	// 目标分数
-	auto targetScoreLabel = Label::createWithTTF(std::to_string(totalScore), theme->markerFeltFont, 35);
+	targetScoreLabel = Label::createWithTTF(std::to_string(totalScore), theme->markerFeltFont, 35);
 	targetScoreLabel->setPosition(225, 540);
 	this->addChild(targetScoreLabel, 12);
 

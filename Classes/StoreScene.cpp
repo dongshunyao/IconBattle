@@ -311,7 +311,7 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 						Sprite::create(theme->gameSceneYesButtonNormal),
 						[&,dialog](Ref* sender)
 						{
-							unlockTheme(theme->officeThemeName, 50);
+							unlockTheme(theme->officeThemeName, 60);
 							Director::getInstance()->getRunningScene()->removeChild(dialog);
 						}));
 					dialog->addButton(MenuItemSprite::create(

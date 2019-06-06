@@ -155,6 +155,8 @@ void Dialog::backgroundFinish()
 		listView->setAnchorPoint(Point(0.5f, 0.5f));
 		listView->setContentSize(Size(500, 400));
 		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		listView->setScrollBarAutoHideTime(0);
+		listView->setScrollBarColor(Color3B::WHITE);
 
 		//添加鼠标事件侦听
 		listenerMouse = EventListenerMouse::create();
@@ -227,14 +229,14 @@ void Dialog::backgroundFinish()
 	{
 		// 添加按钮，并设置其位置
 		this->addChild(getMenuLabel());
-		const auto labelHeight = dialogContentSize.height / (getMenuLabel()->getChildrenCount() + 2);
+		const auto labelHeight = (dialogContentSize.height-title->getContentSize().height-15) / (getMenuLabel()->getChildrenCount() + 2);
 		auto labels = getMenuLabel()->getChildren();
 		i = 0;
 		for (auto menuItem : labels)
 		{
 			auto node = dynamic_cast<Node*>(menuItem);
 			node->setPosition(Point(SCREEN_WIDTH / 2,
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
+			                        (SCREEN_HEIGHT+ dialogContentSize.height / -title->getContentSize().height+50) / 2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
 				                        getChildrenCount() - i)));
 			i++;
 		}
@@ -258,7 +260,7 @@ void Dialog::backgroundFinish()
 		// 显示对话框标题
 		if (getLabelTitle())
 		{
-			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 35.0f));
+			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 -title->getContentSize().height/2-15));
 			this->addChild(getLabelTitle());
 		}
 
@@ -312,14 +314,14 @@ void Dialog::getRankByType(bool type)
 					30));
 				layout->addChild(nameLabel);
 
-				scoreLabel = Label::createWithTTF("-------", "/font/marker_felt.ttf", 30);
+				scoreLabel = Label::createWithTTF("---------", "/font/marker_felt.ttf", 30);
 				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
 				layout->addChild(scoreLabel);
 			}
 			else
 			{
 				nameLabel = Label::createWithTTF(rankType ? classicalRank.at(i).first : plusRank.at(i).first,
-				                                 "/font/marker_felt.ttf", 30);
+				                                 theme->semiBoldFont, 30);
 				nameLabel->setPosition(Vec2(
 					icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 75,
 					30));

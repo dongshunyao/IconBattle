@@ -67,6 +67,7 @@ private:
 	void addCurrentScore(int deltaScore);
 
 	Label* stepNumberLabel = nullptr;
+	Label* targetScoreLabel = nullptr;
 	Sprite* hintNumberSprite = nullptr;
 	Label* currentScoreLabel = nullptr;
 	Sprite* currentProgressBar = nullptr;
@@ -80,8 +81,8 @@ private:
 	bool isShareButtonAppear = false;
 
 	void showFailedResult(int targetScore, int realScore);
-	void showResult(int usedSteps, int usedHints);
-	void showResult(bool isChallenge, int remainSteps, int remainHints, int score);
+	void showSuccessfulResult(int usedSteps, int usedHints);
+	void showSuccessfulResult(bool isChallenge, int remainSteps, int remainHints, int score);
 
 #pragma endregion
 

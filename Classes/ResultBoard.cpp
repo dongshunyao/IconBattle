@@ -42,7 +42,7 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 						Director::getInstance()->popScene();
 					}));
 
-				resultDialog->setTitle("遗憾", 50);
+				resultDialog->setTitle("遗憾", 100);
 
 				resultDialog->addLabel(MenuItemLabel::create(
 					Label::createWithTTF("目标分数 : " + std::to_string(targetScore), theme->semiBoldFont,
@@ -63,7 +63,7 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 }
 
 // 练习结果
-void GameScene::showResult(int usedSteps, int usedHints)
+void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 {
 	auto layerColor = LayerColor::create();
 	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -182,7 +182,7 @@ void GameScene::showResult(int usedSteps, int usedHints)
 						}
 					}));
 
-				resultDialog->setTitle("恭喜", 50);
+				resultDialog->setTitle("恭喜", 100);
 
 				resultDialog->addLabel(MenuItemLabel::create(
 					Label::createWithTTF("交换次数 : " + std::to_string(usedSteps), theme->semiBoldFont,
@@ -199,7 +199,7 @@ void GameScene::showResult(int usedSteps, int usedHints)
 }
 
 // 闯关和挑战结果
-void GameScene::showResult(bool isChallenge, int remainSteps, int remainHints, int score)
+void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int remainHints, int score)
 {
 	auto layerColor = LayerColor::create();
 	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -316,63 +316,61 @@ void GameScene::showResult(bool isChallenge, int remainSteps, int remainHints, i
 							Sequence::create(buttonDelay, buttonDelay, buttonDelay, buttonFadeIn, nullptr));
 					}));
 
+				const auto addedScore = remainSteps + remainHints + score;
 
-				resultDialog->setTitle("恭喜", 50);
 
-				resultDialog->addLabel(MenuItemLabel::create(
-					Label::createWithTTF("交换次数 : " + std::to_string(remainSteps), theme->semiBoldFont,
-					                     50)));
-				resultDialog->addLabel(MenuItemLabel::create(
-					Label::createWithTTF("提示次数 : " + std::to_string(remainHints), theme->semiBoldFont,
-					                     50)));
-				resultDialog->addLabel(MenuItemLabel::create(
-					Label::createWithTTF("玩家分数 : " + std::to_string(score), theme->semiBoldFont,
-					                     50)));
+				resultDialog->setTitle("恭喜", 100);
 
 				resultDialog->addLabel(MenuItemLabel::create(
-					Label::createWithTTF("本局总分 : " + std::to_string(remainSteps + remainHints + score),
-					                     theme->semiBoldFont,
+					Label::createWithTTF("交换次数 : " + to_string(remainSteps), theme->semiBoldFont,
 					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("提示次数 : " + to_string(remainHints), theme->semiBoldFont,
+					                     50)));
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("玩家分数 : " + to_string(score), theme->semiBoldFont,
+					                     50)));
+
+				resultDialog->addLabel(MenuItemLabel::create(
+					Label::createWithTTF("本局总分 : " + to_string(addedScore), theme->semiBoldFont, 50)));
 
 				if (isChallenge)
 				{
-					bool find = false;
 					auto rank = Network::getInstance()->getRank(isClassical);
 
-					for (auto user : rank)
+
+					int position = -1;
+					for (auto i = 0; i < rank.size(); i++)
 					{
-						if (user.first == User::getInstance()->getUserName())
+						if (rank[i].first == User::getInstance()->getUserName() && rank[i].second == addedScore)
 						{
-							find = true;
-							user.second = remainSteps + remainHints + score;
-						}
-					}
-
-					if (!find)
-					{
-						rank.emplace_back(User::getInstance()->getUserName(), remainSteps + remainHints + score);
-					}
-
-
-					sort(rank.begin(), rank.end(), [](const auto x, const auto y)
-					{
-						return x.second > y.second;
-					});
-
-					auto position = 1;
-					for (auto user : rank)
-					{
-						if (user.first == User::getInstance()->getUserName())
-						{
-							resultDialog->addLabel(MenuItemLabel::create(
-								Label::createWithTTF("当前排名 : " + std::to_string(position),
-								                     theme->semiBoldFont,
-								                     50)));
+							position = i;
 							break;
 						}
-						position++;
 					}
 
+					if (position == -1)
+					{
+						rank.emplace_back(User::getInstance()->getUserName(), remainSteps + remainHints + score);
+						sort(rank.begin(), rank.end(), [](const auto& x, const auto& y)
+						{
+							return x.second == y.second ? x.first < y.first : x.second > y.second;
+						});
+						for (auto i = 0; i < rank.size(); i++)
+						{
+							if (rank[i].first == User::getInstance()->getUserName() && rank[i].second == addedScore)
+							{
+								resultDialog->addLabel(MenuItemLabel::create(
+									Label::createWithTTF("当前排名 : " + to_string(i + 1), theme->semiBoldFont, 50)));
+								break;
+							}
+						}
+					}
+					else
+					{
+						resultDialog->addLabel(MenuItemLabel::create(
+							Label::createWithTTF("当前排名 : " + to_string(position + 1), theme->semiBoldFont, 50)));
+					}
 
 					Network::getInstance()->postScore(User::getInstance()->getUserName(),
 					                                  remainSteps + remainHints + score, isClassical);
