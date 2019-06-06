@@ -76,6 +76,8 @@ void Theme::setJetBrainTheme()
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
 
+	gameSceneDiamond = "/image/common/jetbraintheme/";
+
 #pragma endregion
 }
 

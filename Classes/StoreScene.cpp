@@ -167,20 +167,7 @@ void StoreScene::createAdobeButton(const bool unlocked)
 			Sprite::create(theme->storeSceneAdobeRmbButtonDisabled),
 			[&](Ref* sender)
 			{
-				// TODO 人民币支付，成功后调用unlockTheme（名字）
-				const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-				dialog->setContentText("Waiting to develop!", 36, 60, 20);
-
-				dialog->addButton(MenuItemSprite::create(
-					Sprite::create(theme->gameSceneYesButtonNormal),
-					Sprite::create(theme->gameSceneYesButtonSelected),
-					Sprite::create(theme->gameSceneYesButtonNormal),
-					[&, dialog](Ref* sender)
-					{
-						Director::getInstance()->getRunningScene()->removeChild(dialog);
-					}));
-
-				this->addChild(dialog, 30);
+				cashPay();
 			}
 		);
 		adobeRmbMenuItem->setPosition(Point(600, 220));
@@ -194,43 +181,11 @@ void StoreScene::createAdobeButton(const bool unlocked)
 			{
 				if (user->getCoin() >= 30)
 				{
-					// TODO 对话框确认支付，成功后调用下面一行
-					const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-					dialog->setContentText("Do you want to unlock new theme?", 36, 60, 20);
-
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						Sprite::create(theme->gameSceneYesButtonSelected),
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						[&,dialog](Ref* sender)
-						{
-							unlockTheme(theme->adobeThemeName, 30);
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						Sprite::create(theme->gameSceneNoButtonSelected),
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						[&, dialog](Ref* sender)
-						{
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
-
-					this->addChild(dialog, 30);
+					successfulPay(false, 30, theme->adobeThemeName);
 				}
 				else
 				{
-					const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-					dialog->setContentText("Not enough coins to unlock the new theme!", 36, 60, 20);
-
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						Sprite::create(theme->gameSceneYesButtonSelected),
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						[&, dialog](Ref* sender)
-						{
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
+					failedPay();
 				}
 			}
 		);
@@ -274,20 +229,7 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 			Sprite::create(theme->storeSceneOfficeRmbButtonDisabled),
 			[&](Ref* sender)
 			{
-				// TODO 人民币支付，成功后调用unlockTheme（名字）
-				const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-				dialog->setContentText("Waiting to develop!", 36, 60, 20);
-
-				dialog->addButton(MenuItemSprite::create(
-					Sprite::create(theme->gameSceneYesButtonNormal),
-					Sprite::create(theme->gameSceneYesButtonSelected),
-					Sprite::create(theme->gameSceneYesButtonNormal),
-					[&,dialog](Ref* sender)
-					{
-						Director::getInstance()->getRunningScene()->removeChild(dialog);
-					}));
-
-				this->addChild(dialog, 30);
+				cashPay();
 			}
 		);
 		officeRmbMenuItem->setPosition(Point(960, 220));
@@ -299,46 +241,13 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 			Sprite::create(theme->storeSceneOfficeCoinsButtonDisabled),
 			[&](Ref* sender)
 			{
-				if (user->getCoin() >= 50)
+				if (user->getCoin() >= 60)
 				{
-					// TODO 对话框确认支付，成功后调用下面一行
-					const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-					dialog->setContentText("Do you want to unlock new theme?", 36, 60, 20);
-
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						Sprite::create(theme->gameSceneYesButtonSelected),
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						[&,dialog](Ref* sender)
-						{
-							unlockTheme(theme->officeThemeName, 60);
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						Sprite::create(theme->gameSceneNoButtonSelected),
-						Sprite::create(theme->gameSceneNoButtonNormal),
-						[&, dialog](Ref* sender)
-						{
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
-
-					this->addChild(dialog, 30);
+					successfulPay(false, 60, theme->officeThemeName);
 				}
 				else
 				{
-					// TODO 对话框没钱
-					const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-					dialog->setContentText("Not enough coins to unlock the new theme!", 36, 60, 20);
-
-					dialog->addButton(MenuItemSprite::create(
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						Sprite::create(theme->gameSceneYesButtonSelected),
-						Sprite::create(theme->gameSceneYesButtonNormal),
-						[&,dialog](Ref* sender)
-						{
-							Director::getInstance()->getRunningScene()->removeChild(dialog);
-						}));
+					failedPay();
 				}
 			}
 		);
@@ -348,3 +257,76 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 		this->addChild(officeMenu);
 	}
 }
+
+#pragma region Pay
+void StoreScene::cashPay()
+{
+	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	dialog->setContentText("Waiting to develop!", 36, 60, 20);
+
+	dialog->addButton(MenuItemSprite::create(
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		Sprite::create(theme->gameSceneYesButtonSelected),
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		[&, dialog](Ref* sender)
+		{
+			Director::getInstance()->getRunningScene()->removeChild(dialog);
+		}));
+
+	this->addChild(dialog, 30);
+}
+
+void StoreScene::successfulPay(bool means, int amount, string themeName)
+{
+	if (means) amount /= 10;
+	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	dialog->setContentText("Do you want to unlock new theme?", 36, 60, 20);
+
+	dialog->addButton(MenuItemSprite::create(
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		Sprite::create(theme->gameSceneYesButtonSelected),
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		[&, dialog, amount,themeName](Ref* sender)
+		{
+			unlockTheme(themeName, amount);
+			Director::getInstance()->getRunningScene()->removeChild(dialog);
+			auto successPay = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+			successPay->setContentText("新的主题已解锁，可以选择新的主题了！", 36, 60, 20);
+			successPay->addButton(MenuItemSprite::create(
+				Sprite::create(theme->gameSceneYesButtonNormal),
+				Sprite::create(theme->gameSceneYesButtonSelected),
+				Sprite::create(theme->gameSceneYesButtonNormal),
+				[&, successPay,amount,themeName](Ref* sender)
+				{
+					Director::getInstance()->getRunningScene()->removeChild(successPay);
+				}));
+			this->addChild(successPay);
+		}));
+	dialog->addButton(MenuItemSprite::create(
+		Sprite::create(theme->gameSceneNoButtonNormal),
+		Sprite::create(theme->gameSceneNoButtonSelected),
+		Sprite::create(theme->gameSceneNoButtonNormal),
+		[&, dialog](Ref* sender)
+		{
+			Director::getInstance()->getRunningScene()->removeChild(dialog);
+		}));
+
+	this->addChild(dialog, 30);
+}
+
+void StoreScene::failedPay()
+{
+	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	dialog->setContentText("Not enough coins to unlock the new theme!", 36, 60, 20);
+
+	dialog->addButton(MenuItemSprite::create(
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		Sprite::create(theme->gameSceneYesButtonSelected),
+		Sprite::create(theme->gameSceneYesButtonNormal),
+		[&, dialog](Ref* sender)
+		{
+			Director::getInstance()->getRunningScene()->removeChild(dialog);
+		}));
+}
+
+#pragma endregion

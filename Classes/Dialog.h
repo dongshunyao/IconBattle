@@ -30,36 +30,37 @@ public:
 	void onTouchMoved(Touch* touch, Event* event) override {}
 	void onTouchEnded(Touch* touch, Event* event) override {}
 
-	// 标题
-	void setTitle(const string& title, int fontSize = 20);
-	// 文本
-	void setContentText(const string& text, const int fontSize, const int padding, const int paddingTop);
-	// 添加button或列表
-	bool addButton(MenuItem* menuItem) const;
-	bool addLabel(MenuItem* menuItem) const;
-	void addListView(bool dialogType, bool inMenu,bool classical);
-
 	void onEnter() override;
 	void onExit() override;
 
-	void backgroundFinish();
+	// 添加标题
+	void setTitle(const string& title, int fontSize = 20);
+	// 添加文本内容
+	void setContentText(const string& text, const int fontSize, const int padding, const int paddingTop);
+	// 添加button、label或listView
+	bool addButton(MenuItem* menuItem) const;
+	bool addLabel(MenuItem* menuItem) const;
+	void addListView(bool dialogType, bool inMenu, bool classical);
 
 private:
 	Theme* theme = Theme::getInstance();
 
-	// 文字内容两边的空白区
+	// 文字内容两边和顶部的空白区
 	int contentPadding = 0;
 	int contentPaddingTop = 0;
 
 	Size dialogContentSize;
 
-	int i = 0; // 循环计数器
-	int position = 11;
+	// 初始化scene中心位置，方便使用
+	const Point center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+	int position = 11; // 滚动条位置
 	bool rank = false; // 对话框类型
 	bool rankType = false; // 排行榜类型
 	bool isInMenu = true; // 排行榜是否在menuScene
-	bool isClassical = true;
-	bool changed = false;
+	bool isClassical = true;// 游戏模式
+	bool changed = false;// 判断排行榜是否改变
+
 	ListView* listView = nullptr;
 	Label* nameLabel = nullptr;
 	Label* rankLabel = nullptr;
@@ -68,10 +69,14 @@ private:
 	Layout* layout = nullptr;
 	EventListenerMouse* listenerMouse = nullptr;
 
+	// 排行榜
 	vector<pair<string, int>> classicalRank;
 	vector<pair<string, int>> plusRank;
 
-	void getRankByType(bool type);
+	void backgroundFinish(); // 初始化对话框内容及布局
+	void initRankDialog(); // 初始化排行榜对话框
+	void initNormalDialog(); // 初始化普通对话框
+	void getRankByType(bool type);// 获取排行榜内容
 
 
 	// set and get

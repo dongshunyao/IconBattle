@@ -12,19 +12,22 @@ bool Dialog::init()
 {
 	if (!LayerColor::init()) return false;
 
+	// 预加载排行榜，解决卡顿
 	classicalRank = Network::getInstance()->getRank(true);
 	plusRank = Network::getInstance()->getRank(false);
-	// 初始化需要的 Menu
 
+	// 初始化需要的 Menu
+	// button菜单
 	auto menu = Menu::create();
 	menu->setPosition(Size::ZERO);
 	setMenuButton(menu);
 
+	// label菜单
 	auto labelMenu = Menu::create();
 	labelMenu->setPosition(Size::ZERO);
 	setMenuLabel(labelMenu);
 
-	// add layer touch event
+	// 添加layer的事件监听事件
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(Dialog::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(Dialog::onTouchMoved, this);
@@ -32,6 +35,7 @@ bool Dialog::init()
 	auto dispatcher = Director::getInstance()->getEventDispatcher();
 	dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
+	// 设置背景版透明，达到对话框下层变灰暗效果
 	setColor(Color3B(0, 0, 0));
 	setOpacity(128);
 
@@ -46,45 +50,7 @@ Dialog* Dialog::create(const string& background, const Size& size)
 	return layer;
 }
 
-void Dialog::setTitle(const string& title, const int fontSize)
-{
-	// TODO 统一字体？路径放到头文件orTheme？
-	const auto label = Label::createWithTTF(title, theme->semiBoldFont, fontSize);
-	setLabelTitle(label);
-}
-
-void Dialog::setContentText(const string& text, const int fontSize, const int padding, const int paddingTop)
-{
-	// TODO 统一字体？路径放到头文件orTheme？
-	const auto label = Label::createWithTTF(text, theme->semiBoldFont, fontSize);
-	setLabelContentText(label);
-	contentPadding = padding;
-	contentPaddingTop = paddingTop;
-}
-
-bool Dialog::addButton(MenuItem* menuItem) const
-{
-	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	menuItem->setPosition(center);
-	getMenuButton()->addChild(menuItem);
-	return true;
-}
-
-bool Dialog::addLabel(MenuItem* menuItem) const
-{
-	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	menuItem->setPosition(center);
-	getMenuLabel()->addChild(menuItem);
-	return true;
-}
-
-void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
-{
-	rank = dialogType;
-	isInMenu = inMenu;
-	isClassical = classical;
-}
-
+#pragma region Override
 void Dialog::onEnter()
 {
 	LayerColor::onEnter();
@@ -105,6 +71,7 @@ void Dialog::onEnter()
 		CallFunc::create(CC_CALLBACK_0(Dialog::backgroundFinish, this)),
 		nullptr
 	);
+
 	background->runAction(dialog);
 }
 
@@ -115,175 +82,242 @@ void Dialog::onExit()
 	_eventDispatcher->resumeEventListenersForTarget(this->getParent(), true); // 还原事件监听
 }
 
+#pragma endregion
+
+#pragma region Add Component
+void Dialog::setTitle(const string& title, const int fontSize/*=20*/)
+{
+	// TODO 统一字体？路径放到头文件orTheme？
+	const auto label = Label::createWithTTF(title, theme->semiBoldFont, fontSize);
+	setLabelTitle(label);
+}
+
+void Dialog::setContentText(const string& text, const int fontSize, const int padding, const int paddingTop)
+{
+	// TODO 统一字体？路径放到头文件orTheme？
+	const auto label = Label::createWithTTF(text, theme->semiBoldFont, fontSize);
+	setLabelContentText(label);
+	contentPadding = padding;
+	contentPaddingTop = paddingTop;
+}
+
+bool Dialog::addButton(MenuItem* menuItem) const
+{
+	// 添加精灵菜单项
+	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	menuItem->setPosition(center);
+	getMenuButton()->addChild(menuItem);
+	return true;
+}
+
+bool Dialog::addLabel(MenuItem* menuItem) const
+{
+	// 添加标签菜单项
+	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	menuItem->setPosition(center);
+	getMenuLabel()->addChild(menuItem);
+	return true;
+}
+
+void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
+{
+	// 设置窗口类型为排行榜窗口，并判断排行榜显示游戏模式
+	rank = dialogType;
+	isInMenu = inMenu;
+	isClassical = classical;
+}
+
+#pragma endregion
+
 void Dialog::backgroundFinish()
 {
-	const auto center = Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
+	// 判断窗口类型为排行榜窗口或普通窗口，true为排行榜窗口
 	if (rank)
 	{
-		if (getLabelTitle())
-		{
-			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 75.0f));
-			this->addChild(getLabelTitle());
-		}
-
-		this->addChild(getMenuButton());
-		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
-		auto nodes = getMenuButton()->getChildren();
-		i = 0;
-		for (auto menuItem : nodes)
-		{
-			auto node = dynamic_cast<Node*>(menuItem);
-			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
-			i++;
-		}
-
-		auto changeTypeButton = Button::create(theme->menuChangeTypeButtonNormalBackground,
-		                                       theme->menuChangeTypeButtonSelectedBackground,
-		                                       theme->menuChangeTypeButtonDisabledBackground);
-
-		auto backTypeButton = Button::create(theme->menuBackTypeButtonNormalBackground,
-		                                     theme->menuBackTypeButtonSelectedBackground,
-		                                     theme->menuBackTypeButtonDisabledBackground);
-
-		listView = ListView::create();
-		listView->setDirection(ScrollView::Direction::VERTICAL);
-		listView->setTouchEnabled(true);
-		listView->setBounceEnabled(true);
-		listView->setBackGroundImageScale9Enabled(true);
-		listView->setAnchorPoint(Point(0.5f, 0.5f));
-		listView->setContentSize(Size(500, 400));
-		listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-		listView->setScrollBarAutoHideTime(0);
-		listView->setScrollBarColor(Color3B::WHITE);
-
-		//添加鼠标事件侦听
-		listenerMouse = EventListenerMouse::create();
-		listenerMouse->setEnabled(true);
-		listenerMouse->onMouseScroll = [&](EventMouse* event)
-		{
-			const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
-
-			if (y > 0)
-			{
-				if (position % 11 < 10)
-					position++;
-				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-			}
-			else
-			{
-				if (position % 11 > 0)
-					position--;
-				listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
-			}
-		};
-
-		_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
-
-		changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
-		                                    SCREEN_HEIGHT / 2));
-
-		backTypeButton->setPosition(Point(SCREEN_WIDTH / 2 - listView->getContentSize().width / 2 - 50,
-		                                  SCREEN_HEIGHT / 2));
-		backTypeButton->setOpacity(0);
-
-		if (isInMenu)
-		{
-			this->addChild(changeTypeButton);
-			this->addChild(backTypeButton);
-		}
-
-
-		backTypeButton->addTouchEventListener(
-			[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
-			{
-				if (type == Widget::TouchEventType::ENDED)
-				{
-					title->setString("Classical Rank List");
-					backTypeButton->setOpacity(0);
-					changeTypeButton->runAction(FadeIn::create(0.25));
-					if (changed)
-						getRankByType(true);
-					changed = false;
-				}
-			});
-
-		changeTypeButton->addTouchEventListener(
-			[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
-			{
-				if (type == Widget::TouchEventType::ENDED)
-				{
-					title->setString("Plus Rank List");
-					changeTypeButton->setOpacity(0);
-					backTypeButton->runAction(FadeIn::create(0.25));
-					if (!changed)
-						getRankByType(false);
-					changed = true;
-				}
-			});
-
-		this->getRankByType(isClassical);
+		initRankDialog();
 	}
 	else
 	{
-		// 添加按钮，并设置其位置
-		this->addChild(getMenuLabel());
-		int adaptHeight = 0;
-		if (title)
-			adaptHeight = title->getContentSize().height;
-		const auto labelHeight = (dialogContentSize.height - adaptHeight - 15) / (getMenuLabel()
-			->getChildrenCount() + 2);
-		auto labels = getMenuLabel()->getChildren();
-		i = 0;
-		for (auto menuItem : labels)
-		{
-			auto node = dynamic_cast<Node*>(menuItem);
-			node->setPosition(Point(SCREEN_WIDTH / 2,
-			                        (SCREEN_HEIGHT + dialogContentSize.height / -adaptHeight + 50) /
-			                        2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
-				                        getChildrenCount() - i)));
-			i++;
-		}
-
-
-		this->addChild(getMenuButton());
-
-		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
-
-
-		auto nodes = getMenuButton()->getChildren();
-		i = 0;
-		for (auto menuItem : nodes)
-		{
-			auto node = dynamic_cast<Node*>(menuItem);
-
-			node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
-			                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
-			i++;
-		}
-
-		// 显示对话框标题
-		if (getLabelTitle())
-		{
-			getLabelTitle()->setPosition(
-				center + Vec2(0, dialogContentSize.height / 2 - title->getContentSize().height / 2 - 15));
-			this->addChild(getLabelTitle());
-		}
-
-		// 显示文本内容
-		if (getLabelContentText())
-		{
-			auto content = getLabelContentText();
-			content->setLineBreakWithoutSpace(true);
-			content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
-			content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-			content->setHorizontalAlignment(TextHAlignment::LEFT);
-			this->addChild(content);
-		}
+		initNormalDialog();
 	}
-	rank = false;
+	rank = false; // 默认为普通对话框
 }
+
+void Dialog::initNormalDialog()
+{
+	// 显示对话框标题
+	if (getLabelTitle())
+	{
+		getLabelTitle()->setPosition(
+			center + Vec2(0, dialogContentSize.height / 2 - title->getContentSize().height / 2 - 15));
+		this->addChild(getLabelTitle());
+	}
+
+	// 显示文本内容
+	if (getLabelContentText())
+	{
+		auto content = getLabelContentText();
+		content->setLineBreakWithoutSpace(true);
+		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
+		content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		content->setHorizontalAlignment(TextHAlignment::LEFT);
+		this->addChild(content);
+	}
+
+	// 添加label或button，并设置其位置
+	//label
+	this->addChild(getMenuLabel());
+	auto adaptHeight = 0;
+	if (title) adaptHeight = title->getContentSize().height;
+	const auto labelHeight = (dialogContentSize.height - adaptHeight - 15) / (getMenuLabel()
+		->getChildrenCount() + 2);
+
+	// 布局labelMenuItem
+	auto labels = getMenuLabel()->getChildren();
+	auto i = 0;
+	for (auto menuItem : labels)
+	{
+		auto node = dynamic_cast<Node*>(menuItem);
+		node->setPosition(Point(SCREEN_WIDTH / 2,
+		                        (SCREEN_HEIGHT + dialogContentSize.height / -adaptHeight + 50) /
+		                        2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
+			                        getChildrenCount() - i)));
+		i++;
+	}
+
+	// button
+	this->addChild(getMenuButton());
+
+	const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
+	auto nodes = getMenuButton()->getChildren();
+	i = 0;
+	for (auto menuItem : nodes)
+	{
+		auto node = dynamic_cast<Node*>(menuItem);
+
+		node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
+		                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
+		i++;
+	}
+}
+
+void Dialog::initRankDialog()
+{
+	// 显示对话框标题
+	if (getLabelTitle())
+	{
+		getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 - 75.0f));
+		this->addChild(getLabelTitle());
+	}
+
+	this->addChild(getMenuButton());
+
+	// 添加button，设置布局
+	const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
+	auto nodes = getMenuButton()->getChildren();
+
+	auto i = 0;
+	for (auto menuItem : nodes)
+	{
+		auto node = dynamic_cast<Node*>(menuItem);
+		node->setPosition(Point(SCREEN_WIDTH / 2 - dialogContentSize.width / 2 + buttonWidth * (i + 1),
+		                        SCREEN_HEIGHT / 2 - dialogContentSize.height / 2.5));
+		i++;
+	}
+
+
+	listView = ListView::create();
+	listView->setDirection(ScrollView::Direction::VERTICAL);
+	listView->setTouchEnabled(true);
+	listView->setBounceEnabled(true);
+	listView->setBackGroundImageScale9Enabled(true);
+	listView->setAnchorPoint(Point(0.5f, 0.5f));
+	listView->setContentSize(Size(500, 400));
+	listView->setPosition(Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	listView->setScrollBarAutoHideTime(0);
+	listView->setScrollBarColor(Color3B::WHITE);
+	this->addChild(listView);
+
+	//添加鼠标事件侦听
+	listenerMouse = EventListenerMouse::create();
+	listenerMouse->setEnabled(true);
+	listenerMouse->onMouseScroll = [&](EventMouse* event)
+	{
+		const auto y = event->getScrollY(); //滚轮上滑y值大于0，下滑y值小于0
+
+		if (y > 0)
+		{
+			if (position % 11 < 10)
+				position++;
+			listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+		}
+		else
+		{
+			if (position % 11 > 0)
+				position--;
+			listView->scrollToPercentVertical(10 * (position % 11), 0.5, true);
+		}
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
+
+
+	// 不同游戏模式的排行榜切换按钮         
+	auto changeTypeButton = Button::create(theme->menuChangeTypeButtonNormalBackground,
+	                                       theme->menuChangeTypeButtonSelectedBackground,
+	                                       theme->menuChangeTypeButtonDisabledBackground); // 切换到进阶
+
+	auto backTypeButton = Button::create(theme->menuBackTypeButtonNormalBackground,
+	                                     theme->menuBackTypeButtonSelectedBackground,
+	                                     theme->menuBackTypeButtonDisabledBackground); // 切换到经典
+
+
+	changeTypeButton->setPosition(Point(SCREEN_WIDTH / 2 + listView->getContentSize().width / 2 + 50,
+	                                    SCREEN_HEIGHT / 2));
+
+	backTypeButton->setPosition(Point(SCREEN_WIDTH / 2 - listView->getContentSize().width / 2 - 50,
+	                                  SCREEN_HEIGHT / 2));
+	backTypeButton->setOpacity(0); // 切换经典初始不可见
+
+	backTypeButton->addTouchEventListener(
+		[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
+		{
+			if (type == Widget::TouchEventType::ENDED)
+			{
+				title->setString("Classical Rank List");
+				backTypeButton->setOpacity(0);
+				changeTypeButton->runAction(FadeIn::create(0.25));
+				if (changed)
+					getRankByType(true);
+				changed = false;
+			}
+		});
+
+	changeTypeButton->addTouchEventListener(
+		[&, changeTypeButton, backTypeButton](Ref* sender, ui::Widget::TouchEventType type)
+		{
+			if (type == Widget::TouchEventType::ENDED)
+			{
+				title->setString("Plus Rank List");
+				changeTypeButton->setOpacity(0);
+				backTypeButton->runAction(FadeIn::create(0.25));
+				if (!changed)
+					getRankByType(false);
+				changed = true;
+			}
+		});
+
+	// 如果在menuScene中，排行榜可切换，gameScene中排行榜不可切换
+	if (isInMenu)
+	{
+		this->addChild(changeTypeButton);
+		this->addChild(backTypeButton);
+	}
+
+	// 根据游戏模式初始化排行榜
+	this->getRankByType(isClassical);
+}
+
 
 void Dialog::getRankByType(bool type)
 {
@@ -297,7 +331,7 @@ void Dialog::getRankByType(bool type)
 
 	if (!(rankType ? classicalRank.empty() : plusRank.empty()))
 	{
-		for (i = 0; i < 10; i++)
+		for (auto i = 0; i < 10; i++)
 		{
 			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
 			layout = Layout::create();
@@ -343,9 +377,6 @@ void Dialog::getRankByType(bool type)
 			listView->pushBackCustomItem(layout);
 			listView->setBottomPadding(icon->getContentSize().height);
 		}
-
-		if (!changed)
-			this->addChild(listView);
 	}
 	else
 	{

@@ -34,6 +34,10 @@ private:
 	void unlockTheme(const string& themeName, int coin);
 	void unlockTheme(const string& themeName);
 
+	void cashPay();
+	void successfulPay(bool means,int amount,string themeName);
+	void failedPay();
+
 	void initButton();
 	Button* createSelectButton() const;
 
