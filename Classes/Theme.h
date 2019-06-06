@@ -23,6 +23,13 @@ public:
 	string backgroundMusic;
 #pragma endregion
 
+
+#pragma region Buck Button
+	const string backButtonNormal = "/image/common/back_normal.png";
+	const string backButtonSelected = "/image/common/back_selected.png";
+	const string backButtonDisabled = "/image/common/back_disabled.png";
+#pragma endregion
+
 #pragma region Loading Sence
 	string iconSet;
 	string loadingSceneBackground;
@@ -130,6 +137,7 @@ public:
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
 
+	// TODO 游戏宝石更换
 	string gameSceneDiamond;
 
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";

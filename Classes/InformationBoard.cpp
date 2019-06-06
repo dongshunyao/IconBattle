@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "MenuScene.h"
 
 void GameScene::initInformationBoard()
 {
@@ -18,15 +19,12 @@ void GameScene::initInformationBoard()
 	this->addChild(settingButton, 11);
 
 	// 返回按钮
-	auto backButton = ui::Button::create(
-		BackButton::BACK_BUTTON_NORMAL_IMAGE,
-		BackButton::BACK_BUTTON_SELECTED_IMAGE,
-		BackButton::BACK_BUTTON_DISABLED_IMAGE);
+	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
+	                                  theme->backButtonDisabled);
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == Widget::TouchEventType::ENDED)
 		{
-
 			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
 			dialog->setContentText("您确定要退出当前游戏么？这将丢失当前游戏进度！", 36, 60, 20);
 
@@ -36,7 +34,8 @@ void GameScene::initInformationBoard()
 				Sprite::create(theme->gameSceneYesButtonNormal),
 				[&](Ref* sender)
 				{
-					Director::getInstance()->popScene();
+					Director::getInstance()->replaceScene(
+						mode == 2 ? LevelScene::createScene(isClassical) : MenuScene::create());
 				}));
 			dialog->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneNoButtonNormal),
@@ -53,8 +52,9 @@ void GameScene::initInformationBoard()
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 11);
 
-	// TODO 游戏模式
-	auto modeLabel = Label::createWithTTF(isClassical ? "Classical Mode" : "Plus Mode", theme->markerFeltFont, 50);
+	const string gameModeName = mode == 1 ? "练习" : mode == 2 ? "选关" : "挑战";
+	auto modeLabel = Label::createWithTTF(isClassical ? "经典" + gameModeName : "加强" + gameModeName, theme->semiBoldFont,
+	                                      50);
 	modeLabel->setPosition(modeLabel->getContentSize().width / 2 + 90, 850);
 	this->addChild(modeLabel, 12);
 

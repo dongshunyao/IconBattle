@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "LevelScene.h"
 
 // 失败结果
 void GameScene::showFailedResult(int targetScore, int realScore)
@@ -39,7 +40,8 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 					Sprite::create(theme->gameSceneNoButtonNormal),
 					[&](Ref* sender)
 					{
-						Director::getInstance()->popScene();
+						Director::getInstance()->replaceScene(
+							mode == 2 ? LevelScene::createScene(isClassical) : MenuScene::create());
 					}));
 
 				resultDialog->setTitle("遗憾", 100);
@@ -101,7 +103,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 					Sprite::create(theme->gameSceneNoButtonNormal),
 					[&](Ref* sender)
 					{
-						Director::getInstance()->popScene();
+						Director::getInstance()->replaceScene(MenuScene::create());
 					}));
 
 				resultDialog->addButton(MenuItemSprite::create(
@@ -237,7 +239,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int rema
 					Sprite::create(theme->gameSceneNoButtonNormal),
 					[&](Ref* sender)
 					{
-						Director::getInstance()->popScene();
+						Director::getInstance()->replaceScene(
+							mode == 2 ? LevelScene::createScene(isClassical) : MenuScene::create());
 					}));
 
 				resultDialog->addButton(MenuItemSprite::create(
@@ -393,8 +396,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int rema
 							                                         Sprite::create(theme->gameSceneYesButtonNormal),
 							                                         [&](Ref* sender)
 							                                         {
-								                                         Director::getInstance()
-									                                         ->popScene();
+								                                         Director::getInstance()->replaceScene(
+									                                         MenuScene::create());
 							                                         }
 							));
 							this->addChild(dialog, 20);
@@ -402,17 +405,29 @@ void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int rema
 				}
 				this->removeChild(layerColor);
 
-
-				auto coin = Sprite::create(theme->storeSceneCoin);
-				coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 2 - 100,
-				                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 2 - 150));
-				coin->runAction(Spawn::create(ScaleTo::create(1.5, 0),
-				                              MoveTo::create(
-					                              1.5, Point(SCREEN_WIDTH / 2 + 300, SCREEN_HEIGHT / 2 + 200)),
-				                              nullptr));
 				// TODO 硬币清算
+				auto coin = Sprite::create(theme->storeSceneCoin);
+				coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4,
+				                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4));
+				coin->setOpacity(0);
+				coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
+
+				auto coinNumber = Label::createWithTTF("+ 1", theme->semiBoldFont, 40);
+				coinNumber->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
+				                              SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 - 40));
+				coinNumber->setOpacity(0);
+				coinNumber->runAction(Sequence::create(DelayTime::create(0.6), Spawn::create(
+					                                       MoveTo::create(
+						                                       1, Point(
+							                                       SCREEN_WIDTH / 2 + resultDialog
+							                                                          ->getContentSize().width / 4 - 15,
+							                                       SCREEN_HEIGHT / 2 + resultDialog
+							                                                           ->getContentSize().height / 4 -
+							                                       15)), FadeIn::create(1), nullptr), nullptr));
 
 				this->addChild(coin, 25);
+				this->addChild(coinNumber, 25);
+
 
 				this->addChild(resultDialog, 22);
 			}), nullptr));

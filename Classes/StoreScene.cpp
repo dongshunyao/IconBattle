@@ -15,7 +15,16 @@ bool StoreScene::init()
 	this->addChild(settingButton);
 
 	// 返回按钮
-	this->addChild(BackButton::create());
+	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
+	                                      theme->backButtonDisabled);
+
+	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		//返回到上一个场景
+		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(MenuScene::create());
+	});
+	backButton->setPosition(Point(1150, 850));
+	this->addChild(backButton);
 
 	// 标题
 	auto label = Sprite::create(theme->storeSceneStoreLabel);
