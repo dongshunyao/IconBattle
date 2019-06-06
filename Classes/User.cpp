@@ -41,7 +41,7 @@ bool User::setUnlockedThemes(const vector<string>& v)
 
 bool User::setUnlockedClassicalLevel(const int level)
 {
-	if (level >= 1 && level <= 10)
+	if (level >= 1 && level <= 10 && level > unlockedClassicalLevel)
 	{
 		unlockedClassicalLevel = level;
 		return update();
@@ -51,7 +51,7 @@ bool User::setUnlockedClassicalLevel(const int level)
 
 bool User::setUnlockedPlusLevel(const int level)
 {
-	if (level >= 1 && level <= 10)
+	if (level >= 1 && level <= 10 && level > unlockedPlusLevel)
 	{
 		unlockedPlusLevel = level;
 		return update();

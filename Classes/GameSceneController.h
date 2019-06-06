@@ -5,6 +5,7 @@
 #include "GameScene.h"
 #include "LevelScene.h"
 #include "GameBoardInformation.h"
+#include "util.h"
 
 using namespace GameBoardInformation;
 USING_NS_CC;
@@ -58,7 +59,9 @@ public:
 	void startLevelGame(bool isClassical);
 	void startChallengeGame(bool isClassical);
 
-	// TODO 掉落结算 User更新
+	int randomCoins() const;
+	void update() const;
+	void update(bool isClassical, const int level);
 
 private:
 	friend class GameScene;
