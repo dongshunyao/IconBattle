@@ -87,14 +87,12 @@ void Dialog::onExit()
 #pragma region Add Component
 void Dialog::setTitle(const string& title, const int fontSize/*=20*/)
 {
-	// TODO 统一字体？路径放到头文件orTheme？
 	const auto label = Label::createWithTTF(title, theme->semiBoldFont, fontSize);
 	setLabelTitle(label);
 }
 
 void Dialog::setContentText(const string& text, const int fontSize, const int padding, const int paddingTop)
 {
-	// TODO 统一字体？路径放到头文件orTheme？
 	const auto label = Label::createWithTTF(text, theme->semiBoldFont, fontSize);
 	setLabelContentText(label);
 	contentPadding = padding;

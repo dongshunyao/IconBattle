@@ -209,7 +209,7 @@ void GameScene::dropBlock()
 
 bool GameScene::canKill() const
 {
-	// TODO !
+	// BUG 删除SUPER判断
 	for (auto i = 0; i < BOARD_SIZE; i++)
 		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
@@ -289,7 +289,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 
 HintOperation GameScene::isImpasse()
 {
-	//TODO !
+	// BUG 加上SUPER判断
 	const auto beginTime = clock();
 
 	for (auto i = 1; i < BOARD_SIZE; i++)

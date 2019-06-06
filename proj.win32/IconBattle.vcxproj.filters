@@ -67,6 +67,12 @@
     <Filter Include="src\scene\common\Dialog">
       <UniqueIdentifier>{03ccb79e-d519-4ca3-97d5-99d6ada948d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene\gamescene\board">
+      <UniqueIdentifier>{fb609ad8-67dc-48e0-a7d9-da4ff7516a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\gamescene\gameboardinformation">
+      <UniqueIdentifier>{b97c3389-4a67-4d33-9b5d-b5884d8e731b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,23 +129,23 @@
     <ClCompile Include="..\Classes\SettingButton.cpp">
       <Filter>src\scene\common\settingbutton</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\InformationBoard.cpp">
-      <Filter>src\scene\gamescene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GameSceneController.cpp">
       <Filter>src\scene\common\gamescenecontroller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ResultBoard.cpp">
-      <Filter>src\scene\gamescene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameBoard.cpp">
-      <Filter>src\scene\gamescene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameBoardInformation.cpp">
-      <Filter>src\scene\gamescene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\NetworkShare.cpp">
       <Filter>src\common\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameBoard.cpp">
+      <Filter>src\scene\gamescene\board</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\InformationBoard.cpp">
+      <Filter>src\scene\gamescene\board</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ResultBoard.cpp">
+      <Filter>src\scene\gamescene\board</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameBoardInformation.cpp">
+      <Filter>src\scene\gamescene\gameboardinformation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,11 +206,11 @@
     <ClInclude Include="..\Classes\GameSceneController.h">
       <Filter>src\scene\common\gamescenecontroller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameBoardInformation.h">
-      <Filter>src\scene\gamescene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\NetworkShare.h">
       <Filter>src\common\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameBoardInformation.h">
+      <Filter>src\scene\gamescene\gameboardinformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

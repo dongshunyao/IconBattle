@@ -1,5 +1,4 @@
 #include "MenuScene.h"
-#include "Dialog.h"
 
 Scene* MenuScene::createScene()
 {
@@ -108,7 +107,7 @@ void MenuScene::initRankButton()
 		{
 			const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
 
-			dialog->addListView(true,true,true);
+			dialog->addListView(true, true, true);
 			dialog->setTitle("Classical Rank List", 50);
 			dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
 			                                         Sprite::create(theme->gameSceneYesButtonSelected),
@@ -136,6 +135,7 @@ void MenuScene::initCoin()
 	coinText->setPosition(Point(620, 850));
 	this->addChild(coinText, 4);
 }
+
 void MenuScene::initGameButton()
 {
 	// 经典练习
@@ -156,7 +156,8 @@ void MenuScene::initGameButton()
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 经典闯关
-		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startLevelGame(true);
+		if (type == ui::Widget::TouchEventType::ENDED)
+			Director::getInstance()->replaceScene(LevelScene::createScene(true));
 	});
 	classicLevel->setPosition(Vec2(250, 40));
 
@@ -188,7 +189,8 @@ void MenuScene::initGameButton()
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// TODO 加强闯关
-		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startLevelGame(false);
+		if (type == ui::Widget::TouchEventType::ENDED)
+			Director::getInstance()->replaceScene(LevelScene::createScene(false));
 	});
 	enhancedLevel->setPosition(Vec2(250, 40));
 

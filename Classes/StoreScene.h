@@ -35,7 +35,7 @@ private:
 	void unlockTheme(const string& themeName);
 
 	void cashPay();
-	void successfulPay(bool means,int amount,string themeName);
+	void successfulPay(bool rmbPay,int coin, const string& themeName);
 	void failedPay();
 
 	void initButton();

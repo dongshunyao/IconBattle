@@ -16,7 +16,7 @@ bool StoreScene::init()
 
 	// 返回按钮
 	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
-	                                      theme->backButtonDisabled);
+	                                  theme->backButtonDisabled);
 
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -285,9 +285,9 @@ void StoreScene::cashPay()
 	this->addChild(dialog, 30);
 }
 
-void StoreScene::successfulPay(bool means, int amount, string themeName)
+void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeName)
 {
-	if (means) amount /= 10;
+	if (rmbPay) coin /= 10;
 	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
 	dialog->setContentText("Do you want to unlock new theme?", 36, 60, 20);
 
@@ -295,17 +295,17 @@ void StoreScene::successfulPay(bool means, int amount, string themeName)
 		Sprite::create(theme->gameSceneYesButtonNormal),
 		Sprite::create(theme->gameSceneYesButtonSelected),
 		Sprite::create(theme->gameSceneYesButtonNormal),
-		[&, dialog, amount,themeName](Ref* sender)
+		[&, dialog, coin, themeName](Ref* sender)
 		{
-			unlockTheme(themeName, amount);
+			unlockTheme(themeName, coin);
 			Director::getInstance()->getRunningScene()->removeChild(dialog);
 			auto successPay = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-			successPay->setContentText("新的主题已解锁，可以选择新的主题了！", 36, 60, 20);
+			successPay->setContentText("购买成功，快去试试新主题吧！", 36, 60, 20);
 			successPay->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneYesButtonNormal),
 				Sprite::create(theme->gameSceneYesButtonSelected),
 				Sprite::create(theme->gameSceneYesButtonNormal),
-				[&, successPay,amount,themeName](Ref* sender)
+				[&, successPay](Ref* sender)
 				{
 					Director::getInstance()->getRunningScene()->removeChild(successPay);
 				}));

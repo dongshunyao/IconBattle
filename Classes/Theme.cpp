@@ -39,7 +39,7 @@ void Theme::setJetBrainTheme()
 #pragma endregion
 
 #pragma region Loading Scene
-	iconSet = "/image/common/jetbraintheme/";
+	iconSet = "/image/common/jetbraintheme/icon/";
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";
 
 #pragma endregion
@@ -76,7 +76,7 @@ void Theme::setJetBrainTheme()
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
 
-	gameSceneDiamond = "/image/common/jetbraintheme/";
+	gameSceneIcon = "/image/common/jetbraintheme/icon/";
 
 #pragma endregion
 }

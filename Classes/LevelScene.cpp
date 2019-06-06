@@ -3,7 +3,7 @@
 Scene* LevelScene::createScene(const bool isClassical)
 {
 	const auto scene = LevelScene::create();
-	scene->isClassic = isClassical;
+	scene->isClassical = isClassical;
 	scene->initModeLabel(isClassical);
 	return scene;
 }
@@ -45,7 +45,7 @@ bool LevelScene::init()
 
 	// 返回按钮
 	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
-		theme->backButtonDisabled);
+	                                  theme->backButtonDisabled);
 
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -53,7 +53,7 @@ bool LevelScene::init()
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(MenuScene::create());
 	});
 	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton,4);
+	this->addChild(backButton, 4);
 
 	return true;
 }
@@ -119,9 +119,9 @@ void LevelScene::initScrollView()
 
 void LevelScene::initButtons()
 {
-	auto unlockedLevel = isClassic
-		                     ? User::getInstance()->getUnlockedClassicalLevel()
-		                     : User::getInstance()->getUnlockedPlusLevel();
+	const auto unlockedLevel = isClassical
+		                           ? User::getInstance()->getUnlockedClassicalLevel()
+		                           : User::getInstance()->getUnlockedPlusLevel();
 	for (auto i = 0; i < 10; i++)
 	{
 		auto levelButton = ui::Button::create(theme->levelSelectButton + std::to_string(i + 1) + "_normal.png",
@@ -159,17 +159,9 @@ void LevelScene::initCoin()
 	this->addChild(coinText, 4);
 }
 
-void LevelScene::initModeLabel(const bool isClassic)
+void LevelScene::initModeLabel(const bool isClassical)
 {
-	Label* modeLabel;
-	if (isClassic)
-	{
-		modeLabel = Label::createWithTTF("经典模式", theme->semiBoldFont, 50);
-	}
-	else
-	{
-		modeLabel = Label::createWithTTF("加强模式", theme->semiBoldFont, 50);
-	}
+	auto modeLabel = Label::createWithTTF(isClassical ? "经典模式" : "加强模式", theme->semiBoldFont, 50);
 	modeLabel->setPosition(Point(600, 850));
 	this->addChild(modeLabel, 4);
 }

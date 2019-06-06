@@ -17,6 +17,9 @@ public:
 
 
 #pragma region Game Information
+	// 基础掉落概率
+	int coinPercentage = 5;
+
 	// pair<totalScore, stepNumber>
 	using GameInfo = pair<int, int>;
 
@@ -56,12 +59,14 @@ public:
 #pragma endregion
 
 	void startPracticeGame(bool isClassical);
-	void startLevelGame(bool isClassical);
+	void startLevelGame(bool isClassical, int level);
 	void startChallengeGame(bool isClassical);
 
-	int randomCoins() const;
-	void update() const;
-	void update(bool isClassical, const int level);
+	int randomCoin(int percentage) const;
+	// 挑战模式返回掉落硬币个数
+	int updateInformation();
+	// 闯关模式返回掉落硬币个数
+	int updateInformation(bool isClassical, int level);
 
 private:
 	friend class GameScene;

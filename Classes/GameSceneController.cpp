@@ -10,37 +10,56 @@ GameSceneController* GameSceneController::getInstance()
 
 void GameSceneController::startPracticeGame(const bool isClassical)
 {
-	Director::getInstance()->pushScene(GameScene::createScene(30, 1, isClassical, PRACTICE_MODE));
+	// TODO @PJ
+	//Director::getInstance()->pushScene(GameScene::createScene(30, 1000, isClassical, PRACTICE_MODE));
 }
 
-void GameSceneController::startLevelGame(const bool isClassical)
+void GameSceneController::startLevelGame(const bool isClassical, const int level)
 {
-	Director::getInstance()->pushScene(LevelScene::createScene(isClassical));
+	// TODO @PJ
 }
 
 void GameSceneController::startChallengeGame(const bool isClassical)
 {
-	Director::getInstance()->pushScene(GameScene::createScene(25, 1, isClassical, CHALLENGE_MODE));
+	// TODO @PJ
 }
 
-int GameSceneController::randomCoins() const
+int GameSceneController::randomCoin(const int percentage) const
 {
-	const auto random = Util::getRandomNumber(50);
-	if (random == 33)
-		return 3;
+	const auto random = Util::getRandomNumber(100);
+	if (random <= percentage)
+	{
+		switch (getRandomNumber(5))
+		{
+		case 3:
+			return 3;
+
+		case 2:
+		case 1:
+			return 2;
+
+		default:
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
-void GameSceneController::update() const
+int GameSceneController::updateInformation()
 {
-	const auto temp = User::getInstance()->getCoin();
-	User::getInstance()->setCoin(temp + randomCoins());
+	coinPercentage += 60 + getRandomNumber(60);
+	coinPercentage %= 80;
+
+	const auto coin = randomCoin(coinPercentage);
+	User::getInstance()->setCoin(User::getInstance()->getCoin() + coin);
+	return coin;
 }
 
-void GameSceneController::update(const bool isClassical, const int level)
+int GameSceneController::updateInformation(const bool isClassical, const int level)
 {
-	if (isClassical)
-		User::getInstance()->setUnlockedClassicalLevel(level);
-	else
-		User::getInstance()->setUnlockedPlusLevel(level);
+	if (isClassical) User::getInstance()->setUnlockedClassicalLevel(level);
+	else User::getInstance()->setUnlockedPlusLevel(level);
+
+	return updateInformation();
 }

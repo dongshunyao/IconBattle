@@ -7,11 +7,11 @@
 #include "GameScene.h"
 #include "LevelScene.h"
 #include "NewsBoard.h"
-#include "BackButton.h"
 #include "SettingButton.h"
 #include "Theme.h"
 #include "User.h"
 #include "GameSceneController.h"
+#include "Dialog.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900

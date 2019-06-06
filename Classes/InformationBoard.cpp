@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include "MenuScene.h"
 
 void GameScene::initInformationBoard()
 {
@@ -19,8 +18,8 @@ void GameScene::initInformationBoard()
 	this->addChild(settingButton, 11);
 
 	// 返回按钮
-	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
-	                                  theme->backButtonDisabled);
+	auto backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
+	                                 theme->backButtonDisabled);
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == Widget::TouchEventType::ENDED)
@@ -35,7 +34,7 @@ void GameScene::initInformationBoard()
 				[&](Ref* sender)
 				{
 					Director::getInstance()->replaceScene(
-						mode == 2 ? LevelScene::createScene(isClassical) : MenuScene::create());
+						mode == LEVEL_MODE ? LevelScene::createScene(isClassical) : MenuScene::create());
 				}));
 			dialog->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneNoButtonNormal),
@@ -52,7 +51,7 @@ void GameScene::initInformationBoard()
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 11);
 
-	const string gameModeName = mode == 1 ? "练习" : mode == 2 ? "选关" : "挑战";
+	const string gameModeName = mode == PRACTICE_MODE ? "练习" : mode == LEVEL_MODE ? "选关" : "挑战";
 	auto modeLabel = Label::createWithTTF(isClassical ? "经典" + gameModeName : "加强" + gameModeName, theme->semiBoldFont,
 	                                      50);
 	modeLabel->setPosition(modeLabel->getContentSize().width / 2 + 90, 850);
@@ -71,9 +70,9 @@ void GameScene::initInformationBoard()
 	this->addChild(stepNumberLabel, 12);
 
 	// 目标分数
-	targetScoreLabel = Label::createWithTTF(std::to_string(totalScore), theme->markerFeltFont, 35);
-	targetScoreLabel->setPosition(225, 540);
-	this->addChild(targetScoreLabel, 12);
+	totalScoreLabel = Label::createWithTTF(std::to_string(totalScore), theme->markerFeltFont, 35);
+	totalScoreLabel->setPosition(225, 540);
+	this->addChild(totalScoreLabel, 12);
 
 	// 积分条背景
 	auto processBar = Sprite::create(theme->gameSceneGreyProcessBar);
@@ -121,7 +120,11 @@ void GameScene::initInformationBoard()
 
 void GameScene::setTotalScore(const int score)
 {
-	if (totalScore >= 0) totalScore = score;
+	if (totalScore >= 0 && totalScoreLabel != nullptr)
+	{
+		totalScore = score;
+		totalScoreLabel->setString(to_string(score));
+	}
 }
 
 void GameScene::setStepNumber(const int step)

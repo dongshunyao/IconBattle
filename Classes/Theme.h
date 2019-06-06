@@ -137,8 +137,7 @@ public:
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
 
-	// TODO 游戏宝石更换
-	string gameSceneDiamond;
+	string gameSceneIcon;
 
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";

@@ -7,10 +7,11 @@
 #include "Theme.h"
 #include "User.h"
 #include "GameBoardInformation.h"
-#include "BackButton.h"
 #include "SettingButton.h"
 #include "Dialog.h"
 #include "NetworkShare.h"
+#include "MenuScene.h"
+#include "LevelScene.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -67,7 +68,7 @@ private:
 	void addCurrentScore(int deltaScore);
 
 	Label* stepNumberLabel = nullptr;
-	Label* targetScoreLabel = nullptr;
+	Label* totalScoreLabel = nullptr;
 	Sprite* hintNumberSprite = nullptr;
 	Label* currentScoreLabel = nullptr;
 	Sprite* currentProgressBar = nullptr;
@@ -146,7 +147,7 @@ private:
 	KillInformationList getKillList() { return {}; };
 
 	// TODO 方块消除动画
-	void killBlock(KillInformationList killList){};
+	void killBlock(KillInformationList killList) {};
 };
 
 #endif

@@ -27,7 +27,7 @@ void Actor::dropTo(const Pair toPosition)
 {
 	const auto action = Sequence::create(
 		EaseOut::create(MoveTo::create(0.5, Vec2(toPosition.first, toPosition.second)), 2.0f), nullptr);
-	// TODO !sprite all
+	// BUG sprite all 4 func
 	this->sprite->runAction(action);
 	this->position = toPosition;
 }

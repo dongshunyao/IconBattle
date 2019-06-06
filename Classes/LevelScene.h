@@ -2,7 +2,6 @@
 #define __LEVEL_SCENE_H__
 
 #include "cocos2d.h"
-#include "BackButton.h"
 #include "SettingButton.h"
 #include "MenuScene.h"
 #include "Theme.h"
@@ -26,7 +25,7 @@ private:
 	void initScrollView();
 	void initButtons();
 	void initCoin();
-	void initModeLabel(bool isClassic);
+	void initModeLabel(bool isClassical);
 	void update(float) override;
 
 	// 用于存放按钮的layer
@@ -46,7 +45,7 @@ private:
 	Label* coinText = nullptr;
 
 	// 模式
-	bool isClassic = true;
+	bool isClassical = true;
 
 	// 选关Button的位置数组
 	pair<int, int> pos[10] =
