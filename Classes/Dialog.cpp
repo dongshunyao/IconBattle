@@ -229,20 +229,26 @@ void Dialog::backgroundFinish()
 	{
 		// 添加按钮，并设置其位置
 		this->addChild(getMenuLabel());
-		const auto labelHeight = (dialogContentSize.height-title->getContentSize().height-15) / (getMenuLabel()->getChildrenCount() + 2);
+		int adaptHeight = 0;
+		if (title)
+			adaptHeight = title->getContentSize().height;
+		const auto labelHeight = (dialogContentSize.height - adaptHeight - 15) / (getMenuLabel()
+			->getChildrenCount() + 2);
 		auto labels = getMenuLabel()->getChildren();
 		i = 0;
 		for (auto menuItem : labels)
 		{
 			auto node = dynamic_cast<Node*>(menuItem);
 			node->setPosition(Point(SCREEN_WIDTH / 2,
-			                        (SCREEN_HEIGHT+ dialogContentSize.height / -title->getContentSize().height+50) / 2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
+			                        (SCREEN_HEIGHT + dialogContentSize.height / -adaptHeight + 50) /
+			                        2 - dialogContentSize.height / 2.5 + labelHeight * (getMenuLabel()->
 				                        getChildrenCount() - i)));
 			i++;
 		}
 
 
 		this->addChild(getMenuButton());
+
 		const auto buttonWidth = dialogContentSize.width / (getMenuButton()->getChildrenCount() + 1);
 
 
@@ -260,7 +266,8 @@ void Dialog::backgroundFinish()
 		// 显示对话框标题
 		if (getLabelTitle())
 		{
-			getLabelTitle()->setPosition(center + Vec2(0, dialogContentSize.height / 2 -title->getContentSize().height/2-15));
+			getLabelTitle()->setPosition(
+				center + Vec2(0, dialogContentSize.height / 2 - title->getContentSize().height / 2 - 15));
 			this->addChild(getLabelTitle());
 		}
 
