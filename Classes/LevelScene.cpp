@@ -110,12 +110,16 @@ void LevelScene::initScrollView()
 
 void LevelScene::initButtons()
 {
+	auto unlockedLevel = isClassic
+		                     ? User::getInstance()->getUnlockedClassicalLevel()
+		                     : User::getInstance()->getUnlockedPlusLevel();
 	for (auto i = 0; i < 10; i++)
 	{
 		auto levelButton = ui::Button::create(theme->levelSelectButton + std::to_string(i + 1) + "_normal.png",
 		                                      theme->levelSelectButton + std::to_string(i + 1) + "_selected.png",
 		                                      theme->levelSelectButton + std::to_string(i + 1) + "_disabled.png");
 
+		if (i >= unlockedLevel)levelButton->setEnabled(false);
 		levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
 			if (type == ui::Widget::TouchEventType::ENDED)
