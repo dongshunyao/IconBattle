@@ -37,7 +37,6 @@ AppDelegate::~AppDelegate()
     SimpleAudioEngine::end();
 #endif
 
-	// ReSharper disable once CppExpressionWithoutSideEffects
 	User::getInstance()->update();
 }
 

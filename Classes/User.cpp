@@ -76,21 +76,21 @@ bool User::update() const
 	map["UnlockedPlusLevel"] = unlockedPlusLevel;
 	map["Key"] = getKey();
 
-	return FileUtils::getInstance()->writeToFile(map, filename);
+	return FileUtils::getInstance()->writeValueMapToFile(map, filename);
 }
 
 User::User()
 {
-	auto map = FileUtils::getInstance()->getValueMapFromFile(filename);
-	if (map.empty())
+	if (!FileUtils::getInstance()->isFileExist(filename))
 	{
 		unlockedThemes.emplace_back(Theme::getInstance()->jetBrainThemeName);
 		update();
 		return;
 	}
 
+	auto map = FileUtils::getInstance()->getValueMapFromFile(filename);
 	newUser = false;
-	if (map.count("UserName")) setUserName(map["UserName"].asString());
+	if (map.count("UserName")) userName = map["UserName"].asString();
 	if (map.count("CurrentTheme")) Theme::getInstance()->setCurrentTheme(map["CurrentTheme"].asString());
 	if (map.count("CurrentVolume")) Music::getInstance()->setVolume(map["CurrentVolume"].asInt());
 	if (map.count("CurrentSoundStatus")) Sound::getInstance()->setStatus(map["CurrentSoundStatus"].asBool());

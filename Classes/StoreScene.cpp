@@ -65,7 +65,7 @@ void StoreScene::initButton()
 	jetBrainSelectButton = createSelectButton();
 	jetBrainSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		updateCurrentTheme(theme->jetBrainThemeName);
+		if (type == Widget::TouchEventType::ENDED) updateCurrentTheme(theme->jetBrainThemeName);
 	});
 	jetBrainSelectButton->setPosition(Point(240, 150));
 	this->addChild(jetBrainSelectButton);
@@ -153,7 +153,7 @@ void StoreScene::createAdobeButton(const bool unlocked)
 		adobeSelectButton = createSelectButton();
 		adobeSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
-			updateCurrentTheme(theme->adobeThemeName);
+			if (type == Widget::TouchEventType::ENDED) updateCurrentTheme(theme->adobeThemeName);
 		});
 		adobeSelectButton->setPosition(Point(600, 150));
 		this->addChild(adobeSelectButton);
@@ -260,7 +260,7 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 		officeSelectButton = createSelectButton();
 		officeSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
-			updateCurrentTheme(theme->officeThemeName);
+			if (type == Widget::TouchEventType::ENDED) updateCurrentTheme(theme->officeThemeName);
 		});
 		officeSelectButton->setPosition(Point(960, 150));
 		this->addChild(officeSelectButton);
@@ -275,19 +275,19 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 			[&](Ref* sender)
 			{
 				// TODO 人民币支付，成功后调用unlockTheme（名字）
-			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-			dialog->setContentText("Waiting to develop!", 36, 60, 20);
+				const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+				dialog->setContentText("Waiting to develop!", 36, 60, 20);
 
-			dialog->addButton(MenuItemSprite::create(
-				Sprite::create(theme->gameSceneYesButtonNormal),
-				Sprite::create(theme->gameSceneYesButtonSelected),
-				Sprite::create(theme->gameSceneYesButtonNormal),
-				[&,dialog](Ref* sender)
-			{
-				Director::getInstance()->getRunningScene()->removeChild(dialog);
-			}));
+				dialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					Sprite::create(theme->gameSceneYesButtonSelected),
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					[&,dialog](Ref* sender)
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+					}));
 
-			this->addChild(dialog, 30);
+				this->addChild(dialog, 30);
 			}
 		);
 		officeRmbMenuItem->setPosition(Point(960, 220));

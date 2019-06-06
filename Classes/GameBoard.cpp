@@ -209,6 +209,7 @@ void GameScene::dropBlock()
 
 bool GameScene::canKill() const
 {
+	// TODO !
 	for (auto i = 0; i < BOARD_SIZE; i++)
 		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
@@ -288,6 +289,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 
 HintOperation GameScene::isImpasse()
 {
+	//TODO !
 	const auto beginTime = clock();
 
 	for (auto i = 1; i < BOARD_SIZE; i++)
@@ -319,7 +321,11 @@ bool GameScene::showHint()
 	log("[LOCK] Hint: (%d, %d); (%d, %d);", hint.first.first, hint.first.second, hint.second.first, hint.second.second);
 	assert(hint != HintOperation({-1, -1},{-1,-1}));
 
-	// TODO 展示hint
+	// TODO 展示第一个hint
+	if (hint.second != Pair(-1, -1))
+	{
+		// TODO 展示第二个hint
+	}
 
 	boardLock = false;
 	log("[UNLOCK] Hint");
