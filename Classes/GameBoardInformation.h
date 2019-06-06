@@ -19,7 +19,7 @@ namespace GameBoardInformation
 	static const int LEVEL_MODE = 2;
 	static const int CHALLENGE_MODE = 3;
 
-	// TODO 
+	// TODO !
 	const string SPRITE_URL[6] =
 	{
 		"/image/gamescene/jetbraintheme/iconset/large/1.png",
