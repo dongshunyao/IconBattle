@@ -15,7 +15,6 @@ class GameSceneController
 public:
 	static GameSceneController* getInstance();
 
-
 #pragma region Game Information
 	// 基础掉落概率
 	int coinPercentage = 5;
@@ -58,9 +57,9 @@ public:
 	const GameInfo plusChallenge = {200000, 100};
 #pragma endregion
 
-	void startPracticeGame(bool isClassical);
-	void startLevelGame(bool isClassical, int level);
-	void startChallengeGame(bool isClassical);
+	void startPracticeGame(bool isClassical) const;
+	void startLevelGame(bool isClassical, int level) const;
+	void startChallengeGame(bool isClassical) const;
 
 	// 挑战模式返回掉落硬币个数
 	int updateInformation();

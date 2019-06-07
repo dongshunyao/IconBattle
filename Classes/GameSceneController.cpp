@@ -8,7 +8,7 @@ GameSceneController* GameSceneController::getInstance()
 	return instance;
 }
 
-void GameSceneController::startPracticeGame(const bool isClassical)
+void GameSceneController::startPracticeGame(const bool isClassical) const
 {
 	if (isClassical)
 		Director::getInstance()->replaceScene(
@@ -18,17 +18,18 @@ void GameSceneController::startPracticeGame(const bool isClassical)
 			GameScene::createScene(plusPractice.second, plusPractice.first, isClassical, PRACTICE_MODE));
 }
 
-void GameSceneController::startLevelGame(const bool isClassical, const int level)
+void GameSceneController::startLevelGame(const bool isClassical, const int level) const
 {
-	if(isClassical)
+	if (isClassical)
 		Director::getInstance()->replaceScene(
-			GameScene::createScene(classicalLevel[level].second, classicalLevel[level].first, isClassical, LEVEL_MODE, level));
+			GameScene::createScene(classicalLevel[level].second, classicalLevel[level].first, isClassical, LEVEL_MODE,
+			                       level));
 	else
 		Director::getInstance()->replaceScene(
 			GameScene::createScene(plusLevel[level].second, plusLevel[level].first, isClassical, LEVEL_MODE, level));
 }
 
-void GameSceneController::startChallengeGame(const bool isClassical)
+void GameSceneController::startChallengeGame(const bool isClassical) const
 {
 	if (isClassical)
 		Director::getInstance()->replaceScene(
