@@ -26,18 +26,23 @@ private:
 	const string settingButtonDisabled = "/image/common/setting_disabled.png";
 
 	const string courseMenuItemNormal = "/image/common/course.png";
-	const string musicMenuItemNormal = "/image/common/music.png";
+	const string courseMenuItemSelected = "/image/common/course.png";
+	const string courseMenuItemDisabled = "/image/common/course.png";
+
+	const string musicVolumeMenuItem = "/image/common/music5.png";
+	const string musicAdjustedVolumeMenuItem = "/image/common/music";
+
 	const string soundMenuItemNormal = "/image/common/sound.png";
+	const string soundMenuItemSelected = "/image/common/sound.png";
+	const string soundMenuItemDisabled = "/image/common/sound.png";
 
 #pragma endregion
 
-	bool popItem = false; // falseµ¯³öÉèÖÃÑ¡Ïî£¬·´Ö®ÊÕ»Ø
+	bool popItem = false; // falseå¼¹å‡ºè®¾ç½®é€‰é¡¹ï¼Œåä¹‹æ”¶å›
 	ui::Button* settingButton = nullptr;
-	Sprite* course = nullptr; // ½Ì³Ì
-	Sprite* music = nullptr; // ÒôÀÖ
-	Sprite* sound = nullptr; // ÒôĞ§
-	MenuItemSprite* courseMenuItem = nullptr;
-	MenuItemSprite* musicMenuItem = nullptr;
+	Sprite* sound = nullptr; // éŸ³æ•ˆ
+	MenuItemSprite* courseMenuItem = nullptr; // æ•™ç¨‹
+	MenuItemSprite* musicMenuItem = nullptr; // éŸ³ä¹
 	MenuItemSprite* soundMenuItem = nullptr;
 	Menu* menu = nullptr;
 };

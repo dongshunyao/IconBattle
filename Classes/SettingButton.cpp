@@ -9,8 +9,7 @@ bool SettingButton::init()
 
 	//TODO 按钮图片更换
 	// 添加精灵菜单
-	course = Sprite::create(courseMenuItemNormal);
-	courseMenuItem = MenuItemSprite::create(course, course, course, [&](Ref* sender)
+	courseMenuItem = MenuItemSprite::create(Sprite::create(courseMenuItemNormal), Sprite::create(courseMenuItemSelected), Sprite::create(courseMenuItemDisabled), [&](Ref* sender)
 	{
 		// TODO 教程
 	});
@@ -19,12 +18,13 @@ bool SettingButton::init()
 			settingButton->getContentSize().width / 2, 0));
 	courseMenuItem->setVisible(false);
 
-	music = Sprite::create(musicMenuItemNormal);
-	musicMenuItem = MenuItemSprite::create(music, music, music, [&](Ref* sender)
+	musicMenuItem = MenuItemSprite::create(Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), [&](Ref* sender)
 	{
 		const auto index = Music::getInstance()->getVolume() / 20;
 		Music::getInstance()->setVolume(20 * ((index + 1) % 6)); // 音量设置为0、20、40、60、80、100
 		// TODO 音量图片及图标更新
+		musicMenuItem->setNormalImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string(index) + ".png"));
+		musicMenuItem->setSelectedImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string(index) + ".png"));
 	});
 	musicMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(courseMenuItem->getPosition()) - Vec2(
