@@ -450,7 +450,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
 
 									dialog->addListView(true, false, isClassical);
-									dialog->setTitle("Classical Rank List", 50);
+									dialog->setTitle("排行", 50);
 									dialog->addButton
 									(
 										MenuItemSprite::create

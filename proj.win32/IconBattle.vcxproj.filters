@@ -55,14 +55,8 @@
     <Filter Include="src\common\network">
       <UniqueIdentifier>{2093bffc-0b0c-41b9-88b4-e43a3ef53892}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\scene\common\backbutton">
-      <UniqueIdentifier>{5169d70a-6997-455c-98c0-988e88739069}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\scene\common\settingbutton">
       <UniqueIdentifier>{f4da24b4-0da5-495b-9b0d-c2f0e2fe3523}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\scene\common\gamescenecontroller">
-      <UniqueIdentifier>{be510a06-cbad-4160-ba22-98cea6569e8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\scene\common\Dialog">
       <UniqueIdentifier>{03ccb79e-d519-4ca3-97d5-99d6ada948d0}</UniqueIdentifier>
@@ -72,6 +66,12 @@
     </Filter>
     <Filter Include="src\scene\gamescene\gameboardinformation">
       <UniqueIdentifier>{b97c3389-4a67-4d33-9b5d-b5884d8e731b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\temp\backbutton">
+      <UniqueIdentifier>{5169d70a-6997-455c-98c0-988e88739069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\common\gamescenecontroller">
+      <UniqueIdentifier>{be510a06-cbad-4160-ba22-98cea6569e8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +124,7 @@
       <Filter>src\scene\common\Dialog</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\BackButton.cpp">
-      <Filter>src\scene\common\backbutton</Filter>
+      <Filter>src\temp\backbutton</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SettingButton.cpp">
       <Filter>src\scene\common\settingbutton</Filter>
@@ -198,7 +198,7 @@
       <Filter>src\scene\common\Dialog</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BackButton.h">
-      <Filter>src\scene\common\backbutton</Filter>
+      <Filter>src\temp\backbutton</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SettingButton.h">
       <Filter>src\scene\common\settingbutton</Filter>

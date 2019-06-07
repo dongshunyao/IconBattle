@@ -141,7 +141,7 @@ void GameScene::minusStepNumber()
 	if (stepNumber > 0 && stepNumberLabel != nullptr)
 	{
 		stepNumber--;
-		stepNumberLabel->setString(to_string(stepNumber));
+		if (mode != PRACTICE_MODE) stepNumberLabel->setString(to_string(stepNumber));
 	}
 }
 
