@@ -31,8 +31,8 @@ namespace NetworkShare
 
 #pragma region Share Pic Url
 	// TODO: 制作并上传分享图片
-	const string QQ_PIC_CLASSICAL = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&flash=&site=&style=201&width=32&height=3";
-	const string QQ_PIC = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&flash=&site=&style=201&width=32&height=3";
+	const string QQ_PIC_CLASSICAL = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&style=201&width=32&height=3";
+	const string QQ_PIC = "&pics=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg&style=201&width=32&height=3";
 
 	const string WEIBO_PIC_CLASSICAL = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";
 	const string WEIBO_PIC = "&pic=https://i.loli.net/2019/05/19/5ce15be219ef569212.jpg";

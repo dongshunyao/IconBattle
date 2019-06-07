@@ -1,8 +1,6 @@
 #include "NetworkShare.h"
-// TODO 三个分享方法重载 const int target
-// bool NetworkShare::share(bool isClassical)
-// bool NetworkShare::share(bool isClassical,int level,int score)
-// bool NetworkShare::share(bool isClassical,int score,int rank) 
+#pragma  execution_character_set("utf-8")
+
 bool NetworkShare::share(const bool isClassical, const string title, const int target)
 {
 	switch (target)
@@ -12,11 +10,11 @@ bool NetworkShare::share(const bool isClassical, const string title, const int t
 			auto qq = QQ_SHARE_URL;
 			qq += "&desc=";
 			qq += title;
-			if(isClassical)
+			if (isClassical)
 				qq += QQ_PIC_CLASSICAL;
 			else
 				qq += QQ_PIC;
-			
+
 			Application::getInstance()->openURL(qq);
 			break;
 		}
@@ -70,12 +68,12 @@ bool NetworkShare::sharePractice(const bool isClassical, const int target)
 	string temp;
 	if (isClassical)
 	{
-		temp = "I'm playing IconBattle practicing mode, come and join me.";
+		temp = "我在玩IconBattle练习模式, 快加入我吧!";
 		share(isClassical, temp, target);
 		return true;
 	}
 
-	temp = "I'm playing IconBattle advanced mode, come and join me.";
+	temp = "我在玩IconBattle进阶模式, 快加入我吧!";
 	share(isClassical, temp, target);
 	return true;
 }
