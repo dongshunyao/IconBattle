@@ -144,7 +144,6 @@ void MenuScene::initGameButton()
 	                                     theme->menuScenePracticeButtonDisabled);
 	classicPractice->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 经典练习
 		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(true);
 	});
 	classicPractice->setPosition(Vec2(100, 40));
@@ -155,7 +154,6 @@ void MenuScene::initGameButton()
 	                                  theme->menuSceneLevelButtonDisabled);
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 经典闯关
 		if (type == ui::Widget::TouchEventType::ENDED)
 			Director::getInstance()->replaceScene(LevelScene::createScene(true));
 	});
@@ -177,8 +175,8 @@ void MenuScene::initGameButton()
 	                                      theme->menuScenePracticeButtonDisabled);
 	enhancedPractice->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 加强练习
-		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(false);
+		if (type == ui::Widget::TouchEventType::ENDED)
+			GameSceneController::getInstance()->startPracticeGame(false);
 	});
 	enhancedPractice->setPosition(Vec2(100, 40));
 
@@ -188,7 +186,6 @@ void MenuScene::initGameButton()
 	                                   theme->menuSceneLevelButtonDisabled);
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 加强闯关
 		if (type == ui::Widget::TouchEventType::ENDED)
 			Director::getInstance()->replaceScene(LevelScene::createScene(false));
 	});

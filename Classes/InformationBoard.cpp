@@ -64,6 +64,7 @@ void GameScene::initInformationBoard()
 	this->addChild(stepBackground, 11);
 
 	// 步数Label
+	// TODO 处理练习模式的无穷
 	stepNumberLabel = Label::createWithTTF(to_string(stepNumber), theme->markerFeltFont, 48);
 	stepNumberLabel->enableGlow(Color4B::YELLOW);
 	stepNumberLabel->setPosition(225, 635);

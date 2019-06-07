@@ -41,6 +41,7 @@ void GameScene::showScore(const ActorInformation actorInformation)
 
 void GameScene::endGame()
 {
+	// TODO 分数折合动画
 	switch (mode)
 	{
 		// 练习模式一定会成功的
@@ -50,26 +51,22 @@ void GameScene::endGame()
 			showSuccessfulResult(usedSteps, 3 - hintNumber);
 			break;
 		}
-	case LEVEL_MODE: case CHALLENGE_MODE:
+
+	case LEVEL_MODE:
+	case CHALLENGE_MODE:
 		{
+			const auto stepNumberScore = EVERY_STEP_SCORE * stepNumber;
+			const auto hintNumberScore = EVERY_HINT_SCORE * hintNumber;
+
 			// 失败
-			if (stepNumber == 0 && currentScore < totalScore)
+			if (currentScore + stepNumberScore + hintNumberScore < totalScore)
 			{
 				showFailedResult(totalScore, currentScore);
 				break;
 			}
 
 			// 成功
-			const auto stepNumberScore = GameSceneController::getInstance()->everyStepScore * stepNumber;
-			const auto hintNumberScore = GameSceneController::getInstance()->everyHintScore * hintNumber;
-
-			if (mode == LEVEL_MODE)
-			{
-				showSuccessfulResult(false, stepNumberScore, hintNumberScore, currentScore);
-				break;
-			}
-
-			showSuccessfulResult(true, stepNumberScore, hintNumberScore, currentScore);
+			showSuccessfulResult(mode == CHALLENGE_MODE, stepNumberScore, hintNumberScore, currentScore);
 			break;
 		}
 	}

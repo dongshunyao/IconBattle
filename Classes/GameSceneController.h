@@ -18,9 +18,7 @@ public:
 #pragma region Game Information
 	// 基础掉落概率
 	int coinPercentage = 5;
-	// 提示、剩余步数得分
-	const int everyStepScore = 100;
-	const int everyHintScore = 150;
+	
 	// pair<totalScore, stepNumber>
 	using GameInfo = pair<int, int>;
 

@@ -12,7 +12,6 @@
 #include "NetworkShare.h"
 #include "MenuScene.h"
 #include "LevelScene.h"
-#include "GameSceneController.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -149,10 +148,10 @@ private:
 #pragma endregion
 
 
-	// TODO 获取可消除方块列表
+	// BUG  重写 获取可消除方块列表
 	KillInformationList getKillList() { return {}; };
 
-	// TODO 方块消除动画
+	// BUG  重写 方块消除动画
 	void killBlock(KillInformationList killList) {};
 };
 

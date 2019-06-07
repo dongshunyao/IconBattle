@@ -2,6 +2,7 @@
 #define __GAME_BOARD_INFORMATION_H__
 
 #include <vector>
+#include "Theme.h"
 #include "cocos2d.h"
 
 using std::pair;
@@ -19,15 +20,14 @@ namespace GameBoardInformation
 	static const int LEVEL_MODE = 2;
 	static const int CHALLENGE_MODE = 3;
 
-	// BUG 路径不对 
 	const string SPRITE_URL[6] =
 	{
-		"/image/gamescene/jetbraintheme/iconset/large/1.png",
-		"/image/gamescene/jetbraintheme/iconset/large/2.png",
-		"/image/gamescene/jetbraintheme/iconset/large/3.png",
-		"/image/gamescene/jetbraintheme/iconset/large/4.png",
-		"/image/gamescene/jetbraintheme/iconset/large/5.png",
-		"/image/gamescene/jetbraintheme/iconset/large/6.png"
+		Theme::getInstance()->iconSet + "1.png",
+		Theme::getInstance()->iconSet + "2.png",
+		Theme::getInstance()->iconSet + "3.png",
+		Theme::getInstance()->iconSet + "4.png",
+		Theme::getInstance()->iconSet + "5.png",
+		Theme::getInstance()->iconSet + "0.png"
 	};
 
 	typedef pair<int, int> Pair;
@@ -65,6 +65,11 @@ namespace GameBoardInformation
 	const int DOUBLE_SUPER_KILL = 7;
 
 	// TODO 不同模式得分+剩余步数和提示兑换分数
+
+	// 提示、剩余步数得分
+	const int EVERY_STEP_SCORE = 100;
+	const int EVERY_HINT_SCORE = 150;
+
 	const int BASE_KILL_SCORE = 10;
 
 	/*
@@ -83,7 +88,7 @@ namespace GameBoardInformation
 	 */
 
 
-	// TODO DEL 代表不同粒子特效的函数标号
+	// BUG 需要删除 代表不同粒子特效的函数标号
 	const int FUNC_NO = -1;
 	const int FUNC_SUPER = 0;
 	const int FUNC_FIRE = 1;
