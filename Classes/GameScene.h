@@ -39,7 +39,8 @@ class GameScene final :
 	public Scene
 {
 public:
-	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int mode, int hintNumber = 3);
+	static Scene* createScene(int stepNumber, int totalScore, bool isClassical, int mode, int level = 0,
+	                          int hintNumber = 3);
 	bool init() override { return Scene::init(); }
 	CREATE_FUNC(GameScene)
 
@@ -59,6 +60,7 @@ private:
 	int hintNumber = 0;
 	int totalScore = 0;
 	int currentScore = 0;
+	int level = 0;
 
 	void setStepNumber(int step);
 	// 剩余步数减一
@@ -81,8 +83,11 @@ private:
 #pragma region Result Board
 	bool isShareButtonAppear = false;
 
+	// 展示失败结果
 	void showFailedResult(int targetScore, int realScore);
+	// 练习
 	void showSuccessfulResult(int usedSteps, int usedHints);
+	// 闯关 挑战
 	void showSuccessfulResult(bool isChallenge, int stepNumberScore, int hintNumberScore, int playerScore);
 
 #pragma endregion

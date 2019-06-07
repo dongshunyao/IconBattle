@@ -11,31 +11,31 @@ GameSceneController* GameSceneController::getInstance()
 void GameSceneController::startPracticeGame(const bool isClassical)
 {
 	if (isClassical)
-		Director::getInstance()->pushScene(
+		Director::getInstance()->replaceScene(
 			GameScene::createScene(classicalPractice.second, classicalPractice.first, isClassical, PRACTICE_MODE));
 	else
-		Director::getInstance()->pushScene(
-			GameScene::createScene(classicalPractice.second, classicalPractice.first, isClassical, PRACTICE_MODE));
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(plusPractice.second, plusPractice.first, isClassical, PRACTICE_MODE));
 }
 
 void GameSceneController::startLevelGame(const bool isClassical, const int level)
 {
 	if(isClassical)
-		Director::getInstance()->pushScene(
-			GameScene::createScene(classicalLevel[level].second, classicalLevel[level].first, isClassical, LEVEL_MODE));
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(classicalLevel[level].second, classicalLevel[level].first, isClassical, LEVEL_MODE, level));
 	else
-		Director::getInstance()->pushScene(
-			GameScene::createScene(plusLevel[level].second, plusLevel[level].first, isClassical, LEVEL_MODE));
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(plusLevel[level].second, plusLevel[level].first, isClassical, LEVEL_MODE, level));
 }
 
 void GameSceneController::startChallengeGame(const bool isClassical)
 {
 	if (isClassical)
-		Director::getInstance()->pushScene(
+		Director::getInstance()->replaceScene(
 			GameScene::createScene(classicalChallenge.second, classicalChallenge.first, isClassical, CHALLENGE_MODE));
 	else
-		Director::getInstance()->pushScene(
-			GameScene::createScene(classicalChallenge.second, classicalChallenge.first, isClassical, CHALLENGE_MODE));
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(plusChallenge.second, plusChallenge.first, isClassical, CHALLENGE_MODE));
 }
 
 int GameSceneController::randomCoin(const int percentage) const

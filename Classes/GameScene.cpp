@@ -1,7 +1,7 @@
 #include "GameScene.h"
 
 Scene* GameScene::createScene(const int stepNumber, const int totalScore, const bool isClassical, const int mode,
-                              const int hintNumber)
+                              const int level, const int hintNumber)
 {
 	const auto scene = GameScene::create();
 
@@ -11,6 +11,7 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->isClassical = isClassical;
 	scene->hintNumber = hintNumber;
 	scene->mode = mode;
+	scene->level = level;
 
 	// 初始化背景板及按钮
 	scene->initInformationBoard();
@@ -41,23 +42,13 @@ void GameScene::showScore(const ActorInformation actorInformation)
 void GameScene::endGame()
 {
 	// TODO 计算分数，动画，成功失败，分模式调用
-	if (true)
+
+	switch (mode)
 	{
-		switch (mode)
-		{
-		case PRACTICE_MODE: { }
-		case LEVEL_MODE: { }
-		case CHALLENGE_MODE: { }
-		}
-	}
-	else
-	{
-		switch (mode)
-		{
-		case PRACTICE_MODE: { }
-		case LEVEL_MODE: { }
-		case CHALLENGE_MODE: { }
-		}
+		// 练习模式一定会成功的
+	case PRACTICE_MODE: { }
+	case LEVEL_MODE: { }
+	case CHALLENGE_MODE: { }
 	}
 }
 
@@ -451,4 +442,3 @@ void GameScene::killBlock(KillInformationList killList)
 	}
 }
 */
-
