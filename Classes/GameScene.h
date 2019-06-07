@@ -83,7 +83,7 @@ private:
 
 	void showFailedResult(int targetScore, int realScore);
 	void showSuccessfulResult(int usedSteps, int usedHints);
-	void showSuccessfulResult(bool isChallenge, int remainSteps, int remainHints, int score);
+	void showSuccessfulResult(bool isChallenge, int stepNumberScore, int hintNumberScore, int playerScore);
 
 #pragma endregion
 

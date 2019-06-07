@@ -329,6 +329,7 @@ void Dialog::getRankByType(bool type)
 
 	if (!(rankType ? classicalRank.empty() : plusRank.empty()))
 	{
+		if (listView->getChildrenCount() > 0)listView->removeAllChildren();
 		for (auto i = 0; i < 10; i++)
 		{
 			auto icon = ImageView::create(theme->iconSet + std::to_string(i) + ".png");
