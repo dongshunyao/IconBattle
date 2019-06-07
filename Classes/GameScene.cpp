@@ -41,14 +41,37 @@ void GameScene::showScore(const ActorInformation actorInformation)
 
 void GameScene::endGame()
 {
-	// TODO 计算分数，动画，成功失败，分模式调用
-
 	switch (mode)
 	{
 		// 练习模式一定会成功的
-	case PRACTICE_MODE: { }
-	case LEVEL_MODE: { }
-	case CHALLENGE_MODE: { }
+	case PRACTICE_MODE:
+		{
+			const auto usedSteps = GameSceneController::getInstance()->classicalPractice.second - stepNumber;
+			showSuccessfulResult(usedSteps, 3 - hintNumber);
+			break;
+		}
+	case LEVEL_MODE: case CHALLENGE_MODE:
+		{
+			// 失败
+			if (stepNumber == 0 && currentScore < totalScore)
+			{
+				showFailedResult(totalScore, currentScore);
+				break;
+			}
+
+			// 成功
+			const auto stepNumberScore = GameSceneController::getInstance()->everyStepScore * stepNumber;
+			const auto hintNumberScore = GameSceneController::getInstance()->everyHintScore * hintNumber;
+
+			if (mode == LEVEL_MODE)
+			{
+				showSuccessfulResult(false, stepNumberScore, hintNumberScore, currentScore);
+				break;
+			}
+
+			showSuccessfulResult(true, stepNumberScore, hintNumberScore, currentScore);
+			break;
+		}
 	}
 }
 
