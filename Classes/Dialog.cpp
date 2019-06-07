@@ -341,20 +341,20 @@ void Dialog::getRankByType(bool type)
 			layout->addChild(icon);
 			layout->setBackGroundColorType(Layout::BackGroundColorType::NONE);
 
-			rankLabel = Label::createWithTTF(std::to_string(i + 1), "/font/marker_felt.ttf", 30);
+			rankLabel = Label::createWithTTF(std::to_string(i + 1), theme->semiBoldFont, 30);
 			rankLabel->setPosition(Vec2(icon->getContentSize().width / 2 + 10, 30));
 			layout->addChild(rankLabel);
 
 
 			if (i > (rankType ? classicalRank.size() : plusRank.size()) - 1)
 			{
-				nameLabel = Label::createWithTTF("------------------", "/font/marker_felt.ttf", 30);
+				nameLabel = Label::createWithTTF("------------------", theme->markerFeltFont, 30);
 				nameLabel->setPosition(Vec2(
 					icon->getContentSize().width + nameLabel->getContentSize().width / 2 + 75,
 					30));
 				layout->addChild(nameLabel);
 
-				scoreLabel = Label::createWithTTF("---------", "/font/marker_felt.ttf", 30);
+				scoreLabel = Label::createWithTTF("---------", theme->markerFeltFont, 30);
 				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
 				layout->addChild(scoreLabel);
 			}

@@ -440,9 +440,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						(
 							MenuItemSprite::create
 							(
-								Sprite::create("/image/gamescene/common/rank_normal.png"),
-								Sprite::create("/image/gamescene/common/rank_selected.png"),
-								Sprite::create("/image/gamescene/common/rank_normal.png"),
+								Sprite::create(theme->menuSceneRankButtonNormal),
+								Sprite::create(theme->menuSceneRankButtonSelected),
+								Sprite::create(theme->menuSceneRankButtonNormal),
 								[&,resultDialog](Ref* sender)
 								{
 									this->removeChild(resultDialog);
