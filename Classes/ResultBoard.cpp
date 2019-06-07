@@ -471,34 +471,40 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					}
 
 					this->removeChild(layerColor);
+					auto coinNumber = isChallenge
+						                  ? GameSceneController::getInstance()->updateInformation()
+						                  : GameSceneController::getInstance()->updateInformation(isClassical, level);
+					if (coinNumber > 0)
+					{
+						auto coin = Sprite::create(theme->storeSceneCoin);
+						coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4,
+						                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4));
+						coin->setOpacity(0);
+						coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
 
-					// TODO 硬币清算
-					auto coin = Sprite::create(theme->storeSceneCoin);
-					coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4,
-					                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4));
-					coin->setOpacity(0);
-					coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
-
-					auto coinNumber = Label::createWithTTF("+ 1", theme->semiBoldFont, 40);
-					coinNumber->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
-					                              SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 - 40));
-					coinNumber->setOpacity(0);
-					coinNumber->runAction
-					(
-						Sequence::create
+						auto coinNumberLabel = Label::createWithTTF("+ "+to_string(coinNumber), theme->semiBoldFont, 40);
+						coinNumberLabel->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
+						                              SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 -
+						                              40));
+						coinNumberLabel->setOpacity(0);
+						coinNumberLabel->runAction
 						(
-							DelayTime::create(0.6),
-							Spawn::create(
-								MoveTo::create(1, Point(
-									               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
-									               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 - 15)),
-								FadeIn::create(1), nullptr),
-							nullptr
-						)
-					);
+							Sequence::create
+							(
+								DelayTime::create(0.6),
+								Spawn::create(
+									MoveTo::create(1, Point(
+										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
+										               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 -
+										               15)),
+									FadeIn::create(1), nullptr),
+								nullptr
+							)
+						);
 
-					this->addChild(coin, 25);
-					this->addChild(coinNumber, 25);
+						this->addChild(coin, 25);
+						this->addChild(coinNumberLabel, 25);
+					}
 
 
 					this->addChild(resultDialog, 22);

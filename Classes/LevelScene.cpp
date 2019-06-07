@@ -133,7 +133,7 @@ void LevelScene::initButtons()
 		{
 			if (type == ui::Widget::TouchEventType::ENDED)
 			{
-				// TODO 选关
+				GameSceneController::getInstance()->startLevelGame(isClassical,i+1);
 			}
 		});
 
