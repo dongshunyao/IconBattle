@@ -108,7 +108,7 @@ void MenuScene::initRankButton()
 			const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
 
 			dialog->addListView(true, true, true);
-			dialog->setTitle("Classical Rank List", 50);
+			dialog->setTitle("经典挑战排行", 50);
 			dialog->addButton(MenuItemSprite::create(Sprite::create(theme->gameSceneYesButtonNormal),
 			                                         Sprite::create(theme->gameSceneYesButtonSelected),
 			                                         Sprite::create(theme->gameSceneYesButtonNormal),

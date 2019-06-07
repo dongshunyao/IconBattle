@@ -282,7 +282,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("Classical Rank List");
+				title->setString("经典挑战排行");
 				backTypeButton->setOpacity(0);
 				changeTypeButton->runAction(FadeIn::create(0.25));
 				if (changed)
@@ -296,7 +296,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("Plus Rank List");
+				title->setString("进阶挑战排行");
 				changeTypeButton->setOpacity(0);
 				backTypeButton->runAction(FadeIn::create(0.25));
 				if (!changed)
@@ -369,7 +369,7 @@ void Dialog::getRankByType(bool type)
 
 				scoreLabel = Label::createWithTTF(
 					std::to_string(rankType ? classicalRank.at(i).second : plusRank.at(i).second),
-					"/font/marker_felt.ttf", 30);
+					theme->semiBoldFont, 30);
 				scoreLabel->setPosition(Vec2(465 - scoreLabel->getContentSize().width / 2, 30));
 				layout->addChild(scoreLabel);
 			}

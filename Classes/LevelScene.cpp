@@ -161,7 +161,7 @@ void LevelScene::initCoin()
 
 void LevelScene::initModeLabel(const bool isClassical)
 {
-	auto modeLabel = Label::createWithTTF(isClassical ? "经典模式" : "加强模式", theme->semiBoldFont, 50);
+	auto modeLabel = Label::createWithTTF(isClassical ? "经典模式" : "进阶模式", theme->semiBoldFont, 50);
 	modeLabel->setPosition(Point(600, 850));
 	this->addChild(modeLabel, 4);
 }
