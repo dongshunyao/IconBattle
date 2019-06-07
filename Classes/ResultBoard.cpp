@@ -471,7 +471,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					}
 
 					this->removeChild(layerColor);
-					auto coinNumber = isChallenge
+					const auto coinNumber = isChallenge
 						                  ? GameSceneController::getInstance()->updateInformation()
 						                  : GameSceneController::getInstance()->updateInformation(isClassical, level);
 					if (coinNumber > 0)

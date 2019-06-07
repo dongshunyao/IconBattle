@@ -38,8 +38,11 @@ void Theme::setJetBrainTheme()
 	backgroundMusic = "/music/jetbraintheme/background.mp3";
 #pragma endregion
 
-#pragma region Loading Scene
+#pragma region Common
 	iconSet = "/image/common/jetbraintheme/icon/";
+#pragma endregion
+
+#pragma region Loading Scene
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";
 
 #pragma endregion
@@ -75,8 +78,6 @@ void Theme::setJetBrainTheme()
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
-
-	gameSceneIcon = "/image/common/jetbraintheme/icon/";
 
 #pragma endregion
 }

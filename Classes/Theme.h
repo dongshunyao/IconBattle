@@ -23,6 +23,9 @@ public:
 	string backgroundMusic;
 #pragma endregion
 
+#pragma region Common
+	string iconSet;
+#pragma endregion 
 
 #pragma region Buck Button
 	const string backButtonNormal = "/image/common/back_normal.png";
@@ -31,7 +34,6 @@ public:
 #pragma endregion
 
 #pragma region Loading Sence
-	string iconSet;
 	string loadingSceneBackground;
 
 	const string loadingSceneLabelPress = "/image/loadingscene/common/label_press.png";
@@ -79,6 +81,7 @@ public:
 	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
 	const string menuSceneUserIcon = "/image/menuscene/common/user.png";
 	const string menuSceneEditIcon = "/image/menuscene/common/edit.png";
+
 #pragma endregion
 
 #pragma region Level Scene
@@ -136,8 +139,6 @@ public:
 	string gameSceneHintButtonNormal;
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
-
-	string gameSceneIcon;
 
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
