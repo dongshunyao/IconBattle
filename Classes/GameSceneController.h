@@ -62,7 +62,6 @@ public:
 	void startLevelGame(bool isClassical, int level);
 	void startChallengeGame(bool isClassical);
 
-	int randomCoin(int percentage) const;
 	// 挑战模式返回掉落硬币个数
 	int updateInformation();
 	// 闯关模式返回掉落硬币个数
@@ -70,6 +69,7 @@ public:
 
 private:
 	friend class GameScene;
+	int randomCoin(int percentage) const;
 
 	static GameSceneController* instance;
 	GameSceneController() = default;
