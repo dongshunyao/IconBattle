@@ -238,7 +238,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 }
 
 // 闯关和挑战结果
-void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int remainHints, int score)
+void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int hintNumberScore, int playerScore)
 {
 	auto layerColor = LayerColor::create();
 	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -269,7 +269,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int rema
 		(
 			delay, fadeIn, CallFunc::create
 			(
-				[&, layerColor, isChallenge,remainSteps, remainHints,score,first,second]()
+				[&, layerColor, isChallenge,stepNumberScore, hintNumberScore,playerScore,first,second]()
 				{
 					this->removeChild(first);
 					this->removeChild(second);
@@ -383,17 +383,17 @@ void GameScene::showSuccessfulResult(bool isChallenge, int remainSteps, int rema
 						)
 					);
 
-					const auto addedScore = remainSteps + remainHints + score;
+					const auto addedScore = stepNumberScore + hintNumberScore + playerScore;
 
 
 					resultDialog->setTitle("恭喜", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("交换次数 : " + to_string(remainSteps), theme->semiBoldFont, 50)));
+						Label::createWithTTF("交换次数 : " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("提示次数 : " + to_string(remainHints), theme->semiBoldFont, 50)));
+						Label::createWithTTF("提示次数 : " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("玩家分数 : " + to_string(score), theme->semiBoldFont, 50)));
+						Label::createWithTTF("玩家分数 : " + to_string(playerScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("本局总分 : " + to_string(addedScore), theme->semiBoldFont, 50)));
 
