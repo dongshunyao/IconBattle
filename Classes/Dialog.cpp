@@ -12,8 +12,7 @@ bool Dialog::init()
 {
 	if (!LayerColor::init()) return false;
 
-	// 初始化需要的 Menu
-	// button菜单
+	// 初始化需要的 Menu button菜单
 	auto menu = Menu::create();
 	menu->setPosition(Size::ZERO);
 	setMenuButton(menu);
@@ -286,7 +285,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("经典挑战排行");
+				title->setString("经典挑战排行榜 ");
 				backTypeButton->setOpacity(0);
 				changeTypeButton->runAction(FadeIn::create(0.25));
 				if (changed)
@@ -300,7 +299,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("进阶挑战排行");
+				title->setString("进阶挑战排行榜 ");
 				changeTypeButton->setOpacity(0);
 				backTypeButton->runAction(FadeIn::create(0.25));
 				if (!changed)
@@ -385,8 +384,7 @@ void Dialog::getRankByType(bool type)
 	{
 		if (listView->getChildrenCount() > 0)listView->removeAllChildren();
 		listView->setScrollBarEnabled(false);
-		// TODO 可能有省略号超出的问题
-		setContentText(User::getInstance()->getNewsInformation(), 36, 60, 20);
+		setContentText("网络连接失败, 请重试!", 36, 60, 20);
 		content = getLabelContentText();
 		content->setLineBreakWithoutSpace(true);
 		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
