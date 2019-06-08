@@ -86,10 +86,8 @@ public:
 
 #pragma region Level Scene
 	string levelSelectButton;
-
-	// TODO 暂时不更换
-	const string levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
-	const string levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";
+	string levelSceneDistantView;
+	string levelSceneForeground;
 
 #pragma endregion
 
@@ -99,6 +97,7 @@ public:
 	string storeSceneAdobeThemeIcon;
 	string storeSceneOfficeThemeIcon;
 	string storeSceneStoreLabel;
+	string storeSceneBackground;
 
 	const string storeSceneCoin = "/image/storescene/common/coins.png";
 
