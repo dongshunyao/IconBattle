@@ -157,7 +157,7 @@ void MenuScene::initGameButton()
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(TransitionFadeTR::create(1.0f, LevelScene::createScene(true)));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(true)));
 	});
 	classicLevel->setPosition(Vec2(250, 40));
 
@@ -190,7 +190,7 @@ void MenuScene::initGameButton()
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(TransitionFadeTR::create(1.0f, LevelScene::createScene(false)));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(false)));
 	});
 	enhancedLevel->setPosition(Vec2(250, 40));
 
