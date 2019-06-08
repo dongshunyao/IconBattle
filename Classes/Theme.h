@@ -131,7 +131,8 @@ public:
 #pragma region Game Scene
 	string gameSceneTopBackground;
 	string gameSceneBottomBackground;
-	string gameSceneLevelSpriteBackground;
+	string gameSceneStepSpriteBackground;
+	string gameSceneInfStepSpriteBackground;
 	string gameSceneHintButtonNormal;
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
