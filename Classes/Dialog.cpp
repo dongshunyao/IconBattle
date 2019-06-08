@@ -285,7 +285,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("经典挑战排行榜 ");
+				title->setString("经典挑战排行");
 				backTypeButton->setOpacity(0);
 				changeTypeButton->runAction(FadeIn::create(0.25));
 				if (changed)
@@ -299,7 +299,7 @@ void Dialog::initRankDialog()
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				title->setString("进阶挑战排行榜 ");
+				title->setString("进阶挑战排行");
 				changeTypeButton->setOpacity(0);
 				backTypeButton->runAction(FadeIn::create(0.25));
 				if (!changed)

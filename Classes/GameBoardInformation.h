@@ -30,7 +30,7 @@ namespace GameBoardInformation
 		Theme::getInstance()->iconSet + "0.png"
 	};
 
-	// 粒子特效文件
+	// TODO 粒子特效文件
 	const string ONE_LINE_PARTICLE = "particle_texture.plist";
 	const string EXPLOSION_PARTICLE = "particle_texture.plist";
 	const string ONE_BLOCK_PARTICLE[2] = {

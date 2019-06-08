@@ -309,7 +309,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 {
 	if (rmbPay) coin /= 10;
 	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-	dialog->setContentText("确认购买新主题?", 36, 60, 20);
+	dialog->setContentText("确认购买主题?", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
 		Sprite::create(theme->gameSceneYesButtonNormal),
@@ -320,7 +320,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 			unlockTheme(themeName, coin);
 			Director::getInstance()->getRunningScene()->removeChild(dialog);
 			auto successPay = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-			successPay->setContentText("购买成功，快去试试新主题吧!", 36, 60, 20);
+			successPay->setContentText("购买成功, 快去试试新主题吧!", 36, 60, 20);
 			successPay->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneYesButtonNormal),
 				Sprite::create(theme->gameSceneYesButtonSelected),
