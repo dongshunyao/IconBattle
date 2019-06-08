@@ -32,9 +32,8 @@ private:
 	const string musicVolumeMenuItem = "/image/common/music3.png";
 	const string musicAdjustedVolumeMenuItem = "/image/common/music";
 
-	const string soundMenuItemNormal = "/image/common/sound.png";
-	const string soundMenuItemSelected = "/image/common/sound.png";
-	const string soundMenuItemDisabled = "/image/common/sound.png";
+	const string soundMenuItemOnNormal = "/image/common/sound_on.png";
+	const string soundMenuItemOffNormal = "/image/common/sound_off.png";
 
 #pragma endregion
 
