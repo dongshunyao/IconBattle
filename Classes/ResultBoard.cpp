@@ -142,6 +142,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									[&](Ref* sender)
 									{
 										// TODO share
+										sharePractice(isClassical, QQ);
 									}
 								);
 								qq->setPosition(Point(
@@ -158,6 +159,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									[&](Ref* sender)
 									{
 										// TODO share
+									sharePractice(isClassical, WEIBO);
 									}
 								);
 
@@ -175,6 +177,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									[&](Ref* sender)
 									{
 										// TODO share
+									sharePractice(isClassical, RENREN);
 									}
 								);
 
@@ -190,6 +193,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									[&](Ref* sender)
 									{
 										// TODO share
+									sharePractice(isClassical, DOUBAN);
 									}
 								);
 
@@ -240,6 +244,8 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 // 闯关和挑战结果
 void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int hintNumberScore, int playerScore)
 {
+	const auto addedScore = stepNumberScore + hintNumberScore + playerScore;
+
 	auto layerColor = LayerColor::create();
 	layerColor->setScale(SCREEN_WIDTH, SCREEN_HEIGHT);
 	layerColor->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -308,6 +314,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									[&](Ref* sender)
 									{
 										// TODO share
+									isChallenge ? shareRank(isClassical, QQ, addedScore, position+1):shareLevel(isClassical,QQ,level);
 									}
 								);
 
@@ -325,6 +332,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									[&](Ref* sender)
 									{
 										// TODO share
+									isChallenge ? shareRank(isClassical, WEIBO, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -341,6 +349,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									[&](Ref* sender)
 									{
 										// TODO share
+									isChallenge ? shareRank(isClassical, RENREN, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -357,6 +366,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									[&](Ref* sender)
 									{
 										// TODO share
+									isChallenge ? shareRank(isClassical, QQ, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -383,7 +393,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						)
 					);
 
-					const auto addedScore = stepNumberScore + hintNumberScore + playerScore;
+				
 
 
 					resultDialog->setTitle("恭喜", 100);
@@ -401,7 +411,6 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					{
 						auto rank = Network::getInstance()->getRank(isClassical);
 
-						auto position = -1;
 						for (auto i = 0; i < rank.size(); i++)
 						{
 							if (rank[i].first == User::getInstance()->getUserName() && rank[i].second == addedScore)
@@ -472,8 +481,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 
 					this->removeChild(layerColor);
 					const auto coinNumber = isChallenge
-						                  ? GameSceneController::getInstance()->updateInformation()
-						                  : GameSceneController::getInstance()->updateInformation(isClassical, level);
+						                        ? GameSceneController::getInstance()->updateInformation()
+						                        : GameSceneController::getInstance()->updateInformation(
+							                        isClassical, level);
 					if (coinNumber > 0)
 					{
 						auto coin = Sprite::create(theme->storeSceneCoin);
@@ -482,10 +492,12 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						coin->setOpacity(0);
 						coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
 
-						auto coinNumberLabel = Label::createWithTTF("+ "+to_string(coinNumber), theme->semiBoldFont, 40);
-						coinNumberLabel->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
-						                              SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 -
-						                              40));
+						auto coinNumberLabel = Label::createWithTTF("+ " + to_string(coinNumber), theme->semiBoldFont,
+						                                            40);
+						coinNumberLabel->setPosition(Point(
+							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4 - 15,
+							SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4 -
+							40));
 						coinNumberLabel->setOpacity(0);
 						coinNumberLabel->runAction
 						(
