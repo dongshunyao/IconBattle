@@ -312,7 +312,7 @@ void GameScene::killBlock(KillInformationList killList)
 				ti++;
 				assert(ti < 2 * BOARD_SIZE);
 			}
-			int type = rand() % TYPE_NUMBER;
+			int type =  getRandomNumber(TYPE_NUMBER);
 			auto droper = addActor(type, -1, getPositionByIndex({ti, pos.second}));
 			board[ti][pos.second] = Block(type, -1, droper);
 		}
@@ -462,3 +462,51 @@ void GameScene::killBlock(KillInformationList killList)
 	}
 }
 */
+
+void GameScene::showOneLineParticle(const Pair ij, const bool isVertical)
+{
+	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
+
+	if (isVertical)
+	{
+		// TODO: 坐标位置未测试，有待调整
+		particle->setPosition({static_cast<float>(495 + ij.second * 86), 120 + 700 / 2});
+	}
+	else
+	{
+		particle->setPosition({495 + 700 / 2, static_cast<float>(120 + ij.first * 86)});
+		particle->setRotation(90);
+	}
+
+	particle->setAutoRemoveOnFinish(true);
+	addChild(particle, 17);
+	// TODO: 粒子特效音效
+}
+
+void GameScene::showExplosion(const Pair pos)
+{
+	auto particle = ParticleSystemQuad::create(EXPLOSION_PARTICLE);
+
+	particle->setPosition({static_cast<float>(pos.first), static_cast<float>(pos.second)});
+	particle->setAutoRemoveOnFinish(true);
+	addChild(particle, 17);
+
+}
+
+void GameScene::showSuperParticle(const Pair pos)
+{
+	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[0]);
+
+	particle->setPosition({static_cast<float>(pos.first), static_cast<float>(pos.second)});
+	particle->setAutoRemoveOnFinish(true);
+	addChild(particle, 17);
+}
+
+void GameScene::showHintParticle(const Pair pos)
+{
+	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[1]);
+
+	particle->setPosition({ static_cast<float>(pos.first), static_cast<float>(pos.second) });
+	particle->setAutoRemoveOnFinish(true);
+	addChild(particle, 17);
+}
