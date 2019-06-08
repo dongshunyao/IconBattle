@@ -58,7 +58,7 @@ bool LevelScene::init()
 	{
 		//返回到上一个场景
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(
-			TransitionSlideInL::create(1.0f, MenuScene::create()));
+			TransitionFade::create(1.0f, MenuScene::create()));
 	});
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 4);

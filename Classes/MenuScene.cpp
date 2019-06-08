@@ -148,7 +148,7 @@ void MenuScene::initGameButton()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED) GameSceneController::getInstance()->startPracticeGame(true);
 	});
-	classicPractice->setPosition(Vec2(100, 40));
+	classicPractice->setPosition(Vec2(105, 40));
 
 	// 经典闯关
 	classicLevel = ui::Button::create(theme->menuSceneLevelButtonNormal,
@@ -157,9 +157,9 @@ void MenuScene::initGameButton()
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(TransitionFadeTR::create(1.0f, LevelScene::createScene(true)));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(true)));
 	});
-	classicLevel->setPosition(Vec2(250, 40));
+	classicLevel->setPosition(Vec2(275, 40));
 
 	// 经典挑战
 	classicChallenge = ui::Button::create(theme->menuSceneChallengeButtonNormal,
@@ -170,7 +170,7 @@ void MenuScene::initGameButton()
 		if (type == ui::Widget::TouchEventType::ENDED)
 			GameSceneController::getInstance()->startChallengeGame(true);
 	});
-	classicChallenge->setPosition(Vec2(400, 40));
+	classicChallenge->setPosition(Vec2(445, 40));
 
 	// 加强练习
 	enhancedPractice = ui::Button::create(theme->menuScenePracticeButtonNormal,
@@ -181,7 +181,7 @@ void MenuScene::initGameButton()
 		if (type == ui::Widget::TouchEventType::ENDED)
 			GameSceneController::getInstance()->startPracticeGame(false);
 	});
-	enhancedPractice->setPosition(Vec2(100, 40));
+	enhancedPractice->setPosition(Vec2(105, 40));
 
 	// 加强闯关
 	enhancedLevel = ui::Button::create(theme->menuSceneLevelButtonNormal,
@@ -190,9 +190,9 @@ void MenuScene::initGameButton()
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(TransitionFadeTR::create(1.0f, LevelScene::createScene(false)));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(false)));
 	});
-	enhancedLevel->setPosition(Vec2(250, 40));
+	enhancedLevel->setPosition(Vec2(275, 40));
 
 	// 加强挑战
 	enhancedChallenge = ui::Button::create(theme->menuSceneChallengeButtonNormal,
@@ -203,34 +203,34 @@ void MenuScene::initGameButton()
 		if (type == ui::Widget::TouchEventType::ENDED)
 			GameSceneController::getInstance()->startChallengeGame(false);
 	});
-	enhancedChallenge->setPosition(Vec2(400, 40));
+	enhancedChallenge->setPosition(Vec2(445, 40));
 }
 
 void MenuScene::initPlate()
 {
 	//经典模式
 	auto classicPlate = Sprite::create(theme->menuSceneClassicPlate);
-	classicPlate->setPosition(Point(850, 600));
+	classicPlate->setPosition(Point(800, 600));
 	addChild(classicPlate);
 
 	auto classicLabel = Sprite::create(theme->menuSceneClassicLabel);
-	classicLabel->setPosition(Vec2(250, 125));
+	classicLabel->setPosition(Vec2(275, 125));
 
 	classicListView = ListView::create();
 	classicListView->setDirection(ScrollView::Direction::VERTICAL);
 	classicListView->setBounceEnabled(true);
 	classicListView->setBackGroundImageScale9Enabled(true);
 	classicListView->setAnchorPoint(Point(0.5f, 0.5f));
-	classicListView->setContentSize(Size(500, 250));
-	classicListView->setPosition(Point(850, 600));
+	classicListView->setContentSize(Size(550, 250));
+	classicListView->setPosition(Point(800, 600));
 	classicListView->setScrollBarEnabled(false);
 
 	auto classicLabelLayout = Layout::create();
-	classicLabelLayout->setContentSize(Size(500, 250));
+	classicLabelLayout->setContentSize(Size(550, 250));
 	classicLabelLayout->addChild(classicLabel);
 
 	auto classicButtonsLayout = Layout::create();
-	classicButtonsLayout->setContentSize(Size(500, 80));
+	classicButtonsLayout->setContentSize(Size(550, 80));
 	classicButtonsLayout->addChild(classicPractice);
 	classicButtonsLayout->addChild(classicLevel);
 	classicButtonsLayout->addChild(classicChallenge);
@@ -240,27 +240,27 @@ void MenuScene::initPlate()
 
 	//加强模式
 	auto enhancedPlate = Sprite::create(theme->menuSceneEnhancedPlate);
-	enhancedPlate->setPosition(Point(850, 280));
+	enhancedPlate->setPosition(Point(800, 280));
 	addChild(enhancedPlate);
 
 	auto enhancedLabel = Sprite::create(theme->menuSceneEnhancedLabel);
-	enhancedLabel->setPosition(Vec2(250, 125));
+	enhancedLabel->setPosition(Vec2(275, 125));
 
 	enhancedListView = ListView::create();
 	enhancedListView->setDirection(ScrollView::Direction::VERTICAL);
 	enhancedListView->setBounceEnabled(true);
 	enhancedListView->setBackGroundImageScale9Enabled(true);
 	enhancedListView->setAnchorPoint(Point(0.5f, 0.5f));
-	enhancedListView->setContentSize(Size(500, 250));
-	enhancedListView->setPosition(Point(850, 280));
+	enhancedListView->setContentSize(Size(550, 250));
+	enhancedListView->setPosition(Point(800, 280));
 	enhancedListView->setScrollBarEnabled(false);
 
 	auto enhancedLabelLayout = Layout::create();
-	enhancedLabelLayout->setContentSize(Size(500, 250));
+	enhancedLabelLayout->setContentSize(Size(550, 250));
 	enhancedLabelLayout->addChild(enhancedLabel);
 
 	auto enhancedButtonsLayout = Layout::create();
-	enhancedButtonsLayout->setContentSize(Size(500, 80));
+	enhancedButtonsLayout->setContentSize(Size(550, 80));
 	enhancedButtonsLayout->addChild(enhancedPractice);
 	enhancedButtonsLayout->addChild(enhancedLevel);
 	enhancedButtonsLayout->addChild(enhancedChallenge);
