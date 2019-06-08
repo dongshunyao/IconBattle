@@ -158,9 +158,9 @@ private:
 
 	// 粒子特效
 	void showOneLineParticle(Pair ij, bool isVertical);
-	void showExplosion(Pair pos);
-	void showSuperParticle(Pair pos);
-	void showHintParticle(Pair pos);
+	void showExplosion(Pair index);
+	void showSuperParticle(Pair index);
+	void showHintParticle(Pair index);
 	
 };
 
