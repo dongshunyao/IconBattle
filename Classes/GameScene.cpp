@@ -312,7 +312,7 @@ void GameScene::killBlock(KillInformationList killList)
 				ti++;
 				assert(ti < 2 * BOARD_SIZE);
 			}
-			int type = rand() % TYPE_NUMBER;
+			int type =  getRandomNumber(TYPE_NUMBER);
 			auto droper = addActor(type, -1, getPositionByIndex({ti, pos.second}));
 			board[ti][pos.second] = Block(type, -1, droper);
 		}

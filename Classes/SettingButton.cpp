@@ -15,20 +15,21 @@ bool SettingButton::init()
 	});
 	courseMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()) - Vec2(
-			settingButton->getContentSize().width / 2, 0));
+			settingButton->getContentSize().width-10, 0));
 	courseMenuItem->setVisible(false);
 
+	//TODO 由配置文件创建初始音量图标
 	musicMenuItem = MenuItemSprite::create(Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), [&](Ref* sender)
 	{
-		const auto index = Music::getInstance()->getVolume() / 20;
-		Music::getInstance()->setVolume(20 * ((index + 1) % 6)); // 音量设置为0、20、40、60、80、100
+		const auto index = Music::getInstance()->getVolume() / 25;
+		Music::getInstance()->setVolume(25 * ((index+1)% 5)); // 音量设置为0、25、50、75、100
 		// TODO 音量图片及图标更新
-		musicMenuItem->setNormalImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string(index) + ".png"));
-		musicMenuItem->setSelectedImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string(index) + ".png"));
+		musicMenuItem->setNormalImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) + ".png"));
+		musicMenuItem->setSelectedImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) + ".png"));
 	});
 	musicMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(courseMenuItem->getPosition()) - Vec2(
-			settingButton->getContentSize().width / 2, 0));
+			settingButton->getContentSize().width-10, 0));
 	musicMenuItem->setVisible(false);
 
 	sound = Sprite::create(soundMenuItemNormal);
@@ -38,7 +39,7 @@ bool SettingButton::init()
 	});
 	soundMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(musicMenuItem->getPosition()) - Vec2(
-			settingButton->getContentSize().width / 2, 0));
+			settingButton->getContentSize().width, 0));
 	soundMenuItem->setVisible(false);
 
 	menu = Menu::create(courseMenuItem, musicMenuItem, soundMenuItem, nullptr);

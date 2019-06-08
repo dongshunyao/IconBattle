@@ -28,7 +28,7 @@ void Music::play(const string& path)
 void Music::setVolume(const int volume)
 {
 	if (volume <= 100 && volume >= 0) this->volume = volume;
-	else this->volume = 60;
+	else this->volume = 50;
 	AudioEngine::setVolume(audioId, static_cast<float>(volume) / 100);
 }
 
