@@ -82,6 +82,55 @@ void Theme::setJetBrainTheme()
 #pragma endregion
 }
 
-void Theme::setAdobeTheme() { }
+void Theme::setAdobeTheme()
+{
+
+#pragma region BGM
+	backgroundMusic = "/music/adobetheme/background.mp3";
+#pragma endregion
+
+#pragma region Common
+	iconSet = "/image/common/adobetheme/icon/";
+#pragma endregion
+
+#pragma region Loading Scene
+	loadingSceneBackground = "/image/loadingscene/adobetheme/scene.png";
+
+#pragma endregion
+
+#pragma region Menu Scene
+	menuSceneBackground = "/image/menuscene/adobetheme/background.jpg";
+	menuSceneClassicLabel = "/image/menuscene/adobetheme/classic_label.png";
+	menuSceneClassicPlate = "/image/menuscene/adobetheme/classic_plate.png";
+	menuSceneEnhancedLabel = "/image/menuscene/adobetheme/enhanced_label.png";
+	menuSceneEnhancedPlate = "/image/menuscene/adobetheme/enhanced_plate.png";
+
+#pragma endregion
+
+#pragma region Level Scene
+
+	levelSelectButton = "/image/levelscene/adobetheme/level";
+
+#pragma endregion
+
+#pragma region Store Scene
+
+	storeSceneJetBrainThemeIcon = "/image/storescene/adobetheme/jetbrains.png";
+	storeSceneAdobeThemeIcon = "/image/storescene/adobetheme/adobe.png";
+	storeSceneOfficeThemeIcon = "/image/storescene/adobetheme/office.png";
+	storeSceneStoreLabel = "/image/storescene/adobetheme/store_label.png";
+
+#pragma endregion
+
+#pragma region Game Scene
+	gameSceneTopBackground = "/image/gamescene/adobetheme/top_background.png";
+	gameSceneBottomBackground = "/image/gamescene/adobetheme/bottom_background.png";
+	gameSceneLevelSpriteBackground = "/image/gamescene/adobetheme/level_sprite.png";
+	gameSceneHintButtonNormal = "/image/gamescene/adobetheme/hint_button_normal.png";
+	gameSceneHintButtonSelected = "/image/gamescene/adobetheme/hint_button_selected.png";
+	gameSceneHintButtonDisabled = "/image/gamescene/adobetheme/hint_button_disabled.png";
+
+#pragma endregion
+}
 
 void Theme::setOfficeTheme() { }
