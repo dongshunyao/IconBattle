@@ -25,7 +25,7 @@ void GameScene::initInformationBoard()
 		if (type == Widget::TouchEventType::ENDED)
 		{
 			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-			dialog->setContentText("您确定要退出当前游戏么？这将丢失当前游戏进度！", 36, 60, 20);
+			dialog->setContentText("您确定要退出当前游戏么? 这将丢失当前游戏进度!", 36, 60, 20);
 
 			dialog->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneYesButtonNormal),
