@@ -135,7 +135,7 @@ void MenuScene::initCoin()
 
 	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
 	coinText->setPosition(Point(620, 850));
-	this->addChild(coinText, 4);
+	this->addChild(coinText);
 }
 
 void MenuScene::initGameButton()
