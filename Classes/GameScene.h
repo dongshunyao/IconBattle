@@ -82,7 +82,7 @@ private:
 
 #pragma region Result Board
 	bool isShareButtonAppear = false;
-	int position = -1;// 玩家在排行中的排名
+	int position = -1; // 玩家在排行中的排名
 
 	// 展示失败结果
 	void showFailedResult(int targetScore, int realScore);
@@ -156,12 +156,14 @@ private:
 	void killBlock(KillInformationList killList) {};
 
 
-	// 粒子特效
-	void showOneLineParticle(Pair ij, bool isVertical);
+	// 单行/列粒子特效
+	void showOneLineParticle(Pair index, bool isVertical);
+	// 3*3 爆炸，传入中心点
 	void showExplosion(Pair index);
-	void showSuperParticle(Pair index);
-	void showHintParticle(Pair index);
-	
+	// 全屏
+	void showFullBoardParticle();
+	// 单点粒子效果，type==0 Super; type==1 hint;
+	void showSingleParticle(Pair index, int type);
 };
 
 #endif

@@ -463,20 +463,13 @@ void GameScene::killBlock(KillInformationList killList)
 }
 */
 
-void GameScene::showOneLineParticle(const Pair ij, const bool isVertical)
+void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 {
 	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
 
-	if (isVertical)
-	{
-		// TODO: 坐标位置未测试，有待调整
-		particle->setPosition({static_cast<float>(495 + ij.second * 86), 120 + 700 / 2});
-	}
-	else
-	{
-		particle->setPosition({495 + 700 / 2, static_cast<float>(120 + ij.first * 86)});
-		particle->setRotation(90);
-	}
+	// TODO: 坐标位置未测试，有待调整
+	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
+	if (!isVertical) particle->setRotation(90);
 
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
@@ -486,27 +479,26 @@ void GameScene::showOneLineParticle(const Pair ij, const bool isVertical)
 void GameScene::showExplosion(const Pair index)
 {
 	auto particle = ParticleSystemQuad::create(EXPLOSION_PARTICLE);
-	const auto temp = getPositionByIndex(index);
-	particle->setPosition({static_cast<float>(temp.first), static_cast<float>(temp.second)});
+
+	// TODO: 坐标位置未测试，有待调整
+	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效
 }
 
-void GameScene::showSuperParticle(const Pair index)
+void GameScene::showFullBoardParticle()
 {
-	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[0]);
-	const auto temp = getPositionByIndex(index);
-	particle->setPosition({ static_cast<float>(temp.first), static_cast<float>(temp.second) });
-	particle->setAutoRemoveOnFinish(true);
-	addChild(particle, 17);
+	// TODO: 坐标位置未测试，有待调整
+	// TODO: 粒子特效音效
 }
 
-void GameScene::showHintParticle(const Pair index)
+void GameScene::showSingleParticle(const Pair index, const int type)
 {
-	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[1]);
-	const auto temp = getPositionByIndex(index);
-	particle->setPosition({ static_cast<float>(temp.first), static_cast<float>(temp.second) });
+	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[type]);
+
+	// TODO: 坐标位置未测试，有待调整
+	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效

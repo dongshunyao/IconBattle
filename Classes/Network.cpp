@@ -10,7 +10,7 @@ Network* Network::getInstance()
 
 string Network::getNews()
 {
-	if (!initConnect()) return "网络连接失败, 请重试......";
+	if (!initConnect()) return "抱歉! 网络连接失败!";
 
 	//根据需要拼接发送字符串
 	auto temp = news;
@@ -19,11 +19,11 @@ string Network::getNews()
 
 	//发送消息
 	const auto check = send(sockClient, sendBuf, strlen(sendBuf), 0);
-	if (check < 0) return "网络连接失败, 请重试......";
+	if (check < 0) return "抱歉! 网络连接失败!";
 
 	//接收消息
 	recv(sockClient, receiveBuf, 300, 0);
-	if (receiveBuf[0] == '\0') return "网络连接失败, 请重试......";
+	if (receiveBuf[0] == '\0') return "抱歉! 网络连接失败!";
 
 	string data = receiveBuf;
 	closeConnect();

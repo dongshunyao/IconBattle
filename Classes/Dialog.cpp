@@ -384,7 +384,7 @@ void Dialog::getRankByType(bool type)
 	{
 		if (listView->getChildrenCount() > 0)listView->removeAllChildren();
 		listView->setScrollBarEnabled(false);
-		setContentText("网络连接失败, 请重试!", 36, 60, 20);
+		setContentText("抱歉! 网络连接失败!", 36, 60, 20);
 		content = getLabelContentText();
 		content->setLineBreakWithoutSpace(true);
 		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
