@@ -483,30 +483,31 @@ void GameScene::showOneLineParticle(const Pair ij, const bool isVertical)
 	// TODO: 粒子特效音效
 }
 
-void GameScene::showExplosion(const Pair pos)
+void GameScene::showExplosion(const Pair index)
 {
 	auto particle = ParticleSystemQuad::create(EXPLOSION_PARTICLE);
-
-	particle->setPosition({static_cast<float>(pos.first), static_cast<float>(pos.second)});
+	const auto temp = getPositionByIndex(index);
+	particle->setPosition({static_cast<float>(temp.first), static_cast<float>(temp.second)});
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
-
+	// TODO: 粒子特效音效
 }
 
-void GameScene::showSuperParticle(const Pair pos)
+void GameScene::showSuperParticle(const Pair index)
 {
 	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[0]);
-
-	particle->setPosition({static_cast<float>(pos.first), static_cast<float>(pos.second)});
+	const auto temp = getPositionByIndex(index);
+	particle->setPosition({ static_cast<float>(temp.first), static_cast<float>(temp.second) });
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 }
 
-void GameScene::showHintParticle(const Pair pos)
+void GameScene::showHintParticle(const Pair index)
 {
 	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[1]);
-
-	particle->setPosition({ static_cast<float>(pos.first), static_cast<float>(pos.second) });
+	const auto temp = getPositionByIndex(index);
+	particle->setPosition({ static_cast<float>(temp.first), static_cast<float>(temp.second) });
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
+	// TODO: 粒子特效音效
 }
