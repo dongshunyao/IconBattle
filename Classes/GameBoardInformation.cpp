@@ -9,9 +9,10 @@ Actor* Actor::create(const int type, const Pair position)
 		actor->type = type;
 		actor->position = position;
 
-		assert(type >= 0 && type <= 6);
+		assert(type >= 0 && type <= 5);
 
-		actor->sprite = Sprite::create(SPRITE_URL[type]);
+		if (type == SUPER_TYPE) actor->sprite = Sprite::create(Theme::getInstance()->iconSet + "0.png");
+		else actor->sprite = Sprite::create(Theme::getInstance()->iconSet + std::to_string(type + 1) + ".png");
 		actor->sprite->setPosition(position.first, position.second);
 		actor->sprite->setScale(0.9f);
 		actor->addChild(actor->sprite);
