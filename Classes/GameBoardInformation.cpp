@@ -27,7 +27,6 @@ void Actor::dropTo(const Pair toPosition)
 {
 	const auto action = Sequence::create(
 		EaseOut::create(MoveTo::create(0.5, Vec2(toPosition.first, toPosition.second)), 2.0f), nullptr);
-	// BUG sprite all 4 func
 	this->sprite->runAction(action);
 	this->position = toPosition;
 }
@@ -35,22 +34,22 @@ void Actor::dropTo(const Pair toPosition)
 void Actor::moveTo(const Pair toPosition)
 {
 	const auto action = Sequence::create(MoveTo::create(0.25, Vec2(toPosition.first, toPosition.second)), nullptr);
-	runAction(action);
+	this->sprite->runAction(action);
 	this->position = toPosition;
 }
 
-void Actor::moveToAndBack(const Pair toPosition)
+void Actor::moveToAndBack(const Pair toPosition) const
 {
 	const auto action = Sequence::create(
 		MoveTo::create(0.25, Vec2(toPosition.first, toPosition.second)),
 		MoveTo::create(0.25, Vec2(position.first, position.second)),
 		nullptr);
-	runAction(action);
+	this->sprite->runAction(action);
 }
 
 void Actor::disappear()
 {
-	runAction(Sequence::create(ScaleTo::create(0.3f, 0.0f), nullptr));
+	this->sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.0f), nullptr));
 
 	auto parent = getParent();
 	Node* child = this;

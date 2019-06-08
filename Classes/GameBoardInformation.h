@@ -117,7 +117,7 @@ public:
 	// 移动到指定位置
 	void moveTo(Pair toPosition);
 	// 移动到指定位置后移动回原位置
-	void moveToAndBack(Pair toPosition);
+	void moveToAndBack(Pair toPosition) const;
 	// 缩小并消失
 	void disappear();
 
