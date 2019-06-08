@@ -27,7 +27,7 @@ public:
 	string iconSet;
 #pragma endregion 
 
-#pragma region Buck Button
+#pragma region Back Button
 	const string backButtonNormal = "/image/common/back_normal.png";
 	const string backButtonSelected = "/image/common/back_selected.png";
 	const string backButtonDisabled = "/image/common/back_disabled.png";
@@ -47,6 +47,18 @@ public:
 	string menuSceneClassicPlate;
 	string menuSceneEnhancedLabel;
 	string menuSceneEnhancedPlate;
+
+	string menuSceneStoreButtonNormal;
+	string menuSceneStoreButtonSelected;
+	string menuSceneStoreButtonDisabled;
+
+	string menuSceneRankButtonNormal;
+	string menuSceneRankButtonSelected;
+	string menuSceneRankButtonDisabled;
+
+	string menuSceneNewsBoardIcon;
+	string menuSceneUserIcon;
+	string menuSceneEditIcon;
 
 	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
 
@@ -69,18 +81,6 @@ public:
 	const string menuSceneChallengeButtonNormal = "/image/menuscene/common/challenge_normal.png";
 	const string menuSceneChallengeButtonSelected = "/image/menuscene/common/challenge_selected.png";
 	const string menuSceneChallengeButtonDisabled = "/image/menuscene/common/challenge_disabled.png";
-
-	const string menuSceneRankButtonNormal = "/image/menuscene/common/rank_normal.png";
-	const string menuSceneRankButtonSelected = "/image/menuscene/common/rank_selected.png";
-	const string menuSceneRankButtonDisabled = "/image/menuscene/common/rank_disabled.png";
-
-	const string menuSceneStoreButtonNormal = "/image/menuscene/common/buy_car_normal.png";
-	const string menuSceneStoreButtonSelected = "/image/menuscene/common/buy_car_selected.png";
-	const string menuSceneStoreButtonDisabled = "/image/menuscene/common/buy_car_disabled.png";
-
-	const string menuSceneNewsBoardIcon = "/image/menuscene/common/icon.png";
-	const string menuSceneUserIcon = "/image/menuscene/common/user.png";
-	const string menuSceneEditIcon = "/image/menuscene/common/edit.png";
 
 #pragma endregion
 
