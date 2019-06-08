@@ -106,18 +106,18 @@ bool SettingButton::init()
 				const auto fadeOut = FadeOut::create(0.25);
 
 				//course action
-				const auto courseMoveBy = MoveBy::create(0.25, Vec2(15, 0));
+				const auto courseMoveBy = MoveBy::create(0.25, Vec2(25, 0));
 				const auto courseSpawn = Sequence::create(delay, delay,
 				                                          Spawn::create(courseMoveBy, nullptr),
 				                                          nullptr);
 
 				//music action
-				const auto musicMoveBy = MoveBy::create(0.25, Vec2(25, 0));
+				const auto musicMoveBy = MoveBy::create(0.25, Vec2(35, 0));
 				const auto musicSpawn = Sequence::create(
 					delay, Spawn::create(musicMoveBy, nullptr), nullptr);
 
 				//sound action
-				const auto soundMoveBy = MoveBy::create(0.25, Vec2(30, 0));
+				const auto soundMoveBy = MoveBy::create(0.25, Vec2(40, 0));
 				const auto soundSpawn = Spawn::create(soundMoveBy, nullptr);
 
 				courseMenuItem->runAction(Sequence::create(courseSpawn, CallFunc::create([&]()
