@@ -33,8 +33,8 @@ void GameScene::initInformationBoard()
 				Sprite::create(theme->gameSceneYesButtonNormal),
 				[&](Ref* sender)
 				{
-					Director::getInstance()->replaceScene(
-						mode == LEVEL_MODE ? LevelScene::createScene(isClassical) : MenuScene::create());
+					Director::getInstance()->replaceScene(TransitionSlideInT::create(
+						1.0f, mode == LEVEL_MODE ? LevelScene::createScene(isClassical) : MenuScene::create()));
 				}));
 			dialog->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneNoButtonNormal),

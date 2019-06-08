@@ -92,7 +92,7 @@ void MenuScene::initStoreButton()
 		// 进入商店界面
 		if (type == ui::Widget::TouchEventType::ENDED)
 			Director::getInstance()->pushScene(
-				TransitionFadeTR::create(1.0f, StoreScene::createScene()));
+				TransitionSlideInT::create(1.0f, StoreScene::createScene()));
 	});
 	storeButton->setPosition(Point(680, 850));
 	this->addChild(storeButton);
