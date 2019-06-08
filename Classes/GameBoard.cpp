@@ -209,22 +209,19 @@ void GameScene::dropBlock()
 
 bool GameScene::canKill() const
 {
-	// BUG 删除SUPER判断
 	for (auto i = 0; i < BOARD_SIZE; i++)
 		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
-			if (board[i][j].type == SUPER_TYPE) return false;
-
 			if (i > 0 && i < BOARD_SIZE - 1 &&
 				(board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type))
-				return false;
+				return true;
 
 			if (j > 0 && j < BOARD_SIZE - 1 &&
 				(board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type))
-				return false;
+				return true;
 		}
 
-	return true;
+	return false;
 }
 
 bool GameScene::canKill(const Pair blockAIndex, const Pair blockBIndex)
@@ -283,20 +280,27 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 		return;
 	}
 
-	if (canKill(blockAIndex, blockBIndex)) swapFail(blockAIndex, blockBIndex);
-	else swapSuccess(blockAIndex, blockBIndex);
+	if (canKill(blockAIndex, blockBIndex)) swapSuccess(blockAIndex, blockBIndex);
+	else swapFail(blockAIndex, blockBIndex);
 }
 
 HintOperation GameScene::isImpasse()
 {
-	// BUG 加上SUPER判断
 	const auto beginTime = clock();
+
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+			if (board[i][j].type == SUPER_TYPE)
+			{
+				log("Hit: Use %d ms; Super (%d, %d);", clock() - beginTime, i, j);
+				return {{i, j}, {-1, -1}};
+			}
 
 	for (auto i = 1; i < BOARD_SIZE; i++)
 		for (auto j = 0; j < BOARD_SIZE; j++)
 			if (!canKill({i, j}, {i - 1, j}))
 			{
-				log("Hit: Use %d ms;", clock() - beginTime);
+				log("Hit: Use %d ms; Normal (%d, %d), (%d, %d);", clock() - beginTime, i, j, i - 1, j);
 				return {{i, j}, {i - 1, j}};
 			}
 
@@ -304,10 +308,11 @@ HintOperation GameScene::isImpasse()
 		for (auto j = 1; j < BOARD_SIZE; j++)
 			if (!canKill({i, j}, {i, j - 1}))
 			{
-				log("Hit: Use %d ms;", clock() - beginTime);
+				log("Hit: Use %d ms; Normal (%d, %d), (%d, %d);", clock() - beginTime, i, j, i, j - 1);
 				return {{i, j}, {i, j - 1}};
 			}
 
+	log("Impasse: Use %d ms;", clock() - beginTime);
 	return {{-1, -1}, {-1, -1}};
 }
 

@@ -1,5 +1,4 @@
 #include "Dialog.h"
-#include "User.h"
 
 Dialog::~Dialog()
 {
@@ -117,12 +116,12 @@ bool Dialog::addLabel(MenuItem* menuItem) const
 void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
 {
 	// 预加载排行榜，解决卡顿
-	if(User::getInstance()->isConnected())
+	if (User::getInstance()->isConnected())
 	{
 		classicalRank = Network::getInstance()->getRank(true);
 		plusRank = Network::getInstance()->getRank(false);
 	}
-	
+
 
 	// 设置窗口类型为排行榜窗口，并判断排行榜显示游戏模式
 	rank = dialogType;
