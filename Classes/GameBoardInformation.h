@@ -31,11 +31,12 @@ namespace GameBoardInformation
 	};
 
 	// TODO 粒子特效文件
-	const string ONE_LINE_PARTICLE = "particle_texture.plist";
-	const string EXPLOSION_PARTICLE = "particle_texture.plist";
+	const string ONE_LINE_PARTICLE = "/particle/oneLine.plist";
+	const string EXPLOSION_PARTICLE = "/particle/explosion.plist";
+	const string FULL_PARTICLE = "/particle/fullBoard.plist";
 	const string ONE_BLOCK_PARTICLE[2] = {
-		"particle_texture.plist",
-		"particle_texture.plist"
+		"/particle/single.plist",
+		"/particle/hint.plist"
 	};
 
 	typedef pair<int, int> Pair;

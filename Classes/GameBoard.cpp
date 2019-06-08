@@ -27,6 +27,8 @@ void GameScene::initGameBoard()
 			auto cursorX = e->getCursorX();
 			auto cursorY = e->getCursorY();
 
+			showSingleParticle(getIndexByPosition(Pair(cursorX, cursorY)), 1);
+
 			log("Click: Position %f, %f; Index %d, %d;", cursorX, cursorY, getIndexByPosition(Pair(cursorX, cursorY)));
 
 			// 还未选中过方块

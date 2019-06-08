@@ -468,8 +468,13 @@ void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
 
 	// TODO: 坐标位置未测试，有待调整
-	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
-	if (!isVertical) particle->setRotation(90);
+	particle->setPosition(getPositionByIndex(index).first, 85 + 700 / 2);
+	if (!isVertical)
+	{
+		particle->setRotation(90);
+		particle->setPosition(450 + 700 / 2, getPositionByIndex(index).second);
+	}
+
 
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
@@ -482,6 +487,7 @@ void GameScene::showExplosion(const Pair index)
 
 	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
+	particle->setScale(0.7f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效
@@ -490,6 +496,13 @@ void GameScene::showExplosion(const Pair index)
 void GameScene::showFullBoardParticle()
 {
 	// TODO: 坐标位置未测试，有待调整
+	auto particle = ParticleSystemQuad::create(FULL_PARTICLE);
+
+	// TODO: 坐标位置未测试，有待调整
+	particle->setPosition(450 + 700 / 2, 85 + 700 / 2);
+	particle->setScale(0.7f);
+	particle->setAutoRemoveOnFinish(true);
+	addChild(particle, 17);
 	// TODO: 粒子特效音效
 }
 
@@ -499,6 +512,7 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 
 	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
+	particle->setScale(0.5f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效
