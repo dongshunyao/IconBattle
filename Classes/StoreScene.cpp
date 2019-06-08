@@ -12,7 +12,7 @@ bool StoreScene::init()
 	// 设置按钮
 	auto settingButton = SettingButton::create();
 	settingButton->setPosition(Point(1050, 850));
-	this->addChild(settingButton,2);
+	this->addChild(settingButton, 2);
 
 	// 返回按钮
 	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
@@ -24,7 +24,7 @@ bool StoreScene::init()
 		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(MenuScene::create());
 	});
 	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton,2);
+	this->addChild(backButton, 2);
 
 	// 背景图
 	auto background = Sprite::create(theme->storeSceneBackground);
@@ -79,7 +79,8 @@ void StoreScene::initButton()
 	jetBrainSelectButton = createSelectButton();
 	jetBrainSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		if (type == Widget::TouchEventType::ENDED) {
+		if (type == Widget::TouchEventType::ENDED)
+		{
 			updateCurrentTheme(theme->jetBrainThemeName);
 			Director::getInstance()->replaceScene(StoreScene::createScene());
 			Music::getInstance()->change(theme->backgroundMusic);
@@ -171,7 +172,8 @@ void StoreScene::createAdobeButton(const bool unlocked)
 		adobeSelectButton = createSelectButton();
 		adobeSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
-			if (type == Widget::TouchEventType::ENDED) {
+			if (type == Widget::TouchEventType::ENDED)
+			{
 				updateCurrentTheme(theme->adobeThemeName);
 				Director::getInstance()->replaceScene(StoreScene::createScene());
 				Music::getInstance()->change(theme->backgroundMusic);
@@ -237,7 +239,8 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 		officeSelectButton = createSelectButton();
 		officeSelectButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 		{
-			if (type == Widget::TouchEventType::ENDED) {
+			if (type == Widget::TouchEventType::ENDED)
+			{
 				updateCurrentTheme(theme->officeThemeName);
 				Director::getInstance()->replaceScene(StoreScene::createScene());
 				Music::getInstance()->change(theme->backgroundMusic);
@@ -288,7 +291,7 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 void StoreScene::cashPay()
 {
 	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-	dialog->setContentText("功能开发中，敬请期待!", 36, 60, 20);
+	dialog->setContentText("功能开发中, 敬请期待!", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
 		Sprite::create(theme->gameSceneYesButtonNormal),
@@ -306,7 +309,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 {
 	if (rmbPay) coin /= 10;
 	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-	dialog->setContentText("你确定要解锁新的主题吗？", 36, 60, 20);
+	dialog->setContentText("确认购买新主题?", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
 		Sprite::create(theme->gameSceneYesButtonNormal),
@@ -317,7 +320,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 			unlockTheme(themeName, coin);
 			Director::getInstance()->getRunningScene()->removeChild(dialog);
 			auto successPay = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-			successPay->setContentText("购买成功，快去试试新主题吧！", 36, 60, 20);
+			successPay->setContentText("购买成功，快去试试新主题吧!", 36, 60, 20);
 			successPay->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneYesButtonNormal),
 				Sprite::create(theme->gameSceneYesButtonSelected),
@@ -343,7 +346,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 void StoreScene::failedPay()
 {
 	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
-	dialog->setContentText("不足以支付解锁新主题!", 36, 60, 20);
+	dialog->setContentText("金币不足, 主题购买失败!", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
 		Sprite::create(theme->gameSceneYesButtonNormal),

@@ -23,21 +23,21 @@ public:
 	using GameInfo = pair<int, int>;
 
 	// TODO 数值修改 @PJ
-	const GameInfo classicalPractice = {3000, 2333};
+	const GameInfo classicalPractice = {1200, 2333};
 	const GameInfo plusPractice = {4000, 2333};
 
 	const GameInfo classicalLevel[10] =
 	{
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
-		{1000, 10},
+		{300, 20},
+		{400, 20},
+		{500, 20},
+		{600, 20},
+		{800, 20},
+		{1000, 14},
+		{1000, 13},
+		{1200, 12},
+		{1200, 11},
+		{1500, 10},
 	};
 	const GameInfo plusLevel[10] =
 	{
