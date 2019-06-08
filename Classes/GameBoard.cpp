@@ -177,8 +177,8 @@ void GameScene::refreshBoard()
 			const auto banY = j >= 2 && board[i][j - 1].type == board[i][j - 2].type
 				                  ? board[i][j - 2].type
 				                  : -1;
-			auto type = rand() % TYPE_NUMBER;
-			while (type == banX || type == banY) type = rand() % TYPE_NUMBER;
+			auto type = getRandomNumber(TYPE_NUMBER) ;
+			while (type == banX || type == banY) type = getRandomNumber(TYPE_NUMBER);
 
 			board[i][j] = Block(type, addActor(type, getPositionByIndex({i, j})));
 		}

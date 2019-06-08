@@ -17,10 +17,17 @@ bool LevelScene::init()
 
 	// 设置layer来存放各个按钮
 	layer = Layer::create();
-	layer->setContentSize(Size(SCREEN_WIDTH * 2, SCREEN_HEIGHT));
+	layer->setContentSize(Size(SCREEN_WIDTH * 2 + 200,SCREEN_HEIGHT));
 
 	// 设置页面滚动
 	initScrollView();
+
+	// 初始化按钮位置
+	for (auto i = 0; i < 10; i++)
+	{
+		pos[i].first = 240 * (i + 1);
+		pos[i].second = Util::getRandomNumber(200, 650);
+	}
 
 	// 初始化选关按钮
 	initButtons();

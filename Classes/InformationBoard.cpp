@@ -51,7 +51,8 @@ void GameScene::initInformationBoard()
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 11);
 
-	const string gameModeName = mode == PRACTICE_MODE ? "练习" : mode == LEVEL_MODE ? "选关" : "挑战";
+	// 标题
+	const string gameModeName = mode == PRACTICE_MODE ? "练习" : mode == LEVEL_MODE ? "闯关" : "挑战";
 	auto modeLabel = Label::createWithTTF(isClassical ? "经典" + gameModeName : "进阶" + gameModeName, theme->semiBoldFont,
 	                                      50);
 	modeLabel->setPosition(modeLabel->getContentSize().width / 2 + 90, 850);
