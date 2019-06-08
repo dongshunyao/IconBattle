@@ -143,6 +143,9 @@ public:
 	string gameSceneHintButtonDisabled;
 	string gameSceneResultSpriteBackground;
 
+	const string gameSceneMouseMoveOn = "/image/gamescene/common/mouse_move_on.png";
+	const string gameSceneMouseSelected = "/image/gamescene/common/mouse_selected.png";
+
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";

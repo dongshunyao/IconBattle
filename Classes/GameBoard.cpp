@@ -3,12 +3,12 @@
 void GameScene::initGameBoard()
 {
 	// TODO 移动高亮图片修改
-	moveHighLight = ImageView::create(theme->gameSceneNoButtonNormal);
+	moveHighLight = ImageView::create(theme->gameSceneMouseMoveOn);
 	moveHighLight->setPosition({9999, 9999});
-	addChild(moveHighLight, 5);
+	addChild(moveHighLight, 3);
 
 	// TODO 选中高亮图片修改
-	selectedHighLight = ImageView::create(theme->gameSceneYesButtonNormal);
+	selectedHighLight = ImageView::create(theme->gameSceneMouseSelected);
 	selectedHighLight->setPosition({9999, 9999});
 	addChild(selectedHighLight, 3);
 
