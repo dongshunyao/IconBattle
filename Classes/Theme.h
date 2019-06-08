@@ -90,9 +90,6 @@ public:
 	// TODO 暂时不更换
 	const string levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
 	const string levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";
-	const string levelSceneGameButtonNormal = "/image/levelscene/jetbraintheme/game_normal.png";
-	const string levelSceneGameButtonSelected = "/image/levelscene/jetbraintheme/game_selected.png";
-	const string levelSceneGameButtonDisabled = "/image/levelscene/jetbraintheme/game_disabled.png";
 
 #pragma endregion
 
