@@ -90,7 +90,9 @@ void MenuScene::initStoreButton()
 	storeButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		// 进入商店界面
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->pushScene(StoreScene::createScene());
+		if (type == ui::Widget::TouchEventType::ENDED)
+			Director::getInstance()->pushScene(
+				TransitionSlideInT::create(1.0f, StoreScene::createScene()));
 	});
 	storeButton->setPosition(Point(680, 850));
 	this->addChild(storeButton);
@@ -155,7 +157,7 @@ void MenuScene::initGameButton()
 	classicLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(LevelScene::createScene(true));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(true)));
 	});
 	classicLevel->setPosition(Vec2(275, 40));
 
@@ -165,7 +167,8 @@ void MenuScene::initGameButton()
 	                                      theme->menuSceneChallengeButtonDisabled);
 	classicChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 经典挑战
+		if (type == ui::Widget::TouchEventType::ENDED)
+			GameSceneController::getInstance()->startChallengeGame(true);
 	});
 	classicChallenge->setPosition(Vec2(445, 40));
 
@@ -187,7 +190,7 @@ void MenuScene::initGameButton()
 	enhancedLevel->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			Director::getInstance()->replaceScene(LevelScene::createScene(false));
+			Director::getInstance()->replaceScene(TransitionFade::create(1.0f, LevelScene::createScene(false)));
 	});
 	enhancedLevel->setPosition(Vec2(275, 40));
 
@@ -197,7 +200,8 @@ void MenuScene::initGameButton()
 	                                       theme->menuSceneChallengeButtonDisabled);
 	enhancedChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
-		// TODO 加强挑战
+		if (type == ui::Widget::TouchEventType::ENDED)
+			GameSceneController::getInstance()->startChallengeGame(false);
 	});
 	enhancedChallenge->setPosition(Vec2(445, 40));
 }
