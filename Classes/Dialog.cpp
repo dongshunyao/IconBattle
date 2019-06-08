@@ -170,7 +170,7 @@ void Dialog::initNormalDialog()
 	this->addChild(getMenuLabel());
 	auto adaptHeight = 0;
 	if (title) adaptHeight = title->getContentSize().height;
-	const auto labelHeight = (dialogContentSize.height - adaptHeight - 15) / (getMenuLabel()
+	const auto labelHeight = (dialogContentSize.height - adaptHeight -40) / (getMenuLabel()
 		->getChildrenCount() + 2);
 
 	// 布局labelMenuItem
