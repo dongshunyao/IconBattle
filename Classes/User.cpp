@@ -64,7 +64,7 @@ string User::getNewsInformation()
 	if (newsInformation.empty())
 	{
 		newsInformation = Network::getInstance()->getNews();
-		if (newsInformation == "网络连接失败，请重试......") connected = false;
+		if (newsInformation == "网络连接失败, 请重试......") connected = false;
 		else connected = true;
 	}
 

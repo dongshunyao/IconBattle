@@ -53,12 +53,12 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 						)
 					);
 
-					resultDialog->setTitle("遗憾", 100);
+					resultDialog->setTitle("游戏失败", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("目标分数: " + to_string(targetScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("实际得分: " + to_string(realScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("你的分数: " + to_string(realScore), theme->semiBoldFont, 50)));
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("很遗憾你没有达到目标分数", theme->semiBoldFont, 50)));
@@ -141,7 +141,6 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
 										sharePractice(isClassical, QQ);
 									}
 								);
@@ -158,8 +157,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									sharePractice(isClassical, WEIBO);
+										sharePractice(isClassical, WEIBO);
 									}
 								);
 
@@ -176,8 +174,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									sharePractice(isClassical, RENREN);
+										sharePractice(isClassical, RENREN);
 									}
 								);
 
@@ -192,8 +189,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									sharePractice(isClassical, DOUBAN);
+										sharePractice(isClassical, DOUBAN);
 									}
 								);
 
@@ -225,7 +221,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 						)
 					);
 
-					resultDialog->setTitle("恭喜", 100);
+					resultDialog->setTitle("游戏成功", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("交换次数: " + to_string(usedSteps), theme->semiBoldFont, 50)));
@@ -313,8 +309,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									isChallenge ? shareRank(isClassical, QQ, addedScore, position+1):shareLevel(isClassical,QQ,level);
+										isChallenge
+											? shareRank(isClassical, QQ, addedScore, position + 1)
+											: shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -331,8 +328,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									isChallenge ? shareRank(isClassical, WEIBO, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
+										isChallenge
+											? shareRank(isClassical, WEIBO, addedScore, position + 1)
+											: shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -348,8 +346,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									isChallenge ? shareRank(isClassical, RENREN, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
+										isChallenge
+											? shareRank(isClassical, RENREN, addedScore, position + 1)
+											: shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -365,8 +364,9 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
 									[&](Ref* sender)
 									{
-										// TODO share
-									isChallenge ? shareRank(isClassical, QQ, addedScore, position + 1) : shareLevel(isClassical, QQ, level);
+										isChallenge
+											? shareRank(isClassical, QQ, addedScore, position + 1)
+											: shareLevel(isClassical, QQ, level);
 									}
 								);
 
@@ -393,19 +393,17 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						)
 					);
 
-				
 
-
-					resultDialog->setTitle("恭喜", 100);
+					resultDialog->setTitle("游戏成功", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("交换次数: " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("剩余交换次数奖励: " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("提示次数: " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("剩余提示次数奖励: " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("玩家分数: " + to_string(playerScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("你的分数: " + to_string(playerScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("本局总分: " + to_string(addedScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("总分数: " + to_string(addedScore), theme->semiBoldFont, 50)));
 
 					if (isChallenge)
 					{
@@ -459,7 +457,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
 
 									dialog->addListView(true, false, isClassical);
-									dialog->setTitle("排行", 50);
+									dialog->setTitle("排行榜 ", 50);
 									dialog->addButton
 									(
 										MenuItemSprite::create
