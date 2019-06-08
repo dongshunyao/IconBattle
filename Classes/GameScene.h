@@ -154,6 +154,14 @@ private:
 
 	// BUG  重写 方块消除动画
 	void killBlock(KillInformationList killList) {};
+
+
+	// 粒子特效
+	void showOneLineParticle(Pair ij, bool isVertical);
+	void showExplosion(Pair pos);
+	void showSuperParticle(Pair pos);
+	void showHintParticle(Pair pos);
+	
 };
 
 #endif
