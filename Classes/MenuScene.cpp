@@ -107,7 +107,7 @@ void MenuScene::initRankButton()
 	{
 		if (type == Widget::TouchEventType::ENDED)
 		{
-			const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
+			const auto dialog = Dialog::create(theme->menuSceneRankListBackground, Size(500, 600));
 
 			dialog->addListView(true, true, true);
 			dialog->setTitle("经典挑战排行", 50);

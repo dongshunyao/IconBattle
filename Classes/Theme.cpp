@@ -53,6 +53,7 @@ void Theme::setJetBrainTheme()
 	menuSceneClassicPlate = "/image/menuscene/jetbraintheme/classic_plate.png";
 	menuSceneEnhancedLabel = "/image/menuscene/jetbraintheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/jetbraintheme/enhanced_plate.png";
+	menuSceneRankListBackground = "/image/menuscene/jetbraintheme/rank_list_background.png";
 
 #pragma endregion
 
@@ -88,7 +89,6 @@ void Theme::setJetBrainTheme()
 
 void Theme::setAdobeTheme()
 {
-
 #pragma region BGM
 	backgroundMusic = "/music/adobetheme/background.mp3";
 #pragma endregion
@@ -108,6 +108,7 @@ void Theme::setAdobeTheme()
 	menuSceneClassicPlate = "/image/menuscene/adobetheme/classic_plate.png";
 	menuSceneEnhancedLabel = "/image/menuscene/adobetheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/adobetheme/enhanced_plate.png";
+	menuSceneRankListBackground = "/image/menuscene/adobetheme/rank_list_background.png";
 
 #pragma endregion
 

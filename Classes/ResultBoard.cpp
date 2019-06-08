@@ -454,7 +454,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								{
 									this->removeChild(resultDialog);
 
-									const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
+									const auto dialog = Dialog::create(theme->menuSceneRankListBackground, Size(500, 600));
 
 									dialog->addListView(true, false, isClassical);
 									dialog->setTitle("排行", 50);

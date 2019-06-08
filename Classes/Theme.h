@@ -47,8 +47,7 @@ public:
 	string menuSceneClassicPlate;
 	string menuSceneEnhancedLabel;
 	string menuSceneEnhancedPlate;
-
-	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
+	string menuSceneRankListBackground;
 
 	const string menuChangeTypeButtonNormalBackground = "/image/menuscene/common/change_button_normal.png";
 	const string menuChangeTypeButtonSelectedBackground = "/image/menuscene/common/change_button_selected.png";
