@@ -47,7 +47,7 @@ bool LevelScene::init()
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
-	settingButton->setPosition(Point(1050, 850));
+	settingButton->setPosition(Point(1080, 850));
 	this->addChild(settingButton, 4);
 
 	// 返回按钮
@@ -164,7 +164,7 @@ void LevelScene::initCoin()
 
 	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
 	coinText->setPosition(Point(220, 850));
-	this->addChild(coinText, 4);
+	this->addChild(coinText, 11);
 }
 
 void LevelScene::initModeLabel(const bool isClassical)
