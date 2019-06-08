@@ -77,7 +77,8 @@ void Theme::setJetBrainTheme()
 #pragma region Game Scene
 	gameSceneTopBackground = "/image/gamescene/jetbraintheme/top_background.png";
 	gameSceneBottomBackground = "/image/gamescene/jetbraintheme/bottom_background.png";
-	gameSceneLevelSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
+	gameSceneStepSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite_background.png";
+	gameSceneInfStepSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
@@ -131,7 +132,8 @@ void Theme::setAdobeTheme()
 #pragma region Game Scene
 	gameSceneTopBackground = "/image/gamescene/adobetheme/top_background.png";
 	gameSceneBottomBackground = "/image/gamescene/adobetheme/bottom_background.png";
-	gameSceneLevelSpriteBackground = "/image/gamescene/adobetheme/level_sprite.png";
+	gameSceneStepSpriteBackground = "/image/gamescene/adobetheme/level_sprite_background.png";
+	gameSceneInfStepSpriteBackground = "/image/gamescene/adobetheme/level_sprite.png";
 	gameSceneHintButtonNormal = "/image/gamescene/adobetheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/adobetheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/adobetheme/hint_button_disabled.png";
