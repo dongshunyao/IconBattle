@@ -33,6 +33,12 @@ public:
 	const string backButtonDisabled = "/image/common/back_disabled.png";
 #pragma endregion
 
+#pragma region Dialog
+	string messageDialogBackground;
+	string resultDialogBackground;
+
+#pragma endregion
+
 #pragma region Loading Sence
 	string loadingSceneBackground;
 
@@ -140,7 +146,6 @@ public:
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";
 	const string gameSceneResultSprite = "/image/gamescene/common/";
-	const string gameSceneDialogBackground = "/image/gamescene/common/dialog_background.png";
 	const string gameSceneYesButtonNormal = "/image/gamescene/common/yes_normal.png";
 	const string gameSceneYesButtonSelected = "/image/gamescene/common/yes_selected.png";
 	const string gameSceneNoButtonNormal = "/image/gamescene/common/no_normal.png";

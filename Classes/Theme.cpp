@@ -42,6 +42,11 @@ void Theme::setJetBrainTheme()
 	iconSet = "/image/common/jetbraintheme/icon/";
 #pragma endregion
 
+#pragma region Dialog
+	messageDialogBackground = "/image/gamescene/jetbraintheme/result_dialog_background.png";
+	resultDialogBackground = "/image/gamescene/jetbraintheme/message_dialog_background.png";
+#pragma region
+
 #pragma region Loading Scene
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";
 
@@ -96,6 +101,11 @@ void Theme::setAdobeTheme()
 #pragma region Common
 	iconSet = "/image/common/adobetheme/icon/";
 #pragma endregion
+
+#pragma region Dialog
+	messageDialogBackground ="/image/gamescene/adobetheme/result_dialog_background.png";
+	resultDialogBackground = "/image/gamescene/adobetheme/message_dialog_background.png";
+#pragma region
 
 #pragma region Loading Scene
 	loadingSceneBackground = "/image/loadingscene/adobetheme/scene.png";

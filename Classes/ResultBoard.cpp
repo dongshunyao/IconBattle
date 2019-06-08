@@ -37,7 +37,7 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 					this->removeChild(second);
 
 					const auto resultDialog = Dialog::create(
-						theme->gameSceneDialogBackground, Size(800, 500));
+						theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -109,7 +109,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 					this->removeChild(first);
 					this->removeChild(second);
 
-					const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(800, 500));
+					const auto resultDialog = Dialog::create(theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -276,7 +276,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					this->removeChild(first);
 					this->removeChild(second);
 
-					const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(800, 500));
+					const auto resultDialog = Dialog::create(theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -454,7 +454,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								{
 									this->removeChild(resultDialog);
 
-									const auto dialog = Dialog::create(theme->menuSceneRankListBackground, Size(500, 600));
+									const auto dialog = Dialog::create(theme->menuSceneRankListBackground,
+									                                   Size(500, 600));
 
 									dialog->addListView(true, false, isClassical);
 									dialog->setTitle("排行", 50);
@@ -493,7 +494,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						auto coinNumberLabel = Label::createWithTTF("+" + to_string(coinNumber), theme->semiBoldFont,
 						                                            40);
 						coinNumberLabel->setPosition(Point(
-							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width /3.3- 15,
+							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 - 15,
 							SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
 							40));
 						coinNumberLabel->setOpacity(0);
@@ -504,7 +505,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								DelayTime::create(0.6),
 								Spawn::create(
 									MoveTo::create(1, Point(
-										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width /3.3- 15,
+										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 -
+										               15,
 										               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
 										               15)),
 									FadeIn::create(1), nullptr),
