@@ -59,6 +59,8 @@ void Theme::setJetBrainTheme()
 #pragma region Level Scene
 
 	levelSelectButton = "/image/levelscene/jetbraintheme/level";
+	levelSceneDistantView = "/image/levelscene/jetbraintheme/far.png";
+	levelSceneForeground = "/image/levelscene/jetbraintheme/front.png";
 
 #pragma endregion
 
@@ -68,6 +70,7 @@ void Theme::setJetBrainTheme()
 	storeSceneAdobeThemeIcon = "/image/storescene/jetbraintheme/adobe.png";
 	storeSceneOfficeThemeIcon = "/image/storescene/jetbraintheme/office.png";
 	storeSceneStoreLabel = "/image/storescene/jetbraintheme/store_label.png";
+	storeSceneBackground = "/image/storescene/jetbraintheme/background.png";
 
 #pragma endregion
 
@@ -110,6 +113,8 @@ void Theme::setAdobeTheme()
 #pragma region Level Scene
 
 	levelSelectButton = "/image/levelscene/adobetheme/level";
+	levelSceneDistantView = "/image/levelscene/adobetheme/far.png";
+	levelSceneForeground = "/image/levelscene/adobetheme/front.png";
 
 #pragma endregion
 
@@ -119,6 +124,7 @@ void Theme::setAdobeTheme()
 	storeSceneAdobeThemeIcon = "/image/storescene/adobetheme/adobe.png";
 	storeSceneOfficeThemeIcon = "/image/storescene/adobetheme/office.png";
 	storeSceneStoreLabel = "/image/storescene/adobetheme/store_label.png";
+	storeSceneBackground = "/image/storescene/adobetheme/background.png";
 
 #pragma endregion
 

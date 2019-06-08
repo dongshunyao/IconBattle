@@ -45,7 +45,7 @@ private:
 
 	string userName = "玩家3265";
 	string hardwareId = getHardwareId();
-	int coin = 0;
+	int coin = 100;	//TODO 更改
 	ValueVector unlockedThemes;
 	int unlockedClassicalLevel = 1;
 	int unlockedPlusLevel = 1;
