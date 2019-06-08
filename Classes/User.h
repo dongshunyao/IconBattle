@@ -6,6 +6,7 @@
 #include "Music.h"
 #include "Sound.h"
 #include "Util.h"
+#include "Network.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <windows.h>
@@ -37,11 +38,16 @@ public:
 	bool setUnlockedPlusLevel(const int level);
 
 	bool isNewUser() const { return newUser; }
+	bool isConnected() const { return connected; }
 
+	string getNewsInformation();
 	bool update() const;
 
 private:
 	bool newUser = true;
+
+	bool connected = false;
+	string newsInformation = "";
 
 	string userName = "玩家3265";
 	string hardwareId = getHardwareId();
