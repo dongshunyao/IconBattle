@@ -129,11 +129,11 @@ void LevelScene::initButtons()
 		                                      theme->levelSelectButton + std::to_string(i + 1) + "_disabled.png");
 
 		if (i >= unlockedLevel)levelButton->setEnabled(false);
-		levelButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+		levelButton->addTouchEventListener([&, i](Ref* sender, ui::Widget::TouchEventType type)
 		{
 			if (type == ui::Widget::TouchEventType::ENDED)
 			{
-				GameSceneController::getInstance()->startLevelGame(isClassical,i+1);
+				GameSceneController::getInstance()->startLevelGame(isClassical, i);
 			}
 		});
 

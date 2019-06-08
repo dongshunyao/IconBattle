@@ -59,6 +59,18 @@ bool User::setUnlockedPlusLevel(const int level)
 	return false;
 }
 
+string User::getNewsInformation()
+{
+	if (newsInformation.empty())
+	{
+		newsInformation = Network::getInstance()->getNews();
+		if (newsInformation == "网络连接失败，请重试......") connected = false;
+		else connected = true;
+	}
+
+	return newsInformation;
+}
+
 bool User::update() const
 {
 	ValueMap map;

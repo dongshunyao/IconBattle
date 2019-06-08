@@ -64,7 +64,7 @@ namespace GameBoardInformation
 	const int SUPER_KILL = 6;
 	const int DOUBLE_SUPER_KILL = 7;
 
-	// TODO 不同模式得分+剩余步数和提示兑换分数
+	// TODO 不同模式得分
 
 	// 提示、剩余步数得分
 	const int EVERY_STEP_SCORE = 100;
@@ -117,7 +117,7 @@ public:
 	// 移动到指定位置
 	void moveTo(Pair toPosition);
 	// 移动到指定位置后移动回原位置
-	void moveToAndBack(Pair toPosition);
+	void moveToAndBack(Pair toPosition) const;
 	// 缩小并消失
 	void disappear();
 

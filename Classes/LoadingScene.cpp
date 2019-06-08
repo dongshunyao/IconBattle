@@ -50,6 +50,8 @@ void LoadingScene::loading()
 	// 初始化音效
 	Sound::getInstance();
 
+	User::getInstance()->getNewsInformation();
+
 	loadingFlag = true;
 }
 

@@ -5,6 +5,7 @@
 #include "2d/CCClippingNode.h"
 #include "Theme.h"
 #include "Network.h"
+#include "User.h"
 
 USING_NS_CC;
 

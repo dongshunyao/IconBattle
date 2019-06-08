@@ -116,8 +116,22 @@ bool Dialog::addLabel(MenuItem* menuItem) const
 void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
 {
 	// 预加载排行榜，解决卡顿
-	classicalRank = Network::getInstance()->getRank(true);
-	plusRank = Network::getInstance()->getRank(false);
+	if (User::getInstance()->isConnected())
+	{
+		classicalRank = Network::getInstance()->getRank(true);
+		plusRank = Network::getInstance()->getRank(false);
+	}
+	else
+	{
+		setContentText("网络连接失败，请重试", 36, 60, 20);
+		content = getLabelContentText();
+		content->setLineBreakWithoutSpace(true);
+		content->setMaxLineWidth(dialogContentSize.width - 2 * contentPadding);
+		content->setPosition(Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		content->setHorizontalAlignment(TextHAlignment::LEFT);
+		this->addChild(content);
+	}
+
 
 	// 设置窗口类型为排行榜窗口，并判断排行榜显示游戏模式
 	rank = dialogType;
