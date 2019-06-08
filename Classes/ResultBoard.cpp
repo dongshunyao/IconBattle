@@ -56,9 +56,9 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 					resultDialog->setTitle("遗憾", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("目标分数 : " + to_string(targetScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("目标分数: " + to_string(targetScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("实际得分 : " + to_string(realScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("实际得分: " + to_string(realScore), theme->semiBoldFont, 50)));
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("很遗憾你没有达到目标分数", theme->semiBoldFont, 50)));
@@ -228,9 +228,9 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 					resultDialog->setTitle("恭喜", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("交换次数 : " + to_string(usedSteps), theme->semiBoldFont, 50)));
+						Label::createWithTTF("交换次数: " + to_string(usedSteps), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("提示次数 : " + to_string(usedHints), theme->semiBoldFont, 50)));
+						Label::createWithTTF("提示次数: " + to_string(usedHints), theme->semiBoldFont, 50)));
 
 					this->removeChild(layerColor);
 
@@ -399,13 +399,13 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					resultDialog->setTitle("恭喜", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("交换次数 : " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("交换次数: " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("提示次数 : " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("提示次数: " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("玩家分数 : " + to_string(playerScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("玩家分数: " + to_string(playerScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("本局总分 : " + to_string(addedScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("本局总分: " + to_string(addedScore), theme->semiBoldFont, 50)));
 
 					if (isChallenge)
 					{
@@ -432,7 +432,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								if (rank[i].first == User::getInstance()->getUserName() && rank[i].second == addedScore)
 								{
 									resultDialog->addLabel(MenuItemLabel::create(
-										Label::createWithTTF("当前排名 : " + to_string(i + 1), theme->semiBoldFont, 50)));
+										Label::createWithTTF("当前排名: " + to_string(i + 1), theme->semiBoldFont, 50)));
 									break;
 								}
 							}
@@ -440,7 +440,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						else
 						{
 							resultDialog->addLabel(MenuItemLabel::create(
-								Label::createWithTTF("当前排名 : " + to_string(position + 1), theme->semiBoldFont, 50)));
+								Label::createWithTTF("当前排名: " + to_string(position + 1), theme->semiBoldFont, 50)));
 						}
 
 						Network::getInstance()->postScore(User::getInstance()->getUserName(), addedScore, isClassical);
