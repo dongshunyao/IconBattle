@@ -214,14 +214,14 @@ bool GameScene::canKill() const
 		{
 			if (i > 0 && i < BOARD_SIZE - 1 &&
 				(board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type))
-				return false;
+				return true;
 
 			if (j > 0 && j < BOARD_SIZE - 1 &&
 				(board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type))
-				return false;
+				return true;
 		}
 
-	return true;
+	return false;
 }
 
 bool GameScene::canKill(const Pair blockAIndex, const Pair blockBIndex)
@@ -280,8 +280,8 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 		return;
 	}
 
-	if (canKill(blockAIndex, blockBIndex)) swapFail(blockAIndex, blockBIndex);
-	else swapSuccess(blockAIndex, blockBIndex);
+	if (canKill(blockAIndex, blockBIndex)) swapSuccess(blockAIndex, blockBIndex);
+	else swapFail(blockAIndex, blockBIndex);
 }
 
 HintOperation GameScene::isImpasse()

@@ -5,6 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "Theme.h"
 #include "Network.h"
+#include "User.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
@@ -58,8 +59,8 @@ private:
 	bool rank = false; // 对话框类型
 	bool rankType = false; // 排行榜类型
 	bool isInMenu = true; // 排行榜是否在menuScene
-	bool isClassical = true;// 游戏模式
-	bool changed = false;// 判断排行榜是否改变
+	bool isClassical = true; // 游戏模式
+	bool changed = false; // 判断排行榜是否改变
 
 	ListView* listView = nullptr;
 	Label* nameLabel = nullptr;
@@ -76,7 +77,7 @@ private:
 	void backgroundFinish(); // 初始化对话框内容及布局
 	void initRankDialog(); // 初始化排行榜对话框
 	void initNormalDialog(); // 初始化普通对话框
-	void getRankByType(bool type);// 获取排行榜内容
+	void getRankByType(bool type); // 获取排行榜内容
 
 
 	// set and get

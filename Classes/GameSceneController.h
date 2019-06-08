@@ -5,7 +5,7 @@
 #include "GameScene.h"
 #include "LevelScene.h"
 #include "GameBoardInformation.h"
-#include "util.h"
+#include "Util.h"
 
 using namespace GameBoardInformation;
 USING_NS_CC;
@@ -18,7 +18,7 @@ public:
 #pragma region Game Information
 	// 基础掉落概率
 	int coinPercentage = 5;
-	
+
 	// pair<totalScore, stepNumber>
 	using GameInfo = pair<int, int>;
 
@@ -53,8 +53,8 @@ public:
 		{1000, 10},
 	};
 
-	const GameInfo classicalChallenge = {100000, 100};
-	const GameInfo plusChallenge = {200000, 100};
+	const GameInfo classicalChallenge = {100000, 99};
+	const GameInfo plusChallenge = {200000, 99};
 #pragma endregion
 
 	void startPracticeGame(bool isClassical) const;
