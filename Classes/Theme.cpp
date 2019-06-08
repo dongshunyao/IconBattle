@@ -54,18 +54,6 @@ void Theme::setJetBrainTheme()
 	menuSceneEnhancedLabel = "/image/menuscene/jetbraintheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/jetbraintheme/enhanced_plate.png";
 
-	menuSceneStoreButtonNormal = "/image/menuscene/jetbraintheme/buy_car_normal.png";
-	menuSceneStoreButtonSelected = "/image/menuscene/jetbraintheme/buy_car_selected.png";
-	menuSceneStoreButtonDisabled = "/image/menuscene/jetbraintheme/buy_car_disabled.png";
-
-	menuSceneRankButtonNormal = "/image/menuscene/jetbraintheme/rank_normal.png";
-	menuSceneRankButtonSelected = "/image/menuscene/jetbraintheme/rank_selected.png";
-	menuSceneRankButtonDisabled = "/image/menuscene/jetbraintheme/rank_disabled.png";
-
-	menuSceneNewsBoardIcon = "/image/menuscene/jetbraintheme/icon.png";
-	menuSceneUserIcon = "/image/menuscene/jetbraintheme/user.png";
-	menuSceneEditIcon = "/image/menuscene/jetbraintheme/edit.png";
-
 #pragma endregion
 
 #pragma region Level Scene
