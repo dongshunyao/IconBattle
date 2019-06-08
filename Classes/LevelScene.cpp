@@ -17,7 +17,7 @@ bool LevelScene::init()
 
 	// 设置layer来存放各个按钮
 	layer = Layer::create();
-	layer->setContentSize(Size(SCREEN_WIDTH * 2 + 200,SCREEN_HEIGHT));
+	layer->setContentSize(Size(buttonDistance * 11,SCREEN_HEIGHT));
 
 	// 设置页面滚动
 	initScrollView();
@@ -25,7 +25,7 @@ bool LevelScene::init()
 	// 初始化按钮位置
 	for (auto i = 0; i < 10; i++)
 	{
-		pos[i].first = 240 * (i + 1);
+		pos[i].first = buttonDistance * (i + 1);
 		pos[i].second = Util::getRandomNumber(200, 650);
 	}
 
@@ -57,8 +57,9 @@ bool LevelScene::init()
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		//返回到上一个场景
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(
-			TransitionFade::create(1.0f, MenuScene::create()));
+		if (type == ui::Widget::TouchEventType::ENDED)
+			Director::getInstance()->replaceScene(
+				TransitionFade::create(1.0f, MenuScene::create()));
 	});
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 4);
@@ -109,18 +110,17 @@ void LevelScene::initScrollView()
 	//添加鼠标事件侦听
 	auto listenerMouse = EventListenerMouse::create();
 	listenerMouse->setEnabled(true);
-	listenerMouse->onMouseScroll = [&,scrollView](EventMouse* event)
+	listenerMouse->onMouseScroll = [&, scrollView](EventMouse* event)
 	{
 		const auto x = event->getScrollY(); //滚轮上滑x值小于0，下滑x值小于0
 
-		if (x < 0)
-		{
-			scrollView->scrollToLeft(0.5, true);
-		}
-		else
-		{
-			scrollView->scrollToRight(0.5, true);
-		}
+		if (x < 0) currentScrollPercent -= 10;
+		else currentScrollPercent += 10;
+
+		if (currentScrollPercent > 100) currentScrollPercent = 100;
+		if (currentScrollPercent < 0) currentScrollPercent = 0;
+
+		scrollView->scrollToPercentHorizontal(currentScrollPercent, 1, true);
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerMouse, this);
 }

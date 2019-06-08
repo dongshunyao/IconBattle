@@ -42,7 +42,7 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// 初始化背景音乐
+	// TODO 初始化背景音乐
 	vector<string> musicPath;
 	musicPath.emplace_back(theme->backgroundMusic);
 	Music::getInstance()->loading(musicPath);
@@ -50,6 +50,7 @@ void LoadingScene::loading()
 	// 初始化音效
 	Sound::getInstance();
 
+	// 初始化公告
 	User::getInstance()->getNewsInformation();
 
 	loadingFlag = true;

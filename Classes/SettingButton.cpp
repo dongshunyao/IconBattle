@@ -22,9 +22,12 @@ bool SettingButton::init()
 
 	// 音量图标
 	musicMenuItem = MenuItemSprite::create(
-		Sprite::create(musicVolumeMenuItem),
-		Sprite::create(musicVolumeMenuItem),
-		Sprite::create(musicVolumeMenuItem),
+		Sprite::create(
+			musicAdjustedVolumeMenuItem + std::to_string(Music::getInstance()->getVolume() / 25 + 1) + ".png"),
+		Sprite::create(
+			musicAdjustedVolumeMenuItem + std::to_string(Music::getInstance()->getVolume() / 25 + 1) + ".png"),
+		Sprite::create(
+			musicAdjustedVolumeMenuItem + std::to_string(Music::getInstance()->getVolume() / 25 + 1) + ".png"),
 		[&](Ref* sender)
 		{
 			auto index = Music::getInstance()->getVolume() / 25;
@@ -42,6 +45,7 @@ bool SettingButton::init()
 			settingButton->getContentSize().width - 10, 0));
 	musicMenuItem->setVisible(false);
 
+	// TODO 改图改状态
 	sound = Sprite::create(soundMenuItemNormal);
 	soundMenuItem = MenuItemSprite::create(sound, sound, sound, [&](Ref* sender)
 	{
