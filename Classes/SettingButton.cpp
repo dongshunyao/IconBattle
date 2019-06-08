@@ -45,14 +45,15 @@ bool SettingButton::init()
 			settingButton->getContentSize().width - 10, 0));
 	musicMenuItem->setVisible(false);
 
-	if(Sound::getInstance()->getStatus())
+	// 音效图标
+	if (Sound::getInstance()->getStatus())
 		sound = Sprite::create(soundMenuItemOnNormal);
 	else
 		sound = Sprite::create(soundMenuItemOffNormal);
 	soundMenuItem = MenuItemSprite::create(sound, sound, sound, [&](Ref* sender)
 	{
 		Sound::getInstance()->setStatus(!Sound::getInstance()->getStatus());
-		if(Sound::getInstance()->getStatus())
+		if (Sound::getInstance()->getStatus())
 			soundMenuItem->setNormalImage(Sprite::create(soundMenuItemOnNormal));
 		else
 			soundMenuItem->setNormalImage(Sprite::create(soundMenuItemOffNormal));
