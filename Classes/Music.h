@@ -22,7 +22,7 @@ public:
 	int getVolume() const { return volume; }
 
 private:
-	int volume = 60;
+	int volume = 50;
 
 	static Music* instance;
 	int audioId = AudioEngine::INVALID_AUDIO_ID;

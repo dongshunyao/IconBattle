@@ -29,7 +29,7 @@ private:
 	const string courseMenuItemSelected = "/image/common/course.png";
 	const string courseMenuItemDisabled = "/image/common/course.png";
 
-	const string musicVolumeMenuItem = "/image/common/music5.png";
+	const string musicVolumeMenuItem = "/image/common/music3.png";
 	const string musicAdjustedVolumeMenuItem = "/image/common/music";
 
 	const string soundMenuItemNormal = "/image/common/sound.png";
