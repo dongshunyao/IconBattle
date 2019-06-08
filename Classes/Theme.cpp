@@ -88,6 +88,7 @@ void Theme::setJetBrainTheme()
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
+	gameSceneResultSpriteBackground= "/image/gamescene/jetbraintheme/result_sprite_background.png";
 
 #pragma endregion
 }
@@ -148,6 +149,7 @@ void Theme::setAdobeTheme()
 	gameSceneHintButtonNormal = "/image/gamescene/adobetheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/adobetheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/adobetheme/hint_button_disabled.png";
+	gameSceneResultSpriteBackground = "/image/gamescene/adobetheme/result_sprite_background.png";
 
 #pragma endregion
 }

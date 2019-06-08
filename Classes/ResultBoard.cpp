@@ -10,26 +10,30 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("2.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("3.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor,targetScore,realScore,first,second]()
 				{
@@ -82,27 +86,31 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor, usedSteps, usedHints,first,second]()
 				{
@@ -249,27 +257,31 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor, addedScore,isChallenge,stepNumberScore, hintNumberScore,playerScore,first,second]()
 				{

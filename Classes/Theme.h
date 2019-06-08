@@ -141,6 +141,7 @@ public:
 	string gameSceneHintButtonNormal;
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
+	string gameSceneResultSpriteBackground;
 
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
