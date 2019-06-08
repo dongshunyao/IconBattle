@@ -9,27 +9,35 @@ bool SettingButton::init()
 
 	//TODO 按钮图片更换
 	// 添加精灵菜单
-	courseMenuItem = MenuItemSprite::create(Sprite::create(courseMenuItemNormal), Sprite::create(courseMenuItemSelected), Sprite::create(courseMenuItemDisabled), [&](Ref* sender)
-	{
-		// TODO 教程
-	});
+	courseMenuItem = MenuItemSprite::create(Sprite::create(courseMenuItemNormal),
+	                                        Sprite::create(courseMenuItemSelected),
+	                                        Sprite::create(courseMenuItemDisabled), [&](Ref* sender)
+	                                        {
+		                                        // TODO 教程
+	                                        });
 	courseMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()) - Vec2(
-			settingButton->getContentSize().width-10, 0));
+			settingButton->getContentSize().width - 10, 0));
 	courseMenuItem->setVisible(false);
 
 	//TODO 由配置文件创建初始音量图标
-	musicMenuItem = MenuItemSprite::create(Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem), [&](Ref* sender)
-	{
-		const auto index = Music::getInstance()->getVolume() / 25;
-		Music::getInstance()->setVolume(25 * ((index+1)% 5)); // 音量设置为0、25、50、75、100
-		// TODO 音量图片及图标更新
-		musicMenuItem->setNormalImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) + ".png"));
-		musicMenuItem->setSelectedImage(Sprite::create(musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) + ".png"));
-	});
+	musicMenuItem = MenuItemSprite::create(Sprite::create(musicVolumeMenuItem), Sprite::create(musicVolumeMenuItem),
+	                                       Sprite::create(musicVolumeMenuItem), [&](Ref* sender)
+	                                       {
+		                                       const auto index = Music::getInstance()->getVolume() / 25;
+		                                       Music::getInstance()->setVolume(25 * ((index + 1) % 5));
+		                                       // 音量设置为0、25、50、75、100
+		                                       // TODO 音量图片及图标更新
+		                                       musicMenuItem->setNormalImage(Sprite::create(
+			                                       musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) +
+			                                       ".png"));
+		                                       musicMenuItem->setSelectedImage(Sprite::create(
+			                                       musicAdjustedVolumeMenuItem + std::to_string((index + 1) % 5 + 1) +
+			                                       ".png"));
+	                                       });
 	musicMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(courseMenuItem->getPosition()) - Vec2(
-			settingButton->getContentSize().width-10, 0));
+			settingButton->getContentSize().width - 10, 0));
 	musicMenuItem->setVisible(false);
 
 	sound = Sprite::create(soundMenuItemNormal);
@@ -53,6 +61,10 @@ bool SettingButton::init()
 			if (!popItem)
 			{
 #pragma region Appear Action
+				courseMenuItem->setOpacity(0);
+				musicMenuItem->setOpacity(0);
+				soundMenuItem->setOpacity(0);
+
 				// common action
 				const auto delay = DelayTime::create(0.25);
 				const auto fadeIn = FadeIn::create(0.25);
@@ -63,11 +75,14 @@ bool SettingButton::init()
 
 				// music action
 				const auto musicMoveBy = MoveBy::create(0.25, Vec2(-35, 0));
-				const auto musicSpawn = Spawn::create(fadeIn, delay, musicMoveBy, delay, nullptr);
+				const auto musicSpawn = Sequence::create(
+					delay, Spawn::create(fadeIn, delay, musicMoveBy, delay, nullptr), nullptr);
 
 				// sound action
 				const auto soundMoveBy = MoveBy::create(0.25, Vec2(-40, 0));
-				const auto soundSpawn = Spawn::create(fadeIn, delay, soundMoveBy, delay, nullptr);
+				const auto soundSpawn = Sequence::create(delay, delay,
+				                                         Spawn::create(fadeIn, delay, soundMoveBy, delay, nullptr),
+				                                         nullptr);
 
 				courseMenuItem->setVisible(true);
 				musicMenuItem->setVisible(true);
@@ -84,20 +99,24 @@ bool SettingButton::init()
 			{
 #pragma region Disappear Action
 				// common action
+
 				const auto delay = DelayTime::create(0.25);
 				const auto fadeOut = FadeOut::create(0.25);
 
 				//course action
-				const auto courseMoveBy = MoveBy::create(0.25, Vec2(25, 0));
-				const auto courseSpawn = Spawn::create(fadeOut, delay, courseMoveBy, delay, nullptr);
+				const auto courseMoveBy = MoveBy::create(0.25, Vec2(15, 0));
+				const auto courseSpawn = Sequence::create(delay, delay,
+				                                          Spawn::create(courseMoveBy,  nullptr),
+				                                          nullptr);
 
 				//music action
-				const auto musicMoveBy = MoveBy::create(0.25, Vec2(35, 0));
-				const auto musicSpawn = Spawn::create(fadeOut, delay, musicMoveBy, delay, nullptr);
+				const auto musicMoveBy = MoveBy::create(0.25, Vec2(25, 0));
+				const auto musicSpawn = Sequence::create(
+					delay, Spawn::create(musicMoveBy, nullptr), nullptr);
 
 				//sound action
-				const auto soundMoveBy = MoveBy::create(0.25, Vec2(40, 0));
-				const auto soundSpawn = Spawn::create(fadeOut, delay, soundMoveBy, delay, nullptr);
+				const auto soundMoveBy = MoveBy::create(0.25, Vec2(30, 0));
+				const auto soundSpawn = Spawn::create(soundMoveBy,nullptr);
 
 				courseMenuItem->runAction(Sequence::create(courseSpawn, CallFunc::create([&]()
 				{
