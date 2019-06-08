@@ -126,7 +126,7 @@ void GameScene::initGameBoard()
 
 	// 刷新棋盘并下落开始
 	refreshBoard();
-	dropBlock();
+	runAction(Sequence::createWithTwoActions(DelayTime::create(1.1f), CallFunc::create([&]() { dropBlock(); })));
 }
 
 Actor* GameScene::addActor(const int type, const Pair position)
@@ -177,7 +177,7 @@ void GameScene::refreshBoard()
 			const auto banY = j >= 2 && board[i][j - 1].type == board[i][j - 2].type
 				                  ? board[i][j - 2].type
 				                  : -1;
-			auto type = getRandomNumber(TYPE_NUMBER) ;
+			auto type = getRandomNumber(TYPE_NUMBER);
 			while (type == banX || type == banY) type = getRandomNumber(TYPE_NUMBER);
 
 			board[i][j] = Block(type, addActor(type, getPositionByIndex({i, j})));
@@ -385,4 +385,3 @@ void GameScene::mainCallback()
 		boardLock = false;
 	}
 }
-

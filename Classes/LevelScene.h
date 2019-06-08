@@ -31,6 +31,8 @@ private:
 	// 用于存放按钮的layer
 	Layer* layer = nullptr;
 
+	float currentScrollPercent = 0;
+
 	// 第一张背景图 （做滚动效果需要两张图来拼接） 
 	Sprite* backgroundFirst = nullptr;
 	Sprite* backgroundSecond = nullptr;
@@ -49,6 +51,9 @@ private:
 
 	// 选关Button的位置数组
 	pair<int, int> pos[10];
+
+	// 关卡间距
+	const int buttonDistance = 240;
 };
 
 #endif

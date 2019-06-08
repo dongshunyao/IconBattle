@@ -34,7 +34,7 @@ bool NetworkShare::share(const bool isClassical, const string& title, const int 
 			if (isClassical) renren += RENREN_PIC_CLASSICAL;
 			else renren += RENREN_PIC;
 
-			Application::getInstance()->openURL(RENREN_SHARE_URL);
+			Application::getInstance()->openURL(renren);
 			break;
 		}
 	case DOUBAN:

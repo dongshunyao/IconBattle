@@ -14,7 +14,7 @@ void GameScene::initInformationBoard()
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
-	settingButton->setPosition(Point(1050, 850));
+	settingButton->setPosition(Point(1080, 850));
 	this->addChild(settingButton, 11);
 
 	// 返回按钮
