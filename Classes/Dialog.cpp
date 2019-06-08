@@ -12,10 +12,6 @@ bool Dialog::init()
 {
 	if (!LayerColor::init()) return false;
 
-	// 预加载排行榜，解决卡顿
-	classicalRank = Network::getInstance()->getRank(true);
-	plusRank = Network::getInstance()->getRank(false);
-
 	// 初始化需要的 Menu
 	// button菜单
 	auto menu = Menu::create();
@@ -119,6 +115,10 @@ bool Dialog::addLabel(MenuItem* menuItem) const
 
 void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
 {
+	// 预加载排行榜，解决卡顿
+	classicalRank = Network::getInstance()->getRank(true);
+	plusRank = Network::getInstance()->getRank(false);
+
 	// 设置窗口类型为排行榜窗口，并判断排行榜显示游戏模式
 	rank = dialogType;
 	isInMenu = inMenu;
