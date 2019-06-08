@@ -57,18 +57,24 @@ bool NetworkShare::share(const bool isClassical, const string& title, const int 
 bool NetworkShare::sharePractice(const bool isClassical, const int target)
 {
 	string temp;
-	if (isClassical) temp = "我在挑战 Icon Battle 经典练习模式, 快来加入吧！！！";
-	else temp = "我在挑战 Icon Battle 进阶练习模式, 快来加入吧！！！";
+	if (isClassical)
+		temp =
+			"%e6%88%91%e5%9c%a8%e6%8c%91%e6%88%98+Icon+Battle+%e7%bb%8f%e5%85%b8%e7%bb%83%e4%b9%a0%e6%a8%a1%e5%bc%8f%2c+%e5%bf%ab%e6%9d%a5%e5%8a%a0%e5%85%a5%e5%90%a7%ef%bc%81%ef%bc%81%ef%bc%81";
+	else
+		temp =
+			"%e6%88%91%e5%9c%a8%e6%8c%91%e6%88%98+Icon+Battle+%e8%bf%9b%e9%98%b6%e7%bb%83%e4%b9%a0%e6%a8%a1%e5%bc%8f%2c+%e5%bf%ab%e6%9d%a5%e5%8a%a0%e5%85%a5%e5%90%a7%ef%bc%81%ef%bc%81%ef%bc%81";
 	return share(isClassical, temp, target);
 }
 
 bool NetworkShare::shareLevel(const bool isClassical, const int target, const int level)
 {
 	string temp;
-	if (isClassical) temp = "我挑战成功了 Icon Battle 经典模式第 ";
-	else temp = "我挑战成功了 Icon Battle 进阶模式第 ";
+	if (isClassical) temp =
+		"%e6%88%91%e6%8c%91%e6%88%98%e6%88%90%e5%8a%9f%e4%ba%86+Icon+Battle+%e7%bb%8f%e5%85%b8%e6%a8%a1%e5%bc%8f%e7%ac%ac+";
+	else temp =
+		"%e6%88%91%e6%8c%91%e6%88%98%e6%88%90%e5%8a%9f%e4%ba%86+Icon+Battle+%e8%bf%9b%e9%98%b6%e6%a8%a1%e5%bc%8f%e7%ac%ac+";
 	temp += std::to_string(level);
-	temp += " 关, 不来试试吗！！！";
+	temp += "+%e5%85%b3%2c+%e4%b8%8d%e6%9d%a5%e8%af%95%e8%af%95%e5%90%97%ef%bc%81%ef%bc%81%ef%bc%81";
 
 	return share(isClassical, temp, target);
 }
@@ -76,12 +82,14 @@ bool NetworkShare::shareLevel(const bool isClassical, const int target, const in
 bool NetworkShare::shareRank(const bool isClassical, const int target, const int score, const int rank)
 {
 	string temp;
-	if (isClassical) temp = "我在 Icon Battle 经典挑战模式中勇夺 ";
-	else temp = "我在 Icon Battle 经典挑战模式中勇夺 ";
+	if (isClassical) temp =
+		"%e6%88%91%e5%9c%a8+Icon+Battle+%e7%bb%8f%e5%85%b8%e6%8c%91%e6%88%98%e6%a8%a1%e5%bc%8f%e4%b8%ad%e5%8b%87%e5%a4%ba+";
+	else temp =
+		"%e6%88%91%e5%9c%a8+Icon+Battle+%e7%bb%8f%e5%85%b8%e6%8c%91%e6%88%98%e6%a8%a1%e5%bc%8f%e4%b8%ad%e5%8b%87%e5%a4%ba+";
 
 	temp += std::to_string(score);
-	temp += " 分, 斩获全网第 ";
+	temp += "+%e5%88%86%2c+%e6%96%a9%e8%8e%b7%e5%85%a8%e7%bd%91%e7%ac%ac+";
 	temp += std::to_string(rank);
-	temp += " 名, 速来Battle ! ! !";
+	temp += "+%e5%90%8d%2c+%e9%80%9f%e6%9d%a5Battle+!+!+!";
 	return share(isClassical, temp, target);
 }
