@@ -82,6 +82,7 @@ private:
 
 #pragma region Result Board
 	bool isShareButtonAppear = false;
+	int position = -1;// 玩家在排行中的排名
 
 	// 展示失败结果
 	void showFailedResult(int targetScore, int realScore);
