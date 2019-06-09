@@ -10,26 +10,30 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("2.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("3.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor,targetScore,realScore,first,second]()
 				{
@@ -37,7 +41,7 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 					this->removeChild(second);
 
 					const auto resultDialog = Dialog::create(
-						theme->gameSceneDialogBackground, Size(640, 480));
+						theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -82,34 +86,38 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor, usedSteps, usedHints,first,second]()
 				{
 					this->removeChild(first);
 					this->removeChild(second);
 
-					const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+					const auto resultDialog = Dialog::create(theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -249,34 +257,38 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 	layerColor->setOpacity(128);
 	this->addChild(layerColor, 21);
 	_eventDispatcher->pauseEventListenersForTarget(this, true);
+	auto spriteBackground = Sprite::create(theme->gameSceneResultSpriteBackground);
 	auto first = Sprite::create(theme->gameSceneResultSprite + ("0.png"));
 	auto second = Sprite::create(theme->gameSceneResultSprite + ("1.png"));
 
+	spriteBackground->setPosition(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	first->setPosition(SCREEN_WIDTH / 2 - first->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	second->setPosition(SCREEN_WIDTH / 2 + second->getContentSize().width / 2, SCREEN_HEIGHT / 2);
 	first->setOpacity(0);
 	second->setOpacity(0);
 
+	this->addChild(spriteBackground, 22);
 	this->addChild(first, 22);
 	this->addChild(second, 22);
 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	first->runAction(Sequence::create(fadeIn, delay, nullptr));
+	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
 	(
 		Sequence::create
 		(
-			delay, fadeIn, CallFunc::create
+			delay, delay, fadeIn, CallFunc::create
 			(
 				[&, layerColor, addedScore,isChallenge,stepNumberScore, hintNumberScore,playerScore,first,second]()
 				{
 					this->removeChild(first);
 					this->removeChild(second);
 
-					const auto resultDialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+					const auto resultDialog = Dialog::create(theme->resultDialogBackground, Size(800, 500));
 					resultDialog->addButton
 					(
 						MenuItemSprite::create
@@ -454,7 +466,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								{
 									this->removeChild(resultDialog);
 
-									const auto dialog = Dialog::create(theme->menuRankListBackground, Size(500, 600));
+									const auto dialog = Dialog::create(theme->menuSceneRankListBackground,
+									                                   Size(500, 600));
 
 									dialog->addListView(true, false, isClassical);
 									dialog->setTitle("排行", 50);
@@ -485,7 +498,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					if (coinNumber > 0)
 					{
 						auto coin = Sprite::create(theme->storeSceneCoin);
-						coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 5,
+						coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.9,
 						                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7));
 						coin->setOpacity(0);
 						coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
@@ -493,7 +506,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						auto coinNumberLabel = Label::createWithTTF("+" + to_string(coinNumber), theme->semiBoldFont,
 						                                            40);
 						coinNumberLabel->setPosition(Point(
-							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width /4- 15,
+							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 - 15,
 							SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
 							40));
 						coinNumberLabel->setOpacity(0);
@@ -504,7 +517,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								DelayTime::create(0.6),
 								Spawn::create(
 									MoveTo::create(1, Point(
-										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width /4- 15,
+										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 -
+										               15,
 										               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
 										               15)),
 									FadeIn::create(1), nullptr),

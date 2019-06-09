@@ -33,6 +33,12 @@ public:
 	const string backButtonDisabled = "/image/common/back_disabled.png";
 #pragma endregion
 
+#pragma region Dialog
+	string messageDialogBackground;
+	string resultDialogBackground;
+
+#pragma endregion
+
 #pragma region Loading Sence
 	string loadingSceneBackground;
 
@@ -47,8 +53,7 @@ public:
 	string menuSceneClassicPlate;
 	string menuSceneEnhancedLabel;
 	string menuSceneEnhancedPlate;
-
-	const string menuRankListBackground = "/image/menuscene/common/rank_list_background.png";
+	string menuSceneRankListBackground;
 
 	const string menuChangeTypeButtonNormalBackground = "/image/menuscene/common/change_button_normal.png";
 	const string menuChangeTypeButtonSelectedBackground = "/image/menuscene/common/change_button_selected.png";
@@ -131,16 +136,20 @@ public:
 #pragma region Game Scene
 	string gameSceneTopBackground;
 	string gameSceneBottomBackground;
-	string gameSceneLevelSpriteBackground;
+	string gameSceneStepSpriteBackground;
+	string gameSceneInfStepSpriteBackground;
 	string gameSceneHintButtonNormal;
 	string gameSceneHintButtonSelected;
 	string gameSceneHintButtonDisabled;
+	string gameSceneResultSpriteBackground;
+
+	const string gameSceneMouseMoveOn = "/image/gamescene/common/mouse_move_on.png";
+	const string gameSceneMouseSelected = "/image/gamescene/common/mouse_selected.png";
 
 	const string gameSceneGreyProcessBar = "/image/gamescene/common/process_bar.png";
 	const string gameSceneProcessBar = "/image/gamescene/common/process_bar_score.png";
 	const string gameSceneHintNumber = "/image/gamescene/common/hint";
 	const string gameSceneResultSprite = "/image/gamescene/common/";
-	const string gameSceneDialogBackground = "/image/gamescene/common/dialog_background.png";
 	const string gameSceneYesButtonNormal = "/image/gamescene/common/yes_normal.png";
 	const string gameSceneYesButtonSelected = "/image/gamescene/common/yes_selected.png";
 	const string gameSceneNoButtonNormal = "/image/gamescene/common/no_normal.png";

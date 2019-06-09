@@ -42,6 +42,11 @@ void Theme::setJetBrainTheme()
 	iconSet = "/image/common/jetbraintheme/icon/";
 #pragma endregion
 
+#pragma region Dialog
+	messageDialogBackground = "/image/gamescene/jetbraintheme/result_dialog_background.png";
+	resultDialogBackground = "/image/gamescene/jetbraintheme/message_dialog_background.png";
+#pragma region
+
 #pragma region Loading Scene
 	loadingSceneBackground = "/image/loadingscene/jetbraintheme/scene.png";
 
@@ -53,6 +58,7 @@ void Theme::setJetBrainTheme()
 	menuSceneClassicPlate = "/image/menuscene/jetbraintheme/classic_plate.png";
 	menuSceneEnhancedLabel = "/image/menuscene/jetbraintheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/jetbraintheme/enhanced_plate.png";
+	menuSceneRankListBackground = "/image/menuscene/jetbraintheme/rank_list_background.png";
 
 #pragma endregion
 
@@ -77,17 +83,18 @@ void Theme::setJetBrainTheme()
 #pragma region Game Scene
 	gameSceneTopBackground = "/image/gamescene/jetbraintheme/top_background.png";
 	gameSceneBottomBackground = "/image/gamescene/jetbraintheme/bottom_background.png";
-	gameSceneLevelSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
+	gameSceneStepSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite_background.png";
+	gameSceneInfStepSpriteBackground = "/image/gamescene/jetbraintheme/level_sprite.png";
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
+	gameSceneResultSpriteBackground= "/image/gamescene/jetbraintheme/result_sprite_background.png";
 
 #pragma endregion
 }
 
 void Theme::setAdobeTheme()
 {
-
 #pragma region BGM
 	backgroundMusic = "/music/adobetheme/background.mp3";
 #pragma endregion
@@ -95,6 +102,11 @@ void Theme::setAdobeTheme()
 #pragma region Common
 	iconSet = "/image/common/adobetheme/icon/";
 #pragma endregion
+
+#pragma region Dialog
+	messageDialogBackground ="/image/gamescene/adobetheme/result_dialog_background.png";
+	resultDialogBackground = "/image/gamescene/adobetheme/message_dialog_background.png";
+#pragma region
 
 #pragma region Loading Scene
 	loadingSceneBackground = "/image/loadingscene/adobetheme/scene.png";
@@ -107,6 +119,7 @@ void Theme::setAdobeTheme()
 	menuSceneClassicPlate = "/image/menuscene/adobetheme/classic_plate.png";
 	menuSceneEnhancedLabel = "/image/menuscene/adobetheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/adobetheme/enhanced_plate.png";
+	menuSceneRankListBackground = "/image/menuscene/adobetheme/rank_list_background.png";
 
 #pragma endregion
 
@@ -131,10 +144,12 @@ void Theme::setAdobeTheme()
 #pragma region Game Scene
 	gameSceneTopBackground = "/image/gamescene/adobetheme/top_background.png";
 	gameSceneBottomBackground = "/image/gamescene/adobetheme/bottom_background.png";
-	gameSceneLevelSpriteBackground = "/image/gamescene/adobetheme/level_sprite.png";
+	gameSceneStepSpriteBackground = "/image/gamescene/adobetheme/level_sprite_background.png";
+	gameSceneInfStepSpriteBackground = "/image/gamescene/adobetheme/level_sprite.png";
 	gameSceneHintButtonNormal = "/image/gamescene/adobetheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/adobetheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/adobetheme/hint_button_disabled.png";
+	gameSceneResultSpriteBackground = "/image/gamescene/adobetheme/result_sprite_background.png";
 
 #pragma endregion
 }

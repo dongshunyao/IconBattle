@@ -24,7 +24,7 @@ void GameScene::initInformationBoard()
 	{
 		if (type == Widget::TouchEventType::ENDED)
 		{
-			const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+			const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
 			dialog->setContentText("您确定要退出当前游戏么? 这将丢失当前游戏进度!", 36, 60, 20);
 
 			dialog->addButton(MenuItemSprite::create(
@@ -59,14 +59,14 @@ void GameScene::initInformationBoard()
 	this->addChild(modeLabel, 12);
 
 	// 步数背景
-	auto stepBackground = Sprite::create(theme->gameSceneLevelSpriteBackground);
+	auto stepBackground = Sprite::create(stepNumber!=2333?theme->gameSceneStepSpriteBackground:theme->gameSceneInfStepSpriteBackground);
 	stepBackground->setScale(1.5);
 	stepBackground->setPosition(225, 640);
 	this->addChild(stepBackground, 11);
 
 	// 步数Label
 	// TODO 处理练习模式的无穷
-	stepNumberLabel = Label::createWithTTF(to_string(stepNumber), theme->markerFeltFont, 48);
+	stepNumberLabel = Label::createWithTTF(stepNumber != 2333 ? to_string(stepNumber):"", theme->markerFeltFont, 48);
 	stepNumberLabel->enableGlow(Color4B::YELLOW);
 	stepNumberLabel->setPosition(225, 635);
 	this->addChild(stepNumberLabel, 12);

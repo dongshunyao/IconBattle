@@ -21,8 +21,9 @@ bool StoreScene::init()
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		//返回到上一个场景
-		if (type == ui::Widget::TouchEventType::ENDED) Director::getInstance()->replaceScene(
-			TransitionSlideInB::create(1.0f, MenuScene::create()));
+		if (type == ui::Widget::TouchEventType::ENDED)
+			Director::getInstance()->replaceScene(
+				TransitionSlideInB::create(1.0f, MenuScene::create()));
 	});
 	backButton->setPosition(Point(1150, 850));
 	this->addChild(backButton, 2);
@@ -56,7 +57,7 @@ void StoreScene::initCoin()
 
 	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
 	coinText->setPosition(Point(220, 850));
-	this->addChild(coinText,11);
+	this->addChild(coinText, 11);
 }
 
 void StoreScene::initThemeIcon()
@@ -291,7 +292,7 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 #pragma region Pay
 void StoreScene::cashPay()
 {
-	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
 	dialog->setContentText("功能开发中, 敬请期待!", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
@@ -309,7 +310,7 @@ void StoreScene::cashPay()
 void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeName)
 {
 	if (rmbPay) coin /= 10;
-	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
 	dialog->setContentText("确认购买主题?", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
@@ -320,7 +321,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 		{
 			unlockTheme(themeName, coin);
 			Director::getInstance()->getRunningScene()->removeChild(dialog);
-			auto successPay = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+			auto successPay = Dialog::create(theme->messageDialogBackground, Size(640, 480));
 			successPay->setContentText("购买成功, 快去试试新主题吧!", 36, 60, 20);
 			successPay->addButton(MenuItemSprite::create(
 				Sprite::create(theme->gameSceneYesButtonNormal),
@@ -346,7 +347,7 @@ void StoreScene::successfulPay(const bool rmbPay, int coin, const string& themeN
 
 void StoreScene::failedPay()
 {
-	const auto dialog = Dialog::create(theme->gameSceneDialogBackground, Size(640, 480));
+	const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
 	dialog->setContentText("金币不足, 主题购买失败!", 36, 60, 20);
 
 	dialog->addButton(MenuItemSprite::create(
