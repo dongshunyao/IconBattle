@@ -21,8 +21,7 @@ void Music::stop() const
 void Music::play(const string& path)
 {
 	if (audioId == AudioEngine::INVALID_AUDIO_ID)
-		audioId = AudioEngine::play2d(
-			path, true, static_cast<float>(volume) / 100);
+		audioId = AudioEngine::play2d(path, true, static_cast<float>(volume) / 100);
 }
 
 void Music::setVolume(int volume)

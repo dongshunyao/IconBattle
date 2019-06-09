@@ -141,7 +141,7 @@ void LevelScene::initButtons()
 		{
 			if (type == ui::Widget::TouchEventType::ENDED)
 			{
-				GameSceneController::getInstance()->startLevelGame(isClassical, i);
+				GameSceneController::getInstance()->startLevelGame(isClassical, i + 1);
 			}
 		});
 

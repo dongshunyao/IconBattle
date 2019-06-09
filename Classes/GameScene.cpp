@@ -24,7 +24,7 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 
 void GameScene::showScore(const ActorInformation actorInformation)
 {
-	// TODO 换字体？
+	// TODO 换字体？换颜色？
 	auto scoreLabel = Label::createWithTTF(to_string(actorInformation.score), theme->semiBoldFont, 36);
 
 	const auto position = getPositionByIndex(actorInformation.blockIndex);
@@ -36,6 +36,10 @@ void GameScene::showScore(const ActorInformation actorInformation)
 		CallFunc::create([&, scoreLabel]() { removeChild(scoreLabel); }), nullptr));
 
 	addChild(scoreLabel, 19);
+
+	if (mode == CHALLENGE_MODE && currentScore + actorInformation.score >= 3 * totalScore / 4)
+		setTotalScore(totalScore * 3 / 2);
+
 	addCurrentScore(actorInformation.score);
 }
 
@@ -53,7 +57,6 @@ void GameScene::endGame()
 		}
 
 	case LEVEL_MODE:
-	case CHALLENGE_MODE:
 		{
 			const auto stepNumberScore = EVERY_STEP_SCORE * stepNumber;
 			const auto hintNumberScore = EVERY_HINT_SCORE * hintNumber;
@@ -66,7 +69,16 @@ void GameScene::endGame()
 			}
 
 			// 成功
-			showSuccessfulResult(mode == CHALLENGE_MODE, stepNumberScore, hintNumberScore, currentScore);
+			showSuccessfulResult(false, stepNumberScore, hintNumberScore, currentScore);
+			break;
+		}
+	case CHALLENGE_MODE:
+		{
+			const auto stepNumberScore = EVERY_STEP_SCORE * stepNumber;
+			const auto hintNumberScore = EVERY_HINT_SCORE * hintNumber;
+
+			// 成功
+			showSuccessfulResult(true, stepNumberScore, hintNumberScore, currentScore);
 			break;
 		}
 	}

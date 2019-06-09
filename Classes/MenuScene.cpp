@@ -15,6 +15,7 @@ bool MenuScene::init()
 	this->addChild(sprite);
 
 	initUsername();
+	// TODO 调整上方位置按钮
 	initStoreButton();
 	initRankButton();
 	initGameButton();
@@ -32,6 +33,10 @@ bool MenuScene::init()
 	const auto news = NewsBoard::create();
 	this->addChild(news);
 
+	if (User::getInstance()->isNewUser())
+	{
+		// TODO 新手显示教程
+	}
 	return true;
 }
 

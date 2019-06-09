@@ -13,7 +13,7 @@ class Sound
 {
 public:
 #pragma region Sound URL
-	// TODO 音效路径
+	// TODO 添加音效：点击、三消、粒子特效
 	const string clicked = "/sound/clicked.mp3";
 #pragma endregion
 

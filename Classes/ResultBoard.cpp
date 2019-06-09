@@ -27,7 +27,7 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	spriteBackground->runAction(MoveTo::create(0.8, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
 	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 	second->runAction
 	(
@@ -63,6 +63,8 @@ void GameScene::showFailedResult(int targetScore, int realScore)
 						Label::createWithTTF("目标分数: " + to_string(targetScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("你的分数: " + to_string(realScore), theme->semiBoldFont, 50)));
+					// 空行	
+					resultDialog->addLabel(MenuItemLabel::create(Label::createWithTTF(" ", theme->semiBoldFont, 50)));
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("很遗憾你没有达到目标分数", theme->semiBoldFont, 50)));
@@ -103,7 +105,7 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	spriteBackground->runAction(MoveTo::create(0.8, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
 	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
@@ -236,6 +238,9 @@ void GameScene::showSuccessfulResult(int usedSteps, int usedHints)
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("提示次数: " + to_string(usedHints), theme->semiBoldFont, 50)));
 
+					// 空行
+					resultDialog->addLabel(MenuItemLabel::create(Label::createWithTTF(" ", theme->semiBoldFont, 50)));
+
 					this->removeChild(layerColor);
 
 					this->addChild(resultDialog, 22);
@@ -274,7 +279,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 	const auto delay = DelayTime::create(1);
 	const auto fadeIn = FadeIn::create(1);
 
-	spriteBackground->runAction(MoveTo::create(1, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
+	spriteBackground->runAction(MoveTo::create(0.8, Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)));
 	first->runAction(Sequence::create(delay, fadeIn, delay, nullptr));
 
 	second->runAction
@@ -311,7 +316,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 							Sprite::create(theme->gameSceneShareButtonNormal),
 							Sprite::create(theme->gameSceneShareButtonSelected),
 							Sprite::create(theme->gameSceneShareButtonNormal),
-							[&, resultDialog](Ref* sender)
+							[&, resultDialog, addedScore](Ref* sender)
 							{
 								const auto width = resultDialog->getContentSize().width / 7;
 								auto qq = MenuItemSprite::create
@@ -319,7 +324,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
 									Sprite::create(theme->gameSceneQQShareButtonSelected),
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
-									[&](Ref* sender)
+									[&, addedScore](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, QQ, addedScore, position + 1)
@@ -338,11 +343,11 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
 									Sprite::create(theme->gameSceneWBShareButtonSelected),
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
-									[&](Ref* sender)
+									[&, addedScore](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, WEIBO, addedScore, position + 1)
-											: shareLevel(isClassical, QQ, level);
+											: shareLevel(isClassical, WEIBO, level);
 									}
 								);
 
@@ -356,11 +361,11 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
 									Sprite::create(theme->gameSceneRRShareButtonSelected),
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
-									[&](Ref* sender)
+									[&, addedScore](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, RENREN, addedScore, position + 1)
-											: shareLevel(isClassical, QQ, level);
+											: shareLevel(isClassical, RENREN, level);
 									}
 								);
 
@@ -374,11 +379,11 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
 									Sprite::create(theme->gameSceneDBShareButtonSelected),
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
-									[&](Ref* sender)
+									[&, addedScore](Ref* sender)
 									{
 										isChallenge
-											? shareRank(isClassical, QQ, addedScore, position + 1)
-											: shareLevel(isClassical, QQ, level);
+											? shareRank(isClassical, DOUBAN, addedScore, position + 1)
+											: shareLevel(isClassical, DOUBAN, level);
 									}
 								);
 
@@ -406,16 +411,18 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					);
 
 
-					resultDialog->setTitle("游戏成功", 100);
+					resultDialog->setTitle(isChallenge ? "挑战结束" : "游戏成功", 100);
 
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("剩余交换次数奖励: " + to_string(stepNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("剩余提示次数奖励: " + to_string(hintNumberScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
-						Label::createWithTTF("你的分数: " + to_string(playerScore), theme->semiBoldFont, 50)));
+						Label::createWithTTF("游戏分数: " + to_string(playerScore), theme->semiBoldFont, 50)));
 					resultDialog->addLabel(MenuItemLabel::create(
 						Label::createWithTTF("总分: " + to_string(addedScore), theme->semiBoldFont, 50)));
+					// 空行
+					resultDialog->addLabel(MenuItemLabel::create(Label::createWithTTF(" ", theme->semiBoldFont, 50)));
 
 					if (isChallenge)
 					{
@@ -462,10 +469,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								Sprite::create(theme->menuSceneRankButtonNormal),
 								Sprite::create(theme->menuSceneRankButtonSelected),
 								Sprite::create(theme->menuSceneRankButtonNormal),
-								[&,resultDialog](Ref* sender)
+								[&](Ref* sender)
 								{
-									this->removeChild(resultDialog);
-
 									const auto dialog = Dialog::create(theme->menuSceneRankListBackground,
 									                                   Size(500, 600));
 
@@ -478,13 +483,10 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 											Sprite::create(theme->gameSceneYesButtonNormal),
 											Sprite::create(theme->gameSceneYesButtonSelected),
 											Sprite::create(theme->gameSceneYesButtonNormal),
-											[&](Ref* sender)
-											{
-												Director::getInstance()->replaceScene(MenuScene::create());
-											}
+											[&, dialog](Ref* sender) { removeChild(dialog); }
 										)
 									);
-									this->addChild(dialog, 20);
+									this->addChild(dialog, 200);
 								}
 							)
 						);
@@ -498,8 +500,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					if (coinNumber > 0)
 					{
 						auto coin = Sprite::create(theme->storeSceneCoin);
-						coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.9,
-						                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7));
+						coin->setPosition(Point(SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 4.2,
+						                        SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.8));
 						coin->setOpacity(0);
 						coin->runAction(Sequence::create(DelayTime::create(0.4), FadeIn::create(0.15), nullptr));
 
@@ -507,7 +509,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 						                                            40);
 						coinNumberLabel->setPosition(Point(
 							SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 - 15,
-							SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
+							SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.6 -
 							40));
 						coinNumberLabel->setOpacity(0);
 						coinNumberLabel->runAction
@@ -519,8 +521,8 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									MoveTo::create(1, Point(
 										               SCREEN_WIDTH / 2 + resultDialog->getContentSize().width / 3.3 -
 										               15,
-										               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height / 4.7 -
-										               15)),
+										               SCREEN_HEIGHT / 2 + resultDialog->getContentSize().height /
+										               4.8)),
 									FadeIn::create(1), nullptr),
 								nullptr
 							)

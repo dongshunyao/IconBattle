@@ -10,7 +10,7 @@ void GameScene::initGameBoard()
 	// TODO 选中高亮图片修改
 	selectedHighLight = ImageView::create(theme->gameSceneMouseSelected);
 	selectedHighLight->setPosition({9999, 9999});
-	addChild(selectedHighLight, 3);
+	addChild(selectedHighLight, 5);
 
 	// 鼠标监听
 	auto mouseListener = EventListenerMouse::create();

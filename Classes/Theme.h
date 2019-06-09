@@ -11,7 +11,7 @@ public:
 #pragma region Theme Name
 	const string jetBrainThemeName = "JetBrainTheme";
 	const string adobeThemeName = "AdobeTheme";
-	const string officeThemeName = "OfficeTheme";
+	// const string officeThemeName = "OfficeTheme";
 #pragma endregion
 
 #pragma region Font TTF
@@ -25,7 +25,7 @@ public:
 
 #pragma region Common
 	string iconSet;
-#pragma endregion 
+#pragma endregion
 
 #pragma region Back Button
 	const string backButtonNormal = "/image/common/back_normal.png";
@@ -188,7 +188,7 @@ private:
 	string currentTheme;
 	void setJetBrainTheme();
 	void setAdobeTheme();
-	void setOfficeTheme();
+	// void setOfficeTheme();
 };
 
 #endif
