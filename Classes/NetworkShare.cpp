@@ -28,7 +28,7 @@ bool NetworkShare::share(const bool isClassical, const string& title, const int 
 		}
 	case RENREN:
 		{
-			auto renren = WEIBO_SHARE_URL;
+			auto renren = RENREN_SHARE_URL;
 			renren += "&title=";
 			renren += title;
 			if (isClassical) renren += RENREN_PIC_CLASSICAL;
@@ -39,7 +39,7 @@ bool NetworkShare::share(const bool isClassical, const string& title, const int 
 		}
 	case DOUBAN:
 		{
-			auto douban = WEIBO_SHARE_URL;
+			auto douban = DOUBAN_SHARE_URL;
 			douban += "name=";
 			douban += title;
 			if (isClassical) douban += DOUBAN_PIC_CLASSICAL;
