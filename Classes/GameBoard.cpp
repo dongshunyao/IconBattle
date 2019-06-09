@@ -82,6 +82,8 @@ void GameScene::initGameBoard()
 					}
 				}
 			}
+
+			if (selectedHighLight->getPosition() == Vec2(409, 34)) selectedHighLight->setPosition(invisiblePosition);
 		}
 	};
 
@@ -149,7 +151,7 @@ Pair GameScene::getIndexByPosition(const Pair position)
 	if (position.first < 465 || position.first > 465 + 700) return {-1, -1};
 	if (position.second < 90 || position.second > 90 + 700) return {-1, -1};
 	// 宝石大小为64，与缝隙总长86
-	return Pair((position.second - 90) / 86, (position.first - 465) / 86);
+	return {(position.second - 90) / 86, (position.first - 465) / 86};
 }
 
 void GameScene::refreshBoard()

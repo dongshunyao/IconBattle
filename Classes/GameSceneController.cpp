@@ -28,11 +28,11 @@ void GameSceneController::startLevelGame(const bool isClassical, const int level
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(1.0f, GameScene::createScene(classicalLevel[level].second,
 			                                                    classicalLevel[level].first, isClassical, LEVEL_MODE,
-			                                                    level)));
+			                                                    level + 1)));
 	else
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(1.0f, GameScene::createScene(plusLevel[level].second, plusLevel[level].first,
-			                                                    isClassical, LEVEL_MODE, level)));
+			                                                    isClassical, LEVEL_MODE, level + 1)));
 }
 
 void GameSceneController::startChallengeGame(const bool isClassical) const

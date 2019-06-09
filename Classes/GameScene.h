@@ -105,7 +105,7 @@ private:
 	bool boardLock = true;
 
 	// 不可见位置，用于隐藏高亮
-	const Vec2 invisiblePosition = {280, 90};
+	const Vec2 invisiblePosition = {180, 90};
 	// 鼠标移动高亮
 	ImageView* moveHighLight = nullptr;
 	// 选中块高亮

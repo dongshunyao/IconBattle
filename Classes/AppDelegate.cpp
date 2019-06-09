@@ -26,6 +26,9 @@ AppDelegate::AppDelegate()
 {
 	// 初始化用户信息
 	User::getInstance();
+
+	// 初始化随机数种子
+	srand(time(nullptr) + rand());
 }
 
 AppDelegate::~AppDelegate()

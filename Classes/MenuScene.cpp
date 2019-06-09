@@ -173,7 +173,14 @@ void MenuScene::initGameButton()
 	classicChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			GameSceneController::getInstance()->startChallengeGame(true);
+		{
+			if (User::getInstance()->getUnlockedClassicalLevel() != 10)
+			{
+				// TODO 弹出对话框
+				// "完成经典闯关模式后再来挑战吧!";
+			}
+			else GameSceneController::getInstance()->startChallengeGame(true);
+		}
 	});
 	classicChallenge->setPosition(Vec2(445, 40));
 
@@ -206,7 +213,14 @@ void MenuScene::initGameButton()
 	enhancedChallenge->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
-			GameSceneController::getInstance()->startChallengeGame(false);
+		{
+			if (User::getInstance()->getUnlockedPlusLevel() != 10)
+			{
+				// TODO 弹出对话框
+				// "完成进阶闯关模式后再来挑战吧!";
+			}
+			else GameSceneController::getInstance()->startChallengeGame(false);
+		}
 	});
 	enhancedChallenge->setPosition(Vec2(445, 40));
 }

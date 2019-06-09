@@ -58,6 +58,7 @@ public:
 #pragma endregion
 
 	void startPracticeGame(bool isClassical) const;
+	// level 0开始
 	void startLevelGame(bool isClassical, int level) const;
 	void startChallengeGame(bool isClassical) const;
 
