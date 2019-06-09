@@ -316,7 +316,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 							Sprite::create(theme->gameSceneShareButtonNormal),
 							Sprite::create(theme->gameSceneShareButtonSelected),
 							Sprite::create(theme->gameSceneShareButtonNormal),
-							[&, resultDialog, addedScore](Ref* sender)
+							[&, addedScore, isChallenge, resultDialog](Ref* sender)
 							{
 								const auto width = resultDialog->getContentSize().width / 7;
 								auto qq = MenuItemSprite::create
@@ -324,7 +324,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
 									Sprite::create(theme->gameSceneQQShareButtonSelected),
 									Sprite::create(theme->gameSceneQQShareButtonNormal),
-									[&, addedScore](Ref* sender)
+									[&, addedScore, isChallenge](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, QQ, addedScore, position + 1)
@@ -343,7 +343,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
 									Sprite::create(theme->gameSceneWBShareButtonSelected),
 									Sprite::create(theme->gameSceneWBShareButtonNormal),
-									[&, addedScore](Ref* sender)
+									[&, addedScore, isChallenge](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, WEIBO, addedScore, position + 1)
@@ -361,7 +361,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
 									Sprite::create(theme->gameSceneRRShareButtonSelected),
 									Sprite::create(theme->gameSceneRRShareButtonNormal),
-									[&, addedScore](Ref* sender)
+									[&, addedScore, isChallenge](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, RENREN, addedScore, position + 1)
@@ -379,7 +379,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
 									Sprite::create(theme->gameSceneDBShareButtonSelected),
 									Sprite::create(theme->gameSceneDBShareButtonNormal),
-									[&, addedScore](Ref* sender)
+									[&, addedScore, isChallenge](Ref* sender)
 									{
 										isChallenge
 											? shareRank(isClassical, DOUBAN, addedScore, position + 1)
@@ -450,6 +450,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 								{
 									resultDialog->addLabel(MenuItemLabel::create(
 										Label::createWithTTF("当前排名: " + to_string(i + 1), theme->semiBoldFont, 50)));
+									position = i;
 									break;
 								}
 							}

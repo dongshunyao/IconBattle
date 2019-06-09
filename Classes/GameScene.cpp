@@ -524,7 +524,7 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 
 	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
-	particle->setScale(0.5f);
+	particle->setScale(0.6f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效

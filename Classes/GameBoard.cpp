@@ -4,12 +4,12 @@ void GameScene::initGameBoard()
 {
 	// TODO 移动高亮图片修改
 	moveHighLight = ImageView::create(theme->gameSceneMouseMoveOn);
-	moveHighLight->setPosition({9999, 9999});
+	moveHighLight->setPosition(invisiblePosition);
 	addChild(moveHighLight, 3);
 
 	// TODO 选中高亮图片修改
 	selectedHighLight = ImageView::create(theme->gameSceneMouseSelected);
-	selectedHighLight->setPosition({9999, 9999});
+	selectedHighLight->setPosition(invisiblePosition);
 	addChild(selectedHighLight, 5);
 
 	// 鼠标监听
@@ -108,16 +108,17 @@ void GameScene::initGameBoard()
 		{
 			if (boardLock)
 			{
-				moveHighLight->setPosition({9999, 9999});
+				moveHighLight->setPosition(invisiblePosition);
 				return;
 			}
+
 			const auto block = getIndexByPosition(Pair(cursorX, cursorY));
 			if (block != Pair(-1, -1))
 			{
 				const auto position = getPositionByIndex(block);
 				moveHighLight->setPosition(Vec2(position.first, position.second));
 			}
-			else moveHighLight->setPosition({9999, 9999});
+			else moveHighLight->setPosition(invisiblePosition);
 		}
 	};
 
@@ -234,7 +235,7 @@ bool GameScene::canKill(const Pair blockAIndex, const Pair blockBIndex)
 
 void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 {
-	selectedHighLight->setPosition({9999, 9999});
+	selectedHighLight->setPosition(invisiblePosition);
 	firstSelectedBlockIndex = {-1, -1};
 	secondSelectedBlockIndex = {-1, -1};
 
@@ -298,7 +299,7 @@ HintOperation GameScene::isImpasse()
 
 	for (auto i = 1; i < BOARD_SIZE; i++)
 		for (auto j = 0; j < BOARD_SIZE; j++)
-			if (!canKill({i, j}, {i - 1, j}))
+			if (canKill({i, j}, {i - 1, j}))
 			{
 				log("Hit: Use %d ms; Normal (%d, %d), (%d, %d);", clock() - beginTime, i, j, i - 1, j);
 				return {{i, j}, {i - 1, j}};
@@ -306,7 +307,7 @@ HintOperation GameScene::isImpasse()
 
 	for (auto i = 0; i < BOARD_SIZE; i++)
 		for (auto j = 1; j < BOARD_SIZE; j++)
-			if (!canKill({i, j}, {i, j - 1}))
+			if (canKill({i, j}, {i, j - 1}))
 			{
 				log("Hit: Use %d ms; Normal (%d, %d), (%d, %d);", clock() - beginTime, i, j, i, j - 1);
 				return {{i, j}, {i, j - 1}};
@@ -322,15 +323,12 @@ bool GameScene::showHint()
 
 	boardLock = true;
 	const auto hint = isImpasse();
-
 	log("[LOCK] Hint: (%d, %d); (%d, %d);", hint.first.first, hint.first.second, hint.second.first, hint.second.second);
+
 	assert(hint != HintOperation({-1, -1},{-1,-1}));
 
-	// TODO 展示第一个hint
-	if (hint.second != Pair(-1, -1))
-	{
-		// TODO 展示第二个hint
-	}
+	showSingleParticle(hint.first, 1);
+	if (hint.second != Pair(-1, -1)) showSingleParticle(hint.second, 1);
 
 	boardLock = false;
 	log("[UNLOCK] Hint");
