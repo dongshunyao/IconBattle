@@ -26,6 +26,9 @@ AppDelegate::AppDelegate()
 {
 	// 初始化用户信息
 	User::getInstance();
+
+	// 初始化随机数种子
+	srand(time(nullptr) + rand());
 }
 
 AppDelegate::~AppDelegate()
@@ -77,7 +80,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	// TODO turn on display FPS
 	director->setDisplayStats(true);
 
-	// TODO set FPS. the default value is 1.0/60 if you don't call this
+	// set FPS. the default value is 1.0/60 if you don't call this
 	director->setAnimationInterval(1.0f / 120);
 
 	// Set the design resolution

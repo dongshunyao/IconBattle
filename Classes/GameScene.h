@@ -82,7 +82,7 @@ private:
 
 #pragma region Result Board
 	bool isShareButtonAppear = false;
-	int position = -1; // 玩家在排行中的排名
+	int position = -1; // 玩家在排行数组中的排名
 
 	// 展示失败结果
 	void showFailedResult(int targetScore, int realScore);
@@ -104,6 +104,8 @@ private:
 	// 棋盘锁：进行动画时锁定
 	bool boardLock = true;
 
+	// 不可见位置，用于隐藏高亮
+	const Vec2 invisiblePosition = {180, 90};
 	// 鼠标移动高亮
 	ImageView* moveHighLight = nullptr;
 	// 选中块高亮

@@ -42,9 +42,10 @@ bool LoadingScene::init()
 
 void LoadingScene::loading()
 {
-	// TODO 初始化背景音乐
+	// 预加载音乐
 	vector<string> musicPath;
-	musicPath.emplace_back(theme->backgroundMusic);
+	musicPath.emplace_back("/music/jetbraintheme/background.mp3");
+	musicPath.emplace_back("/music/adobetheme/background.mp3");
 	Music::getInstance()->loading(musicPath);
 
 	// 初始化音效

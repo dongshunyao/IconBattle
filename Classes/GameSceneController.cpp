@@ -27,12 +27,12 @@ void GameSceneController::startLevelGame(const bool isClassical, const int level
 	if (isClassical)
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(1.0f, GameScene::createScene(classicalLevel[level].second,
-			                                                      classicalLevel[level].first, isClassical, LEVEL_MODE,
-			                                                      level)));
+			                                                    classicalLevel[level].first, isClassical, LEVEL_MODE,
+			                                                    level + 1)));
 	else
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(1.0f, GameScene::createScene(plusLevel[level].second, plusLevel[level].first,
-			                                                      isClassical, LEVEL_MODE, level)));
+			                                                    isClassical, LEVEL_MODE, level + 1)));
 }
 
 void GameSceneController::startChallengeGame(const bool isClassical) const
@@ -40,7 +40,7 @@ void GameSceneController::startChallengeGame(const bool isClassical) const
 	if (isClassical)
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(1.0f, GameScene::createScene(classicalChallenge.second, classicalChallenge.first,
-			                                                      isClassical, CHALLENGE_MODE)));
+			                                                    isClassical, CHALLENGE_MODE)));
 	else
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(
@@ -52,13 +52,12 @@ int GameSceneController::randomCoin(const int percentage) const
 	const auto random = Util::getRandomNumber(100);
 	if (random <= percentage)
 	{
-		switch (getRandomNumber(5))
+		switch (getRandomNumber(10))
 		{
-		case 3:
+		case 6:
 			return 3;
 
-		case 2:
-		case 1:
+		case 4:
 			return 2;
 
 		default:
@@ -71,8 +70,8 @@ int GameSceneController::randomCoin(const int percentage) const
 
 int GameSceneController::updateInformation()
 {
-	coinPercentage += 60 + getRandomNumber(60);
-	coinPercentage %= 80;
+	coinPercentage += 15 + getRandomNumber(20);
+	coinPercentage %= 50;
 
 	const auto coin = randomCoin(coinPercentage);
 	User::getInstance()->setCoin(User::getInstance()->getCoin() + coin);

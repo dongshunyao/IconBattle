@@ -95,7 +95,7 @@ void StoreScene::initButton()
 	for (const auto& it : user->getUnlockedThemes())
 	{
 		if (it == theme->adobeThemeName) createAdobeButton(true);
-		else if (it == theme->officeThemeName) createOfficeButtons(true);
+		// else if (it == theme->officeThemeName) createOfficeButtons(true);
 	}
 	if (adobeSelectButton == nullptr) createAdobeButton(false);
 	if (officeSelectButton == nullptr) createOfficeButtons(false);
@@ -121,11 +121,11 @@ void StoreScene::updateCurrentTheme(const string& themeName) const
 		theme->setCurrentTheme(theme->adobeThemeName);
 	}
 
-	if (themeName == theme->officeThemeName)
-	{
-		officeSelectButton->setEnabled(false);
-		theme->setCurrentTheme(theme->officeThemeName);
-	}
+	// if (themeName == theme->officeThemeName)
+	// {
+	// 	officeSelectButton->setEnabled(false);
+	// 	theme->setCurrentTheme(theme->officeThemeName);
+	// }
 
 	user->update();
 }
@@ -145,7 +145,7 @@ void StoreScene::unlockTheme(const string& themeName)
 	user->setUnlockedThemes(v);
 
 	if (themeName == theme->adobeThemeName) createAdobeButton(true);
-	if (themeName == theme->officeThemeName) createOfficeButtons(true);
+	// if (themeName == theme->officeThemeName) createOfficeButtons(true);
 }
 
 Button* StoreScene::createSelectButton() const
@@ -243,9 +243,9 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 		{
 			if (type == Widget::TouchEventType::ENDED)
 			{
-				updateCurrentTheme(theme->officeThemeName);
-				Director::getInstance()->replaceScene(StoreScene::createScene());
-				Music::getInstance()->change(theme->backgroundMusic);
+				// updateCurrentTheme(theme->officeThemeName);
+				// Director::getInstance()->replaceScene(StoreScene::createScene());
+				// Music::getInstance()->change(theme->backgroundMusic);
 			}
 		});
 		officeSelectButton->setPosition(Point(960, 150));
@@ -272,14 +272,15 @@ void StoreScene::createOfficeButtons(const bool unlocked)
 			Sprite::create(theme->storeSceneOfficeCoinsButtonDisabled),
 			[&](Ref* sender)
 			{
-				if (user->getCoin() >= 60)
-				{
-					successfulPay(false, 60, theme->officeThemeName);
-				}
-				else
-				{
-					failedPay();
-				}
+				cashPay();
+				// if (user->getCoin() >= 60)
+				// {
+				// 	successfulPay(false, 60, theme->officeThemeName);
+				// }
+				// else
+				// {
+				// 	failedPay();
+				// }
 			}
 		);
 		officeCoinsMenuItem->setPosition(Point(960, 120));

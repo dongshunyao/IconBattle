@@ -20,11 +20,11 @@ void Theme::setCurrentTheme(const string& theme)
 		currentTheme = adobeThemeName;
 		setAdobeTheme();
 	}
-	else if (theme == officeThemeName)
-	{
-		currentTheme = officeThemeName;
-		setOfficeTheme();
-	}
+	// else if (theme == officeThemeName)
+	// {
+	// 	currentTheme = officeThemeName;
+	// 	setOfficeTheme();
+	// }
 }
 
 Theme::Theme()
@@ -88,7 +88,7 @@ void Theme::setJetBrainTheme()
 	gameSceneHintButtonNormal = "/image/gamescene/jetbraintheme/hint_button_normal.png";
 	gameSceneHintButtonSelected = "/image/gamescene/jetbraintheme/hint_button_selected.png";
 	gameSceneHintButtonDisabled = "/image/gamescene/jetbraintheme/hint_button_disabled.png";
-	gameSceneResultSpriteBackground= "/image/gamescene/jetbraintheme/result_sprite_background.png";
+	gameSceneResultSpriteBackground = "/image/gamescene/jetbraintheme/result_sprite_background.png";
 
 #pragma endregion
 }
@@ -104,7 +104,7 @@ void Theme::setAdobeTheme()
 #pragma endregion
 
 #pragma region Dialog
-	messageDialogBackground ="/image/gamescene/adobetheme/result_dialog_background.png";
+	messageDialogBackground = "/image/gamescene/adobetheme/result_dialog_background.png";
 	resultDialogBackground = "/image/gamescene/adobetheme/message_dialog_background.png";
 #pragma region
 
@@ -154,4 +154,7 @@ void Theme::setAdobeTheme()
 #pragma endregion
 }
 
-void Theme::setOfficeTheme() { }
+// void Theme::setOfficeTheme()
+// {
+// 	// 待开发
+// }
