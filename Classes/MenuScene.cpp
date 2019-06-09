@@ -19,6 +19,8 @@ bool MenuScene::init()
 	initRankButton();
 	initGameButton();
 	initPlate();
+	if(Theme::getInstance()->getCurrentThemeName() == "AdobeTheme")
+	initPainter();
 
 	// 初始化金币
 	initCoin();
@@ -304,4 +306,55 @@ void MenuScene::initPlate()
 
 	addChild(classicListView);
 	addChild(enhancedListView);
+}
+
+void MenuScene::initPainter()
+{
+	do
+	{
+
+		streakSprite = Sprite::create("/image/menuscene/adobetheme/star.png");
+		this->addChild(streakSprite);
+
+		//开启多点触摸    
+		auto listener = EventListenerTouchAllAtOnce::create();
+		listener->onTouchesBegan = CC_CALLBACK_2(MenuScene::onTouchesBegan, this);
+		listener->onTouchesMoved = CC_CALLBACK_2(MenuScene::onTouchesMoved, this);
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+		streak = MotionStreak::create(5, 3, 32, Color3B::WHITE, "/image/menuscene/adobetheme/color_action.png");
+		this->addChild(streak,22);
+	}
+	while (false);
+}
+
+void MenuScene::onTouchesBegan(const std::vector<Touch *>& touches, cocos2d::Event* event) const
+{
+	// 获取触摸点位置
+
+	const auto pos = touches[0]->getLocation();
+
+
+	// 设置位置
+
+	streakSprite->setPosition(pos);
+
+	streak->setPosition(streakSprite->getPosition());
+
+
+	// 删除所有活动条带段
+
+	streak->reset();
+}
+
+// 触摸移动 ：移动star和streak的位置
+
+void MenuScene::onTouchesMoved(const std::vector<Touch *>& touches, cocos2d::Event* event) const
+
+{
+	//根据触摸位置，画线
+
+	const auto touchLocation = touches[0]->getLocation();
+
+	if (touchLocation.x < 450 && touchLocation.y > 100 && touchLocation.y < 800)
+		streak->setPosition(touchLocation);
 }
