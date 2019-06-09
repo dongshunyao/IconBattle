@@ -497,7 +497,6 @@ void GameScene::showExplosion(const Pair index)
 {
 	auto particle = ParticleSystemQuad::create(EXPLOSION_PARTICLE);
 
-	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setScale(0.7f);
 	particle->setAutoRemoveOnFinish(true);
@@ -507,10 +506,8 @@ void GameScene::showExplosion(const Pair index)
 
 void GameScene::showFullBoardParticle()
 {
-	// TODO: 坐标位置未测试，有待调整
 	auto particle = ParticleSystemQuad::create(FULL_PARTICLE);
 
-	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(450 + 700 / 2, 85 + 700 / 2);
 	particle->setScale(0.7f);
 	particle->setAutoRemoveOnFinish(true);
@@ -522,7 +519,6 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 {
 	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[type]);
 
-	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setScale(0.6f);
 	particle->setAutoRemoveOnFinish(true);
