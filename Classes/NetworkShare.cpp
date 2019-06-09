@@ -85,7 +85,7 @@ bool NetworkShare::shareRank(const bool isClassical, const int target, const int
 	if (isClassical) temp =
 		"%e6%88%91%e5%9c%a8+Icon+Battle+%e7%bb%8f%e5%85%b8%e6%8c%91%e6%88%98%e6%a8%a1%e5%bc%8f%e4%b8%ad%e5%8b%87%e5%a4%ba+";
 	else temp =
-		"%e6%88%91%e5%9c%a8+Icon+Battle+%e7%bb%8f%e5%85%b8%e6%8c%91%e6%88%98%e6%a8%a1%e5%bc%8f%e4%b8%ad%e5%8b%87%e5%a4%ba+";
+		"%e6%88%91%e5%9c%a8+Icon+Battle+%e8%bf%9b%e9%98%b6%e6%8c%91%e6%88%98%e6%a8%a1%e5%bc%8f%e4%b8%ad%e5%8b%87%e5%a4%ba+";
 
 	temp += std::to_string(score);
 	temp += "+%e5%88%86%2c+%e6%96%a9%e8%8e%b7%e5%85%a8%e7%bd%91%e7%ac%ac+";
