@@ -38,6 +38,7 @@ private:
 	void initGameButton();
 	void initPlate();
 	void initCoin();
+	void initPainter();
 
 	Button* classicPractice = nullptr;
 	Button* classicLevel = nullptr;
@@ -54,6 +55,11 @@ private:
 
 	bool classicMoveOut = false;
 	bool enhancedMoveOut = false;
+
+	Sprite* streakSprite = nullptr;
+	MotionStreak* streak = nullptr;
+	void onTouchesBegan(const std::vector<Touch *> &touches, cocos2d::Event *event) const;
+	void onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::Event *event) const;
 };
 
 #endif
