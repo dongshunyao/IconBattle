@@ -331,7 +331,7 @@ void MenuScene::initPainter()
 {
 	drawOnMeLabel = Sprite::create(theme->menuSceneDrawOnMeLabel);
 	drawOnMeLabel->setPosition(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-	this->addChild(drawOnMeLabel, 22);
+	this->addChild(drawOnMeLabel, 2);
 
 	streakSprite = Sprite::create("/image/menuscene/adobetheme/star.png");
 	this->addChild(streakSprite);
@@ -347,7 +347,6 @@ void MenuScene::initPainter()
 
 void MenuScene::onTouchesBegan(const std::vector<Touch *>& touches, cocos2d::Event* event) const
 {
-	drawOnMeLabel->setOpacity(0);
 
 	// 获取触摸点位置
 	const auto pos = touches[0]->getLocation();
@@ -369,6 +368,8 @@ void MenuScene::onTouchesMoved(const std::vector<Touch *>& touches, cocos2d::Eve
 
 	const auto touchLocation = touches[0]->getLocation();
 
-	if (touchLocation.x < 500 && touchLocation.x > 30 && touchLocation.y > 100 && touchLocation.y < 780)
+	if (touchLocation.x < 500 && touchLocation.x > 30 && touchLocation.y > 100 && touchLocation.y < 780) {
+		drawOnMeLabel->setOpacity(0);
 		streak->setPosition(touchLocation);
+	}
 }
