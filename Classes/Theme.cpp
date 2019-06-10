@@ -120,6 +120,7 @@ void Theme::setAdobeTheme()
 	menuSceneEnhancedLabel = "/image/menuscene/adobetheme/enhanced_label.png";
 	menuSceneEnhancedPlate = "/image/menuscene/adobetheme/enhanced_plate.png";
 	menuSceneRankListBackground = "/image/menuscene/adobetheme/rank_list_background.png";
+	menuSceneDrawOnMeLabel = "/image/menuscene/adobetheme/drawonme.png";
 
 #pragma endregion
 

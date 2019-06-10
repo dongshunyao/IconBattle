@@ -57,6 +57,7 @@ private:
 	bool enhancedMoveOut = false;
 
 	Sprite* streakSprite = nullptr;
+	Sprite* drawOnMeLabel = nullptr;
 	MotionStreak* streak = nullptr;
 	void onTouchesBegan(const std::vector<Touch *> &touches, cocos2d::Event *event) const;
 	void onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::Event *event) const;

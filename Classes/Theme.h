@@ -54,6 +54,7 @@ public:
 	string menuSceneEnhancedLabel;
 	string menuSceneEnhancedPlate;
 	string menuSceneRankListBackground;
+	string menuSceneDrawOnMeLabel;
 
 	const string menuChangeTypeButtonNormalBackground = "/image/menuscene/common/change_button_normal.png";
 	const string menuChangeTypeButtonSelectedBackground = "/image/menuscene/common/change_button_selected.png";
