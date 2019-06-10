@@ -28,7 +28,7 @@ public:
 
 	const GameInfo classicalLevel[10] =
 	{
-		{300, 20},
+		{300, 2},
 		{400, 20},
 		{500, 20},
 		{600, 20},
@@ -54,7 +54,7 @@ public:
 	};
 
 	const GameInfo classicalChallenge = {10000, 60};
-	const GameInfo plusChallenge = {10000, 60};
+	const GameInfo plusChallenge = {10000, 2};
 #pragma endregion
 
 	void startPracticeGame(bool isClassical) const;

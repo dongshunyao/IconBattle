@@ -97,7 +97,7 @@ private:
 
 	// 棋盘
 	static const int BOARD_SIZE = 8;
-	// 块的种类，不含Super块
+	// 块的种类，不含Super块，0到4
 	static const int TYPE_NUMBER = 5;
 	// 上方不可见，下方可见
 	Block board[BOARD_SIZE * 2][BOARD_SIZE];
@@ -152,10 +152,11 @@ private:
 
 
 	// BUG  重写 获取可消除方块列表
-	KillInformationList getKillList() { return {}; };
+	KillInformationList getKillList()
+	{ return {}; };
 
 	// BUG  重写 方块消除动画
-	void killBlock(KillInformationList killList) {};
+	void killBlock(KillInformationList killList){};
 
 
 	// 单行/列粒子特效

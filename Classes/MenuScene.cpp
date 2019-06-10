@@ -178,8 +178,19 @@ void MenuScene::initGameButton()
 		{
 			if (User::getInstance()->getUnlockedClassicalLevel() != 10)
 			{
-				// TODO 弹出对话框
-				// "完成经典闯关模式后再来挑战吧!";
+				const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
+				dialog->setContentText("完成经典闯关模式后再来挑战吧!", 36, 60, 20);
+
+				dialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					Sprite::create(theme->gameSceneYesButtonSelected),
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					[&, dialog](Ref* sender)
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+					}));
+
+				this->addChild(dialog, 50);
 			}
 			else GameSceneController::getInstance()->startChallengeGame(true);
 		}
@@ -218,10 +229,23 @@ void MenuScene::initGameButton()
 		{
 			if (User::getInstance()->getUnlockedPlusLevel() != 10)
 			{
-				// TODO 弹出对话框
-				// "完成进阶闯关模式后再来挑战吧!";
+				const auto dialog = Dialog::create(theme->messageDialogBackground, Size(640, 480));
+				dialog->setContentText("完成进阶闯关模式后再来挑战吧!", 36, 60, 20);
+
+				dialog->addButton(MenuItemSprite::create(
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					Sprite::create(theme->gameSceneYesButtonSelected),
+					Sprite::create(theme->gameSceneYesButtonNormal),
+					[&, dialog](Ref* sender)
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+					}));
+
+				this->addChild(dialog, 50);
 			}
-			else GameSceneController::getInstance()->startChallengeGame(false);
+			// TODO
+			//else 
+			GameSceneController::getInstance()->startChallengeGame(false);
 		}
 	});
 	enhancedChallenge->setPosition(Vec2(445, 40));
@@ -364,7 +388,8 @@ void MenuScene::onTouchesBegan(const std::vector<Touch *>& touches, cocos2d::Eve
 void MenuScene::onTouchesMoved(const std::vector<Touch *>& touches, cocos2d::Event* event) const
 {
 	// 触摸移动 ：移动star和streak的位置
-	//根据触摸位置，画线
+
+	// 根据触摸位置，画线
 	const auto touchLocation = touches[0]->getLocation();
 	if (touchLocation.x < 500 && touchLocation.x > 30 && touchLocation.y > 100 && touchLocation.y < 780)
 	{

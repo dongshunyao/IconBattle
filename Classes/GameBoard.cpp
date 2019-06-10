@@ -254,7 +254,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 	{
 		for (auto i = 0; i < BOARD_SIZE; i++)
 			for (auto j = 0; j < BOARD_SIZE; j++) killActorList.push_back(ActorInformation(i, j));
-		killBlock({KillInformation(DOUBLE_SUPER_KILL, killActorList)});
+		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
@@ -267,7 +267,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockBIndex.first][blockBIndex.second].type)
 					killActorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
@@ -279,7 +279,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockAIndex.first][blockAIndex.second].type)
 					killActorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
