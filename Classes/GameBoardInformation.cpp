@@ -12,7 +12,13 @@ Actor* Actor::create(const int type, const Pair position)
 		assert(type >= 0 && type <= 5);
 
 		if (type == SUPER_TYPE) actor->sprite = Sprite::create(Theme::getInstance()->iconSet + "0.png");
-		else actor->sprite = Sprite::create(Theme::getInstance()->iconSet + std::to_string(type + 1) + ".png");
+		else 
+		{
+			if (Theme::getInstance()->getCurrentThemeName() == Theme::getInstance()->adobeThemeName)
+				actor->sprite = Sprite::createWithSpriteFrameName("a" + std::to_string(type + 1) + ".png");
+			else
+				actor->sprite = Sprite::createWithSpriteFrameName("j" + std::to_string(type + 1) + ".png");
+		}
 		actor->sprite->setPosition(position.first, position.second);
 		actor->sprite->setScale(0.9f);
 		actor->addChild(actor->sprite);

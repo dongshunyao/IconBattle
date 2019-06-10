@@ -13,6 +13,12 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->mode = mode;
 	scene->level = level;
 
+	// 初始化精灵图集
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/adobetheme/icon/adobe.plist",
+	                                                         "/image/common/adobetheme/icon/adobe.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/jetbraintheme/icon/jetbrain.plist",
+	                                                         "/image/common/jetbraintheme/icon/jetbrain.png");
+
 	// 初始化背景板及按钮
 	scene->initInformationBoard();
 
@@ -498,14 +504,12 @@ void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 {
 	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
 
-	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, 85 + 700 / 2);
 	if (!isVertical)
 	{
 		particle->setRotation(90);
 		particle->setPosition(450 + 700 / 2, getPositionByIndex(index).second);
 	}
-
 
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
@@ -540,6 +544,8 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setScale(0.6f);
+	// 设置持续时间
+	//particle->setDuration(3.0f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效
