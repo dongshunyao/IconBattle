@@ -13,6 +13,12 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->mode = mode;
 	scene->level = level;
 
+	// 初始化精灵图集
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/adobetheme/icon/adobe.plist",
+	                                                         "/image/common/adobetheme/icon/adobe.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/jetbraintheme/icon/jetbrain.plist",
+	                                                         "/image/common/jetbraintheme/icon/jetbrain.png");
+
 	// 初始化背景板及按钮
 	scene->initInformationBoard();
 
