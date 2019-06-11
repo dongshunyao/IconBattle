@@ -20,16 +20,6 @@ namespace GameBoardInformation
 	static const int LEVEL_MODE = 2;
 	static const int CHALLENGE_MODE = 3;
 
-	const string SPRITE_URL[6] =
-	{
-		Theme::getInstance()->iconSet + "1.png",
-		Theme::getInstance()->iconSet + "2.png",
-		Theme::getInstance()->iconSet + "3.png",
-		Theme::getInstance()->iconSet + "4.png",
-		Theme::getInstance()->iconSet + "5.png",
-		Theme::getInstance()->iconSet + "0.png"
-	};
-
 	// TODO 粒子特效文件
 	const string ONE_LINE_PARTICLE = "/particle/oneLine.plist";
 	const string EXPLOSION_PARTICLE = "/particle/explosion.plist";
@@ -74,12 +64,26 @@ namespace GameBoardInformation
 	const int DOUBLE_SUPER_KILL = 7;
 
 
+	// TODO 不同模式得分
+
 	// 提示、剩余步数得分
 	const int EVERY_STEP_SCORE = 100;
 	const int EVERY_HINT_SCORE = 150;
 
-	// TODO 不同模式得分
+	// 三消单个得分
 	const int BASE_KILL_SCORE = 10;
+	// 四消单个加分
+	const int FOUR_KILL_SCORE = 20;
+	// 五消单个加分
+	const int FIVE_KILL_SCORE = 25;
+	// 双三消单个加分
+	const int DOUBLE_BASE_KILL_SCORE = 40;
+	// 双四消单个加分
+	const int DOUBLE_FOUR_KILL_SCORE = 50;
+	// Super消除单个加分
+	const int SUPER_KILL_SCORE = 40;
+	// Super交换单个加分
+	const int DOUBLE_SUPER_KILL_SCORE = 50;
 
 	/*
 	 * 标准模式：
@@ -95,7 +99,6 @@ namespace GameBoardInformation
 	 * SUPER宝石与某个颜色交换（SUPER_KILL）：消去整个画面中该颜色的宝石
 	 * 两个SUPER交换（DOUBLE_SUPER_KILL）：刷新棋盘
 	 */
-
 
 	// BUG 需要删除 代表不同粒子特效的函数标号
 	const int FUNC_NO = -1;
@@ -152,12 +155,14 @@ struct GameBoardInformation::ActorInformation
 
 struct GameBoardInformation::KillInformation
 {
-	Pair newBlockIndex;
 	int killType;
+	int killScore;
 	ActorInformationList killActorList;
+	Pair newBlockIndex;
 
-	KillInformation(const int killType, const ActorInformationList killActorList, const Pair newBlockIndex = {-1, -1}) :
-		newBlockIndex(newBlockIndex), killType(killType), killActorList(killActorList) {}
+	KillInformation(const int killType, const int killScore, const ActorInformationList killActorList,
+	                const Pair newBlockIndex = {-1, -1}) :
+		killType(killType), killScore(killScore), killActorList(killActorList), newBlockIndex(newBlockIndex) {}
 };
 
 #endif

@@ -13,6 +13,12 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 	scene->mode = mode;
 	scene->level = level;
 
+	// 初始化精灵图集
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/adobetheme/icon/adobe.plist",
+	                                                         "/image/common/adobetheme/icon/adobe.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("/image/common/jetbraintheme/icon/jetbrain.plist",
+	                                                         "/image/common/jetbraintheme/icon/jetbrain.png");
+
 	// 初始化背景板及按钮
 	scene->initInformationBoard();
 
@@ -85,141 +91,157 @@ void GameScene::endGame()
 }
 
 /*
-// TODO 
 KillInformationList GameScene::getKillList()
 {
-	KillInformationList rtn;
-	set<Pair> vis;
+	KillInformationList killList;
+	set<Pair> visit;
 
-	//TODO: check cross;
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
+	// 检查十字消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
-			int ilen = 1, jlen = 1;
-			ActorInformationList tCrossActor;
-			tCrossActor.push_back(ActorInformation(i, j));
-			for (int ip = i + 1; ip < BOARD_SIZE && board[ip][j].type == board[i][j].type && !vis.count({ip, j})
-			     && board[ip][j].func != FUNC_SUPER; ip++)
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			auto iLength = 1, jLength = 1;
+			ActorInformationList actorList;
+			actorList.push_back(ActorInformation(i, j));
+
+			for (auto iIndex = i + 1;
+			     iIndex < BOARD_SIZE && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+			     iIndex++)
 			{
-				ilen++;
-				tCrossActor.push_back(ActorInformation(ip, j));
+				iLength++;
+				actorList.push_back(ActorInformation(iIndex, j));
 			}
-			for (int ip = i - 1; ip >= 0 && board[ip][j].type == board[i][j].type && !vis.count({ip, j}) &&
-			     board[ip][j].func != FUNC_SUPER; ip--)
+			for (auto iIndex = i - 1;
+			     iIndex >= 0 && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+			     iIndex--)
 			{
-				ilen++;
-				tCrossActor.push_back(ActorInformation(ip, j));
+				iLength++;
+				actorList.push_back(ActorInformation(iIndex, j));
 			}
-			for (int jp = j + 1; jp < BOARD_SIZE && board[i][jp].type == board[i][j].type && !vis.count({i, jp})
-			     && board[i][jp].func != FUNC_SUPER; jp++)
+			for (auto jIndex = j + 1;
+			     jIndex < BOARD_SIZE && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+			     jIndex++)
 			{
-				jlen++;
-				tCrossActor.push_back(ActorInformation(i, jp));
+				jLength++;
+				actorList.push_back(ActorInformation(i, jIndex));
 			}
-			for (int jp = j - 1; jp >= 0 && board[i][jp].type == board[i][j].type && !vis.count({i, jp}) &&
-			     board[i][jp].func != FUNC_SUPER; jp--)
+			for (auto jIndex = j - 1;
+			     jIndex >= 0 && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+			     jIndex--)
 			{
-				jlen++;
-				tCrossActor.push_back(ActorInformation(i, jp));
+				jLength++;
+				actorList.push_back(ActorInformation(i, jIndex));
 			}
-			if (ilen == 3 && jlen == 3)
+			// 双三
+			if (iLength == 3 && jLength == 3)
 			{
-				rtn.push_back({
-					{i, j}, doubleThree, tCrossActor, {ActorInformation(i, j, board[i][j].type, FUNC_FIRE)}
-				});
-			}
-			else if (ilen >= 3 && jlen >= 3)
-			{
-				rtn.push_back(
-					{{i, j}, otherDouble, tCrossActor, {ActorInformation(i, j, board[i][j].type, FUNC_SUPER)}});
-			}
-			if (ilen >= 3 && jlen >= 3)
-			{
-				for (auto elm : tCrossActor)
+				// 找最小点，添加3*3
+				ActorInformationList tempList;
+
+				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
+				for (const auto& it : actorList)
 				{
-					vis.insert(elm.pos);
+					if (it.blockIndex.first < iIndex) iIndex = it.blockIndex.first;
+					if (it.blockIndex.second < jIndex) jIndex = it.blockIndex.second;
 				}
+
+				for (auto iDelta = 0; iDelta < 3; iDelta++)
+					for (auto jDelta = 0; jDelta < 3; jDelta++) tempList.push_back({iIndex + iDelta, jIndex + jDelta});
+
+				killList.push_back({DOUBLE_BASE_KILL, DOUBLE_BASE_KILL_SCORE, tempList});
+			}
+			else if (iLength >= 3 && jLength >= 3) // 双四
+				killList.push_back({DOUBLE_FOUR_KILL, DOUBLE_FOUR_KILL_SCORE, actorList, {i, j}});
+
+			if (iLength >= 3 && jLength >= 3)
+				for (const auto& it : actorList) visit.insert(it.blockIndex);
+		}
+
+
+	// 检查五消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			// 竖直
+			if (i > 1 && i < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i + 1][j].type &&
+					board[i][j].type == board[i + 2][j].type &&
+					board[i][j].type == board[i - 1][j].type &&
+					board[i][j].type == board[i - 2][j].type)
+				&& (!visit.count({i + 1, j}) &&
+					!visit.count({i + 2, j}) &&
+					!visit.count({i - 1, j}) &&
+					!visit.count({i - 2, j})))
+			{
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				visit.insert({i + 2, j});
+				visit.insert({i - 1, j});
+				visit.insert({i - 2, j});
+
+				ActorInformationList actorList;
+				if (j != 0)
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j - 1});
+				if (j != BOARD_SIZE - 1)
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j + 1});
+				for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
+
+				killList.push_back({FIVE_VERTICAL_KILL, FIVE_KILL_SCORE, actorList});
+			}
+
+			// 水平
+			if (j > 1 && j < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i][j + 1].type &&
+					board[i][j].type == board[i][j + 2].type &&
+					board[i][j].type == board[i][j - 1].type &&
+					board[i][j].type == board[i][j - 2].type)
+				&& (!visit.count({i, j + 1}) &&
+					!visit.count({i, j + 2}) &&
+					!visit.count({i, j - 1}) &&
+					!visit.count({i, j - 2})))
+			{
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				visit.insert({i, j + 2});
+				visit.insert({i, j - 1});
+				visit.insert({i, j - 2});
+
+				ActorInformationList actorList;
+				if (i != 0)
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i - 1, jIndex});
+				if (i != BOARD_SIZE - 1)
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i + 1, jIndex});
+				for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
+
+				killList.push_back({FIVE_HORIZONTAL_KILL, FIVE_KILL_SCORE, actorList});
 			}
 		}
-	}
 
 
-	//TODO: check 5 link;
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
+	// TODO 检查四消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
 		{
-			if ((i > 1 && i < BOARD_SIZE - 2)
-				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
-					&& board[i][j].type == board[i + 2][j].type && board[i][j].type == board[i - 2][j].
-					type)
-				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
-					func != FUNC_SUPER && board[i + 2][j].func != FUNC_SUPER && board[i - 2][j].func !=
-					FUNC_SUPER)
-				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j}) && !vis.count({i + 2, j}) &&
-					!vis.count({i - 2, j})))
-			{
-				vis.insert({i - 1, j});
-				vis.insert({i, j});
-				vis.insert({i + 1, j});
-				vis.insert({i + 2, j});
-				vis.insert({i - 2, j});
-				rtn.push_back({
-					{i, j}, fiveScore,
-					{
-						ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j),
-						ActorInformation(i + 2, j),
-						ActorInformation(i - 2, j)
-					},
-					{ActorInformation(i, j, board[i][j].type, FUNC_H_3)}
-				});
-			}
-			if ((j > 1 && j < BOARD_SIZE - 2)
-				&& (board[i][j - 1].type == board[i][j].type && board[i][j].type == board[i][j + 1].type
-					&& board[i][j].type == board[i][j + 2].type && board[i][j].type == board[i][j - 2].
-					type)
-				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
-					func != FUNC_SUPER && board[i][j + 2].func != FUNC_SUPER && board[i][j - 2].func !=
-					FUNC_SUPER)
-				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1}) && !vis.count({i, j + 2}) &&
-					!vis.count({i, j - 2})))
-			{
-				vis.insert({i, j - 1});
-				vis.insert({i, j});
-				vis.insert({i, j + 1});
-				vis.insert({i, j + 2});
-				vis.insert({i, j - 2});
-				rtn.push_back({
-					{i, j}, fiveScore,
-					{
-						ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1),
-						ActorInformation(i, j + 2),
-						ActorInformation(i, j - 2)
-					},
-					{ActorInformation(i, j, board[i][j].type, FUNC_V_3)}
-				});
-			}
-		}
-	}
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
 
-	//TODO: check 4 link;
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if ((i > 0 && i < BOARD_SIZE - 2)
-				&& (board[i - 1][j].type == board[i][j].type && board[i][j].type == board[i + 1][j].type
-					&& board[i][j].type == board[i + 2][j].type)
-				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
-					func != FUNC_SUPER && board[i + 2][j].func != FUNC_SUPER)
-				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j}) && !vis.count({i + 2, j})))
+			// 竖直
+			if (i > 0 && i < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i + 1][j].type &&
+					board[i][j].type == board[i + 2][j].type &&
+					board[i][j].type == board[i - 1][j].type)
+				&& (!visit.count({i + 1, j}) &&
+					!visit.count({i + 2, j}) &&
+					!visit.count({i - 1, j})))
 			{
-				vis.insert({i - 1, j});
-				vis.insert({i, j});
-				vis.insert({i + 1, j});
-				vis.insert({i + 2, j});
-				rtn.push_back({
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				visit.insert({i + 2, j});
+				visit.insert({i - 1, j});
+				killList.push_back({
 					{i, j}, FOUR_KILL_SCORE,
 					{
 						ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j),
@@ -233,13 +255,15 @@ KillInformationList GameScene::getKillList()
 					&& board[i][j].type == board[i][j + 2].type)
 				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
 					func != FUNC_SUPER && board[i][j + 2].func != FUNC_SUPER)
-				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1}) && !vis.count({i, j + 2})))
+				&& (!visit.count({i, j - 1}) && !visit.count({i, j}) && !visit.count({i, j + 1}) && !visit.count({
+					i, j + 2
+				})))
 			{
-				vis.insert({i, j - 1});
-				vis.insert({i, j});
-				vis.insert({i, j + 1});
-				vis.insert({i, j + 2});
-				rtn.push_back({
+				visit.insert({i, j - 1});
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				visit.insert({i, j + 2});
+				killList.push_back({
 					{i, j}, FOUR_KILL_SCORE,
 					{
 						ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1),
@@ -249,9 +273,9 @@ KillInformationList GameScene::getKillList()
 				});
 			}
 		}
-	}
 
-	//check 3 link;
+
+	//TODO check 3 link;
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
@@ -261,12 +285,12 @@ KillInformationList GameScene::getKillList()
 				)
 				&& (board[i - 1][j].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i + 1][j].
 					func != FUNC_SUPER)
-				&& (!vis.count({i - 1, j}) && !vis.count({i, j}) && !vis.count({i + 1, j})))
+				&& (!visit.count({i - 1, j}) && !visit.count({i, j}) && !visit.count({i + 1, j})))
 			{
-				vis.insert({i - 1, j});
-				vis.insert({i, j});
-				vis.insert({i + 1, j});
-				rtn.push_back({
+				visit.insert({i - 1, j});
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				killList.push_back({
 					{i, j}, threeScore,
 					{ActorInformation(i - 1, j), ActorInformation(i, j), ActorInformation(i + 1, j)}, {}
 				});
@@ -276,12 +300,12 @@ KillInformationList GameScene::getKillList()
 				)
 				&& (board[i][j - 1].func != FUNC_SUPER && board[i][j].func != FUNC_SUPER && board[i][j + 1].
 					func != FUNC_SUPER)
-				&& (!vis.count({i, j - 1}) && !vis.count({i, j}) && !vis.count({i, j + 1})))
+				&& (!visit.count({i, j - 1}) && !visit.count({i, j}) && !visit.count({i, j + 1})))
 			{
-				vis.insert({i, j - 1});
-				vis.insert({i, j});
-				vis.insert({i, j + 1});
-				rtn.push_back({
+				visit.insert({i, j - 1});
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				killList.push_back({
 					{i, j}, threeScore,
 					{ActorInformation(i, j - 1), ActorInformation(i, j), ActorInformation(i, j + 1)}, {}
 				});
@@ -289,8 +313,9 @@ KillInformationList GameScene::getKillList()
 		}
 	}
 
-	return rtn;
+	return killList;
 }
+
 
 void GameScene::killBlock(KillInformationList killList)
 {
@@ -324,7 +349,7 @@ void GameScene::killBlock(KillInformationList killList)
 				ti++;
 				assert(ti < 2 * BOARD_SIZE);
 			}
-			int type =  getRandomNumber(TYPE_NUMBER);
+			int type = getRandomNumber(TYPE_NUMBER);
 			auto droper = addActor(type, -1, getPositionByIndex({ti, pos.second}));
 			board[ti][pos.second] = Block(type, -1, droper);
 		}
@@ -479,14 +504,12 @@ void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 {
 	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
 
-	// TODO: 坐标位置未测试，有待调整
 	particle->setPosition(getPositionByIndex(index).first, 85 + 700 / 2);
 	if (!isVertical)
 	{
 		particle->setRotation(90);
 		particle->setPosition(450 + 700 / 2, getPositionByIndex(index).second);
 	}
-
 
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
@@ -521,6 +544,8 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setScale(0.6f);
+	// 设置持续时间
+	//particle->setDuration(3.0f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效

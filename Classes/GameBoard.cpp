@@ -147,11 +147,17 @@ Pair GameScene::getPositionByIndex(const Pair index)
 
 Pair GameScene::getIndexByPosition(const Pair position)
 {
-	// 棋盘可点击范围在465~1165(width),90~790(height)，棋盘中心点为(793，419)
-	if (position.first < 465 || position.first > 465 + 700) return {-1, -1};
-	if (position.second < 90 || position.second > 90 + 700) return {-1, -1};
+	// 棋盘可点击范围在452~1140(width),77~765(height)，棋盘中心点为(796，421)
+	if (position.first <= 452 || position.first >= 452 + 688) return {-1, -1};
+	if (position.second <= 77 || position.second >= 77 + 688) return {-1, -1};
+
 	// 宝石大小为64，与缝隙总长86
-	return {(position.second - 90) / 86, (position.first - 465) / 86};
+	auto xIndex = (position.second - 77) / 86, yIndex = (position.first - 452) / 86;
+
+	assert(xIndex >= 0 && xIndex <= 7);
+	assert(yIndex >= 0 && yIndex <= 7);
+
+	return {xIndex, yIndex};
 }
 
 void GameScene::refreshBoard()
@@ -254,7 +260,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 	{
 		for (auto i = 0; i < BOARD_SIZE; i++)
 			for (auto j = 0; j < BOARD_SIZE; j++) killActorList.push_back(ActorInformation(i, j));
-		killBlock({KillInformation(DOUBLE_SUPER_KILL, killActorList)});
+		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
@@ -267,7 +273,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockBIndex.first][blockBIndex.second].type)
 					killActorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
@@ -279,7 +285,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockAIndex.first][blockAIndex.second].type)
 					killActorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
 		return;
 	}
 
