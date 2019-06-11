@@ -51,7 +51,6 @@ void GameScene::showScore(const ActorInformation actorInformation)
 
 void GameScene::endGame()
 {
-	// TODO 分数折合动画
 	switch (mode)
 	{
 		// 练习模式一定会成功的
@@ -172,7 +171,8 @@ KillInformationList GameScene::getKillList()
 					board[i][j].type == board[i + 2][j].type &&
 					board[i][j].type == board[i - 1][j].type &&
 					board[i][j].type == board[i - 2][j].type)
-				&& (!visit.count({i + 1, j}) &&
+				&& (!visit.count({i, j}) &&
+					!visit.count({i + 1, j}) &&
 					!visit.count({i + 2, j}) &&
 					!visit.count({i - 1, j}) &&
 					!visit.count({i - 2, j})))
@@ -199,7 +199,8 @@ KillInformationList GameScene::getKillList()
 					board[i][j].type == board[i][j + 2].type &&
 					board[i][j].type == board[i][j - 1].type &&
 					board[i][j].type == board[i][j - 2].type)
-				&& (!visit.count({i, j + 1}) &&
+				&& (!visit.count({i, j}) &&
+					!visit.count({i, j + 1}) &&
 					!visit.count({i, j + 2}) &&
 					!visit.count({i, j - 1}) &&
 					!visit.count({i, j - 2})))
@@ -233,7 +234,8 @@ KillInformationList GameScene::getKillList()
 				&& (board[i][j].type == board[i + 1][j].type &&
 					board[i][j].type == board[i + 2][j].type &&
 					board[i][j].type == board[i - 1][j].type)
-				&& (!visit.count({i + 1, j}) &&
+				&& (!visit.count({i, j}) &&
+					!visit.count({i + 1, j}) &&
 					!visit.count({i + 2, j}) &&
 					!visit.count({i - 1, j})))
 			{

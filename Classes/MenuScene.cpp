@@ -15,7 +15,6 @@ bool MenuScene::init()
 	this->addChild(sprite);
 
 	initUsername();
-	// TODO 调整上方位置按钮
 	initStoreButton();
 	initRankButton();
 	initGameButton();
@@ -108,7 +107,7 @@ void MenuScene::initStoreButton()
 			Director::getInstance()->pushScene(
 				TransitionSlideInT::create(1.0f, StoreScene::createScene()));
 	});
-	storeButton->setPosition(Point(680, 850));
+	storeButton->setPosition(Point(770, 850));
 	this->addChild(storeButton);
 }
 
@@ -137,18 +136,18 @@ void MenuScene::initRankButton()
 			this->addChild(dialog, 30);
 		}
 	});
-	rankButton->setPosition(Point(750, 850));
+	rankButton->setPosition(Point(850, 850));
 	this->addChild(rankButton);
 }
 
 void MenuScene::initCoin()
 {
 	auto coinIcon = Sprite::create(theme->storeSceneCoin);
-	coinIcon->setPosition(Point(550, 850));
+	coinIcon->setPosition(Point(570, 850));
 	this->addChild(coinIcon, 4);
 
 	coinText = Label::createWithTTF(to_string(user->getCoin()), theme->markerFeltFont, 30);
-	coinText->setPosition(Point(620, 850));
+	coinText->setPosition(Point(630, 850));
 	this->addChild(coinText);
 }
 
