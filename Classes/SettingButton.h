@@ -6,6 +6,7 @@
 #include "2d/CCClippingNode.h"
 #include "Music.h"
 #include "Sound.h"
+#include "Dialog.h"
 #include "ui/UIButton.h"
 
 
@@ -17,6 +18,17 @@ class SettingButton final
 {
 public:
 	bool init() override;
+	// 展示新手教程
+	void showLeadingIn();
+	// 当前页面
+	int nowPage = 0;
+	
+	Dialog* dialog;
+	Button* nextButton;
+	Button* backButton;
+	// 创建新手教程对话框
+	void createLeadingIn(const string file);
+
 	CREATE_FUNC(SettingButton)
 
 private:

@@ -38,6 +38,7 @@ public:
 	bool setUnlockedPlusLevel(const int level);
 
 	bool isNewUser() const { return newUser; }
+	void setNewUser(const bool isNewUser) { newUser = isNewUser; }
 	bool isConnected() const { return connected; }
 
 	string getNewsInformation();
@@ -51,7 +52,7 @@ private:
 
 	string userName = "玩家3265";
 	string hardwareId = getHardwareId();
-	int coin = 10;	//TODO 更改
+	int coin = 10; //TODO 更改
 	ValueVector unlockedThemes;
 	int unlockedClassicalLevel = 1;
 	int unlockedPlusLevel = 1;

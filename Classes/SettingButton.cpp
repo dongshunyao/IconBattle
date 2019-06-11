@@ -8,12 +8,14 @@ bool SettingButton::init()
 	this->addChild(settingButton, 5);
 
 	// 添加精灵菜单
+
+	// 新手教程图标
 	courseMenuItem = MenuItemSprite::create(
 		Sprite::create(courseMenuItemNormal),
 		Sprite::create(courseMenuItemSelected),
 		Sprite::create(courseMenuItemDisabled), [&](Ref* sender)
 		{
-			// TODO 教程
+			showLeadingIn();
 		});
 	courseMenuItem->setPosition(
 		settingButton->getParent()->convertToWorldSpace(settingButton->getPosition()) - Vec2(
@@ -151,4 +153,110 @@ bool SettingButton::init()
 	});
 
 	return true;
+}
+
+void SettingButton::showLeadingIn()
+{
+	nowPage = 1;
+
+	nextButton = Button::create("/image/menuscene/common/change_button_normal.png",
+	                            "/image/menuscene/common/change_button_selected.png",
+	                            "/image/menuscene/common/change_button_disabled.png"); // 切换到下一页
+
+	backButton = Button::create("/image/menuscene/common/back_change_button_normal.png",
+	                            "/image/menuscene/common/back_change_button_selected.png",
+	                            "/image/menuscene/common/back_change_button_disabled.png"); // 切换到上一页
+
+
+	nextButton->setPosition(Point(SCREEN_WIDTH / 2 + 550,
+	                              SCREEN_HEIGHT / 2));
+
+	backButton->setPosition(Point(SCREEN_WIDTH / 2 - 550,
+	                              SCREEN_HEIGHT / 2));
+
+	nextButton->addTouchEventListener(
+		[&](Ref* sender, ui::Widget::TouchEventType type)
+		{
+			if (type == Widget::TouchEventType::ENDED)
+			{
+				switch (nowPage)
+				{
+				case 1:
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+						dialog = nullptr;
+						createLeadingIn("/image/common/scene2.png");
+						nowPage = 2;
+						break;
+					}
+				case 2:
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+						dialog = nullptr;
+						createLeadingIn("/image/common/scene1.png");
+						nowPage = 3;
+						break;
+					}
+				default:
+					break;
+				}
+			}
+		});
+
+	backButton->addTouchEventListener(
+		[&](Ref* sender, ui::Widget::TouchEventType type)
+		{
+			if (type == Widget::TouchEventType::ENDED)
+			{
+				switch (nowPage)
+				{
+				case 2:
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+						dialog = nullptr;
+						createLeadingIn("/image/common/scene1.png");
+						nowPage = 1;
+						break;
+					}
+				case 3:
+					{
+						Director::getInstance()->getRunningScene()->removeChild(dialog);
+						dialog = nullptr;
+						createLeadingIn("/image/common/scene2.png");
+						nowPage = 2;
+						break;
+					}
+				default:
+					break;
+				}
+			}
+		});
+
+	createLeadingIn("/image/common/scene1.png");
+
+	Director::getInstance()->getRunningScene()->addChild(nextButton, 50);
+	Director::getInstance()->getRunningScene()->addChild(backButton, 50);
+}
+
+void SettingButton::createLeadingIn(const string file)
+{
+	dialog = Dialog::create(file, Size(1000, 700));
+
+	dialog->addListView(false, true, true);
+	dialog->addButton(MenuItemSprite::create(Sprite::create("/image/gamescene/common/yes_normal.png"),
+	                                         Sprite::create("/image/gamescene/common/yes_selected.png"),
+	                                         Sprite::create("/image/gamescene/common/yes_normal.png"),
+	                                         [&](Ref* sender)
+	                                         {
+		                                         Director::getInstance()
+			                                         ->getRunningScene()->removeChild(dialog);
+		                                         Director::getInstance()
+			                                         ->getRunningScene()->removeChild(nextButton);
+		                                         Director::getInstance()
+			                                         ->getRunningScene()->removeChild(backButton);
+	                                         }
+	));
+	Director::getInstance()->getRunningScene()->addChild(dialog, 30);
+	_eventDispatcher->resumeEventListenersForTarget(nextButton, true);
+	_eventDispatcher->resumeEventListenersForTarget(backButton, true);
 }

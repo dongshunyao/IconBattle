@@ -37,7 +37,14 @@ bool MenuScene::init()
 
 	if (User::getInstance()->isNewUser())
 	{
-		// TODO 新手显示教程
+		// 第一次玩显示新手教程
+		runAction(Sequence::create(DelayTime::create(1.1f),
+		                           CallFunc::create(
+			                           [&, settingButton]()
+			                           {
+				                           settingButton->showLeadingIn();
+										   User::getInstance()->setNewUser(false);
+			                           }), nullptr));
 	}
 	return true;
 }
@@ -127,7 +134,7 @@ void MenuScene::initRankButton()
 					                                         ->getRunningScene()->removeChild(dialog);
 			                                         }
 			));
-			this->addChild(dialog, 20);
+			this->addChild(dialog, 30);
 		}
 	});
 	rankButton->setPosition(Point(750, 850));
