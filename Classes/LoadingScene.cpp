@@ -90,7 +90,7 @@ void LoadingScene::startGame(float)
 void LoadingScene::jetIcon()
 {
 	// 循环初始化Icon精灵和动作
-	for (auto i = 0; i < 10; i++)
+	for (auto i = 1; i < 10; i++)
 	{
 		const auto icon = Sprite::create(theme->iconSet + std::to_string(i) + ".png");
 		icon->setPosition(SCREEN_WIDTH / 2, 0 - icon->getContentSize().height);
@@ -107,7 +107,7 @@ void LoadingScene::jetIcon()
 		// 实现精灵的移动过程中Icon放大
 		const auto scale = ScaleTo::create(i, 2);
 		const auto scaleReverse = ScaleTo::create(i, 1);
-		const auto delay = DelayTime::create(0.25 * i * i);
+		const auto delay = DelayTime::create(0.25 * (rand() % 9 + 1) * (rand() % 9 + 1));
 		// 根据计数器判断精灵抛出的方向
 		const auto spawn = Spawn::create(i % 2 == 0 ? jumpRight : jumpLeft, delay, scale, delay->clone(), nullptr);
 		// 同时运行多个动作

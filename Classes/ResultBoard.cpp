@@ -497,7 +497,7 @@ void GameScene::showSuccessfulResult(bool isChallenge, int stepNumberScore, int 
 					const auto coinNumber = isChallenge
 						                        ? GameSceneController::getInstance()->updateInformation()
 						                        : GameSceneController::getInstance()->updateInformation(
-							                        isClassical, level);
+							                        isClassical, level + 1);
 					if (coinNumber > 0)
 					{
 						auto coin = Sprite::create(theme->storeSceneCoin);

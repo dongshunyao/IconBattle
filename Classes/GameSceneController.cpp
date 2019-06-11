@@ -52,7 +52,7 @@ int GameSceneController::randomCoin(const int percentage) const
 	const auto random = Util::getRandomNumber(100);
 	if (random <= percentage)
 	{
-		switch (getRandomNumber(10))
+		switch (getRandomNumber(8))
 		{
 		case 6:
 			return 3;
@@ -70,8 +70,8 @@ int GameSceneController::randomCoin(const int percentage) const
 
 int GameSceneController::updateInformation()
 {
-	coinPercentage += 15 + getRandomNumber(20);
-	coinPercentage %= 50;
+	coinPercentage += 15 + getRandomNumber(30);
+	coinPercentage %= 75;
 
 	const auto coin = randomCoin(coinPercentage);
 	User::getInstance()->setCoin(User::getInstance()->getCoin() + coin);

@@ -99,15 +99,6 @@ namespace GameBoardInformation
 	 * SUPER宝石与某个颜色交换（SUPER_KILL）：消去整个画面中该颜色的宝石
 	 * 两个SUPER交换（DOUBLE_SUPER_KILL）：刷新棋盘
 	 */
-
-	// BUG 需要删除 代表不同粒子特效的函数标号
-	const int FUNC_NO = -1;
-	const int FUNC_SUPER = 0;
-	const int FUNC_FIRE = 1;
-	const int FUNC_H_1 = 2;
-	const int FUNC_H_3 = 3;
-	const int FUNC_V_1 = 4;
-	const int FUNC_V_3 = 5;
 }
 
 struct GameBoardInformation::Block
@@ -145,11 +136,11 @@ struct GameBoardInformation::ActorInformation
 	int type;
 	int score;
 
-	explicit ActorInformation(const Pair blockIndex, const int type = -1, const int score = BASE_KILL_SCORE) :
+	explicit ActorInformation(const Pair blockIndex, const int type = -1, const int score = 0) :
 		blockIndex(blockIndex), type(type), score(score) {}
 
 	ActorInformation(const int blockIndexX, const int blockIndexY, const int type = -1,
-	                 const int score = BASE_KILL_SCORE) :
+	                 const int score = 0) :
 		blockIndex({blockIndexX, blockIndexY}), type(type), score(score) {}
 };
 

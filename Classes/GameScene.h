@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include <set>
+#include <map>
 #include "Theme.h"
 #include "User.h"
 #include "GameBoardInformation.h"
@@ -18,6 +19,7 @@
 
 using std::swap;
 using std::set;
+using std::map;
 
 using namespace GameBoardInformation;
 using namespace Util;
@@ -49,11 +51,23 @@ private:
 	int mode = -1;
 	Theme* theme = Theme::getInstance();
 
+#pragma region GameScene
 	// 显示得分
 	void showScore(ActorInformation actorInformation);
 
 	// 结束游戏
 	void endGame();
+
+	// 单行/列粒子特效
+	void showOneLineParticle(Pair index, bool isVertical);
+	// 3*3 爆炸，传入中心点
+	void showExplosion(Pair index);
+	// 全屏
+	void showFullBoardParticle();
+	// 单点粒子效果，type==0 Super; type==1 hint;
+	void showSingleParticle(Pair index, int type);
+
+#pragma endregion
 
 #pragma region Information Board
 	int stepNumber = 0;
@@ -94,7 +108,6 @@ private:
 #pragma endregion
 
 #pragma region Game Board
-
 	// 棋盘
 	static const int BOARD_SIZE = 8;
 	// 块的种类，不含Super块，0到4
@@ -138,6 +151,10 @@ private:
 	bool canKill(Pair blockAIndex, Pair blockBIndex);
 	// HintOperation({-1, -1}, {-1, -1})表示当前死局，反之返回提示
 	HintOperation isImpasse();
+
+	// 获取可消除方块列表
+	KillInformationList getKillList() const;
+
 	// 展示提示
 	bool showHint();
 
@@ -151,22 +168,8 @@ private:
 #pragma endregion
 
 
-	// BUG  重写 获取可消除方块列表
-	KillInformationList getKillList()
-	{ return {}; };
-
-	// BUG  重写 方块消除动画
-	void killBlock(KillInformationList killList){};
-
-
-	// 单行/列粒子特效
-	void showOneLineParticle(Pair index, bool isVertical);
-	// 3*3 爆炸，传入中心点
-	void showExplosion(Pair index);
-	// 全屏
-	void showFullBoardParticle();
-	// 单点粒子效果，type==0 Super; type==1 hint;
-	void showSingleParticle(Pair index, int type);
+	// BUG 方块消除
+	void killBlock(const KillInformationList& killList);
 };
 
 #endif

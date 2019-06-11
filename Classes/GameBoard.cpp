@@ -250,15 +250,15 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 	log("[LOCK] Try Swap: 1st (%d,%d), 2ed (%d,%d)", blockAIndex.first, blockAIndex.second, blockBIndex.first,
 	    blockBIndex.second);
 
-	ActorInformationList killActorList;
+	ActorInformationList actorList;
 
 	// 均为Super块
 	if (board[blockAIndex.first][blockAIndex.second].type == SUPER_TYPE && board[blockBIndex.first][blockBIndex.second].
 		type == SUPER_TYPE)
 	{
 		for (auto i = 0; i < BOARD_SIZE; i++)
-			for (auto j = 0; j < BOARD_SIZE; j++) killActorList.push_back(ActorInformation(i, j));
-		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, killActorList)});
+			for (auto j = 0; j < BOARD_SIZE; j++) actorList.push_back(ActorInformation(i, j));
+		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, actorList)});
 		return;
 	}
 
@@ -269,9 +269,9 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 			for (auto j = 0; j < BOARD_SIZE; j++)
 			{
 				if (board[i][j].type == board[blockBIndex.first][blockBIndex.second].type)
-					killActorList.push_back(ActorInformation(i, j));
+					actorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
 		return;
 	}
 
@@ -281,9 +281,9 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 			for (auto j = 0; j < BOARD_SIZE; j++)
 			{
 				if (board[i][j].type == board[blockAIndex.first][blockAIndex.second].type)
-					killActorList.push_back(ActorInformation(i, j));
+					actorList.push_back(ActorInformation(i, j));
 			}
-		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, killActorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
 		return;
 	}
 
@@ -388,4 +388,354 @@ void GameScene::mainCallback()
 		log("[UNLOCK]");
 		boardLock = false;
 	}
+}
+
+KillInformationList GameScene::getKillList() const
+{
+	KillInformationList killList;
+	set<Pair> visit;
+
+	// 检查十字消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			auto iLength = 1, jLength = 1;
+			ActorInformationList actorList;
+			actorList.push_back(ActorInformation(i, j));
+
+			for (auto iIndex = i + 1;
+			     iIndex < BOARD_SIZE && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+			     iIndex++)
+			{
+				iLength++;
+				actorList.push_back(ActorInformation(iIndex, j));
+			}
+			for (auto iIndex = i - 1;
+			     iIndex >= 0 && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+			     iIndex--)
+			{
+				iLength++;
+				actorList.push_back(ActorInformation(iIndex, j));
+			}
+			for (auto jIndex = j + 1;
+			     jIndex < BOARD_SIZE && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+			     jIndex++)
+			{
+				jLength++;
+				actorList.push_back(ActorInformation(i, jIndex));
+			}
+			for (auto jIndex = j - 1;
+			     jIndex >= 0 && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+			     jIndex--)
+			{
+				jLength++;
+				actorList.push_back(ActorInformation(i, jIndex));
+			}
+			// 双三
+			if (iLength == 3 && jLength == 3)
+			{
+				// 找最小点，添加3*3
+				ActorInformationList tempList;
+
+				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
+				for (const auto& it : actorList)
+				{
+					if (it.blockIndex.first < iIndex) iIndex = it.blockIndex.first;
+					if (it.blockIndex.second < jIndex) jIndex = it.blockIndex.second;
+				}
+
+				for (auto iDelta = 0; iDelta < 3; iDelta++)
+					for (auto jDelta = 0; jDelta < 3; jDelta++) tempList.push_back({iIndex + iDelta, jIndex + jDelta});
+
+				killList.push_back({DOUBLE_BASE_KILL, DOUBLE_BASE_KILL_SCORE, tempList});
+			}
+			else if (iLength >= 3 && jLength >= 3) // 双四
+				killList.push_back({DOUBLE_FOUR_KILL, DOUBLE_FOUR_KILL_SCORE, actorList, {i, j}});
+
+			if (iLength >= 3 && jLength >= 3)
+				for (const auto& it : actorList) visit.insert(it.blockIndex);
+		}
+
+
+	// 检查五消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			// 竖直
+			if (i > 1 && i < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i + 1][j].type &&
+					board[i][j].type == board[i + 2][j].type &&
+					board[i][j].type == board[i - 1][j].type &&
+					board[i][j].type == board[i - 2][j].type)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i + 1, j}) &&
+					!visit.count({i + 2, j}) &&
+					!visit.count({i - 1, j}) &&
+					!visit.count({i - 2, j})))
+			{
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				visit.insert({i + 2, j});
+				visit.insert({i - 1, j});
+				visit.insert({i - 2, j});
+
+				ActorInformationList actorList;
+				if (j != 0)
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j - 1});
+				if (j != BOARD_SIZE - 1)
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j + 1});
+				for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
+
+				killList.push_back({FIVE_VERTICAL_KILL, FIVE_KILL_SCORE, actorList});
+			}
+
+			// 水平
+			if (j > 1 && j < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i][j + 1].type &&
+					board[i][j].type == board[i][j + 2].type &&
+					board[i][j].type == board[i][j - 1].type &&
+					board[i][j].type == board[i][j - 2].type)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i, j + 1}) &&
+					!visit.count({i, j + 2}) &&
+					!visit.count({i, j - 1}) &&
+					!visit.count({i, j - 2})))
+			{
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				visit.insert({i, j + 2});
+				visit.insert({i, j - 1});
+				visit.insert({i, j - 2});
+
+				ActorInformationList actorList;
+				if (i != 0)
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i - 1, jIndex});
+				if (i != BOARD_SIZE - 1)
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i + 1, jIndex});
+				for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
+
+				killList.push_back({FIVE_HORIZONTAL_KILL, FIVE_KILL_SCORE, actorList});
+			}
+		}
+
+
+	// 检查四消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			// 竖直
+			if (i > 0 && i < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i + 1][j].type &&
+					board[i][j].type == board[i + 2][j].type &&
+					board[i][j].type == board[i - 1][j].type)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i + 1, j}) &&
+					!visit.count({i + 2, j}) &&
+					!visit.count({i - 1, j})))
+			{
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				visit.insert({i + 2, j});
+				visit.insert({i - 1, j});
+
+				ActorInformationList actorList;
+				for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
+
+				killList.push_back({FOUR_VERTICAL_KILL, FOUR_KILL_SCORE, actorList});
+			}
+
+			// 水平
+			if (j > 0 && j < BOARD_SIZE - 2
+				&& (board[i][j].type == board[i][j + 1].type &&
+					board[i][j].type == board[i][j + 2].type &&
+					board[i][j].type == board[i][j - 1].type)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i, j + 1}) &&
+					!visit.count({i, j + 2}) &&
+					!visit.count({i, j - 1})))
+			{
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				visit.insert({i, j + 2});
+				visit.insert({i, j - 1});
+
+				ActorInformationList actorList;
+				for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
+
+				killList.push_back({FOUR_HORIZONTAL_KILL, FOUR_KILL_SCORE, actorList});
+			}
+		}
+
+
+	// 检查三消
+	for (auto i = 0; i < BOARD_SIZE; i++)
+		for (auto j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+
+			// 竖直
+			if (i > 0 && i < BOARD_SIZE - 1
+				&& (board[i][j].type == board[i + 1][j].type &&
+					board[i][j].type == board[i - 1][j].type)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i + 1, j}) &&
+					!visit.count({i - 1, j})))
+			{
+				visit.insert({i, j});
+				visit.insert({i + 1, j});
+				visit.insert({i - 1, j});
+
+				killList.push_back({
+					BASE_VERTICAL_KILL,
+					BASE_KILL_SCORE,
+					{
+						ActorInformation(i, j),
+						ActorInformation(i + 1, j),
+						ActorInformation(i - 1, j)
+					}
+				});
+			}
+
+			// 水平
+			if (j > 0 && j < BOARD_SIZE - 1
+				&& (board[i][j].type == board[i][j + 1].type &&
+					board[i][j].type == board[i][j - 1].type
+				)
+				&& (!visit.count({i, j}) &&
+					!visit.count({i, j + 1}) &&
+					!visit.count({i, j - 1})))
+			{
+				visit.insert({i, j});
+				visit.insert({i, j + 1});
+				visit.insert({i, j - 1});
+
+				killList.push_back({
+					BASE_HORIZONTAL_KILL,
+					BASE_KILL_SCORE,
+					{
+						ActorInformation(i, j),
+						ActorInformation(i, j + 1),
+						ActorInformation(i, j - 1)
+					}
+				});
+			}
+		}
+
+
+	return killList;
+}
+
+void GameScene::killBlock(const KillInformationList& killList)
+{
+	// 所有被消除的块与得分
+	map<Pair, int> killBlock;
+
+
+	// 记录所有得分块
+	for (const auto& killInfo : killList)
+		for (const auto& actorInfo : killInfo.killActorList) killBlock[actorInfo.blockIndex] += killInfo.killScore;
+
+
+	// 消除所有得分块
+	for (const auto& block : killBlock)
+	{
+		const auto blockIndex = block.first;
+
+		// 展示分数
+		showScore(ActorInformation(blockIndex, -1, block.second));
+
+		board[blockIndex.first][blockIndex.second].actor->disappear();
+		board[blockIndex.first][blockIndex.second] = Block();
+
+		// 产生下落块
+		auto iIndex = BOARD_SIZE;
+		while (board[iIndex][blockIndex.second].type != -1)
+		{
+			iIndex++;
+			assert(iIndex < 2 * BOARD_SIZE);
+		}
+		const auto type = getRandomNumber(TYPE_NUMBER);
+		const auto nowBlock = addActor(type, getPositionByIndex({iIndex, blockIndex.second}));
+		board[iIndex][blockIndex.second] = Block(type, nowBlock);
+	}
+
+	// 添加Super块
+	for (const auto& killInfo : killList)
+	{
+		if (killInfo.newBlockIndex != Pair(-1, -1))
+		{
+			const auto newActor = addActor(SUPER_TYPE, getPositionByIndex(killInfo.newBlockIndex));
+			board[killInfo.newBlockIndex.first][killInfo.newBlockIndex.second] = Block(SUPER_TYPE, newActor);
+
+			// 删除下落块
+			auto iIndex = 2 * BOARD_SIZE - 1;
+			while (board[iIndex][killInfo.newBlockIndex.second].type == -1)
+			{
+				iIndex--;
+				assert(iIndex >= BOARD_SIZE);
+			}
+			removeChild(board[iIndex][killInfo.newBlockIndex.second].actor);
+			board[iIndex][killInfo.newBlockIndex.second] = Block();
+		}
+	}
+
+	// 放特效
+	for (const auto& killInfo : killList)
+	{
+		switch (killInfo.killType)
+		{
+		case FOUR_HORIZONTAL_KILL:
+			showOneLineParticle(killInfo.killActorList[0].blockIndex, false);
+			break;
+
+		case FOUR_VERTICAL_KILL:
+			showOneLineParticle(killInfo.killActorList[0].blockIndex, true);
+			break;
+
+		case FIVE_HORIZONTAL_KILL:
+			{
+				set<int> index;
+				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.first);
+				for (auto it : index) showOneLineParticle({it, 0}, false);
+				break;
+			}
+
+		case FIVE_VERTICAL_KILL:
+			{
+				set<int> index;
+				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.second);
+				for (auto it : index) showOneLineParticle({0, it}, true);
+				break;
+			}
+
+		case DOUBLE_BASE_KILL:
+			{
+				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
+				for (const auto& actor : killInfo.killActorList)
+				{
+					if (actor.blockIndex.first < iIndex) iIndex = actor.blockIndex.first;
+					if (actor.blockIndex.second < jIndex) jIndex = actor.blockIndex.second;
+				}
+
+				showExplosion({iIndex + 1, jIndex + 1});
+				break;
+			}
+
+		case SUPER_KILL:
+			for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 0);
+			break;
+
+		case DOUBLE_SUPER_KILL:
+			showFullBoardParticle();
+			break;
+		}
+	}
+
+	runAction(Sequence::create(DelayTime::create(0.3f), CallFunc::create([&]() { dropBlock(); }), nullptr));
 }

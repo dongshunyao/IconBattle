@@ -12,7 +12,7 @@ Actor* Actor::create(const int type, const Pair position)
 		assert(type >= 0 && type <= 5);
 
 		if (type == SUPER_TYPE) actor->sprite = Sprite::create(Theme::getInstance()->iconSet + "0.png");
-		else 
+		else
 		{
 			if (Theme::getInstance()->getCurrentThemeName() == Theme::getInstance()->adobeThemeName)
 				actor->sprite = Sprite::createWithSpriteFrameName("a" + std::to_string(type + 1) + ".png");
@@ -56,7 +56,7 @@ void Actor::moveToAndBack(const Pair toPosition) const
 
 void Actor::disappear()
 {
-	this->sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.0f), nullptr));
+	this->sprite->runAction(ScaleTo::create(0.3f, 0.0f));
 
 	auto parent = getParent();
 	Node* child = this;
