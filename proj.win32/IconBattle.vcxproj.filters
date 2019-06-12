@@ -43,9 +43,6 @@
     <Filter Include="src\common\music">
       <UniqueIdentifier>{e0264607-4138-4fea-a797-407610bb3353}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\temp">
-      <UniqueIdentifier>{c73dfcf3-ef0b-44cc-bda7-c6dc9e8c10eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\common\user">
       <UniqueIdentifier>{02a398e0-ed26-47f0-9f1b-b08c0b1b9b08}</UniqueIdentifier>
     </Filter>
@@ -66,9 +63,6 @@
     </Filter>
     <Filter Include="src\scene\gamescene\gameboardinformation">
       <UniqueIdentifier>{b97c3389-4a67-4d33-9b5d-b5884d8e731b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\temp\backbutton">
-      <UniqueIdentifier>{5169d70a-6997-455c-98c0-988e88739069}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\scene\common\gamescenecontroller">
       <UniqueIdentifier>{be510a06-cbad-4160-ba22-98cea6569e8b}</UniqueIdentifier>
@@ -108,9 +102,6 @@
     <ClCompile Include="..\Classes\User.cpp">
       <Filter>src\common\user</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src\temp</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Theme.cpp">
       <Filter>src\common\theme</Filter>
     </ClCompile>
@@ -122,9 +113,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src\scene\common\Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\BackButton.cpp">
-      <Filter>src\temp\backbutton</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SettingButton.cpp">
       <Filter>src\scene\common\settingbutton</Filter>
@@ -182,9 +170,6 @@
     <ClInclude Include="..\Classes\User.h">
       <Filter>src\common\user</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src\temp</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Theme.h">
       <Filter>src\common\theme</Filter>
     </ClInclude>
@@ -196,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Dialog.h">
       <Filter>src\scene\common\Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\BackButton.h">
-      <Filter>src\temp\backbutton</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SettingButton.h">
       <Filter>src\scene\common\settingbutton</Filter>
