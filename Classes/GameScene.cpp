@@ -133,7 +133,7 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 	
 
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
-	particle->setScale(0.6f);
+	particle->setScale(0.5f);
 	// 设置持续时间
 	//particle->setDuration(3.0f);
 	particle->setAutoRemoveOnFinish(true);

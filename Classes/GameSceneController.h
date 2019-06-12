@@ -28,11 +28,11 @@ public:
 	// TODO 闯关数值策划 @PJ
 	const GameInfo classicalLevel[10] =
 	{
-		{300, 2},
-		{400, 20},
-		{500, 20},
-		{600, 20},
-		{800, 20},
+		{300, 10},
+		{500, 11},
+		{600, 12},
+		{700, 13},
+		{800, 13},
 		{1000, 14},
 		{1000, 13},
 		{1200, 12},
@@ -53,8 +53,7 @@ public:
 		{1000, 10},
 	};
 
-	// TODO 改回来
-	const GameInfo classicalChallenge = {15000, 2};
+	const GameInfo classicalChallenge = {15000, 60};
 	const GameInfo plusChallenge = {15000, 60};
 #pragma endregion
 
