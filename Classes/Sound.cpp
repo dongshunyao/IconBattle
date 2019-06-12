@@ -15,10 +15,15 @@ void Sound::stop() const
 
 void Sound::play(const string& path)
 {
-	if (on) audioId = AudioEngine::play2d(path, false, 0.8f);
+	if (on) audioId = AudioEngine::play2d(path, false, 0.9f);
 }
 
 Sound::Sound()
 {
-	AudioEngine::preload(clicked);
+	AudioEngine::preload(click);
+	AudioEngine::preload(threeKill);
+	AudioEngine::preload(fourKill);
+	AudioEngine::preload(fiveKill);
+	AudioEngine::preload(boom);
+	AudioEngine::preload(superCreate);
 }

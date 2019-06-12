@@ -13,8 +13,19 @@ class Sound
 {
 public:
 #pragma region Sound URL
-	// TODO 添加音效：点击、三消、粒子特效 预加载
-	const string clicked = "/sound/clicked.mp3";
+	// 单击
+	const string click = "/sound/click.mp3";
+	// 三消
+	const string threeKill = "/sound/3kill.mp3";
+	// 四消
+	const string fourKill = "/sound/4kill.mp3";
+	// 五消
+	const string fiveKill = "/sound/5kill.mp3";
+	// 爆炸
+	const string boom = "/sound/boom.mp3";
+	// super生成
+	const string superCreate = "/sound/super.mp3";
+
 #pragma endregion
 
 	static Sound* getInstance();

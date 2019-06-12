@@ -42,7 +42,7 @@ bool MenuScene::init()
 			                           [&, settingButton]()
 			                           {
 				                           settingButton->showLeadingIn();
-										   User::getInstance()->setNewUser(false);
+				                           User::getInstance()->setNewUser(false);
 			                           }), nullptr));
 	}
 	return true;
@@ -249,9 +249,7 @@ void MenuScene::initGameButton()
 
 				this->addChild(dialog, 50);
 			}
-			// TODO
-			//else 
-			GameSceneController::getInstance()->startChallengeGame(false);
+			else GameSceneController::getInstance()->startChallengeGame(false);
 		}
 	});
 	enhancedChallenge->setPosition(Vec2(445, 40));

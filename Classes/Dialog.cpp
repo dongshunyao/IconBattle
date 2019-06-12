@@ -319,7 +319,6 @@ void Dialog::initRankDialog()
 	this->getRankByType(isClassical);
 }
 
-
 void Dialog::getRankByType(bool type)
 {
 	rankType = type;

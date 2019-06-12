@@ -154,6 +154,8 @@ private:
 
 	// 获取可消除方块列表
 	KillInformationList getKillList() const;
+	// 方块消除
+	void killBlock(const KillInformationList& killList);
 
 	// 展示提示
 	bool showHint();
@@ -167,9 +169,6 @@ private:
 	void mainCallback();
 #pragma endregion
 
-
-	// BUG 方块消除
-	void killBlock(const KillInformationList& killList);
 };
 
 #endif

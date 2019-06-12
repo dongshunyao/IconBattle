@@ -168,6 +168,7 @@ vector<pair<string, int>> Network::handleRankVector(const string rank)
 
 	for (auto i = 0; i < name.size(); i++)
 	{
+		// BUG score[] Out of range!
 		final.emplace_back(pair<string, int>(name[i], atoi(score[i].c_str())));
 	}
 

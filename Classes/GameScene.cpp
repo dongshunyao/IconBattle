@@ -30,8 +30,7 @@ Scene* GameScene::createScene(const int stepNumber, const int totalScore, const 
 
 void GameScene::showScore(const ActorInformation actorInformation)
 {
-	// TODO 换字体？换颜色？
-	auto scoreLabel = Label::createWithTTF(to_string(actorInformation.score), theme->semiBoldFont, 36);
+	auto scoreLabel = Label::createWithTTF(to_string(actorInformation.score), theme->markerFeltFont, 36);
 
 	const auto position = getPositionByIndex(actorInformation.blockIndex);
 	scoreLabel->setPosition(position.first, position.second);
@@ -102,7 +101,6 @@ void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
-	// TODO: 粒子特效音效
 }
 
 void GameScene::showExplosion(const Pair index)
@@ -113,7 +111,6 @@ void GameScene::showExplosion(const Pair index)
 	particle->setScale(0.5f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
-	// TODO: 粒子特效音效
 }
 
 void GameScene::showFullBoardParticle()
@@ -124,7 +121,6 @@ void GameScene::showFullBoardParticle()
 	particle->setScale(0.7f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
-	// TODO: 粒子特效音效
 }
 
 void GameScene::showSingleParticle(const Pair index, const int type)
@@ -142,5 +138,4 @@ void GameScene::showSingleParticle(const Pair index, const int type)
 	//particle->setDuration(3.0f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
-	// TODO: 粒子特效音效
 }

@@ -22,6 +22,8 @@ void GameScene::initGameBoard()
 		// 只按下左键为有效操作
 		if (e->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT)
 		{
+			Sound::getInstance()->play(Sound::getInstance()->click);
+
 			auto cursorX = e->getCursorX();
 			auto cursorY = e->getCursorY();
 
@@ -271,6 +273,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockBIndex.first][blockBIndex.second].type)
 					actorList.push_back(ActorInformation(i, j));
 			}
+		actorList.push_back(ActorInformation(blockAIndex));
 		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
 		return;
 	}
@@ -283,6 +286,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 				if (board[i][j].type == board[blockAIndex.first][blockAIndex.second].type)
 					actorList.push_back(ActorInformation(i, j));
 			}
+		actorList.push_back(ActorInformation(blockBIndex));
 		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
 		return;
 	}
@@ -639,8 +643,8 @@ void GameScene::killBlock(const KillInformationList& killList)
 
 	// 记录所有得分块
 	for (const auto& killInfo : killList)
-		for (const auto& actorInfo : killInfo.killActorList) killBlock[actorInfo.blockIndex] += killInfo.killScore;
-
+		for (const auto& actorInfo : killInfo.killActorList)
+			killBlock[actorInfo.blockIndex] += killInfo.killScore;
 
 	// 消除所有得分块
 	for (const auto& block : killBlock)
@@ -685,29 +689,40 @@ void GameScene::killBlock(const KillInformationList& killList)
 		}
 	}
 
-	// 放特效
+	// 放特效音效
 	for (const auto& killInfo : killList)
 	{
 		switch (killInfo.killType)
 		{
-		case FOUR_HORIZONTAL_KILL:
-			showOneLineParticle(killInfo.killActorList[0].blockIndex, false);
-			break;
+		case BASE_HORIZONTAL_KILL:
+		case BASE_VERTICAL_KILL:
+			{
+				Sound::getInstance()->play(Sound::getInstance()->threeKill);
+				break;
+			}
 
+		case FOUR_HORIZONTAL_KILL:
+			{
+				Sound::getInstance()->play(Sound::getInstance()->fourKill);
+				showOneLineParticle(killInfo.killActorList[0].blockIndex, false);
+				break;
+			}
 		case FOUR_VERTICAL_KILL:
+			Sound::getInstance()->play(Sound::getInstance()->fourKill);
 			showOneLineParticle(killInfo.killActorList[0].blockIndex, true);
 			break;
 
 		case FIVE_HORIZONTAL_KILL:
 			{
+				Sound::getInstance()->play(Sound::getInstance()->fiveKill);
 				set<int> index;
 				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.first);
 				for (auto it : index) showOneLineParticle({it, 0}, false);
 				break;
 			}
-
 		case FIVE_VERTICAL_KILL:
 			{
+				Sound::getInstance()->play(Sound::getInstance()->fiveKill);
 				set<int> index;
 				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.second);
 				for (auto it : index) showOneLineParticle({0, it}, true);
@@ -716,6 +731,7 @@ void GameScene::killBlock(const KillInformationList& killList)
 
 		case DOUBLE_BASE_KILL:
 			{
+				Sound::getInstance()->play(Sound::getInstance()->boom);
 				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
 				for (const auto& actor : killInfo.killActorList)
 				{
@@ -726,14 +742,28 @@ void GameScene::killBlock(const KillInformationList& killList)
 				showExplosion({iIndex + 1, jIndex + 1});
 				break;
 			}
+		case DOUBLE_FOUR_KILL:
+			{
+				Sound::getInstance()->play(Sound::getInstance()->superCreate);
+				for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 1);
+				break;
+			}
 
 		case SUPER_KILL:
-			for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 0);
-			break;
+			{
+				Sound::getInstance()->play(Sound::getInstance()->boom);
+				for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 0);
+				break;
+			}
 
 		case DOUBLE_SUPER_KILL:
-			showFullBoardParticle();
-			break;
+			{
+				Sound::getInstance()->play(Sound::getInstance()->boom);
+				showFullBoardParticle();
+				break;
+			}
+		default:
+			assert(false);
 		}
 	}
 

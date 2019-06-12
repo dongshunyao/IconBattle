@@ -22,10 +22,10 @@ public:
 	// pair<totalScore, stepNumber>
 	using GameInfo = pair<int, int>;
 
-	// TODO 关卡目标数值修改 @PJ
-	const GameInfo classicalPractice = {1200, 2333};
-	const GameInfo plusPractice = {4000, 2333};
+	const GameInfo classicalPractice = {3000, 2333};
+	const GameInfo plusPractice = {3000, 2333};
 
+	// TODO 闯关数值策划 @PJ
 	const GameInfo classicalLevel[10] =
 	{
 		{300, 2},
@@ -53,8 +53,9 @@ public:
 		{1000, 10},
 	};
 
-	const GameInfo classicalChallenge = {10000, 60};
-	const GameInfo plusChallenge = {10000, 2};
+	// TODO 改回来
+	const GameInfo classicalChallenge = {15000, 2};
+	const GameInfo plusChallenge = {15000, 60};
 #pragma endregion
 
 	void startPracticeGame(bool isClassical) const;
