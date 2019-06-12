@@ -53,8 +53,7 @@ public:
 		{1000, 10},
 	};
 
-	// TODO 改回来
-	const GameInfo classicalChallenge = {15000, 2};
+	const GameInfo classicalChallenge = {15000, 60};
 	const GameInfo plusChallenge = {15000, 60};
 #pragma endregion
 
