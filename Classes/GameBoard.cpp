@@ -260,7 +260,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 	{
 		for (auto i = 0; i < BOARD_SIZE; i++)
 			for (auto j = 0; j < BOARD_SIZE; j++) actorList.push_back(ActorInformation(i, j));
-		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, actorList)});
+		killBlock({KillInformation(DOUBLE_SUPER_KILL, DOUBLE_SUPER_KILL_SCORE, actorList)}, isClassical);
 		return;
 	}
 
@@ -274,7 +274,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 					actorList.push_back(ActorInformation(i, j));
 			}
 		actorList.push_back(ActorInformation(blockAIndex));
-		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)}, isClassical);
 		return;
 	}
 
@@ -287,7 +287,7 @@ void GameScene::trySwapBlock(const Pair blockAIndex, const Pair blockBIndex)
 					actorList.push_back(ActorInformation(i, j));
 			}
 		actorList.push_back(ActorInformation(blockBIndex));
-		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)});
+		killBlock({KillInformation(SUPER_KILL, SUPER_KILL_SCORE, actorList)}, isClassical);
 		return;
 	}
 
@@ -370,7 +370,7 @@ void GameScene::mainCallback()
 	if (canKill())
 	{
 		log("[CAN_KILL]");
-		killBlock(getKillList());
+		killBlock(getKillList(isClassical), isClassical);
 	}
 	else
 	{
@@ -394,73 +394,77 @@ void GameScene::mainCallback()
 	}
 }
 
-KillInformationList GameScene::getKillList() const
+KillInformationList GameScene::getKillList(const bool isClassical) const
 {
 	KillInformationList killList;
 	set<Pair> visit;
 
 	// 检查十字消
-	for (auto i = 0; i < BOARD_SIZE; i++)
-		for (auto j = 0; j < BOARD_SIZE; j++)
-		{
-			if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
+	if (!isClassical)
+		for (auto i = 0; i < BOARD_SIZE; i++)
+			for (auto j = 0; j < BOARD_SIZE; j++)
+			{
+				if (board[i][j].type == SUPER_TYPE || visit.count({i, j})) continue;
 
-			auto iLength = 1, jLength = 1;
-			ActorInformationList actorList;
-			actorList.push_back(ActorInformation(i, j));
+				auto iLength = 1, jLength = 1;
+				ActorInformationList actorList;
+				actorList.push_back(ActorInformation(i, j));
 
-			for (auto iIndex = i + 1;
-			     iIndex < BOARD_SIZE && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
-			     iIndex++)
-			{
-				iLength++;
-				actorList.push_back(ActorInformation(iIndex, j));
-			}
-			for (auto iIndex = i - 1;
-			     iIndex >= 0 && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
-			     iIndex--)
-			{
-				iLength++;
-				actorList.push_back(ActorInformation(iIndex, j));
-			}
-			for (auto jIndex = j + 1;
-			     jIndex < BOARD_SIZE && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
-			     jIndex++)
-			{
-				jLength++;
-				actorList.push_back(ActorInformation(i, jIndex));
-			}
-			for (auto jIndex = j - 1;
-			     jIndex >= 0 && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
-			     jIndex--)
-			{
-				jLength++;
-				actorList.push_back(ActorInformation(i, jIndex));
-			}
-			// 双三
-			if (iLength == 3 && jLength == 3)
-			{
-				// 找最小点，添加3*3
-				ActorInformationList tempList;
-
-				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
-				for (const auto& it : actorList)
+				for (auto iIndex = i + 1;
+				     iIndex < BOARD_SIZE && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+				     iIndex++)
 				{
-					if (it.blockIndex.first < iIndex) iIndex = it.blockIndex.first;
-					if (it.blockIndex.second < jIndex) jIndex = it.blockIndex.second;
+					iLength++;
+					actorList.push_back(ActorInformation(iIndex, j));
 				}
+				for (auto iIndex = i - 1;
+				     iIndex >= 0 && board[iIndex][j].type == board[i][j].type && !visit.count({iIndex, j});
+				     iIndex--)
+				{
+					iLength++;
+					actorList.push_back(ActorInformation(iIndex, j));
+				}
+				for (auto jIndex = j + 1;
+				     jIndex < BOARD_SIZE && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+				     jIndex++)
+				{
+					jLength++;
+					actorList.push_back(ActorInformation(i, jIndex));
+				}
+				for (auto jIndex = j - 1;
+				     jIndex >= 0 && board[i][jIndex].type == board[i][j].type && !visit.count({i, jIndex});
+				     jIndex--)
+				{
+					jLength++;
+					actorList.push_back(ActorInformation(i, jIndex));
+				}
+				// 双三
+				if (iLength == 3 && jLength == 3)
+				{
+					// 找最小点，添加3*3
+					ActorInformationList tempList;
 
-				for (auto iDelta = 0; iDelta < 3; iDelta++)
-					for (auto jDelta = 0; jDelta < 3; jDelta++) tempList.push_back({iIndex + iDelta, jIndex + jDelta});
+					auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
+					for (const auto& it : actorList)
+					{
+						if (it.blockIndex.first < iIndex) iIndex = it.blockIndex.first;
+						if (it.blockIndex.second < jIndex) jIndex = it.blockIndex.second;
+					}
 
-				killList.push_back({DOUBLE_BASE_KILL, DOUBLE_BASE_KILL_SCORE, tempList});
+					for (auto iDelta = 0; iDelta < 3; iDelta++)
+						for (auto jDelta = 0; jDelta < 3; jDelta++)
+							tempList.push_back({
+								iIndex + iDelta, jIndex + jDelta
+							});
+
+					killList.push_back({DOUBLE_BASE_KILL, DOUBLE_BASE_KILL_SCORE, tempList});
+				}
+				else if (iLength >= 3 && jLength >= 3) // 双四
+					killList.push_back({DOUBLE_FOUR_KILL, DOUBLE_FOUR_KILL_SCORE, actorList, {i, j}});
+
+				if (iLength >= 3 && jLength >= 3)
+					for (const auto& it : actorList) visit.insert(it.blockIndex);
 			}
-			else if (iLength >= 3 && jLength >= 3) // 双四
-				killList.push_back({DOUBLE_FOUR_KILL, DOUBLE_FOUR_KILL_SCORE, actorList, {i, j}});
-
-			if (iLength >= 3 && jLength >= 3)
-				for (const auto& it : actorList) visit.insert(it.blockIndex);
-		}
 
 
 	// 检查五消
@@ -487,14 +491,31 @@ KillInformationList GameScene::getKillList() const
 				visit.insert({i - 1, j});
 				visit.insert({i - 2, j});
 
-				ActorInformationList actorList;
-				if (j != 0)
-					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j - 1});
-				if (j != BOARD_SIZE - 1)
-					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j + 1});
-				for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
+				if (isClassical)
+				{
+					killList.push_back({
+						FIVE_VERTICAL_KILL,
+						FIVE_KILL_SCORE,
+						{
+							ActorInformation(i, j),
+							ActorInformation(i + 1, j),
+							ActorInformation(i + 2, j),
+							ActorInformation(i - 1, j),
+							ActorInformation(i - 2, j)
+						}
+					});
+				}
+				else
+				{
+					ActorInformationList actorList;
+					if (j != 0)
+						for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j - 1});
+					if (j != BOARD_SIZE - 1)
+						for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j + 1});
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
 
-				killList.push_back({FIVE_VERTICAL_KILL, FIVE_KILL_SCORE, actorList});
+					killList.push_back({FIVE_VERTICAL_KILL, FIVE_KILL_SCORE, actorList});
+				}
 			}
 
 			// 水平
@@ -515,14 +536,31 @@ KillInformationList GameScene::getKillList() const
 				visit.insert({i, j - 1});
 				visit.insert({i, j - 2});
 
-				ActorInformationList actorList;
-				if (i != 0)
-					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i - 1, jIndex});
-				if (i != BOARD_SIZE - 1)
-					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i + 1, jIndex});
-				for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
+				if (isClassical)
+				{
+					killList.push_back({
+						FIVE_HORIZONTAL_KILL,
+						FIVE_KILL_SCORE,
+						{
+							ActorInformation(i, j),
+							ActorInformation(i, j + 1),
+							ActorInformation(i, j + 2),
+							ActorInformation(i, j - 1),
+							ActorInformation(i, j - 2)
+						}
+					});
+				}
+				else
+				{
+					ActorInformationList actorList;
+					if (i != 0)
+						for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i - 1, jIndex});
+					if (i != BOARD_SIZE - 1)
+						for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i + 1, jIndex});
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
 
-				killList.push_back({FIVE_HORIZONTAL_KILL, FIVE_KILL_SCORE, actorList});
+					killList.push_back({FIVE_HORIZONTAL_KILL, FIVE_KILL_SCORE, actorList});
+				}
 			}
 		}
 
@@ -548,10 +586,26 @@ KillInformationList GameScene::getKillList() const
 				visit.insert({i + 2, j});
 				visit.insert({i - 1, j});
 
-				ActorInformationList actorList;
-				for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
+				if (isClassical)
+				{
+					killList.push_back({
+						FOUR_VERTICAL_KILL,
+						FOUR_KILL_SCORE,
+						{
+							ActorInformation(i, j),
+							ActorInformation(i + 1, j),
+							ActorInformation(i + 2, j),
+							ActorInformation(i - 1, j)
+						}
+					});
+				}
+				else
+				{
+					ActorInformationList actorList;
+					for (auto iIndex = 0; iIndex < BOARD_SIZE; iIndex++) actorList.push_back({iIndex, j});
 
-				killList.push_back({FOUR_VERTICAL_KILL, FOUR_KILL_SCORE, actorList});
+					killList.push_back({FOUR_VERTICAL_KILL, FOUR_KILL_SCORE, actorList});
+				}
 			}
 
 			// 水平
@@ -569,10 +623,26 @@ KillInformationList GameScene::getKillList() const
 				visit.insert({i, j + 2});
 				visit.insert({i, j - 1});
 
-				ActorInformationList actorList;
-				for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
+				if (isClassical)
+				{
+					killList.push_back({
+						FOUR_HORIZONTAL_KILL,
+						FOUR_KILL_SCORE,
+						{
+							ActorInformation(i, j),
+							ActorInformation(i, j + 1),
+							ActorInformation(i, j + 2),
+							ActorInformation(i, j - 1)
+						}
+					});
+				}
+				else
+				{
+					ActorInformationList actorList;
+					for (auto jIndex = 0; jIndex < BOARD_SIZE; jIndex++) actorList.push_back({i, jIndex});
 
-				killList.push_back({FOUR_HORIZONTAL_KILL, FOUR_KILL_SCORE, actorList});
+					killList.push_back({FOUR_HORIZONTAL_KILL, FOUR_KILL_SCORE, actorList});
+				}
 			}
 		}
 
@@ -635,7 +705,7 @@ KillInformationList GameScene::getKillList() const
 	return killList;
 }
 
-void GameScene::killBlock(const KillInformationList& killList)
+void GameScene::killBlock(const KillInformationList& killList, const bool isClassical)
 {
 	// 所有被消除的块与得分
 	map<Pair, int> killBlock;
@@ -670,24 +740,25 @@ void GameScene::killBlock(const KillInformationList& killList)
 	}
 
 	// 添加Super块
-	for (const auto& killInfo : killList)
-	{
-		if (killInfo.newBlockIndex != Pair(-1, -1))
+	if (!isClassical)
+		for (const auto& killInfo : killList)
 		{
-			const auto newActor = addActor(SUPER_TYPE, getPositionByIndex(killInfo.newBlockIndex));
-			board[killInfo.newBlockIndex.first][killInfo.newBlockIndex.second] = Block(SUPER_TYPE, newActor);
-
-			// 删除下落块
-			auto iIndex = 2 * BOARD_SIZE - 1;
-			while (board[iIndex][killInfo.newBlockIndex.second].type == -1)
+			if (killInfo.newBlockIndex != Pair(-1, -1))
 			{
-				iIndex--;
-				assert(iIndex >= BOARD_SIZE);
+				const auto newActor = addActor(SUPER_TYPE, getPositionByIndex(killInfo.newBlockIndex));
+				board[killInfo.newBlockIndex.first][killInfo.newBlockIndex.second] = Block(SUPER_TYPE, newActor);
+
+				// 删除下落块
+				auto iIndex = 2 * BOARD_SIZE - 1;
+				while (board[iIndex][killInfo.newBlockIndex.second].type == -1)
+				{
+					iIndex--;
+					assert(iIndex >= BOARD_SIZE);
+				}
+				removeChild(board[iIndex][killInfo.newBlockIndex.second].actor);
+				board[iIndex][killInfo.newBlockIndex.second] = Block();
 			}
-			removeChild(board[iIndex][killInfo.newBlockIndex.second].actor);
-			board[iIndex][killInfo.newBlockIndex.second] = Block();
 		}
-	}
 
 	// 放特效音效
 	for (const auto& killInfo : killList)
@@ -704,33 +775,44 @@ void GameScene::killBlock(const KillInformationList& killList)
 		case FOUR_HORIZONTAL_KILL:
 			{
 				Sound::getInstance()->play(Sound::getInstance()->fourKill);
-				showOneLineParticle(killInfo.killActorList[0].blockIndex, false);
+				if (!isClassical)
+					showOneLineParticle(killInfo.killActorList[0].blockIndex, false);
 				break;
 			}
 		case FOUR_VERTICAL_KILL:
-			Sound::getInstance()->play(Sound::getInstance()->fourKill);
-			showOneLineParticle(killInfo.killActorList[0].blockIndex, true);
-			break;
+			{
+				Sound::getInstance()->play(Sound::getInstance()->fourKill);
+				if (!isClassical)
+					showOneLineParticle(killInfo.killActorList[0].blockIndex, true);
+				break;
+			}
 
 		case FIVE_HORIZONTAL_KILL:
 			{
 				Sound::getInstance()->play(Sound::getInstance()->fiveKill);
-				set<int> index;
-				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.first);
-				for (auto it : index) showOneLineParticle({it, 0}, false);
+				if (!isClassical)
+				{
+					set<int> index;
+					for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.first);
+					for (auto it : index) showOneLineParticle({it, 0}, false);
+				}
 				break;
 			}
 		case FIVE_VERTICAL_KILL:
 			{
 				Sound::getInstance()->play(Sound::getInstance()->fiveKill);
-				set<int> index;
-				for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.second);
-				for (auto it : index) showOneLineParticle({0, it}, true);
+				if (!isClassical)
+				{
+					set<int> index;
+					for (const auto& actor : killInfo.killActorList) index.insert(actor.blockIndex.second);
+					for (auto it : index) showOneLineParticle({0, it}, true);
+				}
 				break;
 			}
 
 		case DOUBLE_BASE_KILL:
 			{
+				assert(!isClassical);
 				Sound::getInstance()->play(Sound::getInstance()->boom);
 				auto iIndex = 3 * BOARD_SIZE, jIndex = 3 * BOARD_SIZE;
 				for (const auto& actor : killInfo.killActorList)
@@ -744,6 +826,7 @@ void GameScene::killBlock(const KillInformationList& killList)
 			}
 		case DOUBLE_FOUR_KILL:
 			{
+				assert(!isClassical);
 				Sound::getInstance()->play(Sound::getInstance()->superCreate);
 				for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 1);
 				break;
@@ -751,6 +834,7 @@ void GameScene::killBlock(const KillInformationList& killList)
 
 		case SUPER_KILL:
 			{
+				assert(!isClassical);
 				Sound::getInstance()->play(Sound::getInstance()->boom);
 				for (const auto& actor : killInfo.killActorList) showSingleParticle(actor.blockIndex, 0);
 				break;
@@ -758,6 +842,7 @@ void GameScene::killBlock(const KillInformationList& killList)
 
 		case DOUBLE_SUPER_KILL:
 			{
+				assert(!isClassical);
 				Sound::getInstance()->play(Sound::getInstance()->boom);
 				showFullBoardParticle();
 				break;
