@@ -27,6 +27,10 @@ public:
 	string iconSet;
 #pragma endregion
 
+#pragma region Particle
+	string particlePath;
+#pragma endregion 
+
 #pragma region Back Button
 	const string backButtonNormal = "/image/common/back_normal.png";
 	const string backButtonSelected = "/image/common/back_selected.png";

@@ -19,7 +19,7 @@
 	<key>finishColorBlue</key>
 	<real>0</real>
 	<key>finishColorGreen</key>
-	<real>0</real>
+	<real>0.94</real>
 	<key>finishColorRed</key>
 	<real>0</real>
 	<key>finishColorVarianceAlpha</key>
@@ -71,9 +71,9 @@
 	<key>sourcePositionVariancey</key>
 	<real>0</real>
 	<key>sourcePositionx</key>
-	<real>334</real>
+	<real>375</real>
 	<key>sourcePositiony</key>
-	<real>682</real>
+	<real>667</real>
 	<key>speed</key>
 	<real>732</real>
 	<key>speedVariance</key>

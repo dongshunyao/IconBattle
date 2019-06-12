@@ -91,7 +91,7 @@ void GameScene::endGame()
 
 void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 {
-	auto particle = ParticleSystemQuad::create(ONE_LINE_PARTICLE);
+	auto particle = ParticleSystemQuad::create(Theme::getInstance()->particlePath + "oneLine.plist");
 
 	particle->setPosition(getPositionByIndex(index).first, 85 + 700 / 2);
 	if (!isVertical)
@@ -107,10 +107,10 @@ void GameScene::showOneLineParticle(const Pair index, const bool isVertical)
 
 void GameScene::showExplosion(const Pair index)
 {
-	auto particle = ParticleSystemQuad::create(EXPLOSION_PARTICLE);
+	auto particle = ParticleSystemQuad::create(Theme::getInstance()->particlePath + "explosion.plist");
 
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
-	particle->setScale(0.7f);
+	particle->setScale(0.5f);
 	particle->setAutoRemoveOnFinish(true);
 	addChild(particle, 17);
 	// TODO: 粒子特效音效
@@ -118,7 +118,7 @@ void GameScene::showExplosion(const Pair index)
 
 void GameScene::showFullBoardParticle()
 {
-	auto particle = ParticleSystemQuad::create(FULL_PARTICLE);
+	auto particle = ParticleSystemQuad::create(Theme::getInstance()->particlePath + "fullBoard.plist");
 
 	particle->setPosition(450 + 700 / 2, 85 + 700 / 2);
 	particle->setScale(0.7f);
@@ -129,7 +129,12 @@ void GameScene::showFullBoardParticle()
 
 void GameScene::showSingleParticle(const Pair index, const int type)
 {
-	auto particle = ParticleSystemQuad::create(ONE_BLOCK_PARTICLE[type]);
+	ParticleSystemQuad* particle;
+	if (type == 0)
+		particle = ParticleSystemQuad::create(Theme::getInstance()->particlePath + "single.plist");
+	else
+		particle = ParticleSystemQuad::create(Theme::getInstance()->particlePath + "hint.plist");
+	
 
 	particle->setPosition(getPositionByIndex(index).first, getPositionByIndex(index).second);
 	particle->setScale(0.6f);

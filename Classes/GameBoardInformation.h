@@ -20,15 +20,6 @@ namespace GameBoardInformation
 	static const int LEVEL_MODE = 2;
 	static const int CHALLENGE_MODE = 3;
 
-	// TODO 粒子特效文件
-	const string ONE_LINE_PARTICLE = "/particle/oneLine.plist";
-	const string EXPLOSION_PARTICLE = "/particle/explosion.plist";
-	const string FULL_PARTICLE = "/particle/fullBoard.plist";
-	const string ONE_BLOCK_PARTICLE[2] = {
-		"/particle/single.plist",
-		"/particle/hint.plist"
-	};
-
 	typedef pair<int, int> Pair;
 
 	// 宝石块
