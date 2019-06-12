@@ -193,10 +193,18 @@ void SettingButton::showLeadingIn()
 					{
 						Director::getInstance()->getRunningScene()->removeChild(dialog);
 						dialog = nullptr;
-						createLeadingIn("/image/common/scene1.png");
+						createLeadingIn("/image/common/scene3.png");
 						nowPage = 3;
 						break;
 					}
+				case 3:
+				{
+					Director::getInstance()->getRunningScene()->removeChild(dialog);
+					dialog = nullptr;
+					createLeadingIn("/image/common/scene1.png");
+					nowPage = 1;
+					break;
+				}
 				default:
 					break;
 				}
@@ -210,6 +218,14 @@ void SettingButton::showLeadingIn()
 			{
 				switch (nowPage)
 				{
+				case 1:
+				{
+					Director::getInstance()->getRunningScene()->removeChild(dialog);
+					dialog = nullptr;
+					createLeadingIn("/image/common/scene3.png");
+					nowPage = 3;
+					break;
+				}
 				case 2:
 					{
 						Director::getInstance()->getRunningScene()->removeChild(dialog);
@@ -240,7 +256,7 @@ void SettingButton::showLeadingIn()
 
 void SettingButton::createLeadingIn(const string file)
 {
-	dialog = Dialog::create(file, Size(1000, 700));
+	dialog = Dialog::create(file, Size(1000, 750));
 
 	dialog->addListView(false, true, true);
 	dialog->addButton(MenuItemSprite::create(Sprite::create("/image/gamescene/common/yes_normal.png"),
