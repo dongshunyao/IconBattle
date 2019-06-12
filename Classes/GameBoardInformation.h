@@ -58,8 +58,8 @@ namespace GameBoardInformation
 	// TODO 不同模式得分+提示、剩余步数得分 @PJ
 
 	// 提示、剩余步数得分
-	const int EVERY_STEP_SCORE = 100;
-	const int EVERY_HINT_SCORE = 150;
+	const int EVERY_STEP_SCORE = 10;
+	const int EVERY_HINT_SCORE = 15;
 
 	// 三消单个得分
 	const int BASE_KILL_SCORE = 10;
