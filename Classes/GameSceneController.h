@@ -25,7 +25,6 @@ public:
 	const GameInfo classicalPractice = {3000, 2333};
 	const GameInfo plusPractice = {3000, 2333};
 
-	// TODO 闯关数值策划 @PJ
 	const GameInfo classicalLevel[10] =
 	{
 		{300, 10},
