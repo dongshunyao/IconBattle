@@ -3,56 +3,52 @@
 Scene* LevelScene::createScene(const bool isClassical)
 {
 	const auto scene = LevelScene::create();
+
 	scene->isClassical = isClassical;
 	scene->initModeLabel(isClassical);
-	return scene;
-}
-
-bool LevelScene::init()
-{
-	if (!Scene::init()) return false;
 
 	// 背景设置
-	initBackground();
+	scene->initBackground();
 
 	// 设置layer来存放各个按钮
-	layer = Layer::create();
-	layer->setContentSize(Size(buttonDistance * 11,SCREEN_HEIGHT));
+	scene->layer = Layer::create();
+	scene->layer->setContentSize(Size(scene->buttonDistance * 11, SCREEN_HEIGHT));
 
 	// 设置页面滚动
-	initScrollView();
+	scene->initScrollView();
 
 	// 初始化按钮位置
 	for (auto i = 0; i < 10; i++)
 	{
-		pos[i].first = buttonDistance * (i + 1);
-		pos[i].second = Util::getRandomNumber(200, 650);
+		scene->pos[i].first = scene->buttonDistance * (i + 1);
+		scene->pos[i].second = Util::getRandomNumber(200, 650);
 	}
 
 	// 初始化选关按钮
-	initButtons();
+	scene->initButtons();
 
 	// 初始化金币
-	initCoin();
+	scene->initCoin();
 
 	// 画连接按钮的线
 	auto drawNode = DrawNode::create();
-	layer->addChild(drawNode, 3);
+	scene->layer->addChild(drawNode, 3);
 
 	for (auto i = 0; i < 9; i++)
 	{
-		drawNode->drawSegment(Point(pos[i].first, pos[i].second), Point(pos[i + 1].first, pos[i + 1].second), 5,
-		                      Color4F(1, 1, 1, 0.3f));
+		drawNode->drawSegment(Point(scene->pos[i].first, scene->pos[i].second),
+		                      Point(scene->pos[i + 1].first, scene->pos[i + 1].second),
+		                      5, Color4F(1, 1, 1, 0.3f));
 	}
 
 	// 设置按钮
 	auto settingButton = SettingButton::create();
 	settingButton->setPosition(Point(1080, 850));
-	this->addChild(settingButton, 4);
+	scene->addChild(settingButton, 4);
 
 	// 返回按钮
-	auto* backButton = Button::create(theme->backButtonNormal, theme->backButtonSelected,
-	                                  theme->backButtonDisabled);
+	auto backButton = Button::create(scene->theme->backButtonNormal, scene->theme->backButtonSelected,
+	                                 scene->theme->backButtonDisabled);
 
 	backButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
@@ -62,9 +58,9 @@ bool LevelScene::init()
 				TransitionFade::create(1.0f, MenuScene::create()));
 	});
 	backButton->setPosition(Point(1150, 850));
-	this->addChild(backButton, 4);
+	scene->addChild(backButton, 4);
 
-	return true;
+	return scene;
 }
 
 void LevelScene::initBackground()

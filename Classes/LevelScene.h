@@ -17,7 +17,7 @@ class LevelScene final :
 {
 public:
 	static Scene* createScene(bool isClassical);
-	bool init() override;
+	bool init() override { return Scene::init(); }
 	CREATE_FUNC(LevelScene)
 
 private:
