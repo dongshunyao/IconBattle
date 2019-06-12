@@ -81,6 +81,7 @@ void LoadingScene::startGame(float)
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseDown = [](Event* event)
 	{
+		User::getInstance()->setCoin(1000);
 		Director::getInstance()->replaceScene(TransitionFadeTR::create(1.0f, MenuScene::createScene()));
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
