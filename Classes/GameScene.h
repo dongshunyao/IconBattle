@@ -153,9 +153,9 @@ private:
 	HintOperation isImpasse();
 
 	// 获取可消除方块列表
-	KillInformationList getKillList() const;
+	KillInformationList getKillList(bool isClassical) const;
 	// 方块消除
-	void killBlock(const KillInformationList& killList);
+	void killBlock(const KillInformationList& killList, bool isClassical);
 
 	// 展示提示
 	bool showHint();
@@ -168,7 +168,6 @@ private:
 	// 主回调函数
 	void mainCallback();
 #pragma endregion
-
 };
 
 #endif
