@@ -50,7 +50,7 @@ private:
 	bool connected = false;
 	string newsInformation = "";
 
-	string userName = "玩家3265";
+	string userName = "玩家7326";
 	string hardwareId = getHardwareId();
 	int coin = 0;
 	ValueVector unlockedThemes;
