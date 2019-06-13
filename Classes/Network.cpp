@@ -58,7 +58,7 @@ vector<pair<string, int>> Network::getRank(const bool isClassical)
 		return rankOriginal;
 	}
 
-	recv(sockClient, receiveBuf, 100, 0);
+	recv(sockClient, receiveBuf, 300, 0);
 	if (receiveBuf[0] == '\0')
 	{
 		closeConnect();
