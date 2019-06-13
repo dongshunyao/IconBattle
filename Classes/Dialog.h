@@ -41,7 +41,7 @@ public:
 	// 添加button、label或listView
 	bool addButton(MenuItem* menuItem) const;
 	bool addLabel(MenuItem* menuItem) const;
-	void addListView(bool dialogType, bool inMenu, bool classical);
+	void addListView(bool dialogType, bool inMenu, bool classical, bool noLeadingIn = true);
 
 private:
 	Theme* theme = Theme::getInstance();

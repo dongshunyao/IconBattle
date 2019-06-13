@@ -258,7 +258,7 @@ void SettingButton::createLeadingIn(const string file)
 {
 	dialog = Dialog::create(file, Size(1000, 750));
 
-	dialog->addListView(false, true, true);
+	dialog->addListView(false, true, true, false);
 	dialog->addButton(MenuItemSprite::create(Sprite::create("/image/gamescene/common/yes_normal.png"),
 	                                         Sprite::create("/image/gamescene/common/yes_selected.png"),
 	                                         Sprite::create("/image/gamescene/common/yes_normal.png"),

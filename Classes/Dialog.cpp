@@ -112,10 +112,11 @@ bool Dialog::addLabel(MenuItem* menuItem) const
 	return true;
 }
 
-void Dialog::addListView(bool dialogType, bool inMenu, bool classical)
+void Dialog::addListView(bool dialogType, bool inMenu, bool classical, bool noLeadingIn)
 {
 	// 预加载排行榜，解决卡顿
-	if (User::getInstance()->isConnected())
+
+	if (noLeadingIn && User::getInstance()->isConnected())
 	{
 		classicalRank = Network::getInstance()->getRank(true);
 		plusRank = Network::getInstance()->getRank(false);
