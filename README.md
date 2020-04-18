@@ -1,10 +1,12 @@
-# Icon Battle 部署说明
+# Icon Battle
 
 ## 说明
 
 **所有资源均来自互联网，版权归原作者所有，这里仅供开发测试使用！**
 
-一款基于 Cocos2d-x 游戏引擎和 C++ 制作的消除游戏。
+一款基于 Cocos2d-x 游戏引擎和 C++ 制作的消除游戏
+
+目前只提供了 win32 的 Release 版本
 
 玩法和游戏介绍请见 doc 或者 [这里](tang5618.com/wordpress/?p=571)
 
