@@ -8,7 +8,7 @@
 
 目前只提供了 win32 的 Release 版本
 
-玩法和游戏介绍请见 doc 或者 [这里](tang5618.com/wordpress/?p=571)
+玩法和游戏介绍请见 doc 或者 [这里](https://tang5618.com/wordpress/?p=571)
 
 感谢队友们的付出，期待与你们再度合作！
 
