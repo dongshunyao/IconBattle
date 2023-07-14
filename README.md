@@ -8,7 +8,7 @@
 
 **目前只提供了 win32 的 Release 版本。由于依赖的问题，如果出现缺少 DLL 的情况请尝试自行安装 `Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019` 或者尝试将这里提供的 `Win 10` 版本的 `ucrtbased.dll` 放入目录后运行**
 
-玩法和游戏介绍请见 doc 或者 [这里](https://tang5618.com/wordpress/?p=571)
+玩法和游戏介绍请见 doc 或者 [这里](https://project.tang5618.com/IconBattle/)
 
 由于一些原因，服务器端代码暂不开源，如果有需要，请邮件联系我
 
